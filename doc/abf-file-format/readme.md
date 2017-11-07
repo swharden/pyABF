@@ -425,7 +425,7 @@ plt.plot(sweepData) # plot the data
 plt.margins(0,0) # stretch the data to the window
 plt.gca().axis('off') # remove square around edges
 plt.xticks([]) # remove x labels
-plt.yticks([]) # remove t labels
+plt.yticks([]) # remove y labels
 plt.tight_layout() # fill the frame space
 plt.savefig(R"C:\data\2017-11-06-aps.png",dpi=200)
 ```
