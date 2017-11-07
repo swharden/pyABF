@@ -28,7 +28,7 @@ If I know a bytestring contains a certain list of variables, I know the order of
 
 I can simplify things in Python with dictionaries (or keyed arrays in other languages) by storing a list of variables and their respective struct characters (separated with an underscore) as a 1d array of strings. Consider this example:
 
-```
+```python
 SAMPLE_KEYS=["myAge_i","myWage_f"]
 info={}
 for key in SAMPLE_KEYS:
@@ -67,7 +67,7 @@ f.close()
 * note3: `struct.unpack()` always returns a tuple. If it has just 1 element, just return that element. `(7,)` becomes just `7`, but if the varFormat is multiple items (notice `fFileVersionNumber_4b`) the returned result is a tuple with multiple items. Noe that `4b` is the same as `bbbb`.
 
 ### Example Output
-```
+```python
 fFileSignature (4s, 4 bytes) = b'ABF2'
 fFileVersionNumber (4b, 4 bytes) = (0, 0, 6, 2)
 uFileInfoSize (I, 4 bytes) = 512
@@ -112,7 +112,7 @@ KEYS_SECTIONS=['ProtocolSection_IIl','ADCSection_IIl','DACSection_IIl',
 import struct
 f=open(R"C:\data\17n06003.abf",'rb')
 for keyNumber,key in enumerate(KEYS_SECTIONS):
-    f.seek(76+keyNumber*16) # note1
+    f.seek(76+keyNumber*16)
     varName,varFormat=key.split("_")
     varSize=struct.calcsize(varFormat)
     byteString=f.read(varSize)
@@ -124,7 +124,7 @@ f.close()
 
 ### Example Output
 
-```
+```python
 ProtocolSection @ byte 512 (1 x 512 byte entries)
 ADCSection @ byte 1024 (1 x 128 byte entries)
 DACSection @ byte 1536 (8 x 256 byte entries)
@@ -148,7 +148,7 @@ StatsSection @ byte 0 (0 x 0 byte entries)
 ### Shortcut Method for Getting a Section's Byte Position
 If you are only interested in getting the `blockStart`, `entrySize`, and `entryCount` of a single section, you can use this shortcut table. If you read an `IIl` struct from each of these byte positions, you will get these three values.
 
-```
+```python
 byte 076: ProtocolSection
 byte 092: ADCSection
 byte 108: DACSection
@@ -326,7 +326,7 @@ This is what you probably think of when you visualize the _waveform editor_ tab 
 
 #### Example
 
-```
+```python
 fEpochInitLevel = -50.0 # command current or voltage
 fEpochLevelInc = 10.0 # delta command
 lEpochDurationInc = 0 # delta duration
@@ -348,7 +348,7 @@ This section is very poorly documented, hwoever some quasi-useful information ca
 
 
 #### Example
-```
+```python
 0000: S:\Protocols\permanent\0402 VC 2s MT-50.pro
 0001: SWHLab5[0402]
 0002: IN 0
@@ -376,7 +376,7 @@ At the end of the file are the tags (time-encoded text comments).
 
 * I'm still working out the tag time units (are they microseconds?)
 
-```
+```python
 ### TAG 0 ###
 lTagTime = 13918208
 nTagType = 1
@@ -394,10 +394,10 @@ sComment = -TGOT
 When designing an application to read ABF sweep data, much attention should be paid to optomizing speed. For example, [Numpy's memmap feature](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.memmap.html) seems like an excellent way to access sweep data directly from the file buffer! In this example, however, simplicity is desired over speed.
 
 ### Standalone Code to Read All Data in an ABF
-```
+```python
 BLOCKSIZE=512
 import struct
-f=open(R"X:\Data\projects\2017-07-17 BLA halo aging Bizon\data\17n06003.abf",'rb')
+f=open(R"C:\data\17n06003.abf",'rb')
 f.seek(236) # byte position (shortcut) for DeltaSection map information
 blockStart,entrySize,entryCount=struct.unpack("IIl",f.read(struct.calcsize("IIl")))
 f.seek(blockStart*BLOCKSIZE) # go to the byte position of the first data point
@@ -408,11 +408,15 @@ f.close()
 
 That's it, really! If you want to test it out, try graphing what you got with matplotlib.
 
-```
+```python
 import matplotlib.pyplot as plt
 plt.plot(sweepData)
 plt.show()
 ```
+
+### Output
+
+![](demo_sweepData.png)
 
 ### Notes
 
@@ -426,7 +430,6 @@ sweepByteStart=int(byteDataStart+sweepNumber*(lNumSamplesPerEpisode*2))
 dataScale=lADCResolution/1e6
 sweepData=[x*dataScale for x in data]
 ```
-
 
 # References
 
