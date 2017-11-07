@@ -67,7 +67,7 @@ f.close()
 * note3: `struct.unpack()` always returns a tuple. If it has just 1 element, just return that element. `(7,)` becomes just `7`, but if the varFormat is multiple items (notice `fFileVersionNumber_4b`) the returned result is a tuple with multiple items. Noe that `4b` is the same as `bbbb`.
 
 ### Example Output
-```python
+```C
 fFileSignature (4s, 4 bytes) = b'ABF2'
 fFileVersionNumber (4b, 4 bytes) = (0, 0, 6, 2)
 uFileInfoSize (I, 4 bytes) = 512
@@ -202,7 +202,7 @@ This is the abf header we practiced reading from earlier in this document.
 One advantage of this data block is that it can be read from any file (since it doesn't require creation of the section map). If you accidentally load a JPEG, you'll find out pretty quickly that something is wrong.
 
 #### Example
-```python
+```
 FileGUID = 813622370 # in theory this is an identifier unique to this file
 fFileSignature = ABF2 # first 4 bytes of the file
 fFileVersionNumber = [0, 0, 6, 2] # version number in REVERSE order. This means version 2.6.0.0
@@ -348,7 +348,7 @@ This section is very poorly documented, hwoever some quasi-useful information ca
 
 
 #### Example
-```python
+```
 0000: S:\Protocols\permanent\0402 VC 2s MT-50.pro
 0001: SWHLab5[0402]
 0002: IN 0
