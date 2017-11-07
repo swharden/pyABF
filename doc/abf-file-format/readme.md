@@ -99,7 +99,7 @@ Just like we extracted variables from the header with `KEYS_HEADER` (always star
 
 Data for sections starts at byte 72 and shifts 16-bytes for every section (even though `IIl` is only 4+4+4=12 bytes).
 
-### Standalone Code to Create an ABF Section Map
+### Standalone Code to Create the ABF Section Map
 
 ```python
 BLOCKSIZE=512
@@ -192,7 +192,7 @@ Although I read byte information for all sections, I typically don't _use_ data 
 * StatsSection - Stats config
 
 # Reading theData
-This section is largely redacted. The best way to see how data is read is to view the source code provided in this folder. It all boils down to the extraction data using variable lists and structure codes. Some complex sections (i.e., `EpochPerDACSection`) have a structure for each DAC and need to be intereated several times (according to the `entryCount` found when creating the section map).
+This section is largely redacted. The best way to see how data is read is to view the source code provided in this folder. It all boils down to the extraction of binary data into objects using variable lists and structure codes. Some complex sections (i.e., `EpochPerDACSection`) have a structure for each DAC and need to be iterated several times (according to the `entryCount` found when creating the section map).
 
 # What information is available in an ABF?
 ABF files contain a _lot_ of structured variables. Most likely are only interested in a handfull of them. I'll list all of the variables here and add comments to the ones I think are important or noteworthy. Note that there are plenty of variables for which I have no clue what they do.
