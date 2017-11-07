@@ -39,7 +39,7 @@ for key in SAMPLE_KEYS:
 This is how _ALL_ data is read from the ABF file. It gets fancier due to iterations (i.e., the same set of keys is used to read all keys from an epoch, but is looped over every epoch).
 
 # Reading the ABF Header
-The first thing to read when visiting a new ABF file is the header. The header has a bunch of values in a pre-defined sequence and always starts ate byte position zero. This code demonstrates how to display all information in the header and uses the variable key method described earlier. 
+The first thing to read when visiting a new ABF file is the header. The header has a bunch of values in a pre-defined sequence and always starts at byte position zero. This code demonstrates how to display all information in the header and uses the variable key method described earlier. 
 
 ### Standalone code to read an ABF header
 
