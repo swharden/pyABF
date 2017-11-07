@@ -415,21 +415,24 @@ plt.plot(sweepData)
 plt.show()
 ```
 
+**Output:**
+![](/doc/graphics/2017-11-06-raw.png)
+
 Okay let's get fancier. This is the code I use to create an image of nice wide dimensions, high resolution, without a frame:
 
 ```python
 import matplotlib.pyplot as plt
-plt.figure(figsize=(10,2))
-plt.plot(sweepData)
-plt.margins(0,0)
-plt.gca().axis('off')
-plt.tight_layout()
-plt.savefig(R"C:\data\demo.png",dpi=200)
-plt.show()
+plt.figure(figsize=(10,2)) # figure dimensions
+plt.plot(sweepData) # plot the data
+plt.margins(0,0) # stretch the data to the window
+plt.gca().axis('off') # remove square around edges
+plt.xticks([]) # remove x labels
+plt.yticks([]) # remove t labels
+plt.tight_layout() # fill the frame space
+plt.savefig(R"C:\data\2017-11-06-aps.png",dpi=200)
 ```
 
-### Output
-
+**Output:**
 ![](/doc/graphics/2017-11-06-aps.png)
 
 ### Notes
