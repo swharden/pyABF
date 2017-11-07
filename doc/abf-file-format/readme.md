@@ -414,8 +414,6 @@ import matplotlib.pyplot as plt
 plt.plot(sweepData)
 plt.show()
 ```
-
-**Output:**
 ![](/doc/graphics/2017-11-06-raw.png)
 
 Okay let's get fancier. This is the code I use to create an image of nice wide dimensions, high resolution, without a frame:
@@ -431,8 +429,6 @@ plt.yticks([]) # remove t labels
 plt.tight_layout() # fill the frame space
 plt.savefig(R"C:\data\2017-11-06-aps.png",dpi=200)
 ```
-
-**Output:**
 ![](/doc/graphics/2017-11-06-aps.png)
 
 ### Notes
