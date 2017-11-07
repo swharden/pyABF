@@ -67,7 +67,7 @@ f.close()
 * note3: `struct.unpack()` always returns a tuple. If it has just 1 element, just return that element. `(7,)` becomes just `7`, but if the varFormat is multiple items (notice `fFileVersionNumber_4b`) the returned result is a tuple with multiple items. Noe that `4b` is the same as `bbbb`.
 
 ### Example Output
-```C
+```
 fFileSignature (4s, 4 bytes) = b'ABF2'
 fFileVersionNumber (4b, 4 bytes) = (0, 0, 6, 2)
 uFileInfoSize (I, 4 bytes) = 512
@@ -148,7 +148,7 @@ StatsSection @ byte 0 (0 x 0 byte entries)
 ### Shortcut Method for Getting a Section's Byte Position
 If you are only interested in getting the `blockStart`, `entrySize`, and `entryCount` of a single section, you can use this shortcut table. If you read an `IIl` struct from each of these byte positions, you will get these three values.
 
-```python
+```
 byte 076: ProtocolSection
 byte 092: ADCSection
 byte 108: DACSection
