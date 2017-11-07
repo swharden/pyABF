@@ -1,7 +1,7 @@
 # pyABF
 **pyABF is a project created to simplify the reading of data from files in the Axon Binary Format (ABF).** At the core of this project is an ABF file reading class (written in Python) which is fully portable (a single file which can be placed inside any project) or can be installed via pip. It has no dependencies outside the standard libraries, works on all Python 3 distributions, and was designed to be easily ported to other programming languages.
 
-![](/doc/abf-file-format/demo_sweepData.png)
+![](/doc/graphics/2017-11-06-aps.png)
 
 ## Python Package (pyabf)
 The pyabf package is listed in the Python Package Index: https://pypi.python.org/pypi/pyabf/

@@ -394,6 +394,7 @@ sComment = -TGOT
 When designing an application to read ABF sweep data, much attention should be paid to optomizing speed. For example, [Numpy's memmap feature](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.memmap.html) seems like an excellent way to access sweep data directly from the file buffer! In this example, however, simplicity is desired over speed.
 
 ### Standalone Code to Read All Data in an ABF
+
 ```python
 BLOCKSIZE=512
 import struct
@@ -406,7 +407,7 @@ sweepData=struct.unpack('%dh'%(entryCount),byteString) # unpack it to a list
 f.close()
 ```
 
-That's it, really! If you want to test it out, try graphing what you got with matplotlib.
+That's it, really! If you want to test it out, try graphing what you got with matplotlib:
 
 ```python
 import matplotlib.pyplot as plt
@@ -414,9 +415,22 @@ plt.plot(sweepData)
 plt.show()
 ```
 
+Okay let's get fancier. This is the code I use to create an image of nice wide dimensions, high resolution, without a frame:
+
+```python
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,2))
+plt.plot(sweepData)
+plt.margins(0,0)
+plt.gca().axis('off')
+plt.tight_layout()
+plt.savefig(R"C:\data\demo.png",dpi=200)
+plt.show()
+```
+
 ### Output
 
-![](demo_sweepData.png)
+![](/doc/graphics/2017-11-06-aps.png)
 
 ### Notes
 
