@@ -22,8 +22,16 @@ import pyabf
 pyabf.info()
 ```
 
-## Documentation and Resources
-* My [Unofficial ABF File Format Guide](/doc/abf-file-format)
+## Documentation
+* **[SWHarden's Unofficial ABF File Format Guide](/doc/abf-file-format)** is a work in progress, but very handy.
+
+## Sample Code
+I strive to invest at least as much effort into the documentation as I do the code itself. 
+
+* If you are a developer interested in accessing header and signal data from ABF files, you will find many standalone scripts and notes in the [example code folder](/doc/abf-file-format/example%20code). If I make a proof-of-concept script to test an idea, I give it its own folder and write my conclusions alongside the original code (whether the original idea worked or not).
+* I'm not ready to design the ABF class API yet, but when I do I'll add a link here.
+
+## Additional Resources
 * The official [Axon Binary File (ABF) Format](https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf) document
 * [Axon pCLAMP ABF SDK](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon%E2%84%A2-pclamp%C2%AE-abf-file-support-pack-download-page)
 * [Neo](https://github.com/NeuralEnsemble/python-neo)
