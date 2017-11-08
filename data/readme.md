@@ -1,0 +1,1 @@
+This folder contains demo ABF2 files for a variety of use cases (in my lab).
