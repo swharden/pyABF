@@ -72,7 +72,6 @@ class ABFheader:
     def __init__(self,abfFileName):
         """Given an ABF2 file, provide simple access to its header and data."""
         self.abfFileName=abfFileName
-        self.header={}
         self.fb = open(abfFileName,'rb')
         self.secHeader=self.fileReadStructMap(STRUCTS_HEADER)
         self.secMap=self.fileReadStructMap(STRUCTS_SECTIONS,76,16)                  
@@ -106,5 +105,4 @@ class ABFheader:
 		
 if __name__=="__main__":
     abf=ABFheader(R"../../../../data/17o05028_ic_steps.abf")
-    abf.headerMarkdown("sampleOutput.md")
 ```
