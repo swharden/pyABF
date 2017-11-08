@@ -33,7 +33,7 @@ class ABFheader:
             self.header[key]=self.header[key][0]
         
     def _fileReadStructMap(self,structMap,startByte=0,fixedOffset=None):
-        """Given a string of varName_varFormat structs, read the ABF file and return the objects."""
+        """Given a string of varName_varFormat structs, get the objects from the file."""
         self._fb.seek(startByte)
         for structCode in structMap.replace("\n","").split(","):
             varName,varFormat=structCode.strip().split("_")
@@ -44,7 +44,7 @@ class ABFheader:
             if fixedOffset: self._fb.read(fixedOffset-struct.calcsize(varFormat))
 
     def _fileReadSection(self,sectionName,structMap):
-        """Given a section in the map, read its structure repeatedly and return the result."""
+        """Read a structure map repeatedly according to its name in the section map."""
         entryStartBlock,entryBytes,entryCount=self.header[sectionName][0]
         for entryNumber in range(entryCount):
             self._fileReadStructMap(structMap,entryStartBlock*512+entryNumber*entryBytes)
@@ -52,7 +52,7 @@ class ABFheader:
     def showHeader(self):
         for key in sorted(self.header.keys()):
             print("%s = %s"%(key,self.header[key]))
-			
+
 if __name__=="__main__":
     abf=ABFheader(R"../../../../data/17o05028_ic_steps.abf")
     abf.showHeader()
