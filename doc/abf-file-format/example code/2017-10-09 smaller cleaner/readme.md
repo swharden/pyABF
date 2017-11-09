@@ -5,6 +5,7 @@ in this project.
 * The header format is now an [ordered dictionary](https://docs.python.org/2/library/collections.html)
   * This retains the order of all the sections and variables rather than mashing them up into a huge crazy list which can only be organized alphabetically.
   * I add section names as header dictionary entries so we know down the road which variables go to which section. It also greatly helps the display of the header (or its formatting when saved as HTML or markdown)
+  * I added an "extras" section to the collection of ABF header variable sections. The extras section contains things I think are useful, given common sense and intuitive variable names.
 * I started an `ABF` class which is the only thing the user will interact with
   * end users never interact with the `ABFheader` class.
   * the first line of the `ABF` class is just `self.header=ABFheader(abfFile).header`. This provides excellent separation between work related to the ABFheader (which is a work in progress) and work related to _using_ data from ABFs (graphing, measuring, etc).
