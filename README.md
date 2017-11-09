@@ -24,6 +24,7 @@ pyabf.info()
 
 ## Documentation
 * **[SWHarden's Unofficial ABF File Format Guide](/doc/abf-file-format)** is a work in progress, but very handy.
+* Sample code (in [/doc/abf-file-format/example code/](/doc/abf-file-format/example%20code)) reflects my latest efforts.
 
 ## Sample Code
 I strive to invest at least as much effort into the documentation as I do the code itself. 
