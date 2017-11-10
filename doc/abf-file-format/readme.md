@@ -581,11 +581,11 @@ read 1870 full file 10 times in 7.39116 sec (3.952 ms/load)
 total 36.81377 sec
 
 with Numpy
-read 1870 full file 10 times in 0.23099 sec (0.124 ms/load)
-read 1870 full file 10 times in 0.21806 sec (0.117 ms/load)
-read 1870 full file 10 times in 0.21913 sec (0.117 ms/load)
-read 1870 full file 10 times in 0.21845 sec (0.117 ms/load)
-read 1870 full file 10 times in 0.21978 sec (0.118 ms/load)
+read full file 10 times in 0.23099 sec (0.124 ms/load)
+read full file 10 times in 0.21806 sec (0.117 ms/load)
+read full file 10 times in 0.21913 sec (0.117 ms/load)
+read full file 10 times in 0.21845 sec (0.117 ms/load)
+read full file 10 times in 0.21978 sec (0.118 ms/load)
 total 1.10641 sec
 ```
 
