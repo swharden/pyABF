@@ -65,15 +65,16 @@ EPSEC="""nEpochNum_h,nEpochDigitalOutput_h"""
 
 
 class ABFheader:
-    def __init__(self,abfFile):
+    def __init__(self,abfFile,keepFileOpen=True):
         """
         Given an ABF (ABF2) file, return its header contents in a simple flat dictionary.
         abfFile could be a path (string) or an already-open file buffer (opened in rb mode)
         """
         self.abfFile = abfFile
+        self.keepFileOpen = keepFileOpen
         
         # ensure our file is open in binary reading mode
-        self._fileOpen(verify=True)
+        self.fileOpen(verify=True)
         
         # the header will be a dictionary maintained in order so section groups are easy to determine later
         self.header=collections.OrderedDict()
@@ -87,7 +88,8 @@ class ABFheader:
         self._fileReadSection('EpochPerDACSection',EPPERDAC)
         self._fileReadSection('EpochSection',EPSEC)      
         self._fileReadSection('TagSection',TAGS)      
-        self._fileClose() # close it (if we opened it)
+        if self.keepFileOpen is False:
+            self._fileClose()
         
         # for lists with one element, simplify varName=[val] to varName=val
         for key in [key for key in self.header.keys() if len(self.header[key])==1]:
@@ -111,8 +113,10 @@ class ABFheader:
             
     ### FILE ACCESS AND STRUCT READING
     
-    def _fileOpen(self,verify=False):
+    def fileOpen(self,verify=False):
         """Do what it takes to ensure our abf file is opened as a file buffer and is a valid ABF2 file"""
+        if "_fb" in dir(self) and self._fb.__class__.__name__ == 'BufferedReader' and not self._fb.closed:
+                return # already open and ready to go
         if type(self.abfFile) is str:
             self._fb = open(self.abfFile,'rb')
         elif self.abfFile.__class__.__name__ == 'BufferedReader':
@@ -123,10 +127,9 @@ class ABFheader:
             raise ValueError('abfFile must be an ABF2 file')
         return
     
-    def _fileClose(self):
+    def fileClose(self):
         """If we opened the file earlier, be polite and close it as soon as possible"""
-        if type(self.abfFile) is str:
-            self._fb.close()
+        self._fb.close()
         return
         
     def _fileReadStructMap(self,structMap,startByte=0,fixedOffset=None,sectionName=None):
@@ -160,23 +163,13 @@ class ABFheader:
             lastPoint = self.header['DataSection'][2]
         elif lastPoint > self.header['DataSection'][2]:
             raise ValueError('the lastPoint is bigger than the number of points in the ABF')
-        self._fileOpen()
+        self.fileOpen()
         self._fb.seek(int(self.header['dataByteStart']+firstPoint*2))
         data = self._fb.read((lastPoint-firstPoint)*2)
         data = struct.unpack("%dh"%(int(lastPoint-firstPoint)),data)
-        self._fileClose()
+        if self.keepFileOpen is False:
+            self.fileClose()
         return data
-    
-    def getTimes(self,firstPoint=0,lastPoint=None,channel=0):
-        if channel>0:
-            raise ValueError('multi-channel ABFs have not been added yet') #TODO: this
-        if lastPoint is None:
-            lastPoint = self.header['DataSection'][2]
-        elif lastPoint > self.header['DataSection'][2]:
-            raise ValueError('the lastPoint is bigger than the number of points in the ABF')
-        times = np.arange(lastPoint-firstPoint)*abfHeader.header['timeSecPerPoint']
-        times += firstPoint*abfHeader.header['timeSecPerPoint']
-        return times
             
     def getDataSweep(self,sweep=0,channel=0):
         """Return the values from a single sweep (starting at zero). You must multiply by signalScale."""
@@ -185,17 +178,7 @@ class ABFheader:
         firstPoint=sweep*self.header['sweepPointCount']
         lastPoint=(sweep+1)*self.header['sweepPointCount']
         return self.getData(firstPoint,lastPoint)
-    
-    def getTimesSweep(self,sweep=0,channel=0):
-        """Return the times from a single sweep (starting at zero). You must multiply by signalScale."""
-        if channel>0:
-            raise ValueError('multi-channel ABFs have not been added yet') #TODO: this
-        firstPoint=sweep*self.header['sweepPointCount']
-        lastPoint=(sweep+1)*self.header['sweepPointCount']
-        return self.getTimes(firstPoint,lastPoint)
-    
-    
-    
+        
     ### FUNCTIONS TO DISPLAY HEADER INFORMATION
             
     def show(self):
@@ -233,31 +216,81 @@ class ABFheader:
             f.write(out)
         print("wrote",os.path.abspath(fname))   
 
+
+def checkSweepLoadTime(abfFileName,extractionCount=10,closeBetweenSweeps=False):
+    """
+    Pull the first sweep from an abf extractionCount times.
+    Determine how long this takes when the file is left open vs opened/closed for each sweep.
+    """
+    import time
+    import numpy as np
+    
+    abfHeader=ABFheader(abfFileName)
+    nSweeps=abfHeader.header['sweepCount']
+    print("\nTEST: load %d sweeps (%d times)"%(nSweeps,extractionCount),end="")
+    print(" NOT"*(not closeBetweenSweeps),"closing the file between sweeps")
+    
+    timesLeftOpen=[]
+    abfHeader.keepFileOpen=True
+    for i in range(extractionCount):
+        t1=time.perf_counter()
+        for j in range(nSweeps):
+            abfHeader.getDataSweep(j)
+            if closeBetweenSweeps:
+                abfHeader.fileClose()
+        t2=time.perf_counter()
+        timesLeftOpen.append((t2-t1)*1000000) # microseconds
+    print(" AVG: %.02f microseconds per sweep"%(np.average(timesLeftOpen)/extractionCount/nSweeps))
+        
+    #timesOpenedAndClosed=[]
+    
+
+#def stressTest(repetitions=10):
+#    import matplotlib.pyplot as plt
+#    import numpy as np
+#    import time
+#    times=[]
+#    for i in range(repetitions):
+#        print("running %d of %d (%.02f%%)"%(i+1,repetitions,i/repetitions*100))
+#        t1=time.process_time()
+#        #### THIS BLOCK GETS TIMED ####
+#        for sweepNumber in range(abfHeader.header['sweepCount']):
+#            data=abfHeader.getDataSweep(sweepNumber)
+#            data=np.array(data)*abfHeader.header['signalScale']        
+#            abfHeader._fileClose()
+#        ###############################        
+#        t2=time.process_time()
+#        times.append((t2-t1)*1000)
+#    #print(times)
+#    plt.figure(figsize=(5,5))
+#    plt.grid(alpha=.2)
+#    plt.title("ABFheader Stress Test")
+#    plt.plot(times,'.',ms=20,alpha=.5)
+#    plt.margins(.1,.3)
+#    plt.axhline(np.average(times),ls='--',color='r',alpha=.5,lw=2,label="AVG: %s"%np.average(times))
+#    plt.ylabel("Execution Time (ms)")
+#    plt.xlabel("Run Number")
+#    plt.legend()
+#    plt.tight_layout()
+#    plt.show()
+    
+
 if __name__=="__main__":   
-    print("DO NOT RUN THIS PROGRAM DIRECTLY!")
+    
+    checkSweepLoadTime(R"../../../../data/16d05007_vc_tags.abf")
+    checkSweepLoadTime(R"../../../../data/16d05007_vc_tags.abf",closeBetweenSweeps=True)
     
     ### LOAD AN ABF FILE
-    abfHeader=ABFheader(R"../../../../data/17o05028_ic_steps.abf")
+    #abfHeader=ABFheader(R"../../../../data/16d05007_vc_tags.abf")
     
     ### DISPLAY THE HEADER
-    abfHeader.show()
-    abfHeader.saveHTML()
-    abfHeader.saveMarkdown()
+    #abfHeader.show()
+    #abfHeader.saveHTML()
+    #abfHeader.saveMarkdown()
+       
+    ### TESTING ###    
+    #stressTest()
+    #abfHeader._fileClose()
     
-    ### PLOT THE 6TH SWEEP (SWEEPS START AT 0)
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-    times = abfHeader.getTimesSweep()
-    for sweepNumber in range(7):
-        data=abfHeader.getDataSweep(sweepNumber)
-        data=np.array(data)*abfHeader.header['signalScale']
-        plt.plot(times,data,alpha=.8,lw=.5,label="sweep %d"%sweepNumber)
-    plt.axis([1.5,2.5,None,None])
-    plt.legend(fontsize=7)
-    plt.savefig('_demo.png')
-    plt.show()
-    
-    print("DONE")
     
     
