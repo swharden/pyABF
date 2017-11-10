@@ -573,23 +573,26 @@ I was surprised to see performance goes in opposite directions when I load the f
 
 ```
 without Numpy
-read 1870 sweeps in 7.35235 sec (3.932 ms/sweep)
-read 1870 sweeps in 7.30406 sec (3.906 ms/sweep)
-read 1870 sweeps in 7.43636 sec (3.977 ms/sweep)
-read 1870 sweeps in 7.32984 sec (3.920 ms/sweep)
-read 1870 sweeps in 7.39116 sec (3.952 ms/sweep)
+read 1870 full file 10 times in 7.35235 sec (3.932 ms/load)
+read 1870 full file 10 times in 7.30406 sec (3.906 ms/load)
+read 1870 full file 10 times in 7.43636 sec (3.977 ms/load)
+read 1870 full file 10 times in 7.32984 sec (3.920 ms/load)
+read 1870 full file 10 times in 7.39116 sec (3.952 ms/load)
 total 36.81377 sec
 
 with Numpy
-read 1870 sweeps in 0.23099 sec (0.124 ms/sweep)
-read 1870 sweeps in 0.21806 sec (0.117 ms/sweep)
-read 1870 sweeps in 0.21913 sec (0.117 ms/sweep)
-read 1870 sweeps in 0.21845 sec (0.117 ms/sweep)
-read 1870 sweeps in 0.21978 sec (0.118 ms/sweep)
+read 1870 full file 10 times in 0.23099 sec (0.124 ms/load)
+read 1870 full file 10 times in 0.21806 sec (0.117 ms/load)
+read 1870 full file 10 times in 0.21913 sec (0.117 ms/load)
+read 1870 full file 10 times in 0.21845 sec (0.117 ms/load)
+read 1870 full file 10 times in 0.21978 sec (0.118 ms/load)
 total 1.10641 sec
 ```
 
 **Conclusion:** Numpy is 33.27 times faster than pure python when loading a full file
+
+## Loading Full Files into Memory: do this!
+These data demonstrate that reading a full file into memory (and scaling it) is extremely fast and doesn't take-up much memory. I vote we do this automatically without even asking. A one-hour-long ABF would take one second to load into memory (incluidng scaling) and only occupy 288 MB of memory. Open a file, grab its header, pull its data, and close it. File locking issues gone forever.
 
 
 # References
