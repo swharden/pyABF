@@ -399,7 +399,7 @@ When designing an application to read ABF sweep data, much attention should be p
 BLOCKSIZE=512
 import struct
 f=open(R"C:\data\17n06003.abf",'rb')
-f.seek(236) # byte position (shortcut) for DeltaSection map information
+f.seek(236) # byte position (shortcut) for DataSection map information
 blockStart,entrySize,entryCount=struct.unpack("IIl",f.read(struct.calcsize("IIl")))
 f.seek(blockStart*BLOCKSIZE) # go to the byte position of the first data point
 byteString=f.read(entrySize*entryCount) # read the data into a byte string
