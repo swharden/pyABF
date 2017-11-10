@@ -444,6 +444,9 @@ dataScale=lADCResolution/1e6
 sweepData=[x*dataScale for x in data]
 ```
 
+# ABF1 Support
+Eventually I'll get around to adding ABF1 support to the `ABFClass`. I think I can recycle almost all my code. The difference in ABF1 is that it doesn't require a section map, as the sections are all at pre-defined byte locations for every file. This should be trivial to implement... when I get around to it.
+
 # References
 
 * [Python struct format characters](https://docs.python.org/2/library/struct.html#format-characters)
