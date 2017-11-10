@@ -513,6 +513,8 @@ scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
 # References
 
 * [Python struct format characters](https://docs.python.org/2/library/struct.html#format-characters)
+* [Numpy.fromfile()](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fromfile.html)
+* [Numpy's built-in dataypes](https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.scalars.html#arrays-scalars-built-in)
 
 ## ABF File Format
 * [Official ABF Format PDF](https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf) - It's interesting, but they ONLY want you to use their DLL to access ABF data, so this document doesn't help much when learning how to access information directly from the binary file.
