@@ -509,6 +509,88 @@ scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
 **Should we use 16-, 32-, or 64-bit floats for representing signals?** Although float16 _might_ be okay, it distorts the trace a wee little bit due to floating point errors counfounded by the division and multiplication operations. In my recording conditions (whole-cell patch-clamp in brain slices) I calculated that the average floating point error in 16-bit floats (compared to 64-bit precision) is only 0.0023 pA. This seems acceptable (and well below the RMS noise floor), but also consider that the _peak_ floating point error in these conditions is 0.329632 pA. Also future operations (like low-pass filtering and baseline subtraction) would aplify this error and introduce additional error. That's not acceptable to me so I'll double my memory usage and go with a 32-bit floating point precision. 0.3 pA seems like a lot of error to me, but I think it comes from _two_ floating point math operations: one for the scale factor (int16 / float) and applying the scale factor (int16 * float). With 32-bit floats our peak deviation (compared to 64-bit precision) is 0.0000160469 pA. If I reach a point where that is not enough precision, I will want to find a new job. For now I'm satisfied with float-32 because we know it's accurate and at 20kHz recording rate (40 kB raw data / sec) we produce 80 kB of scaled floating-point data per second (or 288 MB per hour of recording).
 
 
+# Designing for Numpy as an option (not a requirement)
+I want my ABFHeader class to be dependency-free. Buuuuuuut if numpy is around, let's use it. For all the reasons listed above, using numpy will massively improve performance. This is what I did to make Numpy optional:
+
+### Optional import of Numpy
+
+When importing the abf header module, try to import numpy. If it fails, that's fine!
+
+```python
+try:
+    import numpy as np # use Numpy if we have it
+except:
+    np=False
+```
+
+### Optional use of Numpy
+
+When sweeps are requested, use Numpy if we have it, and don't if we don't! Functionality is exactly the same if numpy is available or not. The difference is numpy is faster and will return a `ndarray` object if it's used. Otherwise you'll get a traditional python list. The values are the same!
+
+```python
+fb=open("someFile.abf",'rb')
+fb.seek(firstBytePosition)
+scaleFactor = self.header['lADCResolution'] / 1e6
+if np:
+	data = np.fromfile(fb, dtype=np.int16, count=pointCount)
+	data = np.multiply(data,scaleFactor,dtype='float32')
+else:
+	print("WARNING: data is being retrieved without numpy (this is slow). See docs.")
+	data = struct.unpack("%dh"%(pointCount), fb.read(pointCount*2)) # 64-bit int
+	data = [point*scaleFactor for point in data] # 64-bit int * 64-bit floating point
+fb.close()
+```
+
+# Performance Testing
+
+## Numpy vs. Python: Sweep Hopping
+
+I wrote a stress test that opens a 15 MB ABF file (about 6 minutes of data) and reads every sweep, and repeats this ten times. It then reports the total number of sweeps read, how long it took, and the average read time per sweep.
+
+```
+Without Numpy
+read 1870 sweeps in 4.38152 sec (2.343 ms/sweep)
+read 1870 sweeps in 4.37068 sec (2.337 ms/sweep)
+read 1870 sweeps in 4.37608 sec (2.340 ms/sweep)
+read 1870 sweeps in 4.37229 sec (2.338 ms/sweep)
+read 1870 sweeps in 4.47250 sec (2.392 ms/sweep)
+total 21.97307 sec
+
+With Numpy
+read 1870 sweeps in 0.34502 sec (0.185 ms/sweep)
+read 1870 sweeps in 0.32036 sec (0.171 ms/sweep)
+read 1870 sweeps in 0.31698 sec (0.170 ms/sweep)
+read 1870 sweeps in 0.31709 sec (0.170 ms/sweep)
+read 1870 sweeps in 0.32123 sec (0.172 ms/sweep)
+total 1.62068 sec
+```
+
+**Conclusion:** Numpy is 13.56 times faster than pure python when loading sweeps
+
+## Numpy vs. Python: Full File Reading
+
+I was surprised to see performance goes in opposite directions when I load the full file in one block as compared to sweep by sweep. I think the weak point here is the `[x for x in y]` python code, and numpy shines. The performance _increase_ for numpy is probably the decrease in the need to `seek()` 1870 times.
+
+```
+without Numpy
+read 1870 sweeps in 7.35235 sec (3.932 ms/sweep)
+read 1870 sweeps in 7.30406 sec (3.906 ms/sweep)
+read 1870 sweeps in 7.43636 sec (3.977 ms/sweep)
+read 1870 sweeps in 7.32984 sec (3.920 ms/sweep)
+read 1870 sweeps in 7.39116 sec (3.952 ms/sweep)
+total 36.81377 sec
+
+with Numpy
+read 1870 sweeps in 0.23099 sec (0.124 ms/sweep)
+read 1870 sweeps in 0.21806 sec (0.117 ms/sweep)
+read 1870 sweeps in 0.21913 sec (0.117 ms/sweep)
+read 1870 sweeps in 0.21845 sec (0.117 ms/sweep)
+read 1870 sweeps in 0.21978 sec (0.118 ms/sweep)
+total 1.10641 sec
+```
+
+**Conclusion:** Numpy is 33.27 times faster than pure python when loading a full file
+
 
 # References
 
