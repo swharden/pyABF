@@ -249,7 +249,7 @@ if __name__=="__main__":
     import numpy as np
 
     times = abfHeader.getTimesSweep()
-    for sweepNumber in range(5):
+    for sweepNumber in range(7):
         data=abfHeader.getDataSweep(sweepNumber)
         data=np.array(data)*abfHeader.header['signalScale']
         plt.plot(times,data,alpha=.8,lw=.5,label="sweep %d"%sweepNumber)
