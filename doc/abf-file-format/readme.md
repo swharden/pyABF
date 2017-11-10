@@ -471,7 +471,44 @@ Every ABF reading API probably has something like a `getSweepData(sweepNumber)` 
   * **PRO:** on-demand file _reading_ time is eliminated (big pro for network drives)
   * **CON:** class instantiation time is increased, but this could be disabled with an argument
   
-  
+
+# Faster data extraction with Numpy
+The slowest part about working with ABFs is reading their signal data (tens to hundreds of MB) and scaling it. Data is stored as signed 16-bit integers and must be scaled by a scaling factor and provided to the end user as an array of floats. While there are many ways we could read data from ABFs, if one is not careful they will write code that runs slowly. This is an easy trap for young players.
+
+## Python's integers are bigger than your ABF's
+
+```python
+fileBuffer = open("flename.abf", 'rb')
+fileBuffer.seek(someBytePosition)
+byteString = fileBuffer.read(numberOfPoints*2)
+dataValues = struct.unpack("%dh"%(numberOfPoints), byteString)
+fileBuffer.close()
+```
+
+This code works, but there's a problem. We use `struct.unpack()` and request to decode the bytestring in `h` format (16-bit signed integer) from the bytestring. Consider our signal is just 100 data points. A 16-bit (2-byte) format means 100 points occupies 200 bytes of memory. However, `dataValues` is a tuple of integers _in your Python platform's default integer size_. For me that's 64-bit integers. This means that one line of code quadrupled the size of data in memory from 200 bytes to 800 bytes. For this reason, it is a bad idea to store ABF signal data in Python's default integer size.
+
+## Numpy's highly structured arrays support Int16
+
+```python
+fileBuffer = open("flename.abf", 'rb')
+fileBuffer.seek(someBytePosition)
+dataValues = numpy.fromfile(fileBuffer, dtype=np.int16, count=numberOfPoints)
+fileBuffer.close()
+```
+
+This code is faster and four times smaller in memory. It also eliminates the need to _convert_ to a numpy array later for scaling. If numpy is available, use this method! using `sys.getsizeof(dataValues)` you will learn that the entire numpy object is about 100 bytes larger than the data itself.
+
+## Scaling signal data (and floating point conversion)
+As we saw earlier when we tried to plot the raw data (unsigned integers), values right out of the ABF are crazy-large numbers and need to be scaled down before they are meaningful. The scaling factor is a float, and the fastest way to do what we want is to let numpy handle the integer/float multiplication and return the result as a numpy float datatype. Be sure to set the dtype! If your system's default float is a 64-bit float, we quadrupled our memory requirement again.
+
+```python
+scaleFactor = lADCResolution / 1e6
+scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
+```
+
+**Should we use 16-, 32-, or 64-bit floats for representing signals?** Although float16 _might_ be okay, it distorts the trace a wee little bit due to floating point errors counfounded by the division and multiplication operations. In my recording conditions (whole-cell patch-clamp in brain slices) I calculated that the average floating point error in 16-bit floats (compared to 64-bit precision) is only 0.0023 pA. This seems acceptable (and well below the RMS noise floor), but also consider that the _peak_ floating point error in these conditions is 0.329632 pA. Also future operations (like low-pass filtering and baseline subtraction) would aplify this error and introduce additional error. That's not acceptable to me so I'll double my memory usage and go with a 32-bit floating point precision. 0.3 pA seems like a lot of error to me, but I think it comes from _two_ floating point math operations: one for the scale factor (int16 / float) and applying the scale factor (int16 * float). With 32-bit floats our peak deviation (compared to 64-bit precision) is 0.0000160469 pA. If I reach a point where that is not enough precision, I will want to find a new job. For now I'm satisfied with float-32 because we know it's accurate and at 20kHz recording rate (40 kB raw data / sec) we produce 80 kB of scaled floating-point data per second (or 288 MB per hour of recording).
+
+
 
 # References
 
