@@ -2,7 +2,9 @@
 pyabf: A portable Python library for reading files in Axon Binary Format (ABF)
 ==============================================================================
 
-Homepage: `https://github.com/swharden/pyABF <https://github.com/swharden/pyABF>`_
+* Project Homepage: `https://github.com/swharden/pyABF <https://github.com/swharden/pyABF>`_
+* Package Usage: `https://github.com/swharden/pyABF/tree/master/doc/pyabf <https://github.com/swharden/pyABF/tree/master/doc/pyabf>`_
+
 
 Quickstart
 ----------

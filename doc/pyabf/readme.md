@@ -57,6 +57,7 @@ _If pyabf is installed with pip but you wish to manually import the version in t
 ```python
 import pyabf
 import matplotlib.pyplot as plt
+abf=pyabf.ABF("filename.abf")
 plt.figure(figsize=(8,4))
 for sweepNumber in abf.sweepList:
 	abf.setSweep(sweepNumber)
