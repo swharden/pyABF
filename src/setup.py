@@ -1,7 +1,9 @@
 from setuptools import setup
 
 # load the module to determine the version
-exec(open("pyabf/__init__.py").read())
+#exec(open("pyabf/__init__.py").read())
+
+__version__=open('pyabf/__init__.py').read().split("__version__")[1].split("'")[1]
 
 setup(
     name='pyabf',
@@ -13,7 +15,11 @@ setup(
     license='MIT License',
     platforms='any',
     description='Python library for reading files in Axon Binary Format (ABF)',
-    install_requires=[],
+    long_description=open('README.rst').read(),
+    install_requires=[	
+       'matplotlib>=2.1.0',
+       'numpy>=1.13.3',
+	],
     classifiers=[
        'Programming Language :: Python :: 3',
        'Natural Language :: English',

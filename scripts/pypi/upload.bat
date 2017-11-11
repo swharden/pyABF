@@ -1,6 +1,10 @@
 :: THIS SCRIPT PACKAGES/UPLOADS THE PROJECT TO PYPI
 :: you must change the version in __init__.py manually
 
+:: If the upload asks you for your pypi passord but says it fails, 
+:: it's because it doesn't know your username. 
+:: To fix this, copy .pypirc into your `~` directory.
+
 :: navigate to the source folder
 cd ../../src/
 

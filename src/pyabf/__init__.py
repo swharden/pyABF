@@ -1,16 +1,16 @@
 """
-this is a PyPy placeholder for the pyABF project
+pyabf - A Python package for reading and analyzing files in Axon Binary Format (ABF).
+Documentation, code examples, and more can be found at: https://github.com/swharden/pyABF
 """
 
-__version__ = '0.0.1'
+from pyabf.abf import ABF
+
+__version__ = '0.1.2'
 
 def info():
-    """display information."""
-    print("this module is working!")
-    print(__file__)
+    """display information about the pyabf package."""
+    import os
+    _pyabfFolder=os.path.abspath(os.path.dirname(__file__))
+    print("pyabf %s was imported from %s"%(__version__,_pyabfFolder))
 
-__all__ = ('info')
-
-if __name__=="__main__":
-    print("DO NOT RUN THIS SCRIPT DIRECTLY")
-    info()
+__all__ = ('ABF','info')
