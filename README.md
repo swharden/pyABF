@@ -1,5 +1,5 @@
 # The pyABF Project
-The pyABF project was created to simplify the process of reading data from files in the Axon Binary Format (ABF). 
+The pyABF project was created to simplify the process of reading data from files in the Axon Binary Format (ABF). This project contains pip-installable Python package ([pyabf](/doc/pyabf/)) which provides a simplistic front-end to directly read values and data from ABF files in Python, as well as [extensive documentation on the ABF file format](/doc/abf-file-format/) including how to read data directly from ABF files which can be applied to any programming language.
 
 ![](/doc/graphics/2017-11-06-aps.png)
 
