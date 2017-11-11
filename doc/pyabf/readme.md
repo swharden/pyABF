@@ -34,6 +34,7 @@ The pyabf package is a sub-component of [the pyABF project](https://github.com/s
 * Install: `pip install pyabf`
 * Upgrade: `pip install pyabf --upgrade`
 * Uninstall: `pip uninstall pyabf`
+* Anaconda users: Run these commands in the _Anaconda Prompt_ (not the windows command prompt) too avoid permissions errors.
 
 ```python
 import pyabf
