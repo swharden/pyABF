@@ -594,6 +594,8 @@ total 1.10641 sec
 ## Loading Full Files into Memory: do this!
 These data demonstrate that reading a full file into memory (and scaling it) is extremely fast and doesn't take-up much memory. I vote we do this automatically without even asking. A one-hour-long ABF would take one second to load into memory (incluidng scaling) and only occupy 288 MB of memory. Open a file, grab its header, pull its data, and close it. File locking issues gone forever.
 
+# Epoch/signal misalignment and pre-padding offset
+For some reason I still don't understand, some data gets recorded _before_ epoch A begins in each sweep. More confusingly, it's not a fixed amount of pre-epoch time for each sweep. Instead, ***Exactly 1/64'th of the sweep length exists in the pre-epoch area at the beginning each sweep.*** This must be taken into account if you intend to synthesize the protocol waveform from just the epoch table. This is what I've done, and these are my results.
 
 # References
 
