@@ -640,7 +640,9 @@ signalData = getScaledSignalData("../../../../data/17o05027_ic_ramp.abf")
 print(signalData)    
 ```
 
-### List of Variable Byte Positions (ABFHeader._byteMap)
+**Output:** `[-51.544064 -51.6096   -51.675136 ..., -42.074112 -42.074112 -42.041344]`
+
+## List of Variable Byte Positions (`ABFHeader._byteMap`)
 
 ```
 ### Header (fixed byte positions) ###
