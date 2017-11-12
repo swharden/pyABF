@@ -87,6 +87,7 @@ class ABFheader:
         
         # read all header contents into an ordered dictionary
         self.header=collections.OrderedDict()
+        self._byteMap={}
         self._fileReadStructMap(HEADER,sectionName="Header")
         self._fileReadStructMap(SECTIONS,76,16,sectionName="Section Map")
         self._fileReadSection('ProtocolSection',PROTO)
@@ -145,9 +146,10 @@ class ABFheader:
         self._fb.seek(startByte)
         for structCode in structMap.replace("\n","").split(","):
             varName,varFormat=structCode.strip().split("_")
+            self._byteMap.setdefault(varName,[]).append(self._fb.tell())
             varVal=struct.unpack(varFormat,self._fb.read(struct.calcsize(varFormat)))
             varVal=varVal if len(varVal)>1 else varVal[0]
-            self.header.setdefault(varName,[]).append(varVal) # pythonista
+            self.header.setdefault(varName,[]).append(varVal)            
             if fixedOffset: 
                 self._fb.read(fixedOffset-struct.calcsize(varFormat))
 
@@ -269,3 +271,5 @@ def compareHeaders(abfFile1,abfFile2):
 if __name__=="__main__":
     abf=ABFheader("../../data/17o05028_ic_steps.abf")
     abf.show()
+    for key in abf._byteMap:
+        print(key,abf._byteMap[key])
