@@ -598,7 +598,7 @@ These data demonstrate that reading a full file into memory (and scaling it) is 
 For some reason I still don't understand, some data gets recorded _before_ epoch A begins in each sweep. More confusingly, it's not a fixed amount of pre-epoch time for each sweep. Instead, ***Exactly 1/64'th of the sweep length exists in the pre-epoch area at the beginning each sweep.*** This must be taken into account if you intend to synthesize the protocol waveform from just the epoch table. This is what I've done, and these are my results.
 
 # Byte Map (fixed & dynamic)
-I read an ABF file and noted the byte position(s) for every value. Some byte positions may change, but some don't. It's on you to look up which are fixed. I added this functionality to the ABFheader class as `ABFheader._byteMap`
+I read an ABF file and noted the byte position(s) for every value. Some byte positions may change, but some don't. It's on you to look up which are fixed. I added this functionality to the ABFheader class as `ABFheader._byteMap`. This map is useful when answering questions like, "_What byte position would I look at to find `lADCResolution`?_" (which assumes you know that `lADCResolution` is part of the header structure and is not part of a section with a dynamic location)
 
 ```
 fFileSignature [0]
