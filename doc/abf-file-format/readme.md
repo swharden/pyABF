@@ -642,7 +642,8 @@ print(signalData)
 
 **Output:** `[-51.544064 -51.6096   -51.675136 ..., -42.074112 -42.074112 -42.041344]`
 
-## List of Variable Byte Positions (`ABFHeader._byteMap`)
+## Byte Map
+_this data is accessible via `ABFHeader._byteMap`_
 
 ```
 ### Header (fixed byte positions) ###
@@ -688,7 +689,7 @@ SynchArraySection: [316]
 AnnotationSection: [332]
 StatsSection: [348]
 
-### ProtocolSection (dynamic byte positions) ###
+### ProtocolSection (section byte offsets) ###
 nOperationMode: [+0]
 fADCSequenceInterval: [+2]
 bEnableFileCompression: [+6]
@@ -761,7 +762,7 @@ nDigitizerTotalDigitalOuts: [+202]
 nDigitizerSynchDigitalOuts: [+204]
 nDigitizerType: [+206]
 
-### ADCSection (dynamic byte positions) ###
+### ADCSection (section byte offsets) ###
 nADCNum: [+0]
 nTelegraphEnable: [+2]
 nTelegraphInstrument: [+4]
@@ -790,7 +791,7 @@ nStatsChannelPolarity: [+72]
 lADCChannelNameIndex: [+74]
 lADCUnitsIndex: [+78]
 
-### DACSection (dynamic byte positions) ###
+### DACSection (section byte offsets) ###
 nDACNum: [+0]
 nTelegraphDACScaleFactorEnable: [+2]
 fInstrumentHoldingLevel: [+4]
@@ -833,7 +834,7 @@ fMembTestPreSettlingTimeMS: [+122]
 fMembTestPostSettlingTimeMS: [+126]
 nLeakSubtractADCIndex: [+130]
 
-### EpochPerDACSection (dynamic byte positions) ###
+### EpochPerDACSection (section byte offsets) ###
 nEpochNum: [+0]
 nEpochType: [+4]
 fEpochInitLevel: [+6]
@@ -843,10 +844,10 @@ lEpochDurationInc: [+18]
 lEpochPulsePeriod: [+22]
 lEpochPulseWidth: [+26]
 
-### EpochSection (dynamic byte positions) ###
+### EpochSection (section byte offsets) ###
 nEpochDigitalOutput: [+2]
 
-### TagSection (dynamic byte positions) ###
+### TagSection (section byte offsets) ###
 lTagTime: [+0]
 sComment: [+4]
 nTagType: [+60]

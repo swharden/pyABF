@@ -160,7 +160,7 @@ class ABFheader:
     def _fileReadSection(self,sectionName,structMap):
         """Read a structure map repeatedly according to its name in the section map."""
         self.header["### %s ###"%sectionName]=[None]
-        self._byteMap["### %s (dynamic byte positions) ###"%sectionName]=[None]
+        self._byteMap["### %s (section byte offsets) ###"%sectionName]=[None]
         entryStartBlock,entryBytes,entryCount=self.header[sectionName][0]
         for entryNumber in range(entryCount):
             self._fileReadStructMap(structMap,entryStartBlock*512+entryNumber*entryBytes)
