@@ -169,7 +169,9 @@ class ABFheader:
         self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
                    
         # read the signal data into memory and scale it   
-        self.data=self._fileReadData() if loadDataIntoMemory else None
+        self.data=None
+        if loadDataIntoMemory:
+            self._fileReadData()
         
         # we are now done reading contents of the ABF file
         self._fb.close()
