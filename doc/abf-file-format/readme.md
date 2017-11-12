@@ -603,6 +603,10 @@ For some reason I still don't understand, some data gets recorded _before_ epoch
 * [Numpy.fromfile()](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fromfile.html)
 * [Numpy's built-in dataypes](https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.scalars.html#arrays-scalars-built-in)
 
+## Equipment and Theory
+* [Axoclamp-2B theory and operation](https://neurophysics.ucsd.edu/Manuals/Axon%20Instruments/Axoclamp-2B_Manual.pdf)
+* [pCLAMP 10 User Guide](https://neurophysics.ucsd.edu/Manuals/Axon%20Instruments/pCLAMP10-User-Guide-RevA.pdf)
+
 ## ABF File Format
 * [Official ABF Format PDF](https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf) - It's interesting, but they ONLY want you to use their DLL to access ABF data, so this document doesn't help much when learning how to access information directly from the binary file.
 * [Official Axon pCLAMP ABF SDK](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page)
