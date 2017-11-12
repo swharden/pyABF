@@ -45,3 +45,4 @@ If you have ABF files which are unsupported (or read incorrectly) by this softwa
 ### Scott W Harden
 * [SWHarden.com](http://www.SWHarden.com)
 * SWHarden@gmail.com
+* [About Scott](https://www.swharden.com/wp/about-scott/)
