@@ -854,6 +854,70 @@ nTagType: [+60]
 nVoiceTagNumberorAnnotationIndex: [+62]
 ```
 
+# Porting to C#
+I whipped up a function for C# which reads sweeps of scaled data right out of ABF2 files. It's a little thin on the error checking, but it gets the job done. Don't forget to add `using System.IO;` to the top so we have access to BinaryReader. By the way, my SweepReader.exe is 6kb.
+
+### Sweep Reading Function
+
+```C#
+/* Return an array of scaled data from a given sweep (sweep numbers start at 1) */
+public static float[] GetSweepData(string abfFileName, int sweepNumber=1)
+{
+	// open the file in binary mode
+	BinaryReader fb = new BinaryReader(File.Open(abfFileName, FileMode.Open));
+
+	// verify this is an ABF2 file
+	if (new string(fb.ReadChars(4)) != "ABF2")
+		throw new System.ArgumentException("The file is not a valid ABF2 file.");
+
+	// pull everything we need from the header information (using our byte map cheat sheet)
+	int BLOCKSIZE = 512; // blocks are a fixed size in ABF1 and ABF2 files
+	fb.BaseStream.Seek(12, SeekOrigin.Begin); // this byte stores the number of sweeps
+	long sweepCount = fb.ReadUInt32();
+	fb.BaseStream.Seek(76, SeekOrigin.Begin); // this byte stores the ProtocolSection block number
+	long posProtocolSection = fb.ReadUInt32()*BLOCKSIZE;
+	long poslADCResolution = posProtocolSection + 118; // figure out where lADCResolution lives
+	fb.BaseStream.Seek(poslADCResolution, SeekOrigin.Begin); // then go there
+	long lADCResolution = fb.ReadInt32();
+	float scaleFactor = lADCResolution / (float)1e6;
+	fb.BaseStream.Seek(236, SeekOrigin.Begin); // this byte stores the DataSection block number
+	long posDataSection = fb.ReadUInt32() * BLOCKSIZE;
+	long dataPointByteSize = fb.ReadUInt32(); // this will always be 2 for a 16-bit DAC
+	long dataPointCount = fb.ReadInt64();
+	long sweepPointCount = dataPointCount / sweepCount;
+
+	// make sure our requested sweep is valid
+	if ((sweepNumber > sweepCount) ||(sweepNumber < 1))
+		throw new System.ArgumentException("Invalid sweep requested.");
+
+	// figure out what data positions we want to read (modify these lines to get ALL data)
+	long dataByteStart = posDataSection + (sweepNumber-1) * sweepPointCount * dataPointByteSize;
+	long pointsToRead = sweepPointCount;
+
+	// fill the float array by reading raw data out of the ABF, scaling as we go
+	fb.BaseStream.Seek(dataByteStart, SeekOrigin.Begin);
+	float[] data = new float[pointsToRead];
+	for (long i=0; i < pointsToRead; i++)
+		data[i] = fb.ReadInt16() * scaleFactor;
+	fb.Close(); // close and unlock the file ASAP
+
+	// display the data
+	System.Console.Write("DATA FOR SWEEP {0}: ",sweepNumber);
+	for (int i =0; i<3; i++)
+		System.Console.Write("{0}, ", data[i]);
+	System.Console.Write("...");
+	for (int i = 3; i > 0; i--)
+		System.Console.Write(", {0}", data[pointsToRead - i]);
+	System.Console.Write(" ({0} points in total)\n",data.Length);
+
+	return data;
+}
+```
+
+### Output
+`DATA FOR SWEEP 1: -4.325376, -4.292608, -4.096, ..., -6.651904, -6.684672, -6.848512 (200000 points in total)`
+
+
 # References
 
 * [Python struct format characters](https://docs.python.org/2/library/struct.html#format-characters)
