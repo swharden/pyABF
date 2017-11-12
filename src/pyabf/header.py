@@ -87,7 +87,7 @@ class ABFheader:
         
         # read all header contents into an ordered dictionary
         self.header=collections.OrderedDict()
-        self._byteMap={}
+        self._byteMap=collections.OrderedDict()
         self._fileReadStructMap(HEADER,sectionName="Header")
         self._fileReadStructMap(SECTIONS,76,16,sectionName="Section Map")
         self._fileReadSection('ProtocolSection',PROTO)
@@ -143,10 +143,14 @@ class ABFheader:
         """Given a string of varName_varFormat structs, get the objects from the file."""
         if sectionName:
             self.header["### %s ###"%sectionName]=[None]
+            self._byteMap["### %s (fixed byte positions) ###"%sectionName]=[None]
         self._fb.seek(startByte)
         for structCode in structMap.replace("\n","").split(","):
             varName,varFormat=structCode.strip().split("_")
-            self._byteMap.setdefault(varName,[]).append(self._fb.tell())
+            if sectionName:
+                self._byteMap.setdefault(varName,[]).append("%d"%(self._fb.tell()))
+            else:
+                self._byteMap.setdefault(varName,[]).append("+%d"%(self._fb.tell()-startByte))
             varVal=struct.unpack(varFormat,self._fb.read(struct.calcsize(varFormat)))
             varVal=varVal if len(varVal)>1 else varVal[0]
             self.header.setdefault(varName,[]).append(varVal)            
@@ -156,6 +160,7 @@ class ABFheader:
     def _fileReadSection(self,sectionName,structMap):
         """Read a structure map repeatedly according to its name in the section map."""
         self.header["### %s ###"%sectionName]=[None]
+        self._byteMap["### %s (dynamic byte positions) ###"%sectionName]=[None]
         entryStartBlock,entryBytes,entryCount=self.header[sectionName][0]
         for entryNumber in range(entryCount):
             self._fileReadStructMap(structMap,entryStartBlock*512+entryNumber*entryBytes)
@@ -269,7 +274,12 @@ def compareHeaders(abfFile1,abfFile2):
             print(key,header1[key],header2[key])
 
 if __name__=="__main__":
+    #abf=ABFheader("../../data/17o05028_ic_steps.abf")
     abf=ABFheader("../../data/17o05028_ic_steps.abf")
-    abf.show()
+    #abf.show()
     for key in abf._byteMap:
-        print(key,abf._byteMap[key])
+        if key.startswith("#"):
+            print("\n"+key)
+        else:
+            print("%s: [%s]"%(key,", ".join(abf._byteMap[key])))
+            #print("%s: [%s]"%(key,abf._byteMap[key][0]))
