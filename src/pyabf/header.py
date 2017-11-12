@@ -73,23 +73,60 @@ TAGS="""lTagTime_i,sComment_56s,nTagType_h,nVoiceTagNumberorAnnotationIndex_h"""
 EPSEC="""nEpochNum_h,nEpochDigitalOutput_h"""
 
 class ABFheader:
-    def __init__(self,abfFile,silent=False):
+    def __init__(self,abfFileName,loadDataIntoMemory=True):
         """
         The ABFheader class provides low-level access to ABF file contents (header values and signal data).
-        The given abfFile could be a path (string) or an already-open file buffer (opened in rb mode).
-        If loadRawData is enabled, all data (signals) will be read from the ABF file up front. This will
-        cause instantiation to take a little longer, but prevent file locking and bottlenecks later.
+        You can pull all the information you need from abf.header and abf.data. Additional functions help
+        display header data in various formats.
+            
+        See what information is available about the ABF
+            >>> abfHeader=ABFheader("filename.abf")
+            >>> abfHeader.show()
+            ### Header ###
+            fFileSignature = b'ABF2'
+            fFileVersionNumber = (0, 0, 0, 2)
+            uFileInfoSize = 512
+            lActualEpisodes = 187
+            uFileStartDate = 20161205
+            ...
+            
+            * This will list values which can be pulled from the abf.header dictionary by their names
+            
+        Get a value from the header by its name:
+            >>> abf.header['lActualEpisodes'] # number of sweeps (episodes)
+            187
+            
+            * Each variable in the header has a special name, but it's not always obvious what it means.
+            * Check the ABF Format PDF http://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf for info
+            
+        Get recorded signal data:
+            >>> abf.data
+            [-70.123, -70.321, ..., -70.213, -70.031]
+            
+            * If numpy is available, abf.data will be a numpy.ndarray with a 32-bit float datatype.
+            * If numpy is not available, abf.data will be a list of python integers
+            * Note that this doesn't work sweep by sweep, it's ALL the data in one array!
+            * Dividing data into sweeps is your job.
+            
+        Save a formatted header to file:
+            >>> abf.saveHTML("someFile.html")
+            >>> abf.saveMarkdown("someFile.md")
+
         """
         
-        t1=time.perf_counter()
-        self._abfFile = abfFile
+        # start our performance timer
+        t1=time.perf_counter() 
         
-        # ensure our file is open in binary reading mode
-        self._fileOpen()
+        # open the file in binary mode
+        self._fb = open(abfFileName,'rb') 
         
-        # ensure our file is an ABF2 file
-        if self._fb.read(4)!=b'ABF2':
-            raise ValueError('abfFile must be an ABF2 file')
+        # ensure our file type is supported
+        if self._fb.read(4)==b'ABF2':
+            pass
+        elif self._fb.read(4)!=b'ABF1':
+            raise ValueError('ABF1 files are not yet supported')
+        else:
+            raise ValueError('invalid file (does not appear to be an ABF at all!)')
         
         # read all header contents into an ordered dictionary
         self.header=collections.OrderedDict()
@@ -131,35 +168,16 @@ class ABFheader:
         self.header['filterKHz']=self.header['fTelegraphFilter']/1e3
         self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
                    
-        # read the signal data and scale it
-        self._fileReadData()
+        # read the signal data into memory and scale it   
+        self.data=self._fileReadData() if loadDataIntoMemory else None
         
-        # release the ABF file - we are totally done with it!
-        self._fileClose()
-        
-        # display info
-        loadTime=(time.perf_counter()-t1)*1000 #ms
-        if not silent:
-            print("%s loaded (%.02f ms)"%(os.path.basename(self.header['abfFilename']),loadTime))
-            
-    ### FILE ACCESS AND STRUCT READING
-    
-    def _fileOpen(self):
-        """Do what it takes to ensure our abf file is opened as a file buffer and is a valid ABF2 file"""
-        if "_fb" in dir(self) and self._fb.__class__.__name__ == 'BufferedReader' and not self._fb.closed:
-                return # already open and ready to go
-        if type(self._abfFile) is str:
-            self._fb = open(self._abfFile,'rb')
-        elif self._abfFile.__class__.__name__ == 'BufferedReader':
-            self._fb = self._abfFile
-        else:
-            raise ValueError('abfFile must be a path (string) or file buffer (opened in rb mode)')
-        return
-    
-    def _fileClose(self):
-        """If we opened the file earlier, be polite and close it as soon as possible"""
+        # we are now done reading contents of the ABF file
         self._fb.close()
-        return
+        
+        # stop the performance counter and calculate the time it took to load/process the ABF file
+        self.abfLoadTime=(time.perf_counter()-t1)
+            
+    ### FILE READING
         
     def _fileReadStructMap(self,structMap,startByte=0,fixedOffset=None,sectionName=None):
         """Given a string of varName_varFormat structs, get the objects from the file."""
@@ -194,20 +212,7 @@ class ABFheader:
             self.data = struct.unpack("%dh"%(pointCount), self._fb.read(pointCount*2))
             self.data = [point*scaleFactor for point in self.data]
             
-    def getSweepData(self,sweep=0):
-        """Return the scaled values from a sweep (starting at sweep zero)."""
-        firstPoint=sweep*self.header['sweepPointCount']
-        lastPoint=(sweep+1)*self.header['sweepPointCount']
-        return self.data[firstPoint:lastPoint]
-    
-    def getSweepTimes(self,sweep=0):
-        if np:
-            times = np.arange(self.header['sweepPointCount'])*self.header['timeSecPerPoint']
-            times = times+sweep*self.header['sweepLengthSec']
-        else:
-            times = range(self.header['sweepPointCount'])
-            times = [x*self.header['timeSecPerPoint']+sweep*self.header['sweepLengthSec'] for x in times]
-        return times
+    ### HEADER DISPLAY
             
     def show(self):
         """Display the contents of the header to the console in an easy to read format."""
@@ -218,13 +223,12 @@ class ABFheader:
                 print("%s = %s"%(key,self.header[key]))
         print()
 
-    def saveHTML(self,fname="./_demo.html"):
+    def saveHTML(self,fname):
         """Generate a HTML-formatted document with all header information."""
         html="<html><body><code>"
         for key in self.header.keys():
             if key.startswith("###"):
-                key=key.replace("#","").strip()
-                html+="<br><b style='font-size: 200%%;'>%s</b><br>"%key
+                html+="<br><b style='font-size: 200%%;'>%s</b><br>"%(key.replace("#","").strip())
             else:
                 html+="%s = %s<br>"%(key,self.header[key])
         html+="</code></html></body>"
@@ -232,13 +236,12 @@ class ABFheader:
             f.write(html)
         print("wrote",os.path.abspath(fname))
         
-    def saveMarkdown(self,fname="./_demo.md"):
+    def saveMarkdown(self,fname):
         """Generate a markdown-formatted document with all header information."""
         out="# ABF Header Contents\n"
         for key in self.header.keys():
             if key.startswith("###"):
-                key=key.replace("#","").strip()
-                out+="\n## %s\n"%key
+                out+="\n## %s\n"%(key.replace("#","").strip())
             else:
                 out+="* %s = `%s`\n"%(key,self.header[key])
         with open(fname,'w') as f:
@@ -261,34 +264,9 @@ def compareHeaders(abfFile1,abfFile2):
         else:
             print(key,header1[key],header2[key])
 
-def _demo_plot():
-    """
-    Demonstrate how to use matplotlib and the ABFheader class to display some data.
-    A higher level ABF class should really be in charge of things like this, but it's here for example.
-    """
-    import matplotlib.pyplot as plt
-    abfHeader=ABFheader(R"../../../../data/17o05028_ic_steps.abf")
-    plt.figure(figsize=(8,4))
-    plt.grid(alpha=.2)
-    times = abfHeader.getSweepTimes()
-    for sweepNumber in [0,5,10,15]:
-        data = abfHeader.getSweepData(sweepNumber)
-        plt.plot(times,data,lw=.7,alpha=.8,label="sweep %d"%sweepNumber)
-    plt.margins(0,.1)
-    plt.legend(fontsize=8)
-    plt.title("Demonstrating the ABFheader Class")
-    plt.ylabel("Membrane Potential (mV)")
-    plt.xlabel("Time (seconds)")
-    plt.tight_layout()
-    plt.savefig("_demo.png")
-    plt.show()
-
 if __name__=="__main__":    
-    print("DO NOT RUN THIS PROGRAM DIRECTLY")
-    
-    _demo_plot()
-    
-    #abfHeader=ABFheader(R"../../../../data/17o05028_ic_steps.abf")
-    #abfHeader.show()
-    #abfHeader.saveHTML()
-    #abfHeader.saveMarkdown()
+    print("DO NOT RUN THIS PROGRAM DIRECTLY")    
+    abfFolder=os.path.dirname(__file__)+"/../../data/"
+    abfFiles=[abfFolder+x for x in os.listdir(abfFolder) if x.endswith('.abf')]
+    abf=ABFheader(abfFiles[0])
+    abf.show()
