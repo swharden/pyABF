@@ -1,3 +1,7 @@
+# custom temporary output folders
+_output/
+_temp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
