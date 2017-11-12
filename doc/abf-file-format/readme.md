@@ -597,19 +597,48 @@ These data demonstrate that reading a full file into memory (and scaling it) is 
 # Epoch/signal misalignment and pre-padding offset
 For some reason I still don't understand, some data gets recorded _before_ epoch A begins in each sweep. More confusingly, it's not a fixed amount of pre-epoch time for each sweep. Instead, ***Exactly 1/64'th of the sweep length exists in the pre-epoch area at the beginning each sweep.*** This must be taken into account if you intend to synthesize the protocol waveform from just the epoch table. This is what I've done, and these are my results.
 
-# Using a Shortcut Byte Map
+# Using a Byte Map To Extract Single Header Values
 Let's say we aren't interested in tags and amplifier settings and epochs and all that stuff. We just want to capture a couple values out of an ABF header. In this case, even the 300 line ABFheader class is overkill, as we can get these values in about ten lines. This bytemap indicates which variables have fixed vs dynamic byte locations in the ABF file, and walks you through how to capture a value even if it's in a dynamically-located section.
 
-**Example:** _How can I read just `lADCResolution` from an ABF header?_
+**Example Problem:** _How can I read just `lADCResolution` from an ABF header?_
 * Ensure the first 4 bytes of the file are `b'ABF2'`
 * Notice `lADCResolution` is in `ProtocolSection` so find that section's byte position
 * byte 76 of the section map (fixed byte positions) indicates the `ProtocolSection` start block.
 * We know from the section key that `ProtocolSection` has a structure format of `IIl`. These are 3 variables (blockNumber, entrySize, entryCount) and we only want the first one.
 * We know from the byte map below (ABFheader._byteMap) that the byte idicating where ProtocolSection starts is at byte 76.
-* To get `blockNumber` just read the `I` (a 4-byte unsigned integer) at position 76 and multiply it by 512 bytes
+* To get `blockNumber` just read the `I` (a 4-byte unsigned integer) at byte position 76
 * `bytePosition = blockNumber * 512` (ABF2 blocks are a fixed 512 bytes)
 * We know from the section key that `lADCResolution` has struct format `i` (a 4-byte signed integer)
 * Therefore, just read the struct format `i` at position `bytePosition` and you have your `lADCResolution`
+
+**Example Code:** This STANDALONE script reads all sweep data and scales it using lADCResolution
+```python
+import struct
+import numpy as np
+
+def getSectionValue(fb,byteOfSectionBlock,sectionOffset=0,fmt="h"):
+    """Return an arbitrary value from an arbitrary section in an ABF2 header."""
+    fb.seek(byteOfSectionBlock)
+    sectionBlock,entryByteSize,entryCount=struct.unpack("IIl",fb.read(struct.calcsize("IIl")))
+    fmt=str(entryCount)+fmt
+    fb.seek(sectionBlock*512+sectionOffset)
+    val=struct.unpack(fmt,fb.read(struct.calcsize(fmt)))
+    val=val[0] if len(val)==1 else val
+    return val
+
+def getScaledSignalData(abfFileName):
+    """Return a numpy array of the scaled signal data for a recording."""
+    fb=open(abfFileName,'rb')
+    if not fb.read(4)==b'ABF2':
+        raise ValueError("only ABF2 files are supported by this example")
+    scalingFactor = getSectionValue(fb,76,118,"i") # ProtocolSection [76] (just want lADCResolution [118])
+    data = getSectionValue(fb,236) # DataSection [236] (we want all of it)
+    fb.close()    
+    return np.array(data)*scalingFactor/1e6
+
+signalData = getScaledSignalData("../../../../data/17o05027_ic_ramp.abf")
+print(signalData)    
+```
 
 ### List of Variable Byte Positions (ABFHeader._byteMap)
 
