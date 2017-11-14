@@ -6,6 +6,7 @@ ABFbenchmark.exe "C:\path\to\file.abf"
 ```
 
 ### Example Output
+_note: these values were captured from the debug version, not the release version. They are slightly slower._
 ```
 Reading Header ...
  byte location of data: 5632
@@ -37,10 +38,10 @@ Test loading all ABF data (100 repetitions)
 
 Test|Python|C#
 ---|---|---
-open/close|35.130 us|50.472 us
-raw read|7.154 ms|6.486 ms
-with scaling|20.040 ms|31.903 ms
-with averaging|25.169 ms|68.134 ms
+open/close|35.130 us|49.840 us
+raw read|7.154 ms|6.403 ms
+with scaling|20.040 ms|21.376 ms
+with averaging|25.169 ms|58.260 ms
 
 **Why is compiled C# slower than Python?** Because the differences are in floating point math, I wonder if it is because precision is increased in C# somehow (i.e,. the multiplication between the scaling factor and the float array has more precision and takes more CPU cycles)... not sure though.
 
