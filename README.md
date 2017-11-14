@@ -4,7 +4,7 @@ The pyABF project was created to simplify the process of reading data from files
 ![](/doc/graphics/2017-11-06-aps.png)
 
 # The pyabf Python Package
-**The pyabf Python package** was created to provide an intuitive pythonic API front-end to access the content of ABF files. Users who are interested in working with data from ABF files in a python environment (rather than learning the byte structure of ABF headers) can simply install pyabf and interact with it directly. The pyabf Python package is [available on PyPi](https://pypi.python.org/pypi/pyabf/) and can be installed with pip. 
+**The pyabf Python package** was created to provide an intuitive pythonic API front-end to access the content of ABF files. Users who are interested in working with data from ABF files in a python environment (rather than learning the byte structure of ABF headers) can simply install pyabf and interact with it directly. The pyabf Python package can be installed with pip. To see all it can do, check out the **[pyabf Python package documentation page](https://github.com/swharden/pyABF/tree/master/doc/pyabf)**
 
 **Install or Upgrade:**
 ```bash
@@ -26,13 +26,12 @@ print(abf.dataX) # time points
 print(abf.dataC) # command waveform
 ```
 
-**Full documentation: [Using the pyabf Python package](https://github.com/swharden/pyABF/tree/master/doc/pyabf)**
-
-
 # Direct Extraction of Data from ABF Files
 **Direct reading of ABF files** was acheived in a set of maximally-simplistic, dependency-free, standalone python files intended for functional and education use. These were created by blending information available from existing open-source code (C, C++, MatLab, and Python) with my own efforts (including a few days staring at ABF files in a hex editor). In addition to serving as the core for the pyabf package, the ABF-reading classes developed for this project were written easy portability to other lanaguges in mind (with personal interest in PHP and C#). [Extensive documentation of the ABF file format](/doc/abf-file-format) reveals how to directly extract data from ABF files, discusses strategies for maximizing performance during analysis, and is aimed at simplifying the process of extending, customizing, or porting this functionality to meet evolving use cases in the future.
 
-**Documentation: [SWHarden's Unofficial ABF File Format Guide](/doc/abf-file-format)**
+* **ABF2 File Format:** [SWHarden's Unofficial ABF File Format Guide](/doc/abf-file-format)
+* **Python code to read ABF data:** in the [/src/pyabf/](/src/pyabf/) folder
+* **C# code to read ABF data:** in the [/dev/](/dev/) folder
 
 ---
 
