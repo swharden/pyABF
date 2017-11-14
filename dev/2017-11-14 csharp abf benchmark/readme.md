@@ -36,12 +36,12 @@ Test loading all ABF data (100 repetitions)
 
 ### Process Time Comparisons
 
-Test|Python|C#
+Test|Python|C# (Scott's home)|C# (Scott's work)|C# (Network drive)
 ---|---|---
-open/close|35.130 us|49.840 us
-raw read|7.154 ms|6.403 ms
-with scaling|20.040 ms|21.376 ms
-with averaging|25.169 ms|58.260 ms
+open/close|35.130 us|49.840 us|1,025.697 us|339.553 us
+raw read|7.154 ms|6.403 ms|4.719 ms|5.968 ms
+with scaling|20.040 ms|21.376 ms|15.900 ms|15.992 ms
+with averaging|25.169 ms|58.260 ms|46.866 ms|46.927 ms
 
 **Why is compiled C# slower than Python?** Because the differences are in floating point math, I wonder if it is because precision is increased in C# somehow (i.e,. the multiplication between the scaling factor and the float array has more precision and takes more CPU cycles)... not sure though.
 
