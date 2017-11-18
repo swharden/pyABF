@@ -33,7 +33,7 @@ print(abf.dataC) # command waveform
 * **Python code to read ABF data:** in the [/src/pyabf/](/src/pyabf/) folder
 * **C# code to read ABF data:** in the [/dev/](/dev/) folder
 
----
+![](/doc/graphics/spacer_paired_patch.jpg)
 
 # About the Author
 As a cellular neurophysiologist / electrophysiologist, I have a lot of experience analyzing electrophysiology data with many of the currently-available software options (both free and commercial). None of these options have proven flexible enough for my style of ***exploratory data analysis*** where I pursue scientific discoveries by analyzing data in new and creative ways (necessitating the rapid creation of custom experimental software). I was motivated to create the type of library I wish I had all along, and will be happy if these efforts chip away at the ABF-reading barrier which separates creative scientists from the ability to analyze their own data. I am a strong proponent of open source software, and hope that the sharing of this project will inspire future scientists and coders as well as promote the collaborative development of software to facilitate scientific discovery and ultimately improve the lives of those who will benefit from medical and scientific advancement.
