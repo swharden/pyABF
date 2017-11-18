@@ -854,6 +854,107 @@ nTagType: [+60]
 nVoiceTagNumberorAnnotationIndex: [+62]
 ```
 
+# Reading Multichannel ABFs
+Raw data is interleaved by the number of channels. That's it! The number of channels is the number of entries (the third value of `ADCSection`).
+
+**Python tips:** 
+* Get every 7th number from a python list: use `data=someList[::7]`. 
+* Get every 7th number starting from the third point: `data=someList[2::7]`. 
+* Get an ABF signal:  `data=abfData[channel::numberOfChannels]`.
+
+**Example: plot multi-channel ABF data**
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+abf=ABFheader(abfFileName)
+for i in range(abf.header['dataChannels']):
+	Ys=abf.data[i::abf.header['dataChannels']]
+	Xs=np.arange(len(Ys))*abf.header['timeSecPerPoint']
+	plt.plot(Xs,Ys)
+```
+
+![](/doc/graphics/2017-11-18-multichannel.png)
+
+
+# Reading ABF1 Files
+Although I created this entire project with the intent of only working with ABF2 files (all of my personal data is ABF2, and Clampex has been creating ABF2 files since 2006), reading ABF1 files is so easy I might as well just document it. Forget everything you know about byte maps and sections. ABF1 has a fixed header structure. 
+
+**Fixed header structure of the ABF1 header.** _(Each item expresses variableName, byteLocation, and structFormat)_
+
+```python
+HEADERV1 = [('fFileSignature',0,'4s'),('fFileVersionNumber',4,'f'),('nOperationMode',8,'h'),
+('lActualAcqLength',10,'i'),('nNumPointsIgnored',14,'h'),('lActualEpisodes',16,'i'),('lFileStartTime',24,'i'),
+('lDataSectionPtr',40,'i'),('lTagSectionPtr',44,'i'),('lNumTagEntries',48,'i'),('lSynchArrayPtr',92,'i'),
+('lSynchArraySize',96,'i'),('nDataFormat',100,'h'),('nADCNumChannels',120,'h'),('fADCSampleInterval',122,'f'),
+('fSynchTimeUnit',130,'f'),('lNumSamplesPerEpisode',138,'i'),('lPreTriggerSamples',142,'i'),
+('lEpisodesPerRun',146,'i'),('fADCRange',244,'f'),('lADCResolution',252,'i'),('nFileStartMillisecs',366,'h'),
+('nADCPtoLChannelMap',378,'16h'),('nADCSamplingSeq',410,'16h'),('sADCChannelName',442,'10s'*16),
+('sADCUnits',602,'8s'*16),('fADCProgrammableGain',730,'16f'),('fInstrumentScaleFactor',922,'16f'),
+('fInstrumentOffset',986,'16f'),('fSignalGain',1050,'16f'),('fSignalOffset',1114,'16f'),
+('nDigitalEnable',1436,'h'),('nActiveDACChannel',1440,'h'),('nDigitalHolding',1584,'h'),
+('nDigitalInterEpisode',1586,'h'),('nDigitalValue',2588,'10h'),('lDACFilePtr',2048,'2i'),
+('lDACFileNumEpisodes',2056,'2i'),('fDACCalibrationFactor',2074,'4f'),('fDACCalibrationOffset',2090,'4f'),
+('nWaveformEnable',2296,'2h'),('nWaveformSource',2300,'2h'),('nInterEpisodeLevel',2304,'2h'),
+('nEpochType',2308,'20h'),('fEpochInitLevel',2348,'20f'),('fEpochLevelInc',2428,'20f'),
+('lEpochInitDuration',2508,'20i'),('lEpochDurationInc',2588,'20i'),('nTelegraphEnable',4512,'16h'),
+('fTelegraphAdditGain',4576,'16f'),('sProtocolPath',4898,'384s')]
+```
+
+**Example ABF1 header values from an old file I found:**
+```
+fFileSignature = ['ABF']
+fFileVersionNumber = [1.8300000429153442]
+nOperationMode = [5]
+lActualAcqLength = [720000]
+nNumPointsIgnored = [0]
+lActualEpisodes = [6]
+lFileStartTime = [57175]
+lDataSectionPtr = [16]
+lTagSectionPtr = [0]
+lNumTagEntries = [0]
+lSynchArrayPtr = [2829]
+lSynchArraySize = [6]
+nDataFormat = [0]
+nADCNumChannels = [2]
+fADCSampleInterval = [25.0]
+fSynchTimeUnit = [12.5]
+lNumSamplesPerEpisode = [120000]
+lPreTriggerSamples = [32]
+lEpisodesPerRun = [6]
+fADCRange = [10.0]
+lADCResolution = [32768]
+nFileStartMillisecs = [328]
+nADCPtoLChannelMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+nADCSamplingSeq = [0, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+sADCChannelName = ['Voltage 0', 'Current 1', 'IN 2', 'Ext Cmd', 'IN 4', 'IN 5', 'I_Steps', 'IN 7', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'readout', 'exposure']
+sADCUnits = ['pA', 'pA', 'V', 'mV', 'V', 'V', 'pA', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']
+fADCProgrammableGain = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+fInstrumentScaleFactor = [0.0005000000237487257, 0.0005000000237487257, 1.0, 0.05000000074505806, 1.0, 1.0, 0.002469999948516488, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+fInstrumentOffset = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+fSignalGain = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+fSignalOffset = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+nDigitalEnable = [1]
+nActiveDACChannel = [0]
+nDigitalHolding = [16]
+nDigitalInterEpisode = [0]
+nDigitalValue = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+lDACFilePtr = [0, 0]
+lDACFileNumEpisodes = [0, 0]
+fDACCalibrationFactor = [1.0842299461364746, 1.0852099657058716, 1.0, 1.0]
+fDACCalibrationOffset = [-253.0, -260.0, 0.0, 0.0]
+nWaveformEnable = [1, 0]
+nWaveformSource = [1, 1]
+nInterEpisodeLevel = [0, 0]
+nEpochType = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+fEpochInitLevel = [-70.0, -80.0, -70.0, -70.0, -70.0, -70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+fEpochLevelInc = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+lEpochInitDuration = [100, 1000, 20, 10000, 100, 30000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+lEpochDurationInc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+nTelegraphEnable = [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+fTelegraphAdditGain = [20.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+sProtocolPath = ['D:\\Data\\Protocols\\noMovies).pro']
+```
+
 # Porting to C#
 
 _**ADDITIONAL CODE:** Full source code, more programs, and downloadable Visual Studio project files are in the [/dev/](/dev/) folder_
