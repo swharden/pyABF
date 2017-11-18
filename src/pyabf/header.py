@@ -64,6 +64,13 @@ class ABFheader:
             * If numpy is not available, abf.data will be a list of python integers
             * Note that this doesn't work sweep by sweep, it's ALL the data in one array!
             * Dividing data into sweeps is your job.
+        
+        Separate multichannel data (it's just interleaved):
+            >>> abf=ABFheader(abfFileName)
+            >>> for i in range(abf.header['dataChannels']):
+            >>>     print(abf.data[i::abf.header['dataChannels']])
+            [-146.34 -144.96 -145.65 ..., -117.11 -116.55 -117.37]
+            [ 624.13  624.06  624.19 ...,  624.32  624.45 624.45]
             
         Save a formatted header to file:
             >>> abf.saveHTML("someFile.html")
@@ -71,61 +78,16 @@ class ABFheader:
 
         """
         
-        # start our performance timer
         t1=time.perf_counter() 
-        
-        # open the file in binary mode
-        self._fb = open(abfFileName,'rb') 
-        
-        # ensure our file type is supported
-        if self._fb.read(4)==b'ABF2':
-            pass
-        elif self._fb.read(4)!=b'ABF1':
-            raise ValueError('ABF1 files are not yet supported')
+        self._fb = open(abfFileName,'rb')
+        self._fileSignature=self._fb.read(4)
+        if self._fileSignature==b'ABF ':
+            self._readHeaderABF1()
+        elif self._fileSignature==b'ABF2':
+            self._readHeaderABF2()
         else:
             raise ValueError('invalid file (does not appear to be an ABF at all!)')
-        
-        # read all header contents into an ordered dictionary
-        self.header=collections.OrderedDict()
-        self._byteMap=collections.OrderedDict()
-        self._fileReadStructMap(HEADER,sectionName="Header")
-        self._fileReadStructMap(SECTIONS,76,16,sectionName="Section Map")
-        self._fileReadSection('ProtocolSection',PROTO)
-        self._fileReadSection('ADCSection',ADC)
-        self._fileReadSection('DACSection',DAC)
-        self._fileReadSection('EpochPerDACSection',EPPERDAC)
-        self._fileReadSection('EpochSection',EPSEC)      
-        self._fileReadSection('TagSection',TAGS) 
-        
-        # if a header item is a list with one item, just make it that item
-        for key in [key for key in self.header.keys() if len(self.header[key])==1]:
-            self.header[key]=self.header[key][0]
-        
-        # improve comments by making them strings (not bytestrings) and stripping whitespace
-        if 'sComment' in self.header.keys():
-            self.header['sComment']=[x.decode().strip() for x in self.header['sComment']]
-        
-        # add a few extra things I think are useful    
-        self.header["### Extras ###"]=None
-        self.header['abfFilename']=os.path.abspath(self._fb.name)
-        self.header['abfID']=os.path.basename(self._fb.name)[:-4]
-        dt=datetime.datetime.strptime(str(self.header['uFileStartDate']), "%Y%M%d")
-        self.header['abfDatetime']=dt+datetime.timedelta(seconds=self.header['uFileStartTimeMS']/1000)
-        self.header['dataByteStart']=self.header['DataSection'][0]*512
-        self.header['timeSecPerPoint']=self.header['fADCSequenceInterval']/1e6
-        self.header['timePointPerSec']=1e6/self.header['fADCSequenceInterval']
-        self.header['rate']=1e6/self.header['fADCSequenceInterval']
-        self.header['sweepPointCount']=self.header['lNumSamplesPerEpisode']
-        self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
-        self.header['sweepCount']=self.header['lActualEpisodes']
-        self.header['signalScale']=self.header['lADCResolution']/1e6
-        self.header['gain']=self.header['fTelegraphAdditGain']
-        self.header['mode']="IC" if self.header['nTelegraphMode'] else "VC"
-        self.header['units']="mV" if self.header['mode']=="IC" else "pA"
-        self.header['unitsCommand']="pA" if self.header['mode']=="IC" else "mV"
-        self.header['filterKHz']=self.header['fTelegraphFilter']/1e3
-        self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
-                   
+                           
         # read the signal data into memory and scale it   
         self.data=None
         if loadDataIntoMemory:
@@ -136,6 +98,76 @@ class ABFheader:
         
         # stop the performance counter and calculate the time it took to load/process the ABF file
         self.abfLoadTime=(time.perf_counter()-t1)
+        
+    ### HEADER READING AND VALUE TOUCHUP
+    
+    def _readHeaderABF1(self):
+        """populate self.header with values read the ABF1 header. Not many extra keys are added."""
+        self.header=collections.OrderedDict()
+        for key,offset,varFormat in HEADERV1:
+            self._fb.seek(offset)
+            varVal=list(struct.unpack(varFormat,self._fb.read(struct.calcsize(varFormat))))
+            for i,item in enumerate(varVal):
+                if type(item)==bytes:
+                    varVal[i]=item.decode().strip() #TODO: this for ABF2 comments
+            self.header[key]=varVal
+        for key in [key for key in self.header.keys() if len(self.header[key])==1]:
+            self.header[key]=self.header[key][0] # flatten lists with just 1 element
+
+        # add a few extra things I think are useful. This list isn't as extensive as ABF2
+        sz = struct.calcsize("2i") if self.header['nDataFormat'] == 0 else struct.calcsize("4f")
+        self.header['dataByteStart']=self.header['lDataSectionPtr']*512+self.header['nNumPointsIgnored']*sz
+        self.header['dataPointCount']=self.header['lActualAcqLength']
+        self.header['dataChannels']=self.header['nADCNumChannels']
+        self.header['dataScale']=self.header['lADCResolution']/1e6
+        self.header['timeSecPerPoint']=self.header['fADCSampleInterval']/1e6
+        self.header['timePointPerSec']=1e6/self.header['fADCSampleInterval']
+        return
+    
+    def _readHeaderABF2(self):
+        """populate self.header with values read the ABF2 header. Extra helpful keys are added too."""
+        
+        # pull values out of the header
+        self.header=collections.OrderedDict()
+        self._byteMap=collections.OrderedDict()
+        self._fileReadStructMap(HEADER,sectionName="Header")
+        self._fileReadStructMap(SECTIONS,76,16,sectionName="Section Map")
+        self._fileReadSection('ProtocolSection',PROTO)
+        self._fileReadSection('ADCSection',ADC)
+        self._fileReadSection('DACSection',DAC)
+        self._fileReadSection('EpochPerDACSection',EPPERDAC)
+        self._fileReadSection('EpochSection',EPSEC)      
+        self._fileReadSection('TagSection',TAGS)  
+        
+        # touch-up comments
+        if 'sComment' in self.header.keys():
+            self.header['sComment']=[x.decode().strip() for x in self.header['sComment']]
+
+        # make values that are a list with just 1 element just the element (no list required)      
+        for key in [key for key in self.header.keys() if len(self.header[key])==1]:
+            self.header[key]=self.header[key][0]
+            
+        # add a few extra things I think are useful.
+        self.header["### Extras ###"]=None
+        self.header['abfFilename']=os.path.abspath(self._fb.name)
+        self.header['abfID']=os.path.basename(self._fb.name)[:-4]
+        dt=datetime.datetime.strptime(str(self.header['uFileStartDate']), "%Y%M%d")
+        self.header['abfDatetime']=dt+datetime.timedelta(seconds=self.header['uFileStartTimeMS']/1000)
+        self.header['dataByteStart']=self.header['DataSection'][0]*512
+        self.header['dataPointCount']=self.header['DataSection'][2]
+        self.header['dataScale']=self.header['lADCResolution']/1e6
+        self.header['dataChannels']=self.header['ADCSection'][2]
+        self.header['timeSecPerPoint']=self.header['fADCSequenceInterval']/1e6
+        self.header['timePointPerSec']=1e6/self.header['fADCSequenceInterval']
+        self.header['rate']=1e6/self.header['fADCSequenceInterval']
+        self.header['sweepPointCount']=self.header['lNumSamplesPerEpisode']
+        self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
+        self.header['sweepCount']=self.header['lActualEpisodes']        
+        self.header['gain']=self.header['fTelegraphAdditGain']
+        self.header['mode']="IC" if self.header['nTelegraphMode'] else "VC"
+        self.header['units']="mV" if self.header['mode']=="IC" else "pA"
+        self.header['unitsCommand']="pA" if self.header['mode']=="IC" else "mV"
+        self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
             
     ### FILE READING
         
@@ -166,11 +198,14 @@ class ABFheader:
             self._fileReadStructMap(structMap,entryStartBlock*512+entryNumber*entryBytes)
     
     def _fileReadData(self):
-        """Read the full file data into memory. Scale it too. Uses numpy if available."""
+        """
+        Read the full file data into memory. Scale it too. Uses numpy if available.
+        If the signal is multiple channels (dataChannels) it's your responsability to reshape the ouptut.
+        """
         self._fb.seek(self.header['dataByteStart'])
-        pointCount = self.header['DataSection'][2]
-        scaleFactor = self.header['lADCResolution'] / 1e6
-        if np:
+        pointCount = self.header['dataPointCount']
+        scaleFactor = self.header['dataScale']
+        if True:
             self.data = np.fromfile(self._fb, dtype=np.int16, count=pointCount)
             self.data = np.multiply(self.data,scaleFactor,dtype='float32')
         else:
@@ -214,6 +249,8 @@ class ABFheader:
             f.write(out)
         print("wrote",os.path.abspath(fname))   
 
+
+### Data structures for ABF2 files:
 HEADER="""fFileSignature_4s,fFileVersionNumber_4b,uFileInfoSize_I,lActualEpisodes_I,uFileStartDate_I,
 uFileStartTimeMS_I,uStopwatchTime_I,nFileType_H,nDataFormat_H,nSimultaneousScan_H,nCRCEnable_H,uFileCRC_I,
 FileGUID_I,unknown1_I,unknown2_I,unknown3_I,uCreatorVersion_I,uCreatorNameIndex_I,uModifierVersion_I,
@@ -257,7 +294,25 @@ lEpochInitDuration_i,lEpochDurationInc_i,lEpochPulsePeriod_i,lEpochPulseWidth_i"
 TAGS="""lTagTime_i,sComment_56s,nTagType_h,nVoiceTagNumberorAnnotationIndex_h"""
 EPSEC="""nEpochNum_h,nEpochDigitalOutput_h"""
 
-def compareHeaders(abfFile1,abfFile2):
+### Data structures for ABF1 files:
+HEADERV1 = [('fFileSignature',0,'4s'),('fFileVersionNumber',4,'f'),('nOperationMode',8,'h'),
+('lActualAcqLength',10,'i'),('nNumPointsIgnored',14,'h'),('lActualEpisodes',16,'i'),('lFileStartTime',24,'i'),
+('lDataSectionPtr',40,'i'),('lTagSectionPtr',44,'i'),('lNumTagEntries',48,'i'),('lSynchArrayPtr',92,'i'),
+('lSynchArraySize',96,'i'),('nDataFormat',100,'h'),('nADCNumChannels',120,'h'),('fADCSampleInterval',122,'f'),
+('fSynchTimeUnit',130,'f'),('lNumSamplesPerEpisode',138,'i'),('lPreTriggerSamples',142,'i'),
+('lEpisodesPerRun',146,'i'),('fADCRange',244,'f'),('lADCResolution',252,'i'),('nFileStartMillisecs',366,'h'),
+('nADCPtoLChannelMap',378,'16h'),('nADCSamplingSeq',410,'16h'),('sADCChannelName',442,'10s'*16),
+('sADCUnits',602,'8s'*16),('fADCProgrammableGain',730,'16f'),('fInstrumentScaleFactor',922,'16f'),
+('fInstrumentOffset',986,'16f'),('fSignalGain',1050,'16f'),('fSignalOffset',1114,'16f'),
+('nDigitalEnable',1436,'h'),('nActiveDACChannel',1440,'h'),('nDigitalHolding',1584,'h'),
+('nDigitalInterEpisode',1586,'h'),('nDigitalValue',2588,'10h'),('lDACFilePtr',2048,'2i'),
+('lDACFileNumEpisodes',2056,'2i'),('fDACCalibrationFactor',2074,'4f'),('fDACCalibrationOffset',2090,'4f'),
+('nWaveformEnable',2296,'2h'),('nWaveformSource',2300,'2h'),('nInterEpisodeLevel',2304,'2h'),
+('nEpochType',2308,'20h'),('fEpochInitLevel',2348,'20f'),('fEpochLevelInc',2428,'20f'),
+('lEpochInitDuration',2508,'20i'),('lEpochDurationInc',2588,'20i'),('nTelegraphEnable',4512,'16h'),
+('fTelegraphAdditGain',4576,'16f'),('sProtocolPath',4898,'384s')]
+
+def _compareHeaders(abfFile1,abfFile2):
     """Given two ABF filenames, show how their headers are different."""
     header1=ABFheader(abfFile1).header
     header2=ABFheader(abfFile2).header
@@ -273,13 +328,28 @@ def compareHeaders(abfFile1,abfFile2):
         else:
             print(key,header1[key],header2[key])
 
+def _graphSomeData(abfFileName):
+    """Graph data from a file. Exclusively used for testing."""
+    import matplotlib.pyplot as plt
+    abf=ABFheader(abfFileName)
+    plt.figure(figsize=(10,2))
+    for i in range(abf.header['dataChannels']):
+        Ys=abf.data[i::abf.header['dataChannels']]
+        Ys=Ys[20000*13:20000*19]
+        Xs=np.arange(len(Ys))*abf.header['timeSecPerPoint']
+        plt.plot(Xs,Ys,label="channel %d"%(i+1))
+    plt.legend(fontsize=8)
+    plt.margins(0,.1)
+    plt.tight_layout()
+    plt.show()
+    
+
 if __name__=="__main__":
+    warnings.warn("This file is meant to be imported, not run directly.")
     #abf=ABFheader("../../data/17o05028_ic_steps.abf")
-    abf=ABFheader("../../data/17o05028_ic_steps.abf")
-    #abf.show()
-    for key in abf._byteMap:
-        if key.startswith("#"):
-            print("\n"+key)
-        else:
-            print("%s: [%s]"%(key,", ".join(abf._byteMap[key])))
-            #print("%s: [%s]"%(key,abf._byteMap[key][0]))
+    #abf=ABFheader("../../data/05210017_vc_abf1.abf")
+    #_graphSomeData("../../data/05210017_vc_abf1.abf")
+    #_graphSomeData("../../data/17o05028_ic_steps.abf")
+    _graphSomeData("../../data/14o08011_ic_pair.abf")
+    #_compareHeaders("../../data/14o16001_vc_pair_step.abf","../../data/17o05024_vc_steps.abf")
+    
