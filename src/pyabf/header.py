@@ -104,6 +104,7 @@ class ABFheader:
     def _readHeaderABF1(self):
         """populate self.header with values read the ABF1 header. Not many extra keys are added."""
         self.header=collections.OrderedDict()
+        self.header["### ABF1 Header ###"]=[None]
         for key,offset,varFormat in HEADERV1:
             self._fb.seek(offset)
             varVal=list(struct.unpack(varFormat,self._fb.read(struct.calcsize(varFormat))))
@@ -122,6 +123,21 @@ class ABFheader:
         self.header['dataScale']=self.header['lADCResolution']/1e6
         self.header['timeSecPerPoint']=self.header['fADCSampleInterval']/1e6
         self.header['timePointPerSec']=1e6/self.header['fADCSampleInterval']
+        self.header['abfFilename']=os.path.abspath(self._fb.name)
+        self.header['abfID']=os.path.basename(self._fb.name)[:-4]
+        self.header['abfDatetime']="ABF1 not sure"
+        self.header['sweepPointCount']=self.header['lNumSamplesPerEpisode']
+        self.header['rate']=1e6/self.header['fADCSampleInterval']
+        self.header['sweepCount']=self.header['lActualEpisodes']
+        self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
+        self.header['mode']="IC" if self.header['sADCUnits'][0]=="mV" else "VC"
+        self.header['units']="mV" if self.header['mode']=="IC" else "pA"
+        self.header['unitsCommand']="pA" if self.header['mode']=="IC" else "mV"
+        self.header['commandHoldingByDAC']=self.header['fEpochInitLevel']
+        self.header['lEpochPulsePeriod']=None #pulses unsupported in ABF1
+        self.header['lEpochPulseWidth']=None #pulses unsupported in ABF1
+        self.header['nEpochDigitalOutput']=self.header['nDigitalValue']        
+        #TODO: make ABF1 header items the same as ABF2 headers
         return
     
     def _readHeaderABF2(self):

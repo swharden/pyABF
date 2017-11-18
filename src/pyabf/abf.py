@@ -61,16 +61,33 @@ class ABF:
         self.unitsTime = "seconds"
         self.unitsTimeLong = "Signal Time (seconds)"
         
-        ### Add information about the epochs / command waveform
-        self.epochCount = len(self._abfHeader.header['nEpochType'])
-        self.epochType = self._abfHeader.header['nEpochType']
-        self.epochCommand = self._abfHeader.header['fEpochInitLevel']
-        self.epochCommandDelta = self._abfHeader.header['fEpochLevelInc']
-        self.epochDuration = self._abfHeader.header['lEpochInitDuration']
-        self.epochDurationDelta = self._abfHeader.header['lEpochDurationInc']
-        self.epochPulsePeriod = self._abfHeader.header['lEpochPulsePeriod']
-        self.epochPulseWidth = self._abfHeader.header['lEpochPulseWidth']
-        self.epochDigOut = self._abfHeader.header['nEpochDigitalOutput']
+        ### Add information about the epochs / command waveform - we will always expect epochs to be lists.
+        if "nEpochType" in self._abfHeader.header.keys():
+            # ensure epochs which are just a single epoch still come out as lists
+            for key in ["nEpochType","fEpochInitLevel","fEpochLevelInc","lEpochInitDuration",
+                        "lEpochDurationInc","lEpochPulsePeriod","lEpochPulseWidth","nEpochDigitalOutput"]:
+                if not type(self._abfHeader.header[key]) == list:
+                    self._abfHeader.header[key]=[self._abfHeader.header[key]]
+            self.epochCount = len(self._abfHeader.header['nEpochType'])
+            self.epochType = self._abfHeader.header['nEpochType']
+            self.epochCommand = self._abfHeader.header['fEpochInitLevel']
+            self.epochCommandDelta = self._abfHeader.header['fEpochLevelInc']
+            self.epochDuration = self._abfHeader.header['lEpochInitDuration']
+            self.epochDurationDelta = self._abfHeader.header['lEpochDurationInc']
+            self.epochPulsePeriod = self._abfHeader.header['lEpochPulsePeriod']
+            self.epochPulseWidth = self._abfHeader.header['lEpochPulseWidth']
+            self.epochDigOut = self._abfHeader.header['nEpochDigitalOutput']
+        else:
+            # this ABF has no epochs at all, so make all epoch stuff empty lists
+            self.epochCount = 0
+            self.epochType = []
+            self.epochCommand = []
+            self.epochCommandDelta = []
+            self.epochDuration = []
+            self.epochDurationDelta = []
+            self.epochPulsePeriod = []
+            self.epochPulseWidth = []
+            self.epochDigOut = []
         
         ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
         self.signalData = self._abfHeader.data
@@ -151,6 +168,11 @@ class ABF:
         position+=int(self.pointsPerSweep/64) # the first 1/64th is pre-epoch (why???)
         self.dataC[:position]=self.commandHold # fill the pre-epoch with the command holding
         for epochNumber in range(self.epochCount):
+            if self.epochType[epochNumber]==0:
+                continue # it's a disabled epoch
+            if epochNumber>=len(self.epochDuration):
+                print("ran out of epoch")
+                break # ran out?
             pointCount=self.epochDuration[epochNumber]
             deltaCommand=self.epochCommandDelta[epochNumber]*self.sweepSelected
             self.dataC[position:position+pointCount]=self.epochCommand[epochNumber]+deltaCommand
@@ -158,9 +180,10 @@ class ABF:
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
     
 if __name__=="__main__":   
-    abf=ABF(R"../../data/17o05028_ic_steps.abf")
+    #abf=ABF(R"../../data/17o05028_ic_steps.abf")
+    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
     #abf=ABF(R"../../data/17o05024_vc_steps.abf")
-    abf.info()
+    #abf.info()
     print("DONE")
     
     
