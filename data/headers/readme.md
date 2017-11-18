@@ -1,0 +1,2 @@
+# Sample ABF Header Data
+This folder contains HTML and markdown-formatted header summaries of all ABFs in the parent folder. This list is regenerated every time [generate.py](generate.py) is run. If you are using the GitHub web interface, I recommend looking at the markdown files.
