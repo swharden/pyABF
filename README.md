@@ -8,7 +8,7 @@ The pyABF project was created to simplify the process of reading data from files
 
 **Install or Upgrade:**
 ```bash
-pip install pyabf --upgrade
+pip install --upgrade pyabf
 ```
 
 **Quickstart:**
@@ -25,6 +25,10 @@ print(abf.dataY) # recorded signal
 print(abf.dataX) # time points
 print(abf.dataC) # command waveform
 ```
+
+**Additional Examples:**
+* Start with **[The pyabf Cookbook: Getting Started](/cookbook/getting-started.ipynb)** chapter
+* For advanced usage, check out all articles in [the pyabf cookbook](cookbook)
 
 # Direct Extraction of Data from ABF Files
 **Direct reading of ABF files** was acheived in a set of maximally-simplistic, dependency-free, standalone python files intended for functional and education use. These were created by blending information available from existing open-source code (C, C++, MatLab, and Python) with my own efforts (including a few days staring at ABF files in a hex editor). In addition to serving as the core for the pyabf package, the ABF-reading classes developed for this project were written easy portability to other lanaguges in mind (with personal interest in PHP and C#). [Extensive documentation of the ABF file format](/doc/abf-file-format) reveals how to directly extract data from ABF files, discusses strategies for maximizing performance during analysis, and is aimed at simplifying the process of extending, customizing, or porting this functionality to meet evolving use cases in the future.
