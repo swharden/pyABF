@@ -1,10 +1,9 @@
 """Code to interact with ABF files. https://github.com/swharden/pyABF/ """
 
-import sys
 import numpy as np
 np.set_printoptions(suppress=True) # don't use scientific notation
 import matplotlib.pyplot as plt
-
+    
 from pyabf.header import ABFheader
 
 class ABF:
@@ -46,6 +45,7 @@ class ABF:
         self.pointDurMS = self._abfHeader.header['timeSecPerPoint']*1000.0
         self.pointsPerSweep = self._abfHeader.header['sweepPointCount']
         self.pointsPerSec = self._abfHeader.header['rate']
+        self.dataChannels = self._abfHeader.header['dataChannels']
         self.sweepCount = self._abfHeader.header['sweepCount']
         self.sweepList = np.arange(self.sweepCount)
         self.sweepLengthSec = self._abfHeader.header['sweepLengthSec']
@@ -54,7 +54,7 @@ class ABF:
         self.units = self._abfHeader.header['units']
         self.unitsLong = "Membrane Potential (mV)" if self.units is 'mV' else "Membrane Current (pA)"
         self.unitsCommand = self._abfHeader.header['unitsCommand']
-        self.unitsCommandLong = "Clamp Potential (mV)" if self.unitsCommand is 'mV' else "Clamp Current (pA)"
+        self.unitsCommandLong = "Command Potential (mV)" if self.unitsCommand is 'mV' else "Command Current (pA)"
         self.commandHoldingByDAC = self._abfHeader.header['commandHoldingByDAC']
         self.commandHold = self.commandHoldingByDAC[0]
         self.experimentLengthSec = self.sweepLengthSec*self.sweepCount
@@ -90,7 +90,7 @@ class ABF:
             self.epochDigOut = []
         
         ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
-        self.signalData = self._abfHeader.data
+        self.signalData = self._abfHeader.data/self.dataChannels
         self.signalTimes = np.arange(len(self.signalData),dtype='float32')*self.pointDurSec
                                     
         ### Go ahead and set sweep zero to populate command signal trace
@@ -148,21 +148,26 @@ class ABF:
             print(msg)
         return msg
         
-    def setSweep(self,sweepNumber=0,absoluteTime=False):
+    def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0):
         """set all the self.data variables to contain data for a certain sweep"""
+        #TODO: make function to get sweep-offset time
+        #TODO: command signal not supported if using multi-channel
         self.dataSweepSelected = sweepNumber
         self.sweepSelected = sweepNumber
-        pointStart=sweepNumber*self.pointsPerSweep
-        pointEnd=pointStart+self.pointsPerSweep
-        self.dataY = self.signalData[pointStart:pointEnd]
+        pointStart=sweepNumber*(self.pointsPerSweep*self.dataChannels)
+        pointEnd=pointStart+(self.pointsPerSweep*self.dataChannels)
+        self.dataY = self.signalData[int(pointStart):int(pointEnd)]
         if absoluteTime:
-            self.dataX = self.signalTimes[pointStart:pointEnd]
+            self.dataX = self.signalTimes[int(pointStart):int(pointEnd)]
         else:
-            self.dataX = self.signalTimes[0:self.pointsPerSweep]
+            self.dataX = self.signalTimes[0:int(self.pointsPerSweep)]
+        if self.dataChannels>1:
+            self.dataY=self.dataY[channel::self.dataChannels]*self.dataChannels
         self._updateCommandWaveform()
             
     def _updateCommandWaveform(self):
         """Read the epochs and figure out how to fill self.dataC with the command signal."""
+        #TODO: don't update if the command doesn't change from sweep to sweep
         self.dataC = np.empty(self.dataX.size) # start as random data
         position=0 # start at zero here for clarity
         position+=int(self.pointsPerSweep/64) # the first 1/64th is pre-epoch (why???)
@@ -178,13 +183,49 @@ class ABF:
             self.dataC[position:position+pointCount]=self.epochCommand[epochNumber]+deltaCommand
             position+=pointCount
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
+        
+    def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True):
+        """add axis labels and a title."""
+        
+        # title
+        if title is True:
+            plt.title(self.ID, fontsize=16)
+        elif title:
+            plt.title(str(title), fontsize=16)
+            
+        # x label
+        if xlabel is True:
+            plt.xlabel(self.unitsTimeLong)
+        elif xlabel:
+            plt.xlabel(str(xlabel))
+        
+        # y label
+        if ylabel is True:
+            if command:
+                plt.ylabel(self.unitsCommandLong)
+            else:
+                plt.ylabel(self.unitsLong)
+        elif ylabel:
+            plt.ylabel(str(ylabel))
+            
+        plt.margins(0,.1)
+        plt.tight_layout()
     
 if __name__=="__main__":   
     #abf=ABF(R"../../data/17o05028_ic_steps.abf")
-    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
+#    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
     #abf=ABF(R"../../data/17o05024_vc_steps.abf")
     #abf.info()
-    print("DONE")
+    
+    
+    abf=ABF("../../data/14o08011_ic_pair.abf")
+    abf.setSweep(0,channel=0)
+    plt.plot(abf.dataX,abf.dataY,label="Ch1")
+    abf.setSweep(0,channel=1)
+    plt.plot(abf.dataX,abf.dataY,label="Ch2")
+    plt.axis([25,40,None,None])
+    plt.legend()
+    plt.show()
     
     
     
