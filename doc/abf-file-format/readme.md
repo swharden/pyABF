@@ -444,6 +444,12 @@ dataScale=lADCResolution/1e6
 sweepData=[x*dataScale for x in data]
 ```
 
+**Scale in multi-channel ABFs:** I haven't tested this extensively, but for some reason I got a weird behavior where the scale in 2-channel ABFs needed to be multiplied by 2. I don't understand it well enough to say this with confidence, but I suspect this is what should be done:
+```
+dataScale=lADCResolution/1e6*numberOfChannels
+sweepData=[x*dataScale for x in data]
+```
+
 # ABF1 Support
 Eventually I'll get around to adding ABF1 support to the `ABFClass`. I think I can recycle almost all my code. The difference in ABF1 is that it doesn't require a section map, as the sections are all at pre-defined byte locations for every file. This should be trivial to implement... when I get around to it.
 
