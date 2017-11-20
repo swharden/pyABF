@@ -126,7 +126,7 @@ class ABFheader:
         self.header['abfFilename']=os.path.abspath(self._fb.name)
         self.header['abfID']=os.path.basename(self._fb.name)[:-4]
         self.header['abfDatetime']="ABF1 not sure"
-        self.header['sweepPointCount']=self.header['lNumSamplesPerEpisode']
+        self.header['sweepPointCount']=int(self.header['lNumSamplesPerEpisode']/self.header['dataChannels'])
         self.header['rate']=1e6/self.header['fADCSampleInterval']
         self.header['sweepCount']=self.header['lActualEpisodes']
         self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
@@ -176,7 +176,7 @@ class ABFheader:
         self.header['timeSecPerPoint']=self.header['fADCSequenceInterval']/1e6
         self.header['timePointPerSec']=1e6/self.header['fADCSequenceInterval']
         self.header['rate']=1e6/self.header['fADCSequenceInterval']
-        self.header['sweepPointCount']=self.header['lNumSamplesPerEpisode']
+        self.header['sweepPointCount']=int(self.header['lNumSamplesPerEpisode']/self.header['dataChannels'])
         self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
         self.header['sweepCount']=self.header['lActualEpisodes']        
         self.header['gain']=self.header['fTelegraphAdditGain']
