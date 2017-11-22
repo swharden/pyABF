@@ -45,6 +45,7 @@ class ABF:
         self.pointDurMS = self._abfHeader.header['timeSecPerPoint']*1000.0
         self.pointsPerSweep = self._abfHeader.header['sweepPointCount']
         self.pointsPerSec = self._abfHeader.header['rate']
+        self.pointsPerMS = self.pointsPerSec/1000
         self.dataChannels = self._abfHeader.header['dataChannels']
         self.sweepCount = self._abfHeader.header['sweepCount']
         self.sweepList = np.arange(self.sweepCount)
@@ -154,7 +155,9 @@ class ABF:
             print(msg)
         return msg
         
-    def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0):
+    setSweepGaussian=0 # class-level override
+    def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0,
+                 gaussianSigma=False):
         """set all the self.data variables to contain data for a certain sweep"""
         #TODO: make function to get sweep-offset time
         #TODO: command signal not supported if using multi-channel
@@ -170,6 +173,10 @@ class ABF:
         if self.dataChannels>1:
             self.dataY=self.dataY[channel::self.dataChannels]*self.dataChannels
         self._updateCommandWaveform()
+        if gaussianSigma:
+            self.dataY = self._smoothGaussian(self.dataY,gaussianSigma)
+        elif self.setSweepGaussian:
+            self.dataY = self._smoothGaussian(self.dataY,self.setSweepGaussian)
             
     def _updateCommandWaveform(self):
         """Read the epochs and figure out how to fill self.dataC with the command signal."""
@@ -190,6 +197,15 @@ class ABF:
             position+=pointCount
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
         
+    ### SIGNAL SHAPING
+    
+    def _smoothGaussian(self,signal,sigma):
+        """perform gaussian smoothing on a 1d array."""
+        size=sigma*10
+        points=np.exp(-np.power(np.arange(size)-size/2,2)/(2*np.power(sigma,2)))
+        kernel=points/sum(points)
+        return np.convolve(signal,kernel,mode='same')
+    
     ### ANALYSIS
     
     def average(self,t1=0,t2=None):
@@ -199,6 +215,24 @@ class ABF:
         i1=int(t1*self.pointsPerSec)
         i2=int(t2*self.pointsPerSec)
         return np.nanmean(self.dataY[i1:i2])
+    
+    def averageEpoch(self,epoch,firstFrac=False,lastFrac=False):
+        """return the average of the last fraction of an epoch (starting at 0)"""
+        if firstFrac and lastFrac:
+            raise ValueError("can't set both a first and last fraction")
+        epochs=self.epochStartPoint+[self.pointsPerSweep]
+        if epoch<(len(self.epochStartPoint)-1):
+            i2=epochs[epoch+1]
+            i1=i2-self.epochDuration[epoch]
+        else:
+            i2=self.pointsPerSweep
+            i1=epochs[epoch]
+        dur=i2-i1
+        if firstFrac:
+            i2=i1+dur*firstFrac
+        if lastFrac:
+            i1=i2-dur*lastFrac
+        return np.average(self.dataY[int(i1):int(i2)])
     
     def stdev(self,t1=0,t2=None):
         """Return the standard deviation of current sweep between two times (seconds)"""
@@ -227,11 +261,34 @@ class ABF:
     
     
     ### PLOTTING
+    
+    def plotSweeps(self,sweeps=None,offsetX=0,offsetY=0):
+        """
+        Plot signal data using matplotlib.
+        
+        If sweeps is a list of numbers, only plot those sweeps. To plot one
+        sweep, make "sweeps" equal to an integer.
+        """
+        if type(sweeps)==list:
+            pass
+        elif sweeps == None or sweeps == False:
+            sweeps=self.sweepList
+        else:
+            sweeps=[sweeps]
+        
+        for sweepNumber in sweeps:
+            self.setSweep(sweepNumber)
+            plt.plot(self.dataX+offsetX*sweepNumber,
+                     self.dataY+offsetY*sweepNumber,
+                     color='b')
+            
+        plt.margins(0,.1)
+        
         
     def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True,
                      zoomYstdev=False):
         """add axis labels and a title."""
-        
+                
         # title
         if title is True:
             plt.title(self.ID, fontsize=16)
