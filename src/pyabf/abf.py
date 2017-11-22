@@ -61,6 +61,10 @@ class ABF:
         self.unitsTime = "seconds"
         self.unitsTimeLong = "Signal Time (seconds)"
         
+        ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
+        self.signalData = self._abfHeader.data/self.dataChannels
+        self.signalTimes = np.arange(len(self.signalData),dtype='float32')*self.pointDurSec
+                          
         ### Add information about the epochs / command waveform - we will always expect epochs to be lists.
         if "nEpochType" in self._abfHeader.header.keys():
             # ensure epochs which are just a single epoch still come out as lists
@@ -72,11 +76,15 @@ class ABF:
             self.epochType = self._abfHeader.header['nEpochType']
             self.epochCommand = self._abfHeader.header['fEpochInitLevel']
             self.epochCommandDelta = self._abfHeader.header['fEpochLevelInc']
-            self.epochDuration = self._abfHeader.header['lEpochInitDuration']
+            self.epochDuration = self._abfHeader.header['lEpochInitDuration'] # in points
             self.epochDurationDelta = self._abfHeader.header['lEpochDurationInc']
             self.epochPulsePeriod = self._abfHeader.header['lEpochPulsePeriod']
             self.epochPulseWidth = self._abfHeader.header['lEpochPulseWidth']
             self.epochDigOut = self._abfHeader.header['nEpochDigitalOutput']
+            self.epochStartPoint = [self.pointsPerSweep/64]
+            for i,duration in enumerate(self.epochDuration):
+                self.epochStartPoint.append(self.epochStartPoint[-1]+duration+self.epochDurationDelta[i]*i)
+            self.epochStartSec=[self.signalTimes[int(x)] for x in self.epochStartPoint]
         else:
             # this ABF has no epochs at all, so make all epoch stuff empty lists
             self.epochCount = 0
@@ -88,11 +96,9 @@ class ABF:
             self.epochPulsePeriod = []
             self.epochPulseWidth = []
             self.epochDigOut = []
-        
-        ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
-        self.signalData = self._abfHeader.data/self.dataChannels
-        self.signalTimes = np.arange(len(self.signalData),dtype='float32')*self.pointDurSec
-                                    
+            self.epochStartSec = []
+            self.epochStartPoint = []
+                  
         ### Go ahead and set sweep zero to populate command signal trace
         self.setSweep(0)
 
@@ -184,7 +190,46 @@ class ABF:
             position+=pointCount
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
         
-    def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True):
+    ### ANALYSIS
+    
+    def average(self,t1=0,t2=None):
+        """Return the average of current sweep between two times (seconds)"""
+        if not t2:
+            t2=self.sweepLengthSec
+        i1=int(t1*self.pointsPerSec)
+        i2=int(t2*self.pointsPerSec)
+        return np.nanmean(self.dataY[i1:i2])
+    
+    def stdev(self,t1=0,t2=None):
+        """Return the standard deviation of current sweep between two times (seconds)"""
+        if not t2:
+            t2=self.sweepLengthSec
+        i1=int(t1*self.pointsPerSec)
+        i2=int(t2*self.pointsPerSec)
+        return np.nanstd(self.dataY[i1:i2])
+    
+    def stderr(self,t1=0,t2=None):
+        """Return the standard error of current sweep between two times (seconds)"""
+        if not t2:
+            t2=self.sweepLengthSec
+        i1=int(t1*self.pointsPerSec)
+        i2=int(t2*self.pointsPerSec)
+        return np.nanstd(self.dataY[i1:i2])/np.math.sqrt(i2-i1)
+    
+    def sweepSpan(self,t1=0,t2=None):
+        """Return just the dataY between two time points (seconds)"""
+        if not t2:
+            t2=self.sweepLengthSec
+        i1=int(t1*self.pointsPerSec)
+        i2=int(t2*self.pointsPerSec)
+        return self.dataY[i1:i2]
+            
+    
+    
+    ### PLOTTING
+        
+    def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True,
+                     zoomYstdev=False):
         """add axis labels and a title."""
         
         # title
@@ -209,23 +254,35 @@ class ABF:
             plt.ylabel(str(ylabel))
             
         plt.margins(0,.1)
+        
+        if zoomYstdev:
+            if zoomYstdev is True:
+                zoomYstdev=3
+            else:
+                zoomYstdev=int(zoomYstdev)
+            av=np.nanmean(self.dataY)
+            stdev=np.nanstd(self.dataY)
+            plt.axis([None,None,av-stdev*zoomYstdev,av+stdev*zoomYstdev])
+            
+        
         plt.tight_layout()
     
 if __name__=="__main__":   
+    print("do not run this script directly.")
     #abf=ABF(R"../../data/17o05028_ic_steps.abf")
 #    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
     #abf=ABF(R"../../data/17o05024_vc_steps.abf")
     #abf.info()
     
-    
-    abf=ABF("../../data/14o08011_ic_pair.abf")
-    abf.setSweep(0,channel=0)
-    plt.plot(abf.dataX,abf.dataY,label="Ch1")
-    abf.setSweep(0,channel=1)
-    plt.plot(abf.dataX,abf.dataY,label="Ch2")
-    plt.axis([25,40,None,None])
-    plt.legend()
-    plt.show()
+#    
+#    abf=ABF("../../data/14o08011_ic_pair.abf")
+#    abf.setSweep(0,channel=0)
+#    plt.plot(abf.dataX,abf.dataY,label="Ch1")
+#    abf.setSweep(0,channel=1)
+#    plt.plot(abf.dataX,abf.dataY,label="Ch2")
+#    plt.axis([25,40,None,None])
+#    plt.legend()
+#    plt.show()
     
     
     
