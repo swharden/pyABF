@@ -115,7 +115,7 @@ class ABF:
             if itemName.startswith("_"):
                 continue
             itemType=str(type(getattr(self,itemName))).split("'")[1]
-            if itemType in ['str','float','int']:
+            if itemType in ['str','float','int','bool']:
                 attributes.append(itemName)
             elif itemType =='list':
                 lists.append(itemName)
@@ -123,6 +123,8 @@ class ABF:
                 data.append(itemName)
             elif itemType =='method':
                 functions.append(itemName)
+            elif itemType in ['datetime','datetime.datetime']:
+                continue
             else:
                 print(itemType,itemName)
             
@@ -155,12 +157,14 @@ class ABF:
             print(msg)
         return msg
         
-    setSweepGaussian=0 # class-level override
-    def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0,
-                 gaussianSigma=False):
+    def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0):
         """set all the self.data variables to contain data for a certain sweep"""
         #TODO: make function to get sweep-offset time
         #TODO: command signal not supported if using multi-channel
+        if sweepNumber<0:
+            sweepNumber=self.sweepList[sweepNumber]
+        if not sweepNumber in self.sweepList:
+            raise ValueError("Sweep %d not found (last sweep is %d)"%(sweepNumber,self.sweepList[-1]))
         self.dataSweepSelected = sweepNumber
         self.sweepSelected = sweepNumber
         pointStart=sweepNumber*(self.pointsPerSweep*self.dataChannels)
@@ -173,10 +177,8 @@ class ABF:
         if self.dataChannels>1:
             self.dataY=self.dataY[channel::self.dataChannels]*self.dataChannels
         self._updateCommandWaveform()
-        if gaussianSigma:
-            self.dataY = self._smoothGaussian(self.dataY,gaussianSigma)
-        elif self.setSweepGaussian:
-            self.dataY = self._smoothGaussian(self.dataY,self.setSweepGaussian)
+        if self.gaussianSigma:
+            self.dataY = self._filterGaussian(self.dataY)
             
     def _updateCommandWaveform(self):
         """Read the epochs and figure out how to fill self.dataC with the command signal."""
@@ -199,25 +201,42 @@ class ABF:
         
     ### SIGNAL SHAPING
     
-    def _smoothGaussian(self,signal,sigma):
+    gaussianSigma=0 # class-level override
+    gaussianLeft=False
+    gaussianRight=True
+    def _filterGaussian(self,signal,sigma=None):
         """perform gaussian smoothing on a 1d array."""
+        if self.gaussianLeft and self.gaussianRight:
+            raise ValueError("can't set both gaussianLeft and gaussianRight")
+        if sigma is None:
+            sigma=self.gaussianSigma
+        if self.gaussianLeft or self.gaussianRight:
+            sigma*=2
         size=sigma*10
         points=np.exp(-np.power(np.arange(size)-size/2,2)/(2*np.power(sigma,2)))
+        if self.gaussianLeft:
+            points[-int(len(points)/2):]=0
+        if self.gaussianRight:
+            points[0:int(len(points)/2)]=0            
         kernel=points/sum(points)
         return np.convolve(signal,kernel,mode='same')
     
     ### ANALYSIS
     
-    def average(self,t1=0,t2=None):
+    def average(self,t1=0,t2=None,setSweep=False):
         """Return the average of current sweep between two times (seconds)"""
+        if not setSweep is False:
+            self.setSweep(setSweep)
         if not t2:
             t2=self.sweepLengthSec
         i1=int(t1*self.pointsPerSec)
         i2=int(t2*self.pointsPerSec)
         return np.nanmean(self.dataY[i1:i2])
     
-    def averageEpoch(self,epoch,firstFrac=False,lastFrac=False):
+    def averageEpoch(self,epoch,firstFrac=False,lastFrac=False,setSweep=False):
         """return the average of the last fraction of an epoch (starting at 0)"""
+        if not setSweep is False:
+            self.setSweep(setSweep)
         if firstFrac and lastFrac:
             raise ValueError("can't set both a first and last fraction")
         epochs=self.epochStartPoint+[self.pointsPerSweep]
@@ -262,7 +281,26 @@ class ABF:
     
     ### PLOTTING
     
-    def plotSweeps(self,sweeps=None,offsetX=0,offsetY=0):
+    def plotEpochs(self):
+        """display a matplotlib picture of the current sweep revealing which epoch is which."""
+        epochBoundsSec = self.epochStartSec + [self.sweepLengthSec]
+        command = self.epochCommand + [self.commandHold]
+        plt.plot(self.dataX,self.dataY,'k-')
+        for i in range(len(self.epochStartSec)):
+            plt.axvspan(epochBoundsSec[i],epochBoundsSec[i+1],alpha=.3,color=self._sweepColor(i),
+                        lw=0,label=("%s: (%s %s)"%(chr(65+i),command[i],self.unitsCommand)))
+        plt.legend(fontsize=8)
+        self.plotDecorate(zoomYstdev=True)
+    
+    colormap="jet_r"
+    def _sweepColor(self,sweep=None):
+        if sweep is None:
+            sweep=self.dataSweepSelected
+        frac = sweep/self.sweepCount
+        return plt.cm.get_cmap(self.colormap)(frac)
+    
+    def plotSweeps(self,sweeps=None,offsetX=0,offsetY=0,useColormap=False,
+                   color='b'):
         """
         Plot signal data using matplotlib.
         
@@ -277,16 +315,18 @@ class ABF:
             sweeps=[sweeps]
         
         for sweepNumber in sweeps:
-            self.setSweep(sweepNumber)
+            self.setSweep(sweepNumber)            
+            if useColormap:
+                color=self._sweepColor()
             plt.plot(self.dataX+offsetX*sweepNumber,
                      self.dataY+offsetY*sweepNumber,
-                     color='b')
+                     color=color)
             
         plt.margins(0,.1)
         
         
     def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True,
-                     zoomYstdev=False):
+                     zoomYstdev=False,legend=False,axis=None):
         """add axis labels and a title."""
                 
         # title
@@ -321,6 +361,14 @@ class ABF:
             stdev=np.nanstd(self.dataY)
             plt.axis([None,None,av-stdev*zoomYstdev,av+stdev*zoomYstdev])
             
+        if legend:
+            if type(legend) is int:
+                plt.legend(legend)
+            else:
+                plt.legend()
+        
+        if axis:
+            plt.axis(axis)
         
         plt.tight_layout()
     
