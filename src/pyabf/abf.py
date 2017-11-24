@@ -221,7 +221,63 @@ class ABF:
         kernel=points/sum(points)
         return np.convolve(signal,kernel,mode='same')
     
+    def _filterSimple(self,signal,sigma):
+        """return a Gaussian filtered signal."""
+        size=sigma*10
+        points=np.exp(-np.power(np.arange(size)-size/2,2)/(2*np.power(sigma,2)))
+        kernel=points/sum(points)
+        return np.convolve(signal,kernel,mode='same')
+    
     ### ANALYSIS
+    
+    def rms(self,chunkMS=10,quietestMS=100):
+        """return the RMS value of the noise floor. RMS = stdev when mean is 0.
+        The noise floor is defined as the quietest parts of the signal."""
+        chunkSize=chunkMS*self.pointsPerMS
+        chunkCount=int(len(self.dataY)/chunkSize)
+        stdev=np.empty(chunkCount)
+        for chunkNumber in range(chunkCount):
+            i1=int(chunkSize*chunkNumber)
+            i2=int(chunkSize*(chunkNumber+1))
+            stdev[chunkNumber]=np.std(self.dataY[i1:i2])
+        countToAverage=int(quietestMS/chunkMS)
+        rms=np.mean(sorted(stdev)[:countToAverage])
+        return rms
+    
+    def _tonic(self,data,binSize=.1,fitAboveFrac=.25):
+        """
+        Return a polynomial-fitted peak of the histogram of the dataY data
+        between two time points. Only the "fitAboveFrac" is fitted.
+        """
+        padSize=int(200/binSize)*2
+        pad=np.arange(padSize)*binSize
+        bins = np.concatenate((data[0]-pad[::-1],data[0]+pad))
+        histCount,histBins=np.histogram(data,bins=bins)
+        histBins=histBins[:-1]
+        validIs=histCount>np.max(histCount)*fitAboveFrac
+        histBins=histBins[validIs]
+        histCount=histCount[validIs]
+        fit = np.poly1d(np.polyfit(histBins,histCount,6))
+        histFitVals = fit(histBins)
+        histFitPeakVal=np.max(histFitVals)
+        histFitPeakI=np.where(histFitVals==histFitPeakVal)[0]
+        tonicValue=histBins[histFitPeakI]
+        return float(tonicValue)
+    
+    def tonicPhasic(self,t1=0,t2=None):
+        """
+        Return [tonic, phasicNeg, and phasicPos] of the selected sweep.
+        Phasic is the average value of all points below or above the tonic 
+        value. All 3 are in abf.units units.
+        """
+        if not t2:
+            t2=self.sweepLengthSec
+        i1,i2=int(t1*self.pointsPerSec),int(t2*self.pointsPerSec)
+        data=self.dataY[i1:i2]
+        tonicValue=self._tonic(data)
+        phasicNeg=tonicValue-np.average(data[data<tonicValue])
+        phasicPos=np.average(data[data>tonicValue])-tonicValue
+        return [tonicValue,phasicNeg,phasicPos]
     
     def average(self,t1=0,t2=None,setSweep=False):
         """Return the average of current sweep between two times (seconds)"""
@@ -376,7 +432,12 @@ if __name__=="__main__":
     print("do not run this script directly.")
     #abf=ABF(R"../../data/17o05028_ic_steps.abf")
 #    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
-    #abf=ABF(R"../../data/17o05024_vc_steps.abf")
+
+#    abf=ABF(R"../../data/17o05024_vc_steps.abf")
+#    for sweep in abf.sweepList:
+#        abf.setSweep(sweep)
+#        print(abf.rms())
+    
     #abf.info()
     
 #    
