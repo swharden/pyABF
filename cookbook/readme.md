@@ -1,10 +1,6 @@
 # pyabf Cookbook
-This is a work in progress.
+A collection of IPython notebooks demonstrating how to use the `ABF` and `ABFheader` class.
 
 ### IPython Notebooks
-* [Getting Started](getting-started.ipynb)
-  * Importing pyabf
-  * Loading and displaying ABF data
-  * Access signal data by sweep
-  * Plotting data traces and command signals
-  * Accessing multi-channel data
+* [Getting Started](getting-started.ipynb) - demonstrates how to load ABFs and plot their data
+* [Bells and Whistles](bells-and-whistles.ipynb) - demonstrates every feature built into the ABF class
