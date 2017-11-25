@@ -8,9 +8,10 @@ from pyabf.header import ABFheader
 
 class ABF:
     def __init__(self,abf):
-        """The ABF class provides easy pythonic access to header and signal data in ABF2 files.
-        
-        * Although it is typically instantiated with a path (string), you can also use an ABF or ABFheader.
+        """The ABF class provides easy pythonic access to header and signal 
+        data in ABF files. Although it is typically instantiated with a path
+        (string), you can also use an ABF or ABFheader. This will reset that
+        ABF to default values without re-loading original data from the file.
         
         Quick start:
             >>> abf = ABF("/path/to/file.abf")
@@ -104,12 +105,15 @@ class ABF:
         self.setSweep(0)
 
     def help(self):
-        """Launch the documentation in a web browser."""
+        """Launch the pyABF website in a web browser."""
         import webbrowser
         webbrowser.open('https://github.com/swharden/pyABF')
                                     
     def info(self,silent=False):
-        """Display (and return) a long message indicating what you can access/do with the ABF class."""
+        """
+        Display (and return) a long message indicating what you can access
+        and do with the ABF class.
+        """
         functions,attributes,lists,data=[],[],[],[]
         for itemName in dir(self):
             if itemName.startswith("_"):
@@ -158,7 +162,14 @@ class ABF:
         return msg
         
     def setSweep(self,sweepNumber=0,absoluteTime=False,channel=0):
-        """set all the self.data variables to contain data for a certain sweep"""
+        """
+        Load a particular sweep (and times and command trace) into memory.
+        This populates self.dataX, self.dataY, and self.dataC.
+        
+        If absoluteTime is used, self.dataX will reflect the time points
+        (in seconds) of the sweep relative to the total experiment. If it is
+        not used, self.dataX will always start at 0 (and display "sweep time").
+        """
         #TODO: make function to get sweep-offset time
         #TODO: command signal not supported if using multi-channel
         if sweepNumber is None:
@@ -183,7 +194,7 @@ class ABF:
             self.dataY = self._filterGaussian(self.dataY)
             
     def _updateCommandWaveform(self):
-        """Read the epochs and figure out how to fill self.dataC with the command signal."""
+        """Read the epochs and populate self.dataC with the command signal."""
         #TODO: don't update if the command doesn't change from sweep to sweep
         self.dataC = np.empty(self.dataX.size) # start as random data
         position=0 # start at zero here for clarity
@@ -201,13 +212,14 @@ class ABF:
             position+=pointCount
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
         
-    ### SIGNAL SHAPING
+    ### FILTERING
     
-    gaussianSigma=0 # class-level override
+    gaussianSigma=0
     gaussianLeft=False
     gaussianRight=True
+    
     def _filterGaussian(self,signal,sigma=None):
-        """perform gaussian smoothing on a 1d array."""
+        """Perform gaussian smoothing on a 1d array."""
         if self.gaussianLeft and self.gaussianRight:
             raise ValueError("can't set both gaussianLeft and gaussianRight")
         if sigma is None:
@@ -233,8 +245,10 @@ class ABF:
     ### ANALYSIS
     
     def rms(self,chunkMS=10,quietestMS=100):
-        """return the RMS value of the noise floor. RMS = stdev when mean is 0.
-        The noise floor is defined as the quietest parts of the signal."""
+        """
+        Return the RMS value of the noise floor. RMS = stdev when mean is 0.
+        The noise floor is defined as the quietest parts of the signal.
+        """
         chunkSize=chunkMS*self.pointsPerMS
         chunkCount=int(len(self.dataY)/chunkSize)
         stdev=np.empty(chunkCount)
@@ -248,8 +262,8 @@ class ABF:
     
     def _tonic(self,data,binSize=.1,fitAboveFrac=.25):
         """
-        Return a polynomial-fitted peak of the histogram of the dataY data
-        between two time points. Only the "fitAboveFrac" is fitted.
+        Return a polynomial-fitted peak of the histogram of the given data.
+        Only histogram points above "fitAboveFrac" are fitted.
         """
         padSize=int(200/binSize)*2
         pad=np.arange(padSize)*binSize
@@ -269,6 +283,7 @@ class ABF:
     def tonicPhasic(self,t1=0,t2=None):
         """
         Return [tonic, phasicNeg, and phasicPos] of the selected sweep.
+        Tonic is the peak value of the polynomial-fitted histogram.
         Phasic is the average value of all points below or above the tonic 
         value. All 3 are in abf.units units.
         """
@@ -281,18 +296,34 @@ class ABF:
         phasicPos=np.average(data[data>tonicValue])-tonicValue
         return [tonicValue,phasicNeg,phasicPos]
     
-    def average(self,t1=0,t2=None,setSweep=False):
-        """Return the average of current sweep between two times (seconds)"""
+    def average(self,t1=0,t2=None,setSweep=False,tonic=False):
+        """
+        Return the average value of the selected sweep. If t1 and/or t2 are 
+        given, data between those times (seconds) will be measured. If tonic
+        is True, the tonic (histogram fit) method will be used instead of
+        a true average.
+        """
         if not setSweep is False:
             self.setSweep(setSweep)
         if not t2:
             t2=self.sweepLengthSec
         i1=int(t1*self.pointsPerSec)
         i2=int(t2*self.pointsPerSec)
-        return np.nanmean(self.dataY[i1:i2])
+        if tonic:
+            return self._tonic(self.dataY[i1:i2])
+        else:
+            return np.nanmean(self.dataY[i1:i2])
     
-    def averageEpoch(self,epoch,firstFrac=False,lastFrac=False,setSweep=False):
-        """return the average of the last fraction of an epoch (starting at 0)"""
+    def averageEpoch(self,epoch,firstFrac=False,lastFrac=False,setSweep=False,
+                     tonic=False):
+        """
+        Return the average of some fraction of an epoch. Similar to average(), 
+        but uses an epoch number and fraction rather than time points.
+        
+        Example: return the average of the last 25% of epoch B
+            >>> abf.averageEpoch(epoch=1,lastFrac=.25)
+            
+        """
         if not setSweep is False:
             self.setSweep(setSweep)
         if firstFrac and lastFrac:
@@ -309,10 +340,15 @@ class ABF:
             i2=i1+dur*firstFrac
         if lastFrac:
             i1=i2-dur*lastFrac
-        return np.average(self.dataY[int(i1):int(i2)])
+        if tonic:
+            return self._tonic(self.dataY[int(i1):int(i2)])
+        else:
+            return np.nanmean(self.dataY[int(i1):int(i2)])
     
     def stdev(self,t1=0,t2=None):
-        """Return the standard deviation of current sweep between two times (seconds)"""
+        """
+        Return the standard deviation of current sweep between two times (sec)
+        """
         if not t2:
             t2=self.sweepLengthSec
         i1=int(t1*self.pointsPerSec)
@@ -320,27 +356,151 @@ class ABF:
         return np.nanstd(self.dataY[i1:i2])
     
     def stderr(self,t1=0,t2=None):
-        """Return the standard error of current sweep between two times (seconds)"""
+        """
+        Return the standard error of current sweep between two times (sec)
+        """
         if not t2:
             t2=self.sweepLengthSec
         i1=int(t1*self.pointsPerSec)
         i2=int(t2*self.pointsPerSec)
         return np.nanstd(self.dataY[i1:i2])/np.math.sqrt(i2-i1)
     
-    def sweepSpan(self,t1=0,t2=None):
-        """Return just the dataY between two time points (seconds)"""
+#    def sweepSpan(self,t1=0,t2=None):
+#        """
+#        Return just the dataY between two time points (sec)
+#        """
+#        if not t2:
+#            t2=self.sweepLengthSec
+#        i1=int(t1*self.pointsPerSec)
+#        i2=int(t2*self.pointsPerSec)
+#        return self.dataY[i1:i2]
+            
+    ### EVENT DETECTION
+        
+    
+    def eventsDeriv(self, setSweep=None, t1=0, t2=None, dTms=1, threshold=-10, 
+                    alignToDerivPeak=True, alignToRawPeak=False, plot=False,
+                    mustRevertMS=False):
+        """
+        Derivative-threshold-based event detection. Return a list of times for this
+        sweep where the first derivative threshold was exceeded. This event
+        detection routine is minimal and simplistic, and can be used for APs, 
+        EPSCs, and IPSCs.
+        
+        You may want to enable gaussian filtering before calling this function.
+        
+        setSweep: 
+            which sweep to use
+        
+        t1 and t2:
+            time range (in seconds) to perform event detection
+            
+        dTms and threshold:
+            Events are points where the threshold is exceeded over the change in 
+            time in milliseconds (dTms). Threshold can be positive or negative.
+            
+        alignToDerivPeak and alignToRawPeak:
+            If disabled, the event times will be the first point where the
+            derivative was first crossed. If enabled, the event times will be
+            aligned to the peak derivative (rather than the threshold) or the
+            peak of the raw trace.
+        
+        Common settings:
+            Action potential detection: dTms = 1, threshold = 10, mustRevertMS = 5
+            
+        """
+        
+        # determine detection details
+        if not setSweep is None:
+            self.setSweep(setSweep)
         if not t2:
             t2=self.sweepLengthSec
-        i1=int(t1*self.pointsPerSec)
-        i2=int(t2*self.pointsPerSec)
-        return self.dataY[i1:i2]
+        i1,i2=int(t1*self.pointsPerSec),int(t2*self.pointsPerSec)
+        
+        # load the data and calculate its derivative
+        strip=self.dataY[i1:i2]
+        Xs=self.dataX[i1:i2]
+        dT=int(self.pointsPerMS*dTms)
+        deriv=(strip[dT:]-strip[:-dT])/dTms
+        deriv=np.concatenate((deriv,[deriv[-1]]*dT))
+        
+        # find first-crossings of points where the derivative was crossed
+        if threshold>0:
+            crossed = deriv > threshold
+        else:
+            crossed = deriv < threshold
+        crossed[1:][crossed[:-1] & crossed[1:]] = False
+        eventIs=np.where(crossed)[0]#+dT
+        
+        # remove events which are less than one dT together
+        for i in range(1,len(eventIs)):
+            if eventIs[i]-eventIs[i-1]<=dT:
+                eventIs[i]=False
+        eventIs=eventIs[np.where(eventIs)[0]]
             
+        # optionally align to the peak of the first derivative
+        if alignToDerivPeak:
+            for n,i in enumerate(eventIs):
+                if threshold>0:
+                    while deriv[i]>deriv[i-1]:
+                        i+=1
+                    eventIs[n]=i-1
+                else:
+                    while deriv[i]<deriv[i-1]:
+                        i+=1
+                    eventIs[n]=i-1
     
+        # optionally align to the peak of the raw trace
+        if alignToRawPeak:
+            for n,i in enumerate(eventIs):
+                if threshold>0:
+                    while strip[i]>strip[i-1]:
+                        i+=1
+                    eventIs[n]=i
+                else:
+                    while strip[i]<strip[i-1]:
+                        i+=1
+                    eventIs[n]=i
+    
+        if mustRevertMS:
+            revertPoints=int(self.pointsPerMS*mustRevertMS)
+            for n,i in enumerate(eventIs):
+                if threshold>0:
+                    if not np.min(deriv[i:i+revertPoints])<0:
+                        eventIs[n]=False
+                else:
+                    if not np.max(deriv[i:i+revertPoints])>0:
+                        eventIs[n]=False
+            eventIs=eventIs[np.where(eventIs)[0]]
+    
+        eventIs=np.unique(eventIs)
+        eventTimes=Xs[eventIs]
+            
+        if plot:
+            plt.figure()
+            ax1=plt.subplot(211)
+            plt.title("sweep %d (raw signal, %s)"%(self.sweepSelected,self.units))
+            plt.plot(Xs,strip)
+            for eventI in [int(self.pointsPerSec*x) for x in eventTimes]:
+                plt.axvline(self.dataX[eventI],color='r',alpha=.5)
+            plt.subplot(212,sharex=ax1)
+            plt.title("first derivative (%s / ms)"%self.units)
+            plt.plot(Xs,deriv)
+            plt.axhline(threshold,color='r',alpha=.5)
+            for eventI in [int(self.pointsPerSec*x) for x in eventTimes]:
+                plt.axvline(self.dataX[eventI],color='r',alpha=.5)
+            plt.margins(0,.1)
+            plt.tight_layout()                
+            plt.show()
+        
+        return eventTimes
     
     ### PLOTTING
     
     def plotEpochs(self):
-        """display a matplotlib picture of the current sweep revealing which epoch is which."""
+        """
+        Display a matplotlib figure of the current sweep highlighting epochs.
+        """
         epochBoundsSec = self.epochStartSec + [self.sweepLengthSec]
         command = self.epochCommand + [self.commandHold]
         plt.plot(self.dataX,self.dataY,'k-')
@@ -352,6 +512,9 @@ class ABF:
     
     colormap="jet_r"
     def _sweepColor(self,sweep=None):
+        """
+        Return a colorcode of the current sweep using abf.colormap
+        """
         if sweep is None:
             sweep=self.dataSweepSelected
         frac = sweep/self.sweepCount
@@ -360,10 +523,8 @@ class ABF:
     def plotSweeps(self,sweeps=None,offsetX=0,offsetY=0,useColormap=False,
                    color='b'):
         """
-        Plot signal data using matplotlib.
-        
-        If sweeps is a list of numbers, only plot those sweeps. To plot one
-        sweep, make "sweeps" equal to an integer.
+        Plot signal data using matplotlib.If sweeps is a list of numbers, 
+        only plot those sweeps. Also accepts an integer to plot one sweep.
         """
         if type(sweeps)==list:
             pass
@@ -385,7 +546,14 @@ class ABF:
         
     def plotDecorate(self,command=False,title=True,xlabel=True,ylabel=True,
                      zoomYstdev=False,legend=False,axis=None):
-        """add axis labels and a title."""
+        """
+        Add axis labels and a title to the already-drawn matplotlib figure.
+        
+        Arguments: 
+            * zoomYstdev - optionally zoom in vertically to a certain number
+                           of standard deviations from the mean.
+            * axis - if provided, resize to this axis [X1,X2,Y1,Y2]
+        """
                 
         # title
         if title is True:
