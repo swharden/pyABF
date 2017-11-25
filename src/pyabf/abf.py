@@ -161,6 +161,8 @@ class ABF:
         """set all the self.data variables to contain data for a certain sweep"""
         #TODO: make function to get sweep-offset time
         #TODO: command signal not supported if using multi-channel
+        if sweepNumber is None:
+            return
         if sweepNumber<0:
             sweepNumber=self.sweepList[sweepNumber]
         if not sweepNumber in self.sweepList:
