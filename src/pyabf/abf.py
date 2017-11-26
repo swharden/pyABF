@@ -597,60 +597,92 @@ class ABF:
             plt.axis(axis)
         
         plt.tight_layout()
+
+    def memtest(self,lastFrac=.5,fracFirst=False,plot=False):
+        """
+        When called on a voltage-clamp trace, this function will detect the
+        first voltage step and use it to determine Rm and Ra. lastFrac
+        indicates what fraction of the last portion of a step will be used
+        for measurement. If firstFrac is false, the pre-step region will
+        not be fractionated prior to measurement.
+        """
+        if not abf.units=="pA":
+            raise ValueError("memtest should only be run on VC traces")
+            
+        # determine which epoch has the first voltage step
+        for epochNumber in range(abf.epochCount):
+            if abf.epochCommand[epochNumber]==abf.commandHold:
+                continue
+            else:
+                #print("epoch %d steps to %.02f %s"%(epochNumber,abf.epochCommand[epochNumber],abf.units))
+                break
+        else:
+            raise ValueError("no epoch step found")
+            
+        # Calculate T1, T2, and T3 bounding two epochs
+        #print("first epoch with a step:",epochNumber)
+        i2=int(abf.epochStartPoint[epochNumber])
+        i3=int(i2+abf.epochDuration[epochNumber])
+        if epochNumber==0:
+            i1=0
+        else:
+            i1=int(abf.epochStartPoint[epochNumber-1])
+            
+        #print("index bounds:",i1,i2,i3)
+        if fracFirst:
+            step1i1=int(i2-(i2-i1)*lastFrac)
+        else:
+            step1i1=i1
+        step1i2=i2
+        step2i1=int(i3-(i3-i2)*lastFrac)
+        step2i2=i3
+        
+        step1=abf.dataY[step1i1:step1i2]
+        step2=abf.dataY[step2i1:step2i2]
+        step1level=self._tonic(step1)
+        step2level=self._tonic(step2)
+        step1command=self.dataC[step1i1+1]
+        step2command=self.dataC[step2i1+1]
+        
+        dV=np.abs(step2command-step1command)/1e3
+        dI=np.abs(step2level-step1level)/1e9
+        #V=IR, R=V/I, R=dv/dI
+        r=dV/dI
+        print(r/1e6)
+        
+        
+        if plot:
+            plt.plot(abf.dataY[:i3])
+            plt.axvspan(step1i1,step1i2,alpha=.2)
+            plt.axvspan(step2i1,step2i2,alpha=.2)
+            plt.axhline(step1level,color='r',ls='--')
+            plt.axhline(step2level,color='r',ls='--')
+            plt.axis([i1,i3,-25,0])
+            plt.title("sweep %d"%self.dataSweepSelected)
+            plt.ylabel(abf.units)
+            plt.show()
+        
+        #i1=int(i2-step1width*lastFrac)
+        
+
+def listDemoFiles():
+    import glob
+    for fname in sorted(glob.glob("../../data/*.abf")):
+        print(fname)
     
 if __name__=="__main__":   
     print("do not run this script directly.")
-    #abf=ABF(R"../../data/17o05028_ic_steps.abf")
-#    abf=ABF(R"C:\Users\scott\Documents\GitHub\pyABF\data\14o08011_ic_pair.abf")
-
-#    abf=ABF(R"../../data/17o05024_vc_steps.abf")
+    #listDemoFiles()
+    
+    
+    #abf=ABF(R"../../data/17o05024_vc_steps.abf")
+    abf=ABF(R"../../data/16d05007_vc_tags.abf")
+    #plt.plot(abf.dataY)
+    np.save("../../cookbook/memtest.npy",abf.dataY[:7000])
 #    for sweep in abf.sweepList:
 #        abf.setSweep(sweep)
-#        print(abf.rms())
+#        abf.memtest(plot=True)
+
+        
     
-    #abf.info()
-    
-#    
-#    abf=ABF("../../data/14o08011_ic_pair.abf")
-#    abf.setSweep(0,channel=0)
-#    plt.plot(abf.dataX,abf.dataY,label="Ch1")
-#    abf.setSweep(0,channel=1)
-#    plt.plot(abf.dataX,abf.dataY,label="Ch2")
-#    plt.axis([25,40,None,None])
-#    plt.legend()
-#    plt.show()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    print("DONE")    
