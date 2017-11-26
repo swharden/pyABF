@@ -517,7 +517,7 @@ data /= header['fInstrumentScaleFactor']
 data /= header['fSignalGain']
 data /= header['fADCProgrammableGain']
 if header['nTelegraphEnable'] :
-	data[:,i] /= header['fTelegraphAdditGain']
+	data /= header['fTelegraphAdditGain']
 data *= header['fADCRange']
 data /= header['lADCResolution']
 data += header['fInstrumentOffset']
