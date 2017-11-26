@@ -450,10 +450,6 @@ dataScale=lADCResolution/1e6*numberOfChannels
 sweepData=[x*dataScale for x in data]
 ```
 
-# ABF1 Support
-Eventually I'll get around to adding ABF1 support to the `ABFClass`. I think I can recycle almost all my code. The difference in ABF1 is that it doesn't require a section map, as the sections are all at pre-defined byte locations for every file. This should be trivial to implement... when I get around to it.
-
-
 # File access, locking, and storing data in memory
 Every ABF reading API probably has something like a `getSweepData(sweepNumber)` function which returns the data for that sweep. My goal is to design an ABF class which provides access to sweep data in the best way. I there are a few ways I can think of to go about this, each with different pros and cons.
 
@@ -511,6 +507,51 @@ As we saw earlier when we tried to plot the raw data (unsigned integers), values
 scaleFactor = lADCResolution / 1e6
 scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
 ```
+
+## But wait, it's not that simple...
+The simple `scaleFactor` shown above works in most cases, but not in all cases. The easiest way to assess the sequence of required scaling factors is check out the lines which exist in everyone elses's code. Here is a snip from axonio.py, modified to the simplistic header structure (flat dictionary) used throughout this document:
+
+```python
+data = rawDataValues # large integers straight out of the ABF file
+data /= header['fInstrumentScaleFactor']
+data /= header['fSignalGain']
+data /= header['fADCProgrammableGain']
+if header['nTelegraphEnable'] :
+	data[:,i] /= header['fTelegraphAdditGain']
+data *= header['fADCRange']
+data /= header['lADCResolution']
+data += header['fInstrumentOffset']
+data -= header['fSignalOffset']
+```
+
+I tested this sequence and it holds true for ABF1 and ABF2 files identically. Here is the full code to functionally calculate the scale factor:
+
+```python
+# I found this little function useful
+def _first(self,thing):
+	"""If the thing is a list, return its first element. If not, return it as is."""
+	if type(thing) is list:
+		return thing[0]
+	else:
+		return thing          
+
+# now use the fancy sequence of scaling
+scaleFactor = 1 # start here
+scaleFactor /= _first(header['fInstrumentScaleFactor'])
+scaleFactor /= _first(header['fSignalGain'])
+scaleFactor /= _first(header['fADCProgrammableGain'])
+if header['nTelegraphEnable'] :
+	scaleFactor /= _first(header['fTelegraphAdditGain'])
+scaleFactor *= _first(header['fADCRange'])
+scaleFactor /= _first(header['lADCResolution'])
+scaleFactor += _first(header['fInstrumentOffset'])
+scaleFactor -= _first(header['fSignalOffset'])
+
+# then multiply the data by the scale as before
+scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
+```
+
+_Note that the scale factor can vary by channel. Here is a simplistic way to only return the scale factor based on the scale of the first channel._
 
 **Should we use 16-, 32-, or 64-bit floats for representing signals?** Although float16 _might_ be okay, it distorts the trace a wee little bit due to floating point errors counfounded by the division and multiplication operations. In my recording conditions (whole-cell patch-clamp in brain slices) I calculated that the average floating point error in 16-bit floats (compared to 64-bit precision) is only 0.0023 pA. This seems acceptable (and well below the RMS noise floor), but also consider that the _peak_ floating point error in these conditions is 0.329632 pA. Also future operations (like low-pass filtering and baseline subtraction) would aplify this error and introduce additional error. That's not acceptable to me so I'll double my memory usage and go with a 32-bit floating point precision. 0.3 pA seems like a lot of error to me, but I think it comes from _two_ floating point math operations: one for the scale factor (int16 / float) and applying the scale factor (int16 * float). With 32-bit floats our peak deviation (compared to 64-bit precision) is 0.0000160469 pA. If I reach a point where that is not enough precision, I will want to find a new job. For now I'm satisfied with float-32 because we know it's accurate and at 20kHz recording rate (40 kB raw data / sec) we produce 80 kB of scaled floating-point data per second (or 288 MB per hour of recording).
 

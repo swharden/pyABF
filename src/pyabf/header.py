@@ -120,7 +120,6 @@ class ABFheader:
         self.header['dataByteStart']=self.header['lDataSectionPtr']*512+self.header['nNumPointsIgnored']*sz
         self.header['dataPointCount']=self.header['lActualAcqLength']
         self.header['dataChannels']=self.header['nADCNumChannels']
-        self.header['dataScale']=self.header['lADCResolution']/1e6
         self.header['timeSecPerPoint']=self.header['fADCSampleInterval']/1e6
         self.header['timePointPerSec']=1e6/self.header['fADCSampleInterval']
         self.header['abfFilename']=os.path.abspath(self._fb.name)
@@ -137,7 +136,9 @@ class ABFheader:
         self.header['lEpochPulsePeriod']=None #pulses unsupported in ABF1
         self.header['lEpochPulseWidth']=None #pulses unsupported in ABF1
         self.header['nEpochDigitalOutput']=self.header['nDigitalValue']        
-        #TODO: make ABF1 header items the same as ABF2 headers
+        self.header['dataScale']=self.header['lADCResolution']/1e6        
+        self._calculateScaleFactor()
+        #TODO: make ABF1 header items the same as ABF2 headers. There are so many commonalities.
         return
     
     def _readHeaderABF2(self):
@@ -171,7 +172,6 @@ class ABFheader:
         self.header['abfDatetime']=dt+datetime.timedelta(seconds=self.header['uFileStartTimeMS']/1000)
         self.header['dataByteStart']=self.header['DataSection'][0]*512
         self.header['dataPointCount']=self.header['DataSection'][2]
-        self.header['dataScale']=self.header['lADCResolution']/1e6
         self.header['dataChannels']=self.header['ADCSection'][2]
         self.header['timeSecPerPoint']=self.header['fADCSequenceInterval']/1e6
         self.header['timePointPerSec']=1e6/self.header['fADCSequenceInterval']
@@ -184,6 +184,34 @@ class ABFheader:
         self.header['units']="mV" if self.header['mode']=="IC" else "pA"
         self.header['unitsCommand']="pA" if self.header['mode']=="IC" else "mV"
         self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
+        self._calculateScaleFactor()
+        
+    def _calculateScaleFactor(self):
+        """
+        Populates header['dataScale'] with a data scale multiplier. Note this only reports for channel 0, 
+        and multi-channel recordings may need to calculate this for each channel individually.
+        """
+        dataScale = 1
+        dataScale /= self._first(self.header['fInstrumentScaleFactor'])
+        dataScale /= self._first(self.header['fSignalGain'])
+        dataScale /= self._first(self.header['fADCProgrammableGain'])
+        if self.header['nTelegraphEnable'] :
+        	dataScale /= self._first(self.header['fTelegraphAdditGain'])
+        dataScale *= self._first(self.header['fADCRange'])
+        dataScale /= self._first(self.header['lADCResolution'])
+        dataScale += self._first(self.header['fInstrumentOffset'])
+        dataScale -= self._first(self.header['fSignalOffset'])
+        self.header['dataScale']=dataScale
+        
+    def _first(self,thing):
+        """If a thing is just a thing, return it. If a thing is a list, return the first thing."""
+        if type(thing) in [int, float]:
+            return thing
+        if type(thing) is list:
+            return thing[0]
+        if len(thing):
+            return thing[0]
+        return thing
             
     ### FILE READING
         
