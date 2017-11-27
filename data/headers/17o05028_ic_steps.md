@@ -209,7 +209,6 @@
 * abfDatetime = `2017-01-05 14:52:46.899000`
 * dataByteStart = `6656`
 * dataPointCount = `960000`
-* dataScale = `0.032768`
 * dataChannels = `1`
 * timeSecPerPoint = `5e-05`
 * timePointPerSec = `20000.0`
@@ -222,3 +221,6 @@
 * units = `mV`
 * unitsCommand = `pA`
 * commandHoldingByDAC = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
+* protocol = `0112 steps dual -50 to 150 step 10.pro`
+* dataScale = `0.030517578807121044`

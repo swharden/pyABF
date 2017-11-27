@@ -209,7 +209,6 @@
 * abfDatetime = `2017-01-05 14:49:52.817000`
 * dataByteStart = `6656`
 * dataPointCount = `490000`
-* dataScale = `0.032768`
 * dataChannels = `1`
 * timeSecPerPoint = `5e-05`
 * timePointPerSec = `20000.0`
@@ -222,3 +221,6 @@
 * units = `pA`
 * unitsCommand = `mV`
 * commandHoldingByDAC = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
+* protocol = `0202 IV dual.pro`
+* dataScale = `0.12207030670197155`
