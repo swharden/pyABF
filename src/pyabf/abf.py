@@ -62,6 +62,8 @@ class ABF:
         self.experimentLengthSec = self.sweepLengthSec*self.sweepCount
         self.unitsTime = "seconds"
         self.unitsTimeLong = "Signal Time (seconds)"
+        self.protocolPath = self._abfHeader.header['protocolPath']
+        self.protocol = self._abfHeader.header['protocol']
         
         ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
         self.signalData = self._abfHeader.data/self.dataChannels
@@ -230,8 +232,10 @@ class ABF:
         points=np.exp(-np.power(np.arange(size)-size/2,2)/(2*np.power(sigma,2)))
         if self.gaussianLeft:
             points[-int(len(points)/2):]=0
+            points=points[:-int(sigma)] # offset a sigma
         if self.gaussianRight:
             points[0:int(len(points)/2)]=0            
+            points=points[int(sigma):] # offset a sigma
         kernel=points/sum(points)
         return np.convolve(signal,kernel,mode='same')
     
@@ -598,18 +602,41 @@ class ABF:
         
         plt.tight_layout()
 
-    def memtest(self,lastFrac=.5,fracFirst=False,plot=False):
+    def memtestStep(self):
         """
-        When called on a voltage-clamp trace, return a dictionary of membrane test features as lists with one
-        item per sweep.
+        When called on a sweep with a voltage step in it, return a dict with membrane properties.
+        Keys will have names like "Rm", "Ra", "Cm", "Ih", and "tau".
+        See the cookbook to gain insight into the calculations used here.
+        
+        Ideal configuration 1:
+            holding: -70 mV
+            epoch A: -80 mV
+            epoch B: -70 mV
+            
+        
+        Ideal configuration 2:
+            holding: -70 mV
+            epoch A: -70 mV
+            epoch B: -80 mV
+            epoch C: -70 mV
+        
+        This method assumes a few things about your file:
+            * no command deltas or time deltas are used
+            * the first or second epoch is a voltage step
+            * if an epoch before the step exists, its value is the same as the command current
+            * the epoch after the step returns back to the command current
+            
         """
         if not abf.units=="pA":
             raise ValueError("memtest should only be run on VC traces")
-            
         
-        
+        for epochNumber in range(self.epochCount):
+            print(epochNumber)
+        #print(self.commandHold)
+        #print(self.epochCommand,self.epochCommandDelta,self.epochDuration)
 
-def listDemoFiles(silent=False):
+def _listDemoFiles(silent=False):
+    """List all ABF files in the ../../data/ folder."""
     import glob
     fnames=[]
     for fname in sorted(glob.glob("../../data/*.abf")):
@@ -618,27 +645,20 @@ def listDemoFiles(silent=False):
         print("\n".join(fnames))
     return fnames
 
-def _testOnEveryFile():
-
-    import glob
-    for fname in sorted(glob.glob("../../data/*.abf")):
-        print(fname)
-    
-if __name__=="__main__":   
-    print("do not run this script directly.")
-    for fname in listDemoFiles(silent=True):
+def _checkFirstPoint():
+    """Display the first value for each ABF. A good way to ensure scaleFactor is working."""
+    for fname in _listDemoFiles(silent=True):
         abf=ABF(fname)
         print(abf.ID,abf.dataY[0])
     
+if __name__=="__main__":   
+    print("do not run this script directly.")
+    #_listDemoFiles()
+    #_checkFirstPoint()
 
+    abf=ABF(R"../../data/16d05007_vc_tags.abf")
+    #plt.plot(abf.dataX,abf.dataY)
+    #plt.axis([0,.5,-150,25])
+    abf.memtest()
 
-    
-    #abf=ABF(R"../../data/17o05024_vc_steps.abf")
-#    abf=ABF(R"../../data/16d05007_vc_tags.abf")
-#    plt.plot(abf.dataX,abf.dataY)
-#    plt.axis([0,.5,-50,25])
-#    #abf.memtest()
-
-        
-    
     print("DONE")    

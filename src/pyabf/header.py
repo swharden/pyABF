@@ -100,7 +100,7 @@ class ABFheader:
         self.abfLoadTime=(time.perf_counter()-t1)
         
     ### HEADER READING AND VALUE TOUCHUP
-    
+        
     def _readHeaderABF1(self):
         """populate self.header with values read the ABF1 header. Not many extra keys are added."""
         self.header=collections.OrderedDict()
@@ -137,6 +137,8 @@ class ABFheader:
         self.header['lEpochPulseWidth']=None #pulses unsupported in ABF1
         self.header['nEpochDigitalOutput']=self.header['nDigitalValue']        
         self.header['dataScale']=self.header['lADCResolution']/1e6        
+        self.header['protocolPath']=self._readHeaderProtocol()
+        self.header['protocol']=os.path.basename(self.header['protocolPath'])
         self._calculateScaleFactor()
         #TODO: make ABF1 header items the same as ABF2 headers. There are so many commonalities.
         return
@@ -184,7 +186,24 @@ class ABFheader:
         self.header['units']="mV" if self.header['mode']=="IC" else "pA"
         self.header['unitsCommand']="pA" if self.header['mode']=="IC" else "mV"
         self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
+        self.header['protocolPath']=self._readHeaderProtocol()
+        self.header['protocol']=os.path.basename(self.header['protocolPath'])
+        
+        
         self._calculateScaleFactor()
+        
+    def _readHeaderProtocol(self):
+        """read the the protocol filename out of the ABF header"""
+        self._fb.seek(0)
+        raw=self._fb.read(self.header['dataByteStart'])
+        match=b".pro"
+        matchI=raw.find(match)
+        if matchI:
+            chunk=raw[matchI-256:matchI+len(match)]
+            proto=chunk.split(b"\x00")[-1]
+            return proto.decode()
+        else:
+            return None
         
     def _calculateScaleFactor(self):
         """
