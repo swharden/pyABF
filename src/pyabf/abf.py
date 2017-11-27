@@ -1,5 +1,6 @@
 """Code to interact with ABF files. https://github.com/swharden/pyABF/ """
 
+import warnings
 import numpy as np
 np.set_printoptions(suppress=True) # don't use scientific notation
 import matplotlib.pyplot as plt
@@ -208,9 +209,23 @@ class ABF:
             if epochNumber>=len(self.epochDuration):
                 print("ran out of epoch")
                 break # ran out?
+            
             pointCount=self.epochDuration[epochNumber]
             deltaCommand=self.epochCommandDelta[epochNumber]*self.sweepSelected
-            self.dataC[position:position+pointCount]=self.epochCommand[epochNumber]+deltaCommand
+            
+            if self.epochType[epochNumber]==1: # STEP
+                self.dataC[position:position+pointCount]=self.epochCommand[epochNumber]+deltaCommand
+            elif self.epochType[epochNumber]==2: # RAMP
+                ramp=np.arange(pointCount)/pointCount
+                rampStart=self.dataC[position-1]
+                rampEnd=self.epochCommand[epochNumber]+deltaCommand
+                rampDiff=rampEnd-rampStart
+                ramp*=rampDiff
+                ramp+=rampStart
+                self.dataC[position:position+pointCount]=ramp
+            else: # UNKNOWN (so treat it like a step)
+                warnings.warn("I don't know how to analyze an epoch of type %d"%self.epochType[epochNumber])
+                self.dataC[position:position+pointCount]=self.epochCommand[epochNumber]+deltaCommand
             position+=pointCount
         self.dataC[position:]=self.commandHold # set the post-epoch to the command holding
         
@@ -656,9 +671,11 @@ if __name__=="__main__":
     #_listDemoFiles()
     #_checkFirstPoint()
 
-    abf=ABF(R"../../data/16d05007_vc_tags.abf")
-    #plt.plot(abf.dataX,abf.dataY)
-    #plt.axis([0,.5,-150,25])
-    abf.memtest()
+    abf=ABF(R"../../data/171116sh_0014.abf")
+    #abf=ABF(R"../../data/171116sh_0019.abf")
+    plt.subplot(211)
+    plt.plot(abf.dataX,abf.dataY,color='b')
+    plt.subplot(212)
+    plt.plot(abf.dataX,abf.dataC,color='r')
 
     print("DONE")    
