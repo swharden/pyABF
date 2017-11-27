@@ -407,9 +407,9 @@ class ABF:
 #        return self.dataY[i1:i2]
 
     ### EVENT DETECTION
-        
-    
-    def eventsDeriv(self, setSweep=None, t1=0, t2=None, dTms=1, threshold=-10, 
+
+
+    def eventsDeriv(self, setSweep=None, t1=0, t2=None, dTms=1, threshold=-10,
                     alignToDerivPeak=True, alignToRawPeak=False, plot=False,
                     mustRevertMS=False):
         """
