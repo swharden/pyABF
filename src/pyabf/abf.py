@@ -86,7 +86,7 @@ class ABF:
             self.epochPulsePeriod = self._abfHeader.header['lEpochPulsePeriod']
             self.epochPulseWidth = self._abfHeader.header['lEpochPulseWidth']
             self.epochDigOut = self._abfHeader.header['nEpochDigitalOutput']
-            self.epochStartPoint = [self.pointsPerSweep/64]
+            self.epochStartPoint = [int(self.pointsPerSweep/64)]
             for i,duration in enumerate(self.epochDuration):
                 self.epochStartPoint.append(self.epochStartPoint[-1]+duration+self.epochDurationDelta[i]*i)
             self.epochStartSec=[self.signalTimes[int(x)] for x in self.epochStartPoint]
