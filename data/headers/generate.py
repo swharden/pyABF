@@ -9,8 +9,8 @@ import glob
 if __name__=="__main__":
     out="# Sample ABFs\n"
     out+="This is a small collection of various ABFs I practice developing with.\n\n"    
-    out+="File Name | Header | First Value | Units | Channels | Sweeps (#) | Sweep Length (s) | Protocol\n"
-    out+="--- | --- | --- | --- | --- | --- | --- | ---\n"
+    out+="File Name | Header | First Value | Ch | Swps | SwpSec | Protocol\n"
+    out+="--- | --- | --- | --- | --- | --- | ---\n"
     for fname in sorted(glob.glob("../*.abf")):
         print(fname)
         abf=pyabf.ABF(fname)
@@ -19,8 +19,7 @@ if __name__=="__main__":
         #out+="* [%s](headers/%s)\n"%(os.path.basename(abf.filename),)
         out+="**%s.abf** | "%(abf.ID)
         out+="[view](%s.abf) | "%(abf.ID)
-        out+="%s | "%(abf.dataY[0])
-        out+="%s | "%(abf.units)
+        out+="%s %s | "%(abf.dataY[0],abf.units)
         out+="%s | "%(abf.dataChannels)
         out+="%s | "%(abf.sweepCount)
         out+="%s | "%(abf.sweepLengthSec)
