@@ -106,6 +106,10 @@ class ABF:
 
         ### Go ahead and set sweep zero to populate command signal trace
         self.setSweep(0)
+        
+        ### Prep variables we may optionally use later
+        self._mt_dict_by_sweep=[None]*self.sweepCount
+        self.memtestResults=None
 
     def help(self):
         """Launch the pyABF website in a web browser."""
@@ -274,6 +278,27 @@ class ABF:
         return Xs,Ys,Cs
 
     ### ANALYSIS
+
+    def _monoExpTau(self,data,sample_rate_hz=20000,tau=.1,step=.1):
+        """Given some data which decays to zero, return its time constant."""
+        if len(data)==0:
+            return np.nan
+        errs=[np.inf]
+        normed=data/data[0]
+        Xs=np.arange(len(normed))/sample_rate_hz
+        while(len(errs))<50:
+            assert len(Xs)==len(data)
+            tau=np.max((0.000001,tau))
+            errs.append(np.sum(np.exp(-Xs/tau)-normed))
+            if np.abs(errs[-1])<0.01:
+                return tau
+            if (errs[-1]>0 and errs[-2]<0) or (errs[-1]<0 and errs[-2]>0):
+                step*=.6
+            if errs[-1]<0:
+                tau+=step
+            elif errs[-1]>0:
+                tau-=step
+        return tau
 
     def rms(self,chunkMS=10,quietestMS=100):
         """
@@ -629,23 +654,26 @@ class ABF:
 
         plt.tight_layout()
 
-    def memtestStep(self):
+    def _memtestThisSweep(self, tonicAnalysis=True, avgLastFrac=.75):
         """
         When called on a sweep with a voltage step in it, return a dict with membrane properties.
         Keys will have names like "Rm", "Ra", "Cm", "Ih", and "tau".
         See the cookbook to gain insight into the calculations used here.
 
-        Ideal configuration 1:
-            holding: -70 mV
+        Ideal configuration 1 (holding: -70 mV):
+            epoch A: -80 mV
+            epoch B: anything (or absent)
+
+        Ideal configuration 2 (holding: -70 mV):
             epoch A: -80 mV
             epoch B: -70 mV
+            epoch C: anything (or absent)
 
-
-        Ideal configuration 2:
-            holding: -70 mV
+        Ideal configuration 3 (holding: -70 mV):
             epoch A: -70 mV
             epoch B: -80 mV
             epoch C: -70 mV
+            epoch D: anything (or absent)
 
         This method assumes a few things about your file:
             * no command deltas or time deltas are used
@@ -657,10 +685,95 @@ class ABF:
         if not abf.units=="pA":
             raise ValueError("memtest should only be run on VC traces")
 
-        for epochNumber in range(self.epochCount):
-            print(epochNumber)
-        #print(self.commandHold)
-        #print(self.epochCommand,self.epochCommandDelta,self.epochDuration)
+        # we will calculate memtest based on two traces, so figure them out based on command steps            
+        if self.epochCommand[0]!=self.commandHold:
+            # Epoch A is the step
+            dV=np.abs(self.epochCommand[0]-self.commandHold)*1e-3
+            if len(self.epochCommand)>1:
+                # Epoch A and B will be analyzed
+                trace1=self.dataY[self.epochStartPoint[0]:self.epochStartPoint[0]+self.epochDuration[0]]
+                trace2=self.dataY[self.epochStartPoint[1]:self.epochStartPoint[1]+self.epochDuration[1]]
+            else:
+                # Epoch A will be analyzed, B is whatever is left
+                trace1=self.dataY[self.epochStartPoint[0]:self.epochStartPoint[0]+self.epochDuration[0]]
+                trace2=self.dataY[self.epochStartPoint[0]+self.epochDuration[0]:]
+        elif self.epochCommand[0]!=self.epochCommand[1]:
+            # Epoch A is the step
+            dV=np.abs(self.epochCommand[1]-self.epochCommand[0])*1e-3
+            if len(self.epochCommand)>2:
+                # Epoch B and C will be analyzed
+                trace1=self.dataY[self.epochStartPoint[1]:self.epochStartPoint[1]+self.epochDuration[1]]
+                trace2=self.dataY[self.epochStartPoint[2]:self.epochStartPoint[2]+self.epochDuration[2]]
+            else:
+                # Epoch B will be analyzed, C is whatever is left
+                trace1=self.dataY[self.epochStartPoint[1]:self.epochStartPoint[1]+self.epochDuration[1]]
+                trace2=self.dataY[self.epochStartPoint[1]+self.epochDuration[1]:]
+        else:
+            raise ValueError("A step memtest cannot be used on this type of ABF.")
+            
+        # this memtest dictionary is what gets returned
+        mt_dict={"dV":dV*1e3}
+        
+        # subtract-out the steady state current so signals are centered at 0
+        if tonicAnalysis:
+            Ih1=self._tonic(trace1[len(trace1)-int(avgLastFrac*len(trace1)):])
+            Ih2=self._tonic(trace2[len(trace2)-int(avgLastFrac*len(trace2)):])
+        else:
+            Ih1=np.average(trace1[len(trace1)-int(avgLastFrac*len(trace1)):])
+            Ih2=np.average(trace2[len(trace2)-int(avgLastFrac*len(trace2)):])
+        data1=trace1-Ih1
+        data2=trace2-Ih2
+        mt_dict["Ih"]=Ih2
+        mt_dict["Vm"]=self.commandHold
+        
+        # Rm - compare the steady state currents to calculate membrane resistance
+        dI = (np.abs(Ih2-Ih1)*1e-12)
+        Rm = dV/dI # Rm = dV/dI
+        mt_dict["Rm"]=Rm*1e-6
+        
+        # let's improve out data by averaging the two curves together
+        point_count=np.min((len(trace1),len(trace2)))
+        data=np.average((-data1[:point_count],data2[:point_count]),axis=0)
+    
+        # Find the points of the trace we intend to fit
+        peakI=np.where(data==np.max(data))[0][0]
+        zeroI=np.where(data[peakI:]<=0)[0]
+        if len(zeroI)==0:
+            zeroI=peakI
+        else:
+            zeroI=zeroI[0]+peakI
+    
+        # Fit the curve to a monoexponential equation and record tau
+        tau=self._monoExpTau(data[peakI:zeroI])
+        mt_dict["tau"]=tau*1e3
+    
+        # use tau to guess what I0 probably was at the first point after the step
+        I0=np.exp((peakI/self.pointsPerSec)/tau)*data[peakI]*1e-12
+        mt_dict["I0"]=I0*1e12
+        
+        # calculate Ra=dV/I0
+        Ra=dV/I0
+        mt_dict["Ra"]=Ra*1e-6
+    
+        # calculate Cm=tau/Ra
+        Cm=tau/Ra
+        mt_dict["Cm"]=Cm*1e12   
+        
+        # populate the membrane test results list for this sweep
+        self._mt_dict_by_sweep[self.sweepSelected]=mt_dict
+                
+    def memtest(self):
+        """Determine membrane test properties for every sweep. Assign results to self.memtestResults"""
+        memtestResults={}
+        for sweep in self.sweepList:
+            self.setSweep(sweep)
+            self._memtestThisSweep()
+        for key in sorted(list(self._mt_dict_by_sweep[0])):
+            results = [None]*self.sweepCount
+            for sweepNumber in abf.sweepList:
+                results[sweepNumber]=self._mt_dict_by_sweep[sweepNumber][key]
+            memtestResults[key]=results
+        self.memtestResults=memtestResults        
 
 def _listDemoFiles(silent=False):
     """List all ABF files in the ../../data/ folder."""
@@ -680,14 +793,20 @@ def _checkFirstPoint():
 
 if __name__=="__main__":
     print("do not run this script directly.")
-    #_listDemoFiles()
+    _listDemoFiles()
     #_checkFirstPoint()
 
-    abf=ABF(R"../../data/171116sh_0014.abf")
-    #abf=ABF(R"../../data/171116sh_0019.abf")
-    plt.subplot(211)
-    plt.plot(abf.dataX,abf.dataY,color='b')
-    plt.subplot(212)
-    plt.plot(abf.dataX,abf.dataC,color='r')
+    #abf=ABF(R"../../data/171116sh_0014.abf") # V memtest
+    #abf=ABF(R"../../data/171116sh_0019.abf") # IC steps
+    #abf=ABF(R"../../data/171116sh_0011.abf") # step memtest
+    abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
+    abf.memtest()
+    print(abf.memtestResults.keys())
+    plt.plot(abf.memtestResults["Ih"])
+    
+#    plt.subplot(211)
+#    plt.plot(abf.dataX,abf.dataY,color='b')
+#    plt.subplot(212)
+#    plt.plot(abf.dataX,abf.dataC,color='r')
 
     print("DONE")
