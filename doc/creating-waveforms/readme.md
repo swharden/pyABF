@@ -56,7 +56,7 @@ To test it out, just open the ATF file in ClampEx
 
 ![](src/sine-clampfit.png)
 
-Looks great! This is ready to use.
+Looks great! This is ready to use. I typically open it in Clampfit then save it as an ABF 1.8 file (floating point) so it's smaller and faster to load.
 
 ### Early Code (Feb, 2014)
 I found this jewel in my archives. Thank you 2014 Scott for saving this!
