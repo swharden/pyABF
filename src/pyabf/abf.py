@@ -50,9 +50,11 @@ class ABF:
         self.pointsPerMS = self.pointsPerSec/1000
         self.dataChannels = self._abfHeader.header['dataChannels']
         self.sweepCount = self._abfHeader.header['sweepCount']
-        self.sweepList = np.arange(self.sweepCount)
         self.sweepLengthSec = self._abfHeader.header['sweepLengthSec']
         self.sweepPointCount = self._abfHeader.header['sweepPointCount']
+        self.sweepList = np.arange(self.sweepCount)
+        self.sweepTimesSec = self.sweepList*self.sweepLengthSec
+        self.sweepTimesMin = self.sweepTimesSec/60
         self.mode = self._abfHeader.header['mode']
         self.units = self._abfHeader.header['units']
         self.unitsLong = "Membrane Potential (mV)" if self.units is 'mV' else "Membrane Current (pA)"
@@ -672,8 +674,12 @@ class ABF:
                 return np.nanmean(self.values)
             
             @property
-            def label(self):
+            def longLabel(self):
                 return "%s (%s)"%(self.desc, self.units)
+            
+            @property
+            def label(self):
+                return "%s (%s)"%(self.name, self.units)
                 
             def __setitem__(self, key, value):
                 self.analyzed=True
@@ -686,6 +692,9 @@ class ABF:
             
             def __len__(self):
                 return len(self.values)
+            
+            def __repr__(self):
+                return repr(self.values)
         
         def __init__(self, sweepCount):
             """this object stores membrane test data and common methods."""
@@ -724,7 +733,7 @@ class ABF:
             * if an epoch before the step exists, its value is the same as the command current
             * the epoch after the step returns back to the command current
         """
-        if not abf.units=="pA":
+        if not self.units=="pA":
             raise ValueError("memtest should only be run on VC traces")
 
         # we will calculate memtest based on two traces, so figure them out based on command steps            
@@ -802,11 +811,11 @@ class ABF:
         mt_dict["Cm"]=Cm*1e12   
         
         # populate the memtest object
-        self.memtest.Ih[abf.sweepSelected]=mt_dict["Ih"]
-        self.memtest.Rm[abf.sweepSelected]=mt_dict["Rm"]
-        self.memtest.Ra[abf.sweepSelected]=mt_dict["Ra"]
-        self.memtest.Cm[abf.sweepSelected]=mt_dict["Cm"]
-        self.memtest.Tau[abf.sweepSelected]=mt_dict["Tau"]
+        self.memtest.Ih[self.sweepSelected]=mt_dict["Ih"]
+        self.memtest.Rm[self.sweepSelected]=mt_dict["Rm"]
+        self.memtest.Ra[self.sweepSelected]=mt_dict["Ra"]
+        self.memtest.Cm[self.sweepSelected]=mt_dict["Cm"]
+        self.memtest.Tau[self.sweepSelected]=mt_dict["Tau"]
         
         # optionally return memtest dictionary with full details
         return mt_dict
