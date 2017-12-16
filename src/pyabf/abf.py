@@ -104,13 +104,12 @@ class ABF:
             self.epochStartSec = []
             self.epochStartPoint = []
 
+        ### Prepare memtest placeholder
+        self.memtest=self._MemtestResults(self.sweepCount)
+
         ### Go ahead and set sweep zero to populate command signal trace
         self.setSweep(0)
         
-        ### Prep variables we may optionally use later
-        self._mt_dict_by_sweep=[None]*self.sweepCount
-        self.memtestResults=None
-
     def help(self):
         """Launch the pyABF website in a web browser."""
         import webbrowser
@@ -654,6 +653,50 @@ class ABF:
 
         plt.tight_layout()
 
+
+    ### MEMBRANE TEST
+    
+    class _MemtestResults:
+
+        class _MemtestItem:
+            def __init__(self, name="Ih", units="pA", desc="Membrane Current", sweepCount=123):
+                """A single membrane test item, such as holding current (numpy ndarray)"""
+                self.name=name
+                self.units=units
+                self.desc=desc
+                self.values=np.empty(sweepCount)*np.nan
+                self.analyzed=False
+                
+            @property
+            def average(self):
+                return np.nanmean(self.values)
+            
+            @property
+            def label(self):
+                return "%s (%s)"%(self.desc, self.units)
+                
+            def __setitem__(self, key, value):
+                self.analyzed=True
+                self.values[key] = value
+    
+            def __getitem__(self, key):
+                if not self.analyzed:
+                    warnings.warn("memtest needs to run prior to its values being accessed!")
+                return self.values[key]
+            
+            def __len__(self):
+                return len(self.values)
+        
+        def __init__(self, sweepCount):
+            """this object stores membrane test data and common methods."""
+            self.sweepCount=sweepCount
+            self.sweepList=np.arange(sweepCount)
+            self.Ih=self._MemtestItem("Ih", "pA", "Membrane Current", sweepCount)
+            self.Rm=self._MemtestItem("Rm", "MOhm", "Membrane Resistance", sweepCount)
+            self.Ra=self._MemtestItem("Ra", "MOhm", "Access Resistance", sweepCount)
+            self.Cm=self._MemtestItem("Cm", "pF", "Membrane Capacitance", sweepCount)
+            self.Tau=self._MemtestItem("Tau", "ms", "VC Time Constant", sweepCount)
+
     def _memtestThisSweep(self, tonicAnalysis=True, avgLastFrac=.75):
         """
         When called on a sweep with a voltage step in it, return a dict with membrane properties.
@@ -680,7 +723,6 @@ class ABF:
             * the first or second epoch is a voltage step
             * if an epoch before the step exists, its value is the same as the command current
             * the epoch after the step returns back to the command current
-
         """
         if not abf.units=="pA":
             raise ValueError("memtest should only be run on VC traces")
@@ -745,7 +787,7 @@ class ABF:
     
         # Fit the curve to a monoexponential equation and record tau
         tau=self._monoExpTau(data[peakI:zeroI])
-        mt_dict["tau"]=tau*1e3
+        mt_dict["Tau"]=tau*1e3
     
         # use tau to guess what I0 probably was at the first point after the step
         I0=np.exp((peakI/self.pointsPerSec)/tau)*data[peakI]*1e-12
@@ -759,21 +801,21 @@ class ABF:
         Cm=tau/Ra
         mt_dict["Cm"]=Cm*1e12   
         
-        # populate the membrane test results list for this sweep
-        self._mt_dict_by_sweep[self.sweepSelected]=mt_dict
-                
-    def memtest(self):
+        # populate the memtest object
+        self.memtest.Ih[abf.sweepSelected]=mt_dict["Ih"]
+        self.memtest.Rm[abf.sweepSelected]=mt_dict["Rm"]
+        self.memtest.Ra[abf.sweepSelected]=mt_dict["Ra"]
+        self.memtest.Cm[abf.sweepSelected]=mt_dict["Cm"]
+        self.memtest.Tau[abf.sweepSelected]=mt_dict["Tau"]
+        
+        # optionally return memtest dictionary with full details
+        return mt_dict
+                        
+    def memtestAnalyzeAll(self):
         """Determine membrane test properties for every sweep. Assign results to self.memtestResults"""
-        memtestResults={}
         for sweep in self.sweepList:
             self.setSweep(sweep)
             self._memtestThisSweep()
-        for key in sorted(list(self._mt_dict_by_sweep[0])):
-            results = [None]*self.sweepCount
-            for sweepNumber in abf.sweepList:
-                results[sweepNumber]=self._mt_dict_by_sweep[sweepNumber][key]
-            memtestResults[key]=results
-        self.memtestResults=memtestResults        
 
 def _listDemoFiles(silent=False):
     """List all ABF files in the ../../data/ folder."""
@@ -793,20 +835,21 @@ def _checkFirstPoint():
 
 if __name__=="__main__":
     print("do not run this script directly.")
-    _listDemoFiles()
+    #_listDemoFiles()
     #_checkFirstPoint()
 
     #abf=ABF(R"../../data/171116sh_0014.abf") # V memtest
     #abf=ABF(R"../../data/171116sh_0019.abf") # IC steps
     #abf=ABF(R"../../data/171116sh_0011.abf") # step memtest
     abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
-    abf.memtest()
-    print(abf.memtestResults.keys())
-    plt.plot(abf.memtestResults["Ih"])
+    abf.memtestAnalyzeAll()
     
-#    plt.subplot(211)
-#    plt.plot(abf.dataX,abf.dataY,color='b')
-#    plt.subplot(212)
-#    plt.plot(abf.dataX,abf.dataC,color='r')
-
+    plt.subplot(211)
+    plt.plot(abf.sweepList,abf.memtest.Ih,'b.')
+    plt.ylabel(abf.memtest.Ih.label,fontsize=6)
+    plt.subplot(212)
+    plt.plot(abf.sweepList,abf.memtest.Rm,'r.')
+    plt.ylabel(abf.memtest.Rm.label,fontsize=6)
+    plt.show()
+    
     print("DONE")
