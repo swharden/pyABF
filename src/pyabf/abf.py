@@ -68,6 +68,14 @@ class ABF:
         self.protocolPath = self._abfHeader.header['protocolPath']
         self.protocol = self._abfHeader.header['protocol']
 
+        ### Load Comments
+        self.commentsExist,self.commentTags,self.commentTimes=False,[],[]
+        if "sComment" in self._abfHeader.header.keys():
+            self.commentsExist=True
+            self.commentTags=self._abfHeader.header["sComment"]
+            self.commentTimes=self._abfHeader.header["lTagTime"]
+            #TODO: convert to meaningful units
+
         ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
         self.signalData = self._abfHeader.data/self.dataChannels
         self.signalTimes = np.arange(len(self.signalData),dtype='float32')*self.pointDurSec
@@ -111,7 +119,7 @@ class ABF:
 
         ### Go ahead and set sweep zero to populate command signal trace
         self.setSweep(0)
-        
+
     def help(self):
         """Launch the pyABF website in a web browser."""
         import webbrowser
@@ -657,7 +665,7 @@ class ABF:
 
 
     ### MEMBRANE TEST
-    
+
     class _MemtestResults:
 
         class _MemtestItem:
@@ -668,34 +676,34 @@ class ABF:
                 self.desc=desc
                 self.values=np.empty(sweepCount)*np.nan
                 self.analyzed=False
-                
+
             @property
             def average(self):
                 return np.nanmean(self.values)
-            
+
             @property
             def longLabel(self):
                 return "%s (%s)"%(self.desc, self.units)
-            
+
             @property
             def label(self):
                 return "%s (%s)"%(self.name, self.units)
-                
+
             def __setitem__(self, key, value):
                 self.analyzed=True
                 self.values[key] = value
-    
+
             def __getitem__(self, key):
                 if not self.analyzed:
                     warnings.warn("memtest needs to run prior to its values being accessed!")
                 return self.values[key]
-            
+
             def __len__(self):
                 return len(self.values)
-            
+
             def __repr__(self):
                 return repr(self.values)
-        
+
         def __init__(self, sweepCount):
             """this object stores membrane test data and common methods."""
             self.sweepCount=sweepCount
@@ -736,7 +744,7 @@ class ABF:
         if not self.units=="pA":
             raise ValueError("memtest should only be run on VC traces")
 
-        # we will calculate memtest based on two traces, so figure them out based on command steps            
+        # we will calculate memtest based on two traces, so figure them out based on command steps
         if self.epochCommand[0]!=self.commandHold:
             # Epoch A is the step
             dV=np.abs(self.epochCommand[0]-self.commandHold)*1e-3
@@ -761,10 +769,10 @@ class ABF:
                 trace2=self.dataY[self.epochStartPoint[1]+self.epochDuration[1]:]
         else:
             raise ValueError("A step memtest cannot be used on this type of ABF.")
-            
+
         # this memtest dictionary is what gets returned
         mt_dict={"dV":dV*1e3}
-        
+
         # subtract-out the steady state current so signals are centered at 0
         if tonicAnalysis:
             Ih1=self._tonic(trace1[len(trace1)-int(avgLastFrac*len(trace1)):])
@@ -776,16 +784,16 @@ class ABF:
         data2=trace2-Ih2
         mt_dict["Ih"]=Ih2
         mt_dict["Vm"]=self.commandHold
-        
+
         # Rm - compare the steady state currents to calculate membrane resistance
         dI = (np.abs(Ih2-Ih1)*1e-12)
         Rm = dV/dI # Rm = dV/dI
         mt_dict["Rm"]=Rm*1e-6
-        
+
         # let's improve out data by averaging the two curves together
         point_count=np.min((len(trace1),len(trace2)))
         data=np.average((-data1[:point_count],data2[:point_count]),axis=0)
-    
+
         # Find the points of the trace we intend to fit
         peakI=np.where(data==np.max(data))[0][0]
         zeroI=np.where(data[peakI:]<=0)[0]
@@ -793,33 +801,33 @@ class ABF:
             zeroI=peakI
         else:
             zeroI=zeroI[0]+peakI
-    
+
         # Fit the curve to a monoexponential equation and record tau
         tau=self._monoExpTau(data[peakI:zeroI])
         mt_dict["Tau"]=tau*1e3
-    
+
         # use tau to guess what I0 probably was at the first point after the step
         I0=np.exp((peakI/self.pointsPerSec)/tau)*data[peakI]*1e-12
         mt_dict["I0"]=I0*1e12
-        
+
         # calculate Ra=dV/I0
         Ra=dV/I0
         mt_dict["Ra"]=Ra*1e-6
-    
+
         # calculate Cm=tau/Ra
         Cm=tau/Ra
-        mt_dict["Cm"]=Cm*1e12   
-        
+        mt_dict["Cm"]=Cm*1e12
+
         # populate the memtest object
         self.memtest.Ih[self.sweepSelected]=mt_dict["Ih"]
         self.memtest.Rm[self.sweepSelected]=mt_dict["Rm"]
         self.memtest.Ra[self.sweepSelected]=mt_dict["Ra"]
         self.memtest.Cm[self.sweepSelected]=mt_dict["Cm"]
         self.memtest.Tau[self.sweepSelected]=mt_dict["Tau"]
-        
+
         # optionally return memtest dictionary with full details
         return mt_dict
-                        
+
     def memtestAnalyzeAll(self):
         """Determine membrane test properties for every sweep. Assign results to self.memtestResults"""
         for sweep in self.sweepList:
@@ -852,7 +860,7 @@ if __name__=="__main__":
     #abf=ABF(R"../../data/171116sh_0011.abf") # step memtest
     abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
     abf.memtestAnalyzeAll()
-    
+
     plt.subplot(211)
     plt.plot(abf.sweepList,abf.memtest.Ih,'b.')
     plt.ylabel(abf.memtest.Ih.label,fontsize=6)
@@ -860,5 +868,5 @@ if __name__=="__main__":
     plt.plot(abf.sweepList,abf.memtest.Rm,'r.')
     plt.ylabel(abf.memtest.Rm.label,fontsize=6)
     plt.show()
-    
+
     print("DONE")
