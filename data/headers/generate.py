@@ -18,7 +18,7 @@ if __name__=="__main__":
         abf._abfHeader.saveMarkdown(abf.ID+".md")
         #out+="* [%s](headers/%s)\n"%(os.path.basename(abf.filename),)
         out+="**%s.abf** | "%(abf.ID)
-        out+="[view](%s.md) | "%(abf.ID)
+        out+="[header](headers/%s.md) | "%(abf.ID)
         out+="%s %s | "%(abf.dataY[0],abf.units)
         out+="%s | "%(abf.dataChannels)
         out+="%d | "%(abf.sweepCount)
