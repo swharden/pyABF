@@ -74,7 +74,9 @@ class ABF:
             self.commentsExist=True
             self.commentTags=self._abfHeader.header["sComment"]
             self.commentTimes=self._abfHeader.header["lTagTime"]
-            #TODO: convert to meaningful units
+            self.commentTimesSec=[x*self._abfHeader.header["fSynchTimeUnit"]/1e6 for x in self.commentTimes]
+            self.commentTimesMin=[x*60 for x in self.commentTimesSec]
+            self.commentSweeps=[int(x/self.sweepLengthSec) for x in self.commentTimesSec]
 
         ### Preload signal and time data (totalling ~10MB of memory per minute of 20kHz recording)
         self.signalData = self._abfHeader.data/self.dataChannels
@@ -859,14 +861,20 @@ if __name__=="__main__":
     #abf=ABF(R"../../data/171116sh_0019.abf") # IC steps
     #abf=ABF(R"../../data/171116sh_0011.abf") # step memtest
     abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
-    abf.memtestAnalyzeAll()
-
-    plt.subplot(211)
-    plt.plot(abf.sweepList,abf.memtest.Ih,'b.')
-    plt.ylabel(abf.memtest.Ih.label,fontsize=6)
-    plt.subplot(212)
-    plt.plot(abf.sweepList,abf.memtest.Rm,'r.')
-    plt.ylabel(abf.memtest.Rm.label,fontsize=6)
-    plt.show()
+    
+    print(abf.commentTimes)
+    print(abf.commentTimesSec)
+    print(abf.commentTimesMin)
+    print(abf.commentSweeps)
+    
+#    abf.memtestAnalyzeAll()
+#
+#    plt.subplot(211)
+#    plt.plot(abf.sweepList,abf.memtest.Ih,'b.')
+#    plt.ylabel(abf.memtest.Ih.label,fontsize=6)
+#    plt.subplot(212)
+#    plt.plot(abf.sweepList,abf.memtest.Rm,'r.')
+#    plt.ylabel(abf.memtest.Rm.label,fontsize=6)
+#    plt.show()
 
     print("DONE")
