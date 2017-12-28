@@ -374,8 +374,6 @@ The data section is where the electrical recordings are stored. To see how to re
 ## TagSection (ABFHeader.tags)
 At the end of the file are the tags (time-encoded text comments).
 
-* I'm still working out the tag time units (are they microseconds?)
-
 ```python
 ### TAG 0 ###
 lTagTime = 13918208
@@ -388,6 +386,26 @@ lTagTime = 23588864
 nTagType = 1
 nVoiceTagNumberorAnnotationIndex = 0
 sComment = -TGOT
+```
+
+### Extracting comments and tag times:
+```python
+commentTags=ABFHeader.header["sComment"]
+commentTimes=ABFHeader.header["lTagTime"]
+```
+
+### Correcting tag time units:
+The tag time numbers are large integers. Turn them into seconds by dividing them by `fSynchTimeUnit` (in `ProtocolSection`) and again by 1,000,000.
+
+```python
+commentTimesSec=[x*ABFHeader.header["fSynchTimeUnit"]/1e6 for x in commentTimes]
+```
+
+I take it a step further and provide times in minutes as well as sweep numbers for convenience:
+
+```python
+commentTimesMin=[x*60 for x in commentTimesSec]
+commentSweeps=[int(x/sweepLengthSec) for x in commentTimesSec]
 ```
 
 # Reading Sweep Data
