@@ -1,0 +1,1 @@
+To update the pypi package, manually change __version__ in __init__.py, then run upload.bat
