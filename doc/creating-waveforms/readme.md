@@ -24,6 +24,7 @@ ATF	1.0
 
 ## Sine Wave Sweeps
 We desire to create a stimulus waveform which is a sine wave that increases frequency _linearly_. 
+This is accomplished in [synth-atf.py](src/synth-atf.py)
 
 
 ### Modern Code (Jan, 2018)
