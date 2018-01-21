@@ -178,9 +178,11 @@ class ABFheader:
         self.header['timeSecPerPoint']=self.header['fADCSequenceInterval']/1e6
         self.header['timePointPerSec']=1e6/self.header['fADCSequenceInterval']
         self.header['rate']=1e6/self.header['fADCSequenceInterval']
+        self.header['sweepCount']=self.header['lActualEpisodes']
         self.header['sweepPointCount']=int(self.header['lNumSamplesPerEpisode']/self.header['dataChannels'])
+        if self.header['sweepCount'] == 0: # gap free mode
+            self.header['sweepPointCount']=int(self.header['dataPointCount']/self.header['dataChannels'])
         self.header['sweepLengthSec']=self.header['sweepPointCount']*self.header['timeSecPerPoint']
-        self.header['sweepCount']=self.header['lActualEpisodes']        
         self.header['gain']=self.header['fTelegraphAdditGain']
         self.header['mode']="IC" if self.header['nTelegraphMode'] else "VC"
         self.header['units']="mV" if self.header['mode']=="IC" else "pA"
@@ -408,11 +410,10 @@ def _graphSomeData(abfFileName):
     
 
 if __name__=="__main__":
-    warnings.warn("This file is meant to be imported, not run directly.")
-    #abf=ABFheader("../../data/17o05028_ic_steps.abf")
-    #abf=ABFheader("../../data/05210017_vc_abf1.abf")
-    #_graphSomeData("../../data/05210017_vc_abf1.abf")
-    #_graphSomeData("../../data/17o05028_ic_steps.abf")
-    _graphSomeData("../../data/14o08011_ic_pair.abf")
+    warnings.warn("This file is meant to be imported, not run directly.")    
+    #_graphSomeData("../../data/14o08011_ic_pair.abf")
     #_compareHeaders("../../data/14o16001_vc_pair_step.abf","../../data/17o05024_vc_steps.abf")
     
+    # test an ABF submitted by Kim
+    #abf=ABFheader(R"../../data/16d22006_kim_gapfree.abf") # time course experiment
+    #abf.saveHTML("test.html")    

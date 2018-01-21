@@ -52,7 +52,7 @@ class ABF:
         self.sweepCount = self._abfHeader.header['sweepCount']
         self.sweepLengthSec = self._abfHeader.header['sweepLengthSec']
         self.sweepPointCount = self._abfHeader.header['sweepPointCount']
-        self.sweepList = np.arange(self.sweepCount)
+        self.sweepList = np.arange(max(1, self.sweepCount)) # zero for gap-free files
         self.sweepTimesSec = self.sweepList*self.sweepLengthSec
         self.sweepTimesMin = self.sweepTimesSec/60
         self.mode = self._abfHeader.header['mode']
@@ -709,7 +709,6 @@ class ABF:
         def __init__(self, sweepCount):
             """this object stores membrane test data and common methods."""
             self.sweepCount=sweepCount
-            self.sweepList=np.arange(sweepCount)
             self.Ih=self._MemtestItem("Ih", "pA", "Membrane Current", sweepCount)
             self.Rm=self._MemtestItem("Rm", "MOhm", "Membrane Resistance", sweepCount)
             self.Ra=self._MemtestItem("Ra", "MOhm", "Access Resistance", sweepCount)
@@ -860,21 +859,8 @@ if __name__=="__main__":
     #abf=ABF(R"../../data/171116sh_0014.abf") # V memtest
     #abf=ABF(R"../../data/171116sh_0019.abf") # IC steps
     #abf=ABF(R"../../data/171116sh_0011.abf") # step memtest
-    abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
+    #abf=ABF(R"../../data/16d05007_vc_tags.abf") # time course experiment
+    #abf=ABF(R"../../data/16d22006_kim_gapfree.abf") # gap-free dual-channel file
     
-    print(abf.commentTimes)
-    print(abf.commentTimesSec)
-    print(abf.commentTimesMin)
-    print(abf.commentSweeps)
     
-#    abf.memtestAnalyzeAll()
-#
-#    plt.subplot(211)
-#    plt.plot(abf.sweepList,abf.memtest.Ih,'b.')
-#    plt.ylabel(abf.memtest.Ih.label,fontsize=6)
-#    plt.subplot(212)
-#    plt.plot(abf.sweepList,abf.memtest.Rm,'r.')
-#    plt.ylabel(abf.memtest.Rm.label,fontsize=6)
-#    plt.show()
-
     print("DONE")
