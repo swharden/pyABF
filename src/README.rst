@@ -49,8 +49,7 @@ Output:
   import pyabf
   import matplotlib.pyplot as plt
 
-  abf=pyabf.ABF("filename.abf") 
-  plt.figure(figsize=(8,4))
+  abf=pyabf.ABF("filename.abf")   
   for sweepNumber in abf.sweepList:
       abf.setSweep(sweepNumber)
       plt.plot(abf.dataX,abf.dataY)
@@ -62,7 +61,11 @@ Output:
   
 Output:
 
-.. image:: demo1.png
-    
+
+.. class:: no-web
+
+    .. image:: https://raw.githubusercontent.com/swharden/pyABF/master/src/demo1.png
+        :alt: pyABF Example - plot every sweep of an ABF file
+        :align: center
 
 **Full pyabf API documentation**, additional code examples, a pyabf cookbook, and low-level information about the ABF file format can be found at the pyABF project homepage: https://github.com/swharden/pyABF

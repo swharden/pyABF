@@ -17,5 +17,6 @@ for sweepNumber in abf.sweepList:
 plt.ylabel(abf.unitsLong)
 plt.xlabel(abf.unitsTimeLong)
 plt.margins(0,.1)
-plt.savefig('../src/demo1.png')
-plt.show()
+plt.tight_layout()
+plt.savefig('../src/demo1.png', dpi=70)
+print("DONE")
