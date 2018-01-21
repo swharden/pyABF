@@ -1089,7 +1089,13 @@ public static float[] GetSweepData(string abfFileName, int sweepNumber=1)
 # Gap-Free Recording Mode
 Gap-free files don't have sweeps (episodes). The whole recording is continuous. I prefer to treat these ABFs as episodic files with 1 sweep, it's just that the one sweep is the full length of the recording.
 
-For gap free files `lActualEpisodes = 0`. Keep this in mind, and your code may prefer to do something like `sweepCount = max(lActualEpisodes, 1)` to ensure it's always at least 1.
+For gap free files `lActualEpisodes = 0`. Keep this in mind, and your code may prefer to do something like `sweepCount = max(lActualEpisodes, 1)` to ensure it's always at least 1. We also have to think closer about how we calculate `sweepPointCount`. I employ soomething like:
+
+```python     
+self.header['sweepPointCount']=int(self.header['lNumSamplesPerEpisode']/self.header['dataChannels'])
+if self.header['sweepCount'] == 0: # gap free mode
+    self.header['sweepPointCount']=int(self.header['dataPointCount']/self.header['dataChannels'])
+```
 
 # References
 
