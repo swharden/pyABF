@@ -64,7 +64,7 @@ Output:
 
 .. class:: no-web
 
-    .. image:: https://raw.githubusercontent.com/swharden/pyABF/master/src/demo.png
+    .. image:: https://raw.githubusercontent.com/swharden/pyABF/master/src/demo-2018-01-21.png
         :alt: pyABF Example - plot every sweep of an ABF file
         :align: center
 
