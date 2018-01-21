@@ -213,9 +213,9 @@
 * timeSecPerPoint = `0.0001`
 * timePointPerSec = `10000.0`
 * rate = `10000.0`
+* sweepCount = `13`
 * sweepPointCount = `40000`
 * sweepLengthSec = `4.0`
-* sweepCount = `13`
 * gain = `[5.0, 5.0]`
 * mode = `IC`
 * units = `mV`

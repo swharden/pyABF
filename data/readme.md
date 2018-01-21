@@ -7,7 +7,7 @@ File Name | Header | First Value | Ch | swpCnt | swpLen | Protocol
 **14o08011_ic_pair.abf** | [header](headers/14o08011_ic_pair.md) | -65.5212 mV | 2 | 3 | 60.0 s | pair-loose-60.pro | 
 **14o16001_vc_pair_step.abf** | [header](headers/14o16001_vc_pair_step.md) | -25.8789 mV | 2 | 13 | 4.0 s | pair-MTIV.pro | 
 **16d05007_vc_tags.abf** | [header](headers/16d05007_vc_tags.md) | 0.854492 pA | 1 | 187 | 2.0 s | 0402 VC 2s MT-50.pro | 
-**16d22006_kim_gapfree.abf** | [header](headers/16d22006_kim_gapfree.md) | 0.0100708 mV | 2 | 0 | 0.2 s | mapping.pro | 
+**16d22006_kim_gapfree.abf** | [header](headers/16d22006_kim_gapfree.md) | 0.0100708 mV | 2 | 0 | 48.3 s | mapping.pro | 
 **171116sh_0011.abf** | [header](headers/171116sh_0011.md) | -125.732 pA | 1 | 20 | 0.5 s | 0201 memtest.pro | 
 **171116sh_0012.abf** | [header](headers/171116sh_0012.md) | -120.239 pA | 1 | 7 | 3.5 s | 0202 IV dual.pro | 
 **171116sh_0013.abf** | [header](headers/171116sh_0013.md) | -103.516 pA | 1 | 13 | 1.0 s | 0203 IV fast.pro | 
