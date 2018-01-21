@@ -7,7 +7,7 @@ The purpose of this page is to document how to extract meaningful information di
 
 This document is a blend of code and insights provided by the work of previous developers (see  [References](#references)) supplemented with additional code and insights added by the author. Discovery of previously-undocumented features (e.g., extracting digital output command signals from the waveform protocol) was primarially achieved by comparing ABFs in a hex editor (comparing files byte-by-byte, modifying individual bits and viewing modified files in ClampEx).
 
-Documentation and development is biased toward the use-cases of the author: Analysis of 1-2 channel ABF2 fixed-length episodic files (voltage clamp and current clamp) recorded using whole-cell patch-clamp technique in brain slices. No effort will be invested into documenting features I don't use (e.g., variable-length sweeps, gap-free mode, or voice tags). If you benefit from the information provided on this document and figure out how to achieve additional functionality or implement your own improvements into this basic framework, please contact me so I can add your contributions to this growing collection of source code examples and documentation!
+Documentation and development is biased toward the use-cases of the author: Analysis of 1-2 channel ABF2 fixed-length episodic files (voltage clamp and current clamp) recorded using whole-cell patch-clamp technique in brain slices. No effort will be invested into documenting features I don't use (e.g., variable-length sweeps, or voice tags). If you benefit from the information provided on this document and figure out how to achieve additional functionality or implement your own improvements into this basic framework, please contact me so I can add your contributions to this growing collection of source code examples and documentation!
 
 # Reading an ABF
 The overall process of reading ABF file occurs in a series of steps in this order. Each step has its own section described in detail further down in this document.
@@ -1086,6 +1086,10 @@ public static float[] GetSweepData(string abfFileName, int sweepNumber=1)
 ### Output
 `DATA FOR SWEEP 1: -4.325376, -4.292608, -4.096, ..., -6.651904, -6.684672, -6.848512 (200000 points in total)`
 
+# Gap-Free Recording Mode
+Gap-free files don't have sweeps (episodes). The whole recording is continuous. I prefer to treat these ABFs as episodic files with 1 sweep, it's just that the one sweep is the full length of the recording.
+
+For gap free files `lActualEpisodes = 0`. Keep this in mind, and your code may prefer to do something like `sweepCount = max(lActualEpisodes, 1)` to ensure it's always at least 1.
 
 # References
 
