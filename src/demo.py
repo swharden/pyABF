@@ -1,6 +1,6 @@
-# This is the example used on the front page of pypi for pyABF
-import sys
-sys.path.insert(0,'../src/') # path to the pyabf folder (if not installed with pip)
+"""
+Generate the demo screenshot used on the front page of pypi for pyABF
+"""
 
 import pyabf
 import matplotlib.pyplot as plt
@@ -18,5 +18,5 @@ plt.ylabel(abf.unitsLong)
 plt.xlabel(abf.unitsTimeLong)
 plt.margins(0,.1)
 plt.tight_layout()
-plt.savefig('../src/demo1.png', dpi=70)
+plt.savefig('demo.png', dpi=70)
 print("DONE")
