@@ -16,6 +16,11 @@ abf=pyabf.ABF("filename.abf")
 abf.info()
 ```
 
+**Dive in with the pyABF Cookbook!:**
+* [Getting started](https://github.com/swharden/pyABF/blob/master/cookbook/getting-started.ipynb)
+* [Many features of ABF objects](https://github.com/swharden/pyABF/blob/master/cookbook/bells-and-whistles.ipynb)
+* [All cookbook sections](https://github.com/swharden/pyABF/tree/master/cookbook)
+
 _TIP: If you use a predictive python editor (like [Spyder](https://pypi.python.org/pypi/spyder), [IDLE](https://en.wikipedia.org/wiki/IDLE), [IPython](https://ipython.org), or [Jupyter](http://jupyter.org)) will immediately be able to use most of the features of this package without requiring any additional documentation._
 
 ![](/doc/graphics/2017-11-06-aps.png)
