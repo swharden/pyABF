@@ -5,7 +5,7 @@ Documentation, code examples, and more can be found at: https://github.com/swhar
 
 from pyabf.abf import ABF
 
-__version__ = '0.1.6'
+__version__ = '0.1.12'
 
 def info():
     """display information about the pyabf package."""
