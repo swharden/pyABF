@@ -3,6 +3,10 @@ The pyABF project was created to simplify the process of reading data from files
 
 ![](/doc/graphics/2017-11-06-aps.png)
 
+# Reverse engineering (and documenting) the ABF file format
+Using existing matlab and python code as a starting point, I continued to explore how to extract data from files encoded in the _Axon Binary Format_ (ABF). Insights (with code examples) are aggregated here:
+* **[SWHarden's Unofficial Guide to the ABF File Format](/doc/abf-file-format/)**
+
 # The pyabf Python Package
 **The pyabf Python package** was created to provide an intuitive pythonic API front-end to access the content of ABF files. Users who are interested in working with data from ABF files in a python environment (rather than learning the byte structure of ABF headers) can simply install pyabf and interact with it directly. The pyabf Python package can be installed with pip. To see all it can do, check out the **[pyabf Python package documentation page](https://github.com/swharden/pyABF/tree/master/doc/pyabf)**
 
