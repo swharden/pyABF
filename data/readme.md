@@ -18,6 +18,7 @@ File Name | Header | First Value | Ch | swpCnt | swpLen | Protocol
 **171116sh_0018.abf** | [header](headers/171116sh_0018.md) | -62.4695 mV | 1 | 17 | 3.0 s | 0113 steps dual -100 to 300 step 25.pro | 
 **171116sh_0019.abf** | [header](headers/171116sh_0019.md) | -62.439 mV | 1 | 22 | 3.0 s | 0114 steps dual -100 to 2000 step 100.pro | 
 **171116sh_0020.abf** | [header](headers/171116sh_0020.md) | 72.7539 pA | 1 | 7 | 10.0 s | 0406 VC 10s MT-50.pro | 
+**171117_HFMixFRET.abf** | [header](headers/171117_HFMixFRET.md) | -0.439453 mV | 4 | 13 | 6.2 s | fret_fv_2s.pro | 
 **17o05024_vc_steps.abf** | [header](headers/17o05024_vc_steps.md) | -21.3623 pA | 1 | 7 | 3.5 s | 0202 IV dual.pro | 
 **17o05026_vc_stim.abf** | [header](headers/17o05026_vc_stim.md) | -16.1133 pA | 1 | 8 | 10.0 s | 0501 opto -50.pro | 
 **17o05027_ic_ramp.abf** | [header](headers/17o05027_ic_ramp.md) | -48.0042 mV | 1 | 2 | 1.0 s | 0111 continuous ramp.pro | 
