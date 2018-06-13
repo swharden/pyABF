@@ -344,24 +344,51 @@ sDigitalOutput = 00000000 # digital output codes (added from EpochSection)
   * One way to figure out the rest is to modify this byte in a hex editor then view the protocol!
 
 ## StringsSection (ABFHeader.strings and ABFHeader.stringsAll)
-This section is very poorly documented, hwoever some quasi-useful information can be pulled from the strings parsing these keys can produce. First, throw away any keys that don't contain key words (AXENGN, clampex, Clampex, CLAMPEX, or axoscope). If a keyword is found, split the string at the key word and take the last part. Finally, split the string at 0x00. What's left are ~20 strings. These seem to be the ABF comment (if it exists), the protocol used to make the recording, and signal labels.
+This section seems poorly documented and poorly understood across multiple ABF reading libraries, but I've made some good progress recently at understanding it. 
 
+**The StringsSection contains information about:**
+* ADC labels for each channel (e.g., `[CMD 0, CMD 1]`)
+* ADC units for each channel (e.g., `[mV, mV]`)
+* DAC labels for each channel (e.g., `[IN 0, IN 1]`)
+* DAC units for each channel (e.g., `[pA, pA]`)
+* Program used to record the ABF (e.g., `AxoScope`, `Clampex`)
+* Protocol path (e.g., `C:\scott\coolness.pro`)
+* the ABF comment (set in the waveform editor)
 
-#### Example
-```
-0000: S:\Protocols\permanent\0402 VC 2s MT-50.pro
-0001: SWHLab5[0402]
-0002: IN 0
-0003: pA
-0004: Cmd 0
-0005: mV
-0006: Cmd 1
-0007: mV
-0008: Cmd 2
-0009: mV
-0010: Cmd 3
-0011: mV
-```
+**Each string is an index in an array of strings.** The location in memory of these strings is defined in the `StringsSection` portion of the Section Map. The location, size, and number of strings seems to vary across ABFs, but I find I only need to read the first string. It is usually a few hundred characters long. Find the last instance of "\x00\x00" (ascii encoding) and delete all characters before that. Then split the string at "\x00" (ascii, again) so that the first element of the list is blank and the second should say something like "Clampex". When this is true, you've done it correctly. Note that [the matlab script](https://github.com/voyn/transalyzer/blob/master/Functions/abf2load.m#L307) takes a different approach and just splits at the words `clampex`,`clampfit`,`axoscope`,`patchxpress` which is interesting but may be unreliable (mind your caps!). 
+
+Now that the first chunk of the StringSection is itself broken into a list of strings, this is a variable (a list) is something I will keep around and refer to as `indexedStrings` for the remainder of this document.
+
+**indexedStrings** (index: string)
+* 00: ``
+* 01: `Clampex`
+* 02: `S:\Protocols\permanent\0402 VC 2s MT-50.pro`
+* 03: `SWHLab5[0402]`
+* 04: `IN 0`
+* 05: `pA`
+* 06: `Cmd 0`
+* 07: `mV`
+* 08: `Cmd 1`
+* 09: `mV`
+* 10: `Cmd 2`
+* 11: `mV`
+* 12: Cmd `3`
+* 13: `mV`
+
+**Now hop around your header and look for keys containing the word "Index"** and use these indexedStrings to populate their values. You'll find the following (shown here with my example values):
+
+* uModifierNameIndex = `0`
+* uCreatorNameIndex = `1`
+* uProtocolPathIndex = `2`
+* lFileCommentIndex = `3`
+* lADCChannelNameIndex = `[4, 6]`
+* lADCUnitsIndex = `[5, 7]`
+* lDACChannelNameIndex = `[8, 10, 12, 14]`
+* lDACChannelUnitsIndex = `[9, 11, 13, 15]`
+* lDACFilePathIndex = `[0, 0, 0, 0]` 
+* nLeakSubtractADCIndex = `[0, 0, 0, 0]`
+
+_Notice that the numbers in this list correspond to the index positions of `indexedStrings` in the list above_
 
 #### Notes
 
