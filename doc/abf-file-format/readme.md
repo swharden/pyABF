@@ -372,7 +372,7 @@ Now that the first chunk of the StringSection is itself broken into a list of st
 * 09: `mV`
 * 10: `Cmd 2`
 * 11: `mV`
-* 12: Cmd `3`
+* 12: `Cmd 3`
 * 13: `mV`
 
 **Now hop around your header and look for keys containing the word "Index"** and use these indexedStrings to populate their values. You'll find the following (shown here with my example values):
