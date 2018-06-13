@@ -20,8 +20,8 @@
 * uCreatorVersion = `167969029`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
+* uModifierNameIndex = ``
+* uProtocolPathIndex = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = `0`
+* lFileCommentIndex = ``
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `1`
@@ -203,6 +203,13 @@
 
 ## TagSection
 
+## StringsSection
+* uCreatorName = `Clampex`
+* lADCUnits = `['A', 'mV', 'V', 'V']`
+* lADCChannelNames = `['Current', 'Voltage', 'YFP', 'CFP']`
+* lDACChannelUnits = `['mV', 'mV', 'AO #', '6     A']`
+* lDACChannelNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
+
 ## Extras
 * abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
@@ -218,8 +225,8 @@
 * sweepLengthSec = `6.1934000000000005`
 * gain = `[0.05000000074505806, 0.05000000074505806, 1.0, 1.0]`
 * mode = `IC`
-* units = `mV`
-* unitsCommand = `pA`
+* units = `A`
+* unitsCommand = `mV`
 * commandHoldingByDAC = `[-100.0, 0.0, 0.0, 0.0]`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * protocol = `fret_fv_2s.pro`

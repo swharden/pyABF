@@ -20,8 +20,8 @@
 * uCreatorVersion = `168230915`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
+* uModifierNameIndex = ``
+* uProtocolPathIndex = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `1`
 * nCommentsEnable = `0`
-* lFileCommentIndex = `0`
+* lFileCommentIndex = ``
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `0`
@@ -202,6 +202,13 @@
 * nEpochDigitalOutput = `[0]`
 
 ## TagSection
+
+## StringsSection
+* uCreatorName = `Clampex`
+* lADCUnits = `pA`
+* lADCChannelNames = `IN 0`
+* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
+* lDACChannelNames = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
 
 ## Extras
 * abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\model_vc_step.abf`

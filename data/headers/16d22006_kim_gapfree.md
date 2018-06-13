@@ -20,8 +20,8 @@
 * uCreatorVersion = `167969281`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
+* uModifierNameIndex = ``
+* uProtocolPathIndex = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = `0`
+* lFileCommentIndex = ``
 * nAutoAnalyseEnable = `0`
 * nSignalType = `1`
 * nDigitalEnable = `0`
@@ -194,6 +194,13 @@
 
 ## TagSection
 
+## StringsSection
+* uCreatorName = `AxoScope`
+* lADCUnits = `['dB', 'mV']`
+* lADCChannelNames = `['IN 2', 'IN 3']`
+* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
+* lDACChannelNames = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
+
 ## Extras
 * abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
@@ -209,8 +216,8 @@
 * sweepLengthSec = `48.300000000000004`
 * gain = `[1.0, 1.0]`
 * mode = `IC`
-* units = `mV`
-* unitsCommand = `pA`
+* units = `dB`
+* unitsCommand = `mV`
 * commandHoldingByDAC = `[0.0, 0.0, 0.0, 0.0]`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * protocol = `mapping.pro`

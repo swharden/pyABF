@@ -20,8 +20,8 @@
 * uCreatorVersion = `167968770`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
+* uModifierNameIndex = ``
+* uProtocolPathIndex = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `1`
 * nCommentsEnable = `1`
-* lFileCommentIndex = `3`
+* lFileCommentIndex = `SWH[MTIV]`
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `0`
@@ -203,6 +203,13 @@
 
 ## TagSection
 
+## StringsSection
+* uCreatorName = `Clampex`
+* lADCUnits = `['pA', 'pA']`
+* lADCChannelNames = `['IN 0', 'IN 1']`
+* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
+* lDACChannelNames = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
+
 ## Extras
 * abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\14o16001_vc_pair_step.abf`
 * abfID = `14o16001_vc_pair_step`
@@ -218,8 +225,8 @@
 * sweepLengthSec = `4.0`
 * gain = `[5.0, 5.0]`
 * mode = `IC`
-* units = `mV`
-* unitsCommand = `pA`
+* units = `pA`
+* unitsCommand = `mV`
 * commandHoldingByDAC = `[-70.0, -70.0, 0.0, 0.0]`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * protocol = `pair-MTIV.pro`

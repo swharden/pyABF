@@ -5,9 +5,9 @@ File Name | Header | First Value | Ch | swpCnt | swpLen | Protocol
 --- | --- | --- | --- | --- | --- | ---
 **05210017_vc_abf1.abf** | [header](headers/05210017_vc_abf1.md) | -136.291 pA | 2 | 6 | 1.5 s | Apply ACh with imaging (VC) 2 (no movies).pro | 
 **14o08011_ic_pair.abf** | [header](headers/14o08011_ic_pair.md) | -65.5212 mV | 2 | 3 | 60.0 s | pair-loose-60.pro | 
-**14o16001_vc_pair_step.abf** | [header](headers/14o16001_vc_pair_step.md) | -25.8789 mV | 2 | 13 | 4.0 s | pair-MTIV.pro | 
+**14o16001_vc_pair_step.abf** | [header](headers/14o16001_vc_pair_step.md) | -25.8789 pA | 2 | 13 | 4.0 s | pair-MTIV.pro | 
 **16d05007_vc_tags.abf** | [header](headers/16d05007_vc_tags.md) | 0.854492 pA | 1 | 187 | 2.0 s | 0402 VC 2s MT-50.pro | 
-**16d22006_kim_gapfree.abf** | [header](headers/16d22006_kim_gapfree.md) | 0.0100708 mV | 2 | 0 | 48.3 s | mapping.pro | 
+**16d22006_kim_gapfree.abf** | [header](headers/16d22006_kim_gapfree.md) | 0.0100708 dB | 2 | 0 | 48.3 s | mapping.pro | 
 **171116sh_0011.abf** | [header](headers/171116sh_0011.md) | -125.732 pA | 1 | 20 | 0.5 s | 0201 memtest.pro | 
 **171116sh_0012.abf** | [header](headers/171116sh_0012.md) | -120.239 pA | 1 | 7 | 3.5 s | 0202 IV dual.pro | 
 **171116sh_0013.abf** | [header](headers/171116sh_0013.md) | -103.516 pA | 1 | 13 | 1.0 s | 0203 IV fast.pro | 
@@ -18,12 +18,12 @@ File Name | Header | First Value | Ch | swpCnt | swpLen | Protocol
 **171116sh_0018.abf** | [header](headers/171116sh_0018.md) | -62.4695 mV | 1 | 17 | 3.0 s | 0113 steps dual -100 to 300 step 25.pro | 
 **171116sh_0019.abf** | [header](headers/171116sh_0019.md) | -62.439 mV | 1 | 22 | 3.0 s | 0114 steps dual -100 to 2000 step 100.pro | 
 **171116sh_0020.abf** | [header](headers/171116sh_0020.md) | 72.7539 pA | 1 | 7 | 10.0 s | 0406 VC 10s MT-50.pro | 
-**171117_HFMixFRET.abf** | [header](headers/171117_HFMixFRET.md) | -0.439453 mV | 4 | 13 | 6.2 s | fret_fv_2s.pro | 
+**171117_HFMixFRET.abf** | [header](headers/171117_HFMixFRET.md) | -0.439453 A | 4 | 13 | 6.2 s | fret_fv_2s.pro | 
 **17o05024_vc_steps.abf** | [header](headers/17o05024_vc_steps.md) | -21.3623 pA | 1 | 7 | 3.5 s | 0202 IV dual.pro | 
 **17o05026_vc_stim.abf** | [header](headers/17o05026_vc_stim.md) | -16.1133 pA | 1 | 8 | 10.0 s | 0501 opto -50.pro | 
 **17o05027_ic_ramp.abf** | [header](headers/17o05027_ic_ramp.md) | -48.0042 mV | 1 | 2 | 1.0 s | 0111 continuous ramp.pro | 
 **17o05028_ic_steps.abf** | [header](headers/17o05028_ic_steps.md) | -47.0886 mV | 1 | 16 | 3.0 s | 0112 steps dual -50 to 150 step 10.pro | 
-**180415_aaron_temp.abf** | [header](headers/180415_aaron_temp.md) | -0.351868 mV | 2 | 1 | 1.0 s | PacemakerTempTest.pro | 
+**180415_aaron_temp.abf** | [header](headers/180415_aaron_temp.md) | -0.351868 V | 2 | 1 | 1.0 s | PacemakerTempTest.pro | 
 **model_vc_ramp.abf** | [header](headers/model_vc_ramp.md) | -138.428 pA | 1 | 50 | 0.1 s | 0204 Cm ramp.pro | 
 **model_vc_step.abf** | [header](headers/model_vc_step.md) | -140.137 pA | 1 | 20 | 0.5 s | 0201 memtest.pro | 
 

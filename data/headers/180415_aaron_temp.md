@@ -20,8 +20,8 @@
 * uCreatorVersion = `168034340`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
+* uModifierNameIndex = ``
+* uProtocolPathIndex = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = `0`
+* lFileCommentIndex = ``
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `1`
@@ -194,6 +194,13 @@
 
 ## TagSection
 
+## StringsSection
+* uCreatorName = `Clampex`
+* lADCUnits = `['V', 'deg C']`
+* lADCChannelNames = `['IN 0', 'IN 1']`
+* lDACChannelUnits = `['V', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
+* lDACChannelNames = `['OUT 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'Cmd 4', 'Cmd 5', 'Cmd 6', 'Cmd 7']`
+
 ## Extras
 * abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
@@ -209,8 +216,8 @@
 * sweepLengthSec = `1.0`
 * gain = `[1.0, 1.0]`
 * mode = `IC`
-* units = `mV`
-* unitsCommand = `pA`
+* units = `V`
+* unitsCommand = `V`
 * commandHoldingByDAC = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * protocol = `PacemakerTempTest.pro`
