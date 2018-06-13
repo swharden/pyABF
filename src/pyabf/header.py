@@ -156,7 +156,60 @@ class ABFheader:
         self._fileReadSection('DACSection',DAC)
         self._fileReadSection('EpochPerDACSection',EPPERDAC)
         self._fileReadSection('EpochSection',EPSEC)      
-        self._fileReadSection('TagSection',TAGS)  
+        self._fileReadSection('TagSection',TAGS)
+
+        # strings section takes extra effort
+        STRINGS="strings_%ds"%(self.header["StringsSection"][0][1])
+        self._fileReadSection('StringsSection',STRINGS)
+        for i,s in enumerate(self.header["strings"]):
+            s=s.strip(chr(0).encode("ascii"))
+            s=s.split(chr(0).encode("ascii"))
+            while b' ' in s:
+                s.remove(b' ')
+            for j in range(len(s)):
+                s[j]=s[j].decode("ascii", errors='ignore')
+            s=",".join(s)
+            self.header["string_%02d"%(i)]=s
+        
+        # take extra care of the first string, as it contains unit info
+        s = self.header["string_00"]
+        while ",," in s:
+            s=s[1:]
+        indexedUnits = s.split(",")
+        for i in range(len(indexedUnits)):
+            self.header["indexedUnit_%02d"%(i)]=indexedUnits[i]
+
+        # misc indexed strings
+        self.header["uCreatorName"]=indexedUnits[self.header["uCreatorNameIndex"][0]]
+        self.header["uModifierNameIndex"]=indexedUnits[self.header["uModifierNameIndex"][0]]
+        self.header["uProtocolPathIndex"]=indexedUnits[self.header["uProtocolPathIndex"][0]]
+        self.header["lFileCommentIndex"]=indexedUnits[self.header["lFileCommentIndex"][0]]
+
+        # create lists of units (ADC)
+        if type(self.header["lADCUnitsIndex"]) == int:
+            self.header["lADCUnitsIndex"] = [self.header["lADCUnitsIndex"]]
+        self.header["lADCUnits"]=[indexedUnits[x] for x in self.header["lADCUnitsIndex"]]
+        
+        if type(self.header["lADCChannelNameIndex"]) == int:
+            self.header["lADCChannelNameIndex"] = [self.header["lADCChannelNameIndex"]]
+        self.header["lADCChannelNames"]=[indexedUnits[x] for x in self.header["lADCChannelNameIndex"]]
+        
+        # create lists of units (DAC)
+        if type(self.header["lDACChannelUnitsIndex"]) == int:
+            self.header["lDACChannelUnitsIndex"] = [self.header["lDACChannelUnitsIndex"]]
+        self.header["lDACChannelUnits"]=[indexedUnits[x] for x in self.header["lDACChannelUnitsIndex"]]
+        
+        if type(self.header["lDACChannelNameIndex"]) == int:
+            self.header["lDACChannelNameIndex"] = [self.header["lDACChannelNameIndex"]]
+        self.header["lDACChannelNames"]=[indexedUnits[x] for x in self.header["lDACChannelNameIndex"]]
+
+        # clean up extra string units we dont need
+        keysToDelete=["strings"]
+        for key in self.header.keys():
+            if key.startswith("indexedUnit") or key.startswith("string_"):
+                keysToDelete.append(key)
+        for key in keysToDelete:
+            del self.header[key]         
         
         # touch-up comments
         if 'sComment' in self.header.keys():
@@ -190,6 +243,17 @@ class ABFheader:
         self.header['commandHoldingByDAC']=self.header['fDACHoldingLevel']
         self.header['protocolPath']=self._readHeaderProtocol()
         self.header['protocol']=os.path.basename(self.header['protocolPath'])
+
+        # improve units
+        if type(self.header["lADCUnits"]) == str: 
+            self.header['units'] = self.header["lADCUnits"]
+        else:
+            self.header['units'] = self.header["lADCUnits"][0]
+
+        if type(self.header["lDACChannelUnits"]) == str: 
+            self.header['unitsCommand'] = self.header["lDACChannelUnits"]
+        else:
+            self.header['unitsCommand'] = self.header["lDACChannelUnits"][0]
         
         
         self._calculateScaleFactor()
@@ -300,7 +364,6 @@ class ABFheader:
         html+="</code></html></body>"
         with open(fname,'w') as f:
             f.write(html)
-        print("wrote",os.path.abspath(fname))
         
     def saveMarkdown(self,fname):
         """Generate a markdown-formatted document with all header information."""
@@ -312,7 +375,6 @@ class ABFheader:
                 out+="* %s = `%s`\n"%(key,self.header[key])
         with open(fname,'w') as f:
             f.write(out)
-        print("wrote",os.path.abspath(fname))   
 
 
 ### Data structures for ABF2 files:
