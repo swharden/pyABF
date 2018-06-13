@@ -181,7 +181,7 @@ Although I read byte information for all sections, I typically don't _use_ data 
 * UserListSection - one for each user list
 * StatsRegionSection - one for each stats region
 * MathSection - Math
-* **StringsSection** - ABF comments and protocol
+* **StringsSection** - ABF comments, protocol path, and channel units
 * **DataSection** - Data
 * **TagSection** - Tags
 * ScopeSection - Scope config
