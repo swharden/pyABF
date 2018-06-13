@@ -181,9 +181,9 @@ class ABFheader:
 
         # misc indexed strings
         self.header["uCreatorName"]=indexedUnits[self.header["uCreatorNameIndex"][0]]
-        self.header["uModifierNameIndex"]=indexedUnits[self.header["uModifierNameIndex"][0]]
-        self.header["uProtocolPathIndex"]=indexedUnits[self.header["uProtocolPathIndex"][0]]
-        self.header["lFileCommentIndex"]=indexedUnits[self.header["lFileCommentIndex"][0]]
+        self.header["uModifierName"]=indexedUnits[self.header["uModifierNameIndex"][0]]
+        self.header["uProtocolPath"]=indexedUnits[self.header["uProtocolPathIndex"][0]]
+        self.header["lFileComment"]=indexedUnits[self.header["lFileCommentIndex"][0]]
 
         # create lists of units (ADC)
         if type(self.header["lADCUnitsIndex"]) == int:

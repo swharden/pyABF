@@ -20,8 +20,8 @@
 * uCreatorVersion = `167969281`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = ``
-* uProtocolPathIndex = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
+* uModifierNameIndex = `0`
+* uProtocolPathIndex = `2`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = ``
+* lFileCommentIndex = `0`
 * nAutoAnalyseEnable = `0`
 * nSignalType = `1`
 * nDigitalEnable = `0`
@@ -196,6 +196,9 @@
 
 ## StringsSection
 * uCreatorName = `AxoScope`
+* uModifierName = ``
+* uProtocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
+* lFileComment = ``
 * lADCUnits = `['dB', 'mV']`
 * lADCChannelNames = `['IN 2', 'IN 3']`
 * lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`

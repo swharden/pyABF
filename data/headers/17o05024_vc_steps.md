@@ -20,8 +20,8 @@
 * uCreatorVersion = `168230915`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = ``
-* uProtocolPathIndex = `S:\Protocols\permanent\0202 IV dual.pro`
+* uModifierNameIndex = `0`
+* uProtocolPathIndex = `2`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `1`
 * nCommentsEnable = `0`
-* lFileCommentIndex = ``
+* lFileCommentIndex = `0`
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `0`
@@ -205,6 +205,9 @@
 
 ## StringsSection
 * uCreatorName = `Clampex`
+* uModifierName = ``
+* uProtocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
+* lFileComment = ``
 * lADCUnits = `pA`
 * lADCChannelNames = `IN 0`
 * lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`

@@ -20,8 +20,8 @@
 * uCreatorVersion = `168034340`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = ``
-* uProtocolPathIndex = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
+* uModifierNameIndex = `0`
+* uProtocolPathIndex = `2`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = ``
+* lFileCommentIndex = `0`
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `1`
@@ -196,6 +196,9 @@
 
 ## StringsSection
 * uCreatorName = `Clampex`
+* uModifierName = ``
+* uProtocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
+* lFileComment = ``
 * lADCUnits = `['V', 'deg C']`
 * lADCChannelNames = `['IN 0', 'IN 1']`
 * lDACChannelUnits = `['V', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`

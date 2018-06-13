@@ -20,8 +20,8 @@
 * uCreatorVersion = `167969029`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = ``
-* uProtocolPathIndex = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
+* uModifierNameIndex = `0`
+* uProtocolPathIndex = `2`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `0`
 * nCommentsEnable = `0`
-* lFileCommentIndex = ``
+* lFileCommentIndex = `0`
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `1`
@@ -205,6 +205,9 @@
 
 ## StringsSection
 * uCreatorName = `Clampex`
+* uModifierName = ``
+* uProtocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
+* lFileComment = ``
 * lADCUnits = `['A', 'mV', 'V', 'V']`
 * lADCChannelNames = `['Current', 'Voltage', 'YFP', 'CFP']`
 * lDACChannelUnits = `['mV', 'mV', 'AO #', '6     A']`

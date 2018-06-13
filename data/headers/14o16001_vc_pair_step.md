@@ -20,8 +20,8 @@
 * uCreatorVersion = `167968770`
 * uCreatorNameIndex = `1`
 * uModifierVersion = `0`
-* uModifierNameIndex = ``
-* uProtocolPathIndex = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
+* uModifierNameIndex = `0`
+* uProtocolPathIndex = `2`
 
 ## Section Map
 * ProtocolSection = `(1, 512, 1)`
@@ -85,7 +85,7 @@
 * nExperimentType = `2`
 * nManualInfoStrategy = `1`
 * nCommentsEnable = `1`
-* lFileCommentIndex = `SWH[MTIV]`
+* lFileCommentIndex = `3`
 * nAutoAnalyseEnable = `1`
 * nSignalType = `0`
 * nDigitalEnable = `0`
@@ -205,6 +205,9 @@
 
 ## StringsSection
 * uCreatorName = `Clampex`
+* uModifierName = ``
+* uProtocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
+* lFileComment = `SWH[MTIV]`
 * lADCUnits = `['pA', 'pA']`
 * lADCChannelNames = `['IN 0', 'IN 1']`
 * lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
