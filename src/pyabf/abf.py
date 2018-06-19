@@ -11,6 +11,18 @@ import matplotlib.pyplot as plt
 from pyabf.core import ABFcore
 
 
+class Sweep:
+    def __init__(self):
+        self.x = None
+        self.y = None
+        self.c = None
+        self.number = None
+        self.channel = None
+        self.units = None
+        self.unitsX = "seconds"
+        self.unitsClamp = None
+
+
 class ABF(ABFcore):
     def __init__(self, abf, preLoadData=True):
         self._loadEverything(abf, preLoadData)
@@ -27,6 +39,11 @@ class ABF(ABFcore):
         # determine data bounds for that sweep
         pointStart = self.sweepPointCount*sweepNumber
         pointEnd = pointStart + self.sweepPointCount
-        self.sweepY = self.data[channel, pointStart:pointEnd]
 
-    
+        self.sweep = Sweep()
+        self.sweep.units = self.adcUnits[channel]
+        self.sweep.unitsClamp = self.dacUnits[channel]
+        self.sweep.number = sweepNumber
+        self.sweep.channel = channel
+        self.sweep.y = self.data[channel, pointStart:pointEnd]
+        self.sweep.x = np.arange(len(self.sweep.y))*self.dataSecPerPoint

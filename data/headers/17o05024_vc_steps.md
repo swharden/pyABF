@@ -2,7 +2,7 @@
 
 ## ABF Class Methods
 
-* abf.infoPage()
+* abf.getInfoPage()
 * abf.setSweep()
 
 ## ABF Class Variables
@@ -10,7 +10,7 @@
 * abfDateTime = `2017-01-05 14:49:53`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\17o05024_vc_steps.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\17o05024_vc_steps.abf`
 * abfID = `17o05024_vc_steps`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -30,7 +30,6 @@
 * sweepCount = `7`
 * sweepLengthSec = `3.5`
 * sweepPointCount = `70000`
-* sweepY = `[-21.36230278 -21.24023247 -21.24023247 ..., -21.48437309 -21.60644341  -21.85058403]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

@@ -2,7 +2,7 @@
 
 ## ABF Class Methods
 
-* abf.infoPage()
+* abf.getInfoPage()
 * abf.setSweep()
 
 ## ABF Class Variables
@@ -10,7 +10,7 @@
 * abfDateTime = `2017-01-17 13:05:27`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\171117_HFMixFRET.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`
@@ -30,7 +30,6 @@
 * sweepCount = `13`
 * sweepLengthSec = `24.7736`
 * sweepPointCount = `247736`
-* sweepY = `[-1.41601562 -1.41601562 -1.42211914 ..., -1.42211914 -1.41601562  -1.41601562]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
