@@ -28,8 +28,8 @@
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * scaleFactors = `[0.006103515534050531, 0.6103515670474737, -0.00030517578125, -0.00030517578125]`
 * sweepCount = `13`
-* sweepLengthSec = `24.7736`
-* sweepPointCount = `247736`
+* sweepLengthSec = `6.1934`
+* sweepPointCount = `61934`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

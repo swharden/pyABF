@@ -28,8 +28,8 @@
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * scaleFactors = `[0.00030517578125, 2.3030517100833094]`
 * sweepCount = `1`
-* sweepLengthSec = `2.0`
-* sweepPointCount = `200000`
+* sweepLengthSec = `1.0`
+* sweepPointCount = `100000`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

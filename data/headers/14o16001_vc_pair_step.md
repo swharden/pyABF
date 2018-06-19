@@ -28,8 +28,8 @@
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * scaleFactors = `[0.12207030670197155, 0.12207030670197155]`
 * sweepCount = `13`
-* sweepLengthSec = `8.0`
-* sweepPointCount = `80000`
+* sweepLengthSec = `4.0`
+* sweepPointCount = `40000`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

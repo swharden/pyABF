@@ -45,13 +45,14 @@ if __name__ == "__main__":
             f.write(page.getHTML())
 
         # create thumbnail
-        abf.setSweep(-1) # go to the last sweep
+        abf.setSweep(-1, abf.dataChannelCount-1)
         plt.figure(figsize=(6, 4))
         plt.title("{} channel {} sweep {}".format(
             abf.abfID, abf.sweep.channel, abf.sweep.number))
         plt.plot(abf.sweep.x, abf.sweep.y)
         plt.ylabel(abf.sweep.units)
         plt.xlabel(abf.sweep.unitsX)
+        plt.margins(0,.1)
         plt.tight_layout()
         plt.savefig(headerPath+"/%s.jpg" % (abf.abfID))
         plt.close()

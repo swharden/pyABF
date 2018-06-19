@@ -28,8 +28,8 @@
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * scaleFactors = `[0.00030517578125, 0.00030517578125]`
 * sweepCount = `1`
-* sweepLengthSec = `96.6`
-* sweepPointCount = `966000`
+* sweepLengthSec = `48.3`
+* sweepPointCount = `483000`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
