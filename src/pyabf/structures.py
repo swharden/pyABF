@@ -493,7 +493,7 @@ class StringsSection:
     protocol path and comments. The other strings are very large and I do not 
     know what they do.
 
-    Strings which contain indexed substrings are separated by \x00 characters.
+    Strings which contain indexed substrings are separated by \\x00 characters.
     """
 
     def __init__(self, fb, sectionMap):

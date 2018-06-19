@@ -19,8 +19,15 @@ import numpy as np
 import glob
 
 if __name__=="__main__":
-    for fname in sorted(glob.glob(PATH_DATA+"/*.abf"))[4:5]:
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
         abf = pyabf.ABF(fname)
+        print(abf.abfID)
         page = abf.infoPage()
-        page.launchTempWebpage()
+        headerPath=os.path.abspath(PATH_HERE+"/../data/headers/")
+        with open(headerPath+"/%s.md"%(abf.abfID),'w', encoding="utf-8") as f:
+            markdown = page.getMarkdown()
+            f.write(markdown)
+        with open(headerPath+"/%s.html"%(abf.abfID),'w', encoding="utf-8") as f:
+            html = page.getHTML()
+            f.write(html)
     print("DONE")
