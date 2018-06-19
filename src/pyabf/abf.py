@@ -31,10 +31,12 @@ class ABF(ABFcore):
     def setSweep(self, sweepNumber, channel=0):
 
         # ensure the sweep number is valid
-        while sweepNumber < 0:
-            sweepNumber = self.sweepCount - sweepNumber
-        if sweepNumber >= self.sweepCount:
-            sweepNumber = self.sweepCount - 1
+        assert sweepNumber>=0
+        assert sweepNumber<self.sweepCount
+
+        # ensure channel number is valid
+        assert channel>=0
+        assert channel<self.dataChannelCount
 
         # determine data bounds for that sweep
         pointStart = self.sweepPointCount*sweepNumber
