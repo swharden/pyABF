@@ -41,8 +41,8 @@ class outputPage:
             name, value = item
             if str(value)=="~SECTION~":
                 out+="\n## %s\n\n"%(name)
-            elif str(value)=="~DOCS~":
-                out+="> %s \n\n"%(name.strip())
+            elif str(value)=="~DOCS~":                    
+                out+="> %s \n\n"%(name.strip().replace("\n"," "))
             else:
                 if value is None:
                     out+="* %s\n"%(name)

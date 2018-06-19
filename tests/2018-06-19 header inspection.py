@@ -19,7 +19,7 @@ import numpy as np
 import glob
 
 if __name__=="__main__":
-    for fname in sorted(glob.glob(PATH_DATA+"/*.abf"))[:3]:
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
         abf = pyabf.ABF(fname)
         print(abf.abfID)
         page = abf.infoPage()
