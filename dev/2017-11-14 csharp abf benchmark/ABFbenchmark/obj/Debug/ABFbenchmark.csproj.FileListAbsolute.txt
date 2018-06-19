@@ -1,6 +1,0 @@
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\bin\Debug\ABFbenchmark.exe.config
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\bin\Debug\ABFbenchmark.exe
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\bin\Debug\ABFbenchmark.pdb
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\obj\Debug\ABFbenchmark.csprojResolveAssemblyReference.cache
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\obj\Debug\ABFbenchmark.exe
-C:\Users\scott\Desktop\csABF\benchmark\ABFbenchmark\ABFbenchmark\obj\Debug\ABFbenchmark.pdb
