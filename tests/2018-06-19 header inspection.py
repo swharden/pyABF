@@ -24,10 +24,8 @@ if __name__=="__main__":
         print(abf.abfID)
         page = abf.infoPage()
         headerPath=os.path.abspath(PATH_HERE+"/../data/headers/")
-        with open(headerPath+"/%s.md"%(abf.abfID),'w', encoding="utf-8") as f:
-            markdown = page.getMarkdown()
-            f.write(markdown)
-        with open(headerPath+"/%s.html"%(abf.abfID),'w', encoding="utf-8") as f:
-            html = page.getHTML()
-            f.write(html)
+        with open(headerPath+"/%s.md"%(abf.abfID),'w') as f:
+            f.write(page.getMarkdown())
+        with open(headerPath+"/%s.html"%(abf.abfID),'w') as f:
+            f.write(page.getHTML())
     print("DONE")

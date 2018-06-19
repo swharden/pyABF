@@ -25,7 +25,7 @@ def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     if cleanStrings:
         for i in range(len(vals)):
             if type(vals[i]) == type(b''):
-                vals[i] = vals[i].decode("ascii", errors='replace').strip()
+                vals[i] = vals[i].decode("ascii", errors='ignore').strip()
 
     if len(vals) == 1:
         vals = vals[0]
