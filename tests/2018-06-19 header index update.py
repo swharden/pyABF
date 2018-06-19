@@ -40,26 +40,45 @@ if __name__ == "__main__":
         page = abf.getInfoPage()
         headerPath = os.path.abspath(PATH_HERE+"/../data/headers/")
         with open(headerPath+"/%s.md" % (abf.abfID), 'w') as f:
-            f.write(page.getMarkdown())
+            f.write(page.generateMarkdown())
         with open(headerPath+"/%s.html" % (abf.abfID), 'w') as f:
-            f.write(page.getHTML())
+            f.write(page.generateHTML())
 
-        # create thumbnail
-        abf.setSweep(abf.sweepCount-1, abf.dataChannelCount-1)
-        plt.figure(figsize=(6, 4))
-        plt.title("{} channel {} sweep {}".format(
-            abf.abfID, abf.sweep.channel+1, abf.sweep.number+1))
-        plt.plot(abf.sweep.x, abf.sweep.y)
-        plt.ylabel(abf.sweep.units)
-        plt.xlabel(abf.sweep.unitsX)
-        plt.margins(0,.1)
-        plt.tight_layout()
-        plt.savefig(headerPath+"/%s.jpg" % (abf.abfID))
+        # create figure and subplots
+        fig = plt.figure(figsize=(8, 6))
+        ax1 = plt.subplot(211)
+        ax2 = plt.subplot(212)
+        ax1.set_xmargin(0)
+        ax2.set_xmargin(0)
+
+        # overlap or continuous view depends on protocol
+        absoluteTime = False
+        if "0111" in abf.protocol:
+            absoluteTime = True
+        if "loose" in abf.protocol:
+            absoluteTime = True
+
+        # plot the data sweep by sweep
+        for sweep in abf.sweepList:
+            abf.setSweep(sweep, absoluteTime=absoluteTime)
+            ax1.plot(abf.sweepX, abf.sweepY, alpha=.5, color='b', lw=.5)
+            ax2.plot(abf.sweepX, abf.sweepC, color='r')
+
+        # decorate plot and save it
+        ax1.set_title("{}.abf [channel: {}/{}] [sweeps: {}]".format(
+            abf.abfID, abf.sweepChannel+1, abf.channelCount, abf.sweepNumber+1))
+        ax1.set_ylabel(abf.sweepLabelY)
+        ax1.set_xlabel(abf.sweepLabelX)
+        ax2.set_ylabel(abf.sweepLabelC)
+        ax2.set_xlabel(abf.sweepLabelX)
+        fig.tight_layout()
+        fig.savefig(PATH_HERE+"/../data/headers/%s.jpg" % abf.abfID)
         plt.close()
+
 
         # update main readme
         md += "[%s.abf](headers/%s.md) (%s)|" % (abf.abfID, abf.abfID, abf.abfVersion)
-        md += "%s (%s)|" % (abf.dataChannelCount, ", ".join(abf.adcUnits))
+        md += "%s (%s)|" % (abf.channelCount, ", ".join(abf.adcUnits))
         md += "%s|" % (abf.sweepCount)
         md += "%s|" % (abf.protocol)
         md += "![headers/%s.jpg](headers/%s.jpg)\n" % (abf.abfID, abf.abfID)
@@ -67,4 +86,7 @@ if __name__ == "__main__":
     # write main readme
     with open(PATH_HERE+"/../data/readme.md", 'w') as f:
         f.write(md)
+
+    # update the file index
+    pyabf.text.indexFolder(PATH_HERE+"/../data/headers/")
     print("DONE")

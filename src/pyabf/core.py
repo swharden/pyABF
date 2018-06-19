@@ -50,7 +50,8 @@ class ABFcore:
         This used to be the __init__ of the ABF class.
         """
         self.abfFilePath = os.path.abspath(abf)
-        assert os.path.exists(self.abfFilePath)
+        if not os.path.exists(self.abfFilePath):
+            raise ValueError("file does not exist", self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
         self._fileOpen()
         self._determineAbfFormat()
@@ -64,6 +65,7 @@ class ABFcore:
         self._determineProtocolPath()
         self._determineProtocolComment()
         self._makeTagTimesHumanReadable()
+        self._makeUsefulObjects()
         if preLoadData:
             self._loadAndScaleData()
         self._fileClose()
@@ -168,19 +170,19 @@ class ABFcore:
             self.dataByteStart = self._headerV1.lDataSectionPtr*512
             self.dataByteStart += self._headerV1.nNumPointsIgnored
             self.dataPointCount = self._headerV1.lActualAcqLength
-            self.dataChannelCount = self._headerV1.nADCNumChannels
+            self.channelCount = self._headerV1.nADCNumChannels
             self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
             self.dataSecPerPoint = 1/self.dataRate
             self.sweepCount = self._headerV1.lActualEpisodes
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(self.sweepPointCount / self.dataChannelCount)
+            self.sweepPointCount = int(self.sweepPointCount / self.channelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         elif self.abfFileFormat == 2:
             self.dataByteStart = self._sectionMap.DataSection[0]*512
             self.dataPointCount = self._sectionMap.DataSection[2]
-            self.dataChannelCount = self._sectionMap.ADCSection[2]
+            self.channelCount = self._sectionMap.ADCSection[2]
             self.dataRate = int(
                 1e6 / self._protocolSection.fADCSequenceInterval)
             self.dataSecPerPoint = 1/self.dataRate
@@ -188,7 +190,7 @@ class ABFcore:
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(self.sweepPointCount / self.dataChannelCount)
+            self.sweepPointCount = int(self.sweepPointCount / self.channelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         else:
             raise NotImplementedError("Invalid ABF file format")
@@ -200,15 +202,15 @@ class ABFcore:
         organizes channel units and names into simple lists of strings.
         """
         if self.abfFileFormat == 1:
-            self.adcUnits = self._headerV1.sADCUnits[:self.dataChannelCount]
-            self.adcNames = self._headerV1.sADCChannelName[:self.dataChannelCount]
+            self.adcUnits = self._headerV1.sADCUnits[:self.channelCount]
+            self.adcNames = self._headerV1.sADCChannelName[:self.channelCount]
             self.dacUnits = ["?" for x in self.adcUnits]
             self.dacNames = ["?" for x in self.adcUnits]
         elif self.abfFileFormat == 2:
-            self.adcUnits = self._stringsIndexed.lADCUnits[:self.dataChannelCount]
-            self.adcNames = self._stringsIndexed.lADCChannelName[:self.dataChannelCount]
-            self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.dataChannelCount]
-            self.dacNames = self._stringsIndexed.lDACChannelName[:self.dataChannelCount]
+            self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
+            self.adcNames = self._stringsIndexed.lADCChannelName[:self.channelCount]
+            self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.channelCount]
+            self.dacNames = self._stringsIndexed.lDACChannelName[:self.channelCount]
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -220,12 +222,12 @@ class ABFcore:
         reads the header to determine how to scale each channel.
         """
         if self.abfFileFormat == 1:
-            self.scaleFactors = [1]*self.dataChannelCount
-            for i in range(self.dataChannelCount):
+            self.scaleFactors = [1]*self.channelCount
+            for i in range(self.channelCount):
                 self.scaleFactors[i] = self._headerV1.lADCResolution/1e6
         elif self.abfFileFormat == 2:
-            self.scaleFactors = [1]*self.dataChannelCount
-            for i in range(self.dataChannelCount):
+            self.scaleFactors = [1]*self.channelCount
+            for i in range(self.channelCount):
                 self.scaleFactors[i] /= self._adcSection.fInstrumentScaleFactor[i]
                 self.scaleFactors[i] /= self._adcSection.fSignalGain[i]
                 self.scaleFactors[i] /= self._adcSection.fADCProgrammableGain[i]
@@ -314,10 +316,10 @@ class ABFcore:
         self._fb.seek(self.dataByteStart)
         raw = np.fromfile(self._fb, dtype=np.int16, count=self.dataPointCount)
         raw = np.reshape(
-            raw, (int(len(raw)/self.dataChannelCount), self.dataChannelCount))
+            raw, (int(len(raw)/self.channelCount), self.channelCount))
         raw = np.rot90(raw)
         self.data = np.empty(raw.shape, dtype='float32')
-        for i in range(self.dataChannelCount):
+        for i in range(self.channelCount):
             self.data[i] = np.multiply(
                 raw[i], self.scaleFactors[i], dtype='float32')
 
@@ -343,8 +345,12 @@ class ABFcore:
                 if thingName.startswith("_"):
                     continue
                 thing = getattr(self, thingName)
-                if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray)):
+                if "method" in str(type(thing)):
+                    continue
+                if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray, range)):
                     page.addThing(thingName, thing)
+                else:
+                    print("Unsure how to generate infor for:", thingName, type(thing))
 
             # add all ABF header information (different in ABF1 vs ABF2)
 
@@ -372,3 +378,82 @@ class ABFcore:
                     page.addThing(subItemName, getattr(thingItself, subItemName))
 
             return page
+
+    def _makeUsefulObjects(self):
+        """
+        Create a few extra little objects which are useful when working with
+        the abf object.
+        """
+        self.channelList = list(range(self.channelCount))
+        self.sweepList = list(range(self.sweepCount))
+
+    def _updateStimulusWaveform(self, sweepNumber, channel):
+        """
+        Update self.sweepC with the stimulus waveform for a given sweep.
+        Epoch information is stored in EpochPerDACSection.
+        """
+
+        # known epoch types
+        epoch_disabled = 0
+        epoch_step = 1
+        epoch_ramp = 2
+
+        # create the waveform and pre-fill it entirely with the holding value
+        self.sweepC = np.full(self.sweepPointCount, self.holdingCommand[channel])
+
+        # this function only supports ABF2 formatted files
+        if self.abfFileFormat != 2:
+            return
+
+        # it's just holding through 1/64th of the sweep length (why?!?)
+        position = int(self.sweepPointCount/64)
+
+        # update the waveform for each epoch
+        for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
+            pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
+            deltaCommand = self._epochPerDacSection.fEpochLevelInc[epochNumber] * sweepNumber
+            deltaCommandLast = self._epochPerDacSection.fEpochLevelInc[epochNumber] * (sweepNumber-1)
+            thisCommand = self._epochPerDacSection.fEpochInitLevel[epochNumber]
+            afterDelta = thisCommand+deltaCommand
+            position2 = position + pointCount
+
+            # if nInterEpisodeLevel start from the last command
+            if self._dacSection.nInterEpisodeLevel[channel]:
+                self.sweepC = np.full(self.sweepPointCount, thisCommand+deltaCommandLast)
+                
+            # do something different depending on what type of epoch it is
+            if epochType == epoch_disabled:
+                continue
+
+            elif epochType == epoch_step:
+                self.sweepC[position:position2] = afterDelta
+
+            elif epochType == epoch_ramp:
+                ramp = np.arange(pointCount)/pointCount
+                rampStart = self.sweepC[position-1]
+                rampEnd = afterDelta
+                rampDiff = rampEnd-rampStart
+                ramp *= rampDiff
+                ramp += rampStart
+                self.sweepC[position:position2] = ramp
+
+            else:
+                warnings.warn(
+                    "treating unknown epoch type like a step", epochType)
+                self.sweepC[position:position2] = afterDelta
+            position += pointCount
+
+        # if nInterEpisodeLevel sustain the last command (ignore holding)
+        if self._dacSection.nInterEpisodeLevel[channel]:
+            self.sweepC[position2:] = afterDelta
+
+    def _commandContainsDeltas(self):
+        """
+        returns True if sweeps contain deltas.
+        """
+        if self.abfFileFormat==1:
+            return False
+        if np.any(self._epochPerDacSection.fEpochLevelInc):
+            return True
+        else:
+            return False

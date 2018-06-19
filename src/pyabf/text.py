@@ -5,6 +5,38 @@ Code here relates to text parsing and other ninjary
 import tempfile
 import webbrowser
 import time
+import glob
+import os
+
+
+def indexFolder(folder, launch=True):
+    html = "<html><head><style>"
+    html+="body {background-color: #ddd;}"
+    html+="img {border: 1px solid black; margin: 20px;}"
+    html+="img {box-shadow: 5px 5px 15px rgba(0, 0, 0, .3);}"
+    html+="img {height: 300px;}"
+    html+="</style></head><body>"
+
+    html+="<h1>Images</h1>"
+    pics = []
+    pics += glob.glob(folder+"/*.png")
+    pics += glob.glob(folder+"/*.jpg")
+    for pic in sorted(pics):
+        url = os.path.basename(pic)
+        html += f"<a href='{url}'><img src='{url}'></a> "
+    
+    html+="<h1>HTML Files</h1>"
+    for pic in sorted(glob.glob(folder+"/*.html")):
+        url = os.path.basename(pic)
+        html += f"<li><a href='{url}'>{url}</a> "
+    
+    html += "</body></html>"
+    fname = folder+"/index-pics.html"
+    with open(fname, 'w') as f:
+        f.write(html)
+    if launch:
+        webbrowser.open(fname)
+
 
 class InfoPage:
     """
@@ -30,68 +62,78 @@ class InfoPage:
     def showText(self):
         for item in self.things:
             name, value = item
-            if value=="~SECTION~":
-                print("\n### %s ###"%name)
-            elif value=="~DOCS~":
-                print("\n~~~ %s ~~~"%name)
+            if value == "~SECTION~":
+                print("\n### %s ###" % name)
+            elif value == "~DOCS~":
+                print("\n~~~ %s ~~~" % name)
             else:
                 if value is None:
-                    print("%s"%(name))
+                    print("%s" % (name))
                 else:
-                    print("%s = %s"%(name, value))
+                    print("%s = %s" % (name, value))
         return
 
-    def getMarkdown(self):
-        out="# %s\n"%(self.title)
+    def generateMarkdown(self, saveAs=False):
+        out = "# %s\n" % (self.title)
         for item in self.things:
             name, value = item
-            if str(value)=="~SECTION~":
-                out+="\n## %s\n\n"%(name)
-            elif str(value)=="~DOCS~":                    
-                out+="> %s \n\n"%(name.strip().replace("\n"," "))
+            if str(value) == "~SECTION~":
+                out += "\n## %s\n\n" % (name)
+            elif str(value) == "~DOCS~":
+                out += "> %s \n\n" % (name.strip().replace("\n", " "))
             else:
                 if value is None:
-                    out+="* %s\n"%(name)
+                    out += "* %s\n" % (name)
                 else:
-                    out+="* %s = `%s`\n"%(name, str(value).replace("\n"," "))
+                    out += "* %s = `%s`\n" % (name,
+                                              str(value).replace("\n", " "))
+
+        if saveAs:
+            with open(saveAs, 'w') as f:
+                f.write(html)
+
         return out
-        
 
-
-    def getHTML(self):
-        html="<html>"
-        html+="<head>"
-        html+="<style>"
-        html+="body {font-family: sans-serif;}"
-        html+="code {background-color: #F2F2F2; padding: 2px;}"
-        html+=".item {margin-left: 2em; margin-top: .5em;}"
-        html+=".section {font-size: 150%; font-weight: bold; margin-top: 2em; }"
-        html+=".docs {font-style: italic; font-family: serif;}"
-        html+="</style>"
-        html+="<title>%s</title>"%(self.title)
-        html+="</head>"
-        html+="<body>"
-        html+="<h1>%s</h1>"%self.title
+    def generateHTML(self, saveAs=False):
+        html = "<html>"
+        html += "<head>"
+        html += "<style>"
+        html += "body {font-family: sans-serif;}"
+        html += "code {background-color: #F2F2F2; padding: 2px;}"
+        html += ".item {margin-left: 2em; margin-top: .5em;}"
+        html += ".section {font-size: 150%; font-weight: bold; margin-top: 2em; }"
+        html += ".docs {font-style: italic; font-family: serif;}"
+        html += "</style>"
+        html += "<title>%s</title>" % (self.title)
+        html += "</head>"
+        html += "<body>"
+        html += "<h1>%s</h1>" % self.title
         for item in self.things:
             name, value = item
-            if str(value)=="~SECTION~":
-                html+="<div class='section'>%s</div>"%name
-            elif str(value)=="~DOCS~":
-                html+="<div class='docs'>%s</div>"%name.strip().replace("\n","<br>")
+            if str(value) == "~SECTION~":
+                html += "<div class='section'>%s</div>" % name
+            elif str(value) == "~DOCS~":
+                html += "<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             else:
                 if value is None:
-                    html+="<div class='item'>%s</div>"%(name)
+                    html += "<div class='item'>%s</div>" % (name)
                 else:
-                    html+="<div class='item'>%s = <code>%s</code></div>"%(name, value)
-        html+="</body></html>"
+                    html += "<div class='item'>%s = <code>%s</code></div>" % (
+                        name, value)
+        html += "</body></html>"
+
+        if saveAs:
+            with open(saveAs, 'w') as f:
+                f.write(html)
+
         return html
 
     def launchTempWebpage(self):
-        html = self.getHTML()
+        html = self.generateHTML()
         with tempfile.TemporaryDirectory() as tempDir:
             fname = tempDir+"/header.html"
             print(fname)
-            f = open(fname,'w')
+            f = open(fname, 'w')
             f.write(html)
             f.flush()
             webbrowser.open(fname)
@@ -101,21 +143,6 @@ class InfoPage:
 
 if __name__ == "__main__":
 
-    page = InfoPage()
-
-    page.addSection("Methods")
-    page.addDocs("Some cool description of some interesting thing")
-    page.addThing("abf.infoBrowser()")
-    page.addThing("abf.infoDisplay()")
-    page.addThing("abf.setSweep()")
-
-    page.addSection("Variables")
-    page.addThing("abfID", "16d22006_kim_gapfree")
-    page.addThing("abfVersion", 2.123)
-    page.addThing("adcNames", ['IN 2', 'IN 3'])
-
-    #page.launchTempWebpage("tester")
-
-    print(page.getMarkdown())
+    indexFolder(R"C:\Users\scott\Documents\temp")
 
     print("DONE")
