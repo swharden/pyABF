@@ -10,7 +10,7 @@
 * abfDateTime = `2017-01-05 14:52:47`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\17o05028_ic_steps.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
 * abfID = `17o05028_ic_steps`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`

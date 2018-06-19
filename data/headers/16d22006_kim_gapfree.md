@@ -10,7 +10,7 @@
 * abfDateTime = `2016-01-22 14:51:48`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\16d22006_kim_gapfree.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
 * abfVersion = `2.0.0.0`
 * adcNames = `['IN 2', 'IN 3']`

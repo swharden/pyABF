@@ -14,7 +14,7 @@ def indexFolder(folder, launch=True):
     html+="body {background-color: #ddd;}"
     html+="img {border: 1px solid black; margin: 20px;}"
     html+="img {box-shadow: 5px 5px 15px rgba(0, 0, 0, .3);}"
-    html+="img {height: 300px;}"
+    html+="img {height: 300px; background-color: white;}"
     html+="</style></head><body>"
 
     html+="<h1>Images</h1>"

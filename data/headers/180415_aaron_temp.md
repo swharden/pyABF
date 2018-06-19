@@ -10,7 +10,7 @@
 * abfDateTime = `2018-01-13 14:48:56`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\180415_aaron_temp.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
 * abfVersion = `2.3.0.0`
 * adcNames = `['IN 0', 'IN 1']`
