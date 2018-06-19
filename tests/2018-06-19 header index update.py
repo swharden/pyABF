@@ -45,6 +45,7 @@ if __name__ == "__main__":
             f.write(page.getHTML())
 
         # create thumbnail
+        abf.setSweep(-1) # go to the last sweep
         plt.figure(figsize=(6, 4))
         plt.title("{} channel {} sweep {}".format(
             abf.abfID, abf.sweep.channel, abf.sweep.number))
@@ -53,6 +54,7 @@ if __name__ == "__main__":
         plt.xlabel(abf.sweep.unitsX)
         plt.tight_layout()
         plt.savefig(headerPath+"/%s.jpg" % (abf.abfID))
+        plt.close()
 
         # update main readme
         md += "[%s.abf](headers/%s.md) (%s)|" % (abf.abfID, abf.abfID, abf.abfVersion)
