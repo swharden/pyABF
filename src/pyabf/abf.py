@@ -69,7 +69,7 @@ class ABF(ABFcore):
             headerParts.append(["EpochPerDACSection", self._epochPerDacSection])
             headerParts.append(["EpochSection", self._epochSection])
             headerParts.append(["TagSection", self._tagSection])
-            #headerParts.append(["StringsSection", self._stringsSection]) # crashes HTML and markdown
+            headerParts.append(["StringsSection", self._stringsSection])
             headerParts.append(["StringsIndexed", self._stringsIndexed])
         for headerItem in headerParts:
             thingTitle, thingItself = headerItem

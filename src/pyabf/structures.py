@@ -234,6 +234,8 @@ class ProtocolSection:
         self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")
         self.nDigitizerType = readStruct(fb, "h")
 
+        del self.sUnused # non-ascii characters which crash things
+
 
 class ADCSection:
     """
