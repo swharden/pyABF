@@ -6,7 +6,13 @@ import tempfile
 import webbrowser
 import time
 
-class outputPage:
+class InfoPage:
+    """
+    The InfoPage class is designed to hold information about
+    python objects in such a way that it can be easily viewed.
+    Build the page with sections, docs, and things, then
+    get it as HTML, markdown, or text.
+    """
 
     def __init__(self, title="PageTitle"):
         self.things = []
@@ -95,7 +101,7 @@ class outputPage:
 
 if __name__ == "__main__":
 
-    page = outputPage()
+    page = InfoPage()
 
     page.addSection("Methods")
     page.addDocs("Some cool description of some interesting thing")

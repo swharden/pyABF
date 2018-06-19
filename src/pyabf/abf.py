@@ -30,12 +30,12 @@ class ABF(ABFcore):
         pointEnd = pointStart + self.sweepPointCount
         self.sweepY = self.data[channel, pointStart:pointEnd]
 
-    def infoPage(self):
+    def getInfoPage(self):
         """
         Return an object to let the user inspect methods and variables 
         of this ABF class as well as the full contents of the ABF header
         """
-        page = pyabf.text.outputPage(self.abfID+".abf")
+        page = pyabf.text.InfoPage(self.abfID+".abf")
 
         # add info about this ABF instance
 

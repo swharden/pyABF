@@ -31,7 +31,7 @@ if __name__=="__main__":
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
         abf = pyabf.ABF(fname)
         print(abf.abfID)
-        page = abf.infoPage()
+        page = abf.getInfoPage()
         headerPath=os.path.abspath(PATH_HERE+"/../data/headers/")
         with open(headerPath+"/%s.md"%(abf.abfID),'w') as f:
             f.write(page.getMarkdown())
