@@ -1,5 +1,10 @@
+"""
+Code here relates to extraction of header values from ABF1 and ABF2 file headers.
+"""
+
 import io
 import struct
+
 
 def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     """
@@ -29,6 +34,11 @@ def readStruct(fb, structFormat, seek=False, cleanStrings=True):
 
 
 class HeaderV1:
+    """
+    The first several bytes of an ABF1 file contain variables
+    located at specific byte positions from the start of the file.
+    All ABF1 header values are read in this single block.
+    """
     def __init__(self, fb):
         self.fFileSignature = readStruct(fb, "4s", 0)
         self.fFileVersionNumber = readStruct(fb, "f", 4)
@@ -84,6 +94,10 @@ class HeaderV1:
 
 
 class HeaderV2:
+    """
+    The first several bytes of an ABF2 file contain variables
+    located at specific byte positions from the start of the file.
+    """
     def __init__(self, fb):
         fb.seek(0)
         self.fFileSignature = readStruct(fb, "4s")
@@ -110,6 +124,14 @@ class HeaderV2:
 
 
 class SectionMap:
+    """
+    Reading three numbers (int, int, long) at specific byte locations
+    yields the block position, byte size, and item count of specific
+    data stored in sections. Note that a block is 512 bytes. Some of
+    these sections are not read by this class because they are either
+    not useful for my applications, typically unused, or have an
+    unknown memory structure.
+    """
     def __init__(self, fb):
         self.ProtocolSection = readStruct(fb, "IIl", 76)
         self.ADCSection = readStruct(fb, "IIl", 92)
@@ -132,6 +154,11 @@ class SectionMap:
 
 
 class ProtocolSection:
+    """
+    This section contains information about the recording settings.
+    This is useful for determining things like sample rate and
+    channel scaling factors.
+    """
     def __init__(self, fb, sectionMap):
         seekTo = sectionMap.ProtocolSection[0]*512
         fb.seek(seekTo)
@@ -209,6 +236,10 @@ class ProtocolSection:
 
 
 class ADCSection:
+    """
+    Information about the ADC (what gets recorded). 
+    There is 1 item per ADC.
+    """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.ADCSection
         byteStart = blockStart*512
@@ -273,6 +304,10 @@ class ADCSection:
 
 
 class DACSection:
+    """
+    Information about the DAC (what gets clamped). 
+    There is 1 item per DAC.
+    """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.DACSection
         byteStart = blockStart*512
@@ -365,6 +400,11 @@ class DACSection:
 
 
 class EpochPerDACSection:
+    """
+    This section contains waveform protocol information. These are most of
+    the values set when using the epoch the waveform editor. Note that digital
+    output signals are not stored here, but are in EpochSection.
+    """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochPerDACSection
         byteStart = blockStart*512
@@ -393,6 +433,13 @@ class EpochPerDACSection:
 
 
 class EpochSection:
+    """
+    This section contains the digital output signals for each epoch. This
+    section has been overlooked by some previous open-source ABF-reading
+    projects. Note that the digital output is a single byte, but represents 
+    8 bits corresponding to 8 outputs (7->0). When working with these bits,
+    I convert it to a string like "10011101" for easy eyeballing.
+    """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochSection
         byteStart = blockStart*512
