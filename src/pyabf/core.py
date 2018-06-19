@@ -175,6 +175,7 @@ class ABFcore:
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
+            self.sweepPointCount = int(self.sweepPointCount / self.dataChannelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         elif self.abfFileFormat == 2:
             self.dataByteStart = self._sectionMap.DataSection[0]*512
@@ -187,6 +188,7 @@ class ABFcore:
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
+            self.sweepPointCount = int(self.sweepPointCount / self.dataChannelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         else:
             raise NotImplementedError("Invalid ABF file format")
