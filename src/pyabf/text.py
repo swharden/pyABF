@@ -35,10 +35,10 @@ class InfoPage:
             elif value=="~DOCS~":
                 print("\n~~~ %s ~~~"%name)
             else:
-                if value:
-                    print("%s = %s"%(name, value))
-                else:
+                if value is None:
                     print("%s"%(name))
+                else:
+                    print("%s = %s"%(name, value))
         return
 
     def getMarkdown(self):
