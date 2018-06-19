@@ -1,3 +1,10 @@
+"""
+This file contains the core ABF handling class and supporting functions.
+All code in this script should identically support ABF1 and ABF2 files.
+
+Nothing the user will interact with directly is in this file.
+"""
+
 import os
 import glob
 import time
@@ -15,23 +22,7 @@ from pyabf.structures import EpochSection
 from pyabf.structures import TagSection
 from pyabf.structures import StringsSection
 from pyabf.structures import StringsIndexed
-
-
-def showThings(theThing):
-    """
-    Display all the child methods of an object
-    """
-    print()
-    things = dir(theThing)
-    for thingName in sorted(things):
-        if thingName.startswith("__"):
-            continue
-        val = getattr(theThing, thingName)
-        if "__main__" in str(type(val)):
-            continue
-        if "__main__" in str(val):
-            continue
-        print(thingName, "=", val)
+import pyabf.text
 
 
 class ABFcore:
@@ -79,7 +70,7 @@ class ABFcore:
 
     def _fileOpen(self):
         """Open the ABF file in rb mode."""
-        self.fb = open(self.abfFilePath, 'rb')
+        self._fb = open(self.abfFilePath, 'rb')
         self._fileOpenTime = time.perf_counter()
 
     def _determineAbfFormat(self):
@@ -88,8 +79,8 @@ class ABFcore:
         "ABF " is for ABF1 files, and "ABF2" is for ABF2 files.
         Anything else is probably a file that's not actually an ABF.
         """
-        self.fb.seek(0)
-        code = self.fb.read(4)
+        self._fb.seek(0)
+        code = self._fb.read(4)
         code = code.decode("ascii", errors='ignore')
         if code == "ABF ":
             self.abfFileFormat = 1
@@ -104,7 +95,7 @@ class ABFcore:
         Clampfit, regrettably, is a file-access-blocking data viewer.
         """
         self._fileCloseTime = time.perf_counter()
-        self.fb.close()
+        self._fb.close()
         self._dataLoadTimeMs = (self._fileCloseTime-self._fileOpenTime)*1000
 
     def _readHeaders(self):
@@ -113,21 +104,21 @@ class ABFcore:
         Store them in variables that can be accessed at any time.
         """
         if self.abfFileFormat == 1:
-            self.headerV1 = HeaderV1(self.fb)
+            self._headerV1 = HeaderV1(self._fb)
         elif self.abfFileFormat == 2:
-            self.headerV2 = HeaderV2(self.fb)
-            self.sectionMap = SectionMap(self.fb)
-            self.protocolSection = ProtocolSection(self.fb, self.sectionMap)
-            self.adcSection = ADCSection(self.fb, self.sectionMap)
-            self.dacSection = DACSection(self.fb, self.sectionMap)
-            self.epochPerDacSection = EpochPerDACSection(
-                self.fb, self.sectionMap)
-            self.epochSection = EpochSection(self.fb, self.sectionMap)
-            self.tagSection = TagSection(self.fb, self.sectionMap)
-            self.stringsSection = StringsSection(self.fb, self.sectionMap)
-            self.stringsIndexed = StringsIndexed(
-                self.headerV2, self.protocolSection, self.adcSection,
-                self.dacSection, self.stringsSection)
+            self._headerV2 = HeaderV2(self._fb)
+            self._sectionMap = SectionMap(self._fb)
+            self._protocolSection = ProtocolSection(self._fb, self._sectionMap)
+            self._adcSection = ADCSection(self._fb, self._sectionMap)
+            self._dacSection = DACSection(self._fb, self._sectionMap)
+            self._epochPerDacSection = EpochPerDACSection(
+                self._fb, self._sectionMap)
+            self._epochSection = EpochSection(self._fb, self._sectionMap)
+            self._tagSection = TagSection(self._fb, self._sectionMap)
+            self._stringsSection = StringsSection(self._fb, self._sectionMap)
+            self._stringsIndexed = StringsIndexed(
+                self._headerV2, self._protocolSection, self._adcSection,
+                self._dacSection, self._stringsSection)
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -137,11 +128,11 @@ class ABFcore:
         This function formats the version as x.x.x.x for all ABF files.
         """
         if self.abfFileFormat == 1:
-            self.abfVersion = "%.03f" % self.headerV1.fFileVersionNumber
+            self.abfVersion = "%.03f" % self._headerV1.fFileVersionNumber
             self.abfVersion = list(self.abfVersion.replace(".", ""))
             self.abfVersion = ".".join(self.abfVersion)
         elif self.abfFileFormat == 2:
-            self.abfVersion = self.headerV2.fFileVersionNumber[::-1]
+            self.abfVersion = self._headerV2.fFileVersionNumber[::-1]
             self.abfVersion = [str(x) for x in self.abfVersion]
             self.abfVersion = ".".join(self.abfVersion)
         else:
@@ -159,8 +150,8 @@ class ABFcore:
                 self.abfDateTime)
         elif self.abfFileFormat == 2:
             # use file creation time stored in ABF header
-            startDate = str(self.headerV2.uFileStartDate)
-            startTime = round(self.headerV2.uFileStartTimeMS/1000)
+            startDate = str(self._headerV2.uFileStartDate)
+            startTime = round(self._headerV2.uFileStartTimeMS/1000)
             startDate = datetime.datetime.strptime(startDate, "%Y%M%d")
             startTime = datetime.timedelta(seconds=startTime)
             self.abfDateTime = startDate+startTime
@@ -174,25 +165,25 @@ class ABFcore:
         of sweeps, etc.
         """
         if self.abfFileFormat == 1:
-            self.dataByteStart = self.headerV1.lDataSectionPtr*512
-            self.dataByteStart += self.headerV1.nNumPointsIgnored
-            self.dataPointCount = self.headerV1.lActualAcqLength
-            self.dataChannelCount = self.headerV1.nADCNumChannels
-            self.dataRate = int(1e6 / self.headerV1.fADCSampleInterval)
+            self.dataByteStart = self._headerV1.lDataSectionPtr*512
+            self.dataByteStart += self._headerV1.nNumPointsIgnored
+            self.dataPointCount = self._headerV1.lActualAcqLength
+            self.dataChannelCount = self._headerV1.nADCNumChannels
+            self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
             self.dataSecPerPoint = 1/self.dataRate
-            self.sweepCount = self.headerV1.lActualEpisodes
+            self.sweepCount = self._headerV1.lActualEpisodes
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         elif self.abfFileFormat == 2:
-            self.dataByteStart = self.sectionMap.DataSection[0]*512
-            self.dataPointCount = self.sectionMap.DataSection[2]
-            self.dataChannelCount = self.sectionMap.ADCSection[2]
+            self.dataByteStart = self._sectionMap.DataSection[0]*512
+            self.dataPointCount = self._sectionMap.DataSection[2]
+            self.dataChannelCount = self._sectionMap.ADCSection[2]
             self.dataRate = int(
-                1e6 / self.protocolSection.fADCSequenceInterval)
+                1e6 / self._protocolSection.fADCSequenceInterval)
             self.dataSecPerPoint = 1/self.dataRate
-            self.sweepCount = self.headerV2.lActualEpisodes
+            self.sweepCount = self._headerV2.lActualEpisodes
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
@@ -207,15 +198,15 @@ class ABFcore:
         organizes channel units and names into simple lists of strings.
         """
         if self.abfFileFormat == 1:
-            self.adcUnits = self.headerV1.sADCUnits[:self.dataChannelCount]
-            self.adcNames = self.headerV1.sADCChannelName[:self.dataChannelCount]
+            self.adcUnits = self._headerV1.sADCUnits[:self.dataChannelCount]
+            self.adcNames = self._headerV1.sADCChannelName[:self.dataChannelCount]
             self.dacUnits = ["?" for x in self.adcUnits]
             self.dacNames = ["?" for x in self.adcUnits]
         elif self.abfFileFormat == 2:
-            self.adcUnits = self.stringsIndexed.lADCUnits[:self.dataChannelCount]
-            self.adcNames = self.stringsIndexed.lADCChannelName[:self.dataChannelCount]
-            self.dacUnits = self.stringsIndexed.lDACChannelUnits[:self.dataChannelCount]
-            self.dacNames = self.stringsIndexed.lDACChannelName[:self.dataChannelCount]
+            self.adcUnits = self._stringsIndexed.lADCUnits[:self.dataChannelCount]
+            self.adcNames = self._stringsIndexed.lADCChannelName[:self.dataChannelCount]
+            self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.dataChannelCount]
+            self.dacNames = self._stringsIndexed.lDACChannelName[:self.dataChannelCount]
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -229,19 +220,19 @@ class ABFcore:
         if self.abfFileFormat == 1:
             self.scaleFactors = [1]*self.dataChannelCount
             for i in range(self.dataChannelCount):
-                self.scaleFactors[i] = self.headerV1.lADCResolution/1e6
+                self.scaleFactors[i] = self._headerV1.lADCResolution/1e6
         elif self.abfFileFormat == 2:
             self.scaleFactors = [1]*self.dataChannelCount
             for i in range(self.dataChannelCount):
-                self.scaleFactors[i] /= self.adcSection.fInstrumentScaleFactor[i]
-                self.scaleFactors[i] /= self.adcSection.fSignalGain[i]
-                self.scaleFactors[i] /= self.adcSection.fADCProgrammableGain[i]
-                if self.adcSection.nTelegraphEnable:
-                    self.scaleFactors[i] /= self.adcSection.fTelegraphAdditGain[i]
-                self.scaleFactors[i] *= self.protocolSection.fADCRange
-                self.scaleFactors[i] /= self.protocolSection.lADCResolution
-                self.scaleFactors[i] += self.adcSection.fInstrumentOffset[i]
-                self.scaleFactors[i] -= self.adcSection.fSignalOffset[i]
+                self.scaleFactors[i] /= self._adcSection.fInstrumentScaleFactor[i]
+                self.scaleFactors[i] /= self._adcSection.fSignalGain[i]
+                self.scaleFactors[i] /= self._adcSection.fADCProgrammableGain[i]
+                if self._adcSection.nTelegraphEnable:
+                    self.scaleFactors[i] /= self._adcSection.fTelegraphAdditGain[i]
+                self.scaleFactors[i] *= self._protocolSection.fADCRange
+                self.scaleFactors[i] /= self._protocolSection.lADCResolution
+                self.scaleFactors[i] += self._adcSection.fInstrumentOffset[i]
+                self.scaleFactors[i] -= self._adcSection.fSignalOffset[i]
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -252,9 +243,9 @@ class ABFcore:
         those values.
         """
         if self.abfFileFormat == 1:
-            self.holdingCommand = self.headerV1.fEpochInitLevel
+            self.holdingCommand = self._headerV1.fEpochInitLevel
         elif self.abfFileFormat == 2:
-            self.holdingCommand = self.dacSection.fDACHoldingLevel
+            self.holdingCommand = self._dacSection.fDACHoldingLevel
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -264,11 +255,11 @@ class ABFcore:
         the ABF header.
         """
         if self.abfFileFormat == 1:
-            self.protocolPath = self.headerV1.sProtocolPath
+            self.protocolPath = self._headerV1.sProtocolPath
             self.protocol = os.path.basename(self.protocolPath)
             self.protocol = os.path.splitext(self.protocol)[0]
         elif self.abfFileFormat == 2:
-            self.protocolPath = self.stringsIndexed.uProtocolPath
+            self.protocolPath = self._stringsIndexed.uProtocolPath
             self.protocol = os.path.basename(self.protocolPath)
             self.protocol = os.path.splitext(self.protocol)[0]
         else:
@@ -282,7 +273,7 @@ class ABFcore:
         if self.abfFileFormat == 1:
             self.abfFileComment = ""  # not supported in ABF1
         elif self.abfFileFormat == 2:
-            self.abfFileComment = self.stringsIndexed.lFileComment
+            self.abfFileComment = self._stringsIndexed.lFileComment
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -298,9 +289,9 @@ class ABFcore:
             self.tagTimesMin = []
             self.tagSweeps = []
         elif self.abfFileFormat == 2:
-            self.tagComments = self.tagSection.sComment
-            self.tagTimesSec = self.tagSection.lTagTime
-            mult = self.protocolSection.fSynchTimeUnit/1e6
+            self.tagComments = self._tagSection.sComment
+            self.tagTimesSec = self._tagSection.lTagTime
+            mult = self._protocolSection.fSynchTimeUnit/1e6
             self.tagTimesSec = [mult*x for x in self.tagTimesSec]
             self.tagTimesMin = [x/60 for x in self.tagTimesSec]
             self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
@@ -318,8 +309,8 @@ class ABFcore:
         That's outside the scope of this core ABF class.
         """
 
-        self.fb.seek(self.dataByteStart)
-        raw = np.fromfile(self.fb, dtype=np.int16, count=self.dataPointCount)
+        self._fb.seek(self.dataByteStart)
+        raw = np.fromfile(self._fb, dtype=np.int16, count=self.dataPointCount)
         raw = np.reshape(
             raw, (int(len(raw)/self.dataChannelCount), self.dataChannelCount))
         raw = np.rot90(raw)

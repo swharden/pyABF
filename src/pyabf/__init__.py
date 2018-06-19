@@ -13,4 +13,9 @@ def info():
     _pyabfFolder=os.path.abspath(os.path.dirname(__file__))
     print("pyabf %s was imported from %s"%(__version__,_pyabfFolder))
 
-__all__ = ('ABF','info')
+def help():
+    """launch the pyABF project page in a browser."""
+    import webbrowser
+    webbrowser.open("http://github.com/swharden/pyABF")
+
+__all__ = ('ABF','info','help')
