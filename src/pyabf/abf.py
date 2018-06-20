@@ -2,6 +2,7 @@
 Code in this file provides high-level ABF interactivity.
 Things the user will interact with directly are in this file.
 """
+import os
 import sys
 import glob
 import datetime
@@ -9,8 +10,8 @@ import numpy as np
 import warnings
 
 if __name__ == "__main__":
-    warnings.warn("DO NOT RUN THIS FILE DIRECTLY! It is for testing only.")
-    sys.path.append(".")
+    warnings.warn("DO NOT RUN THIS FILE DIRECTLY!")
+    sys.path.append(os.path.dirname(__file__)+"/../")
 
 from pyabf.core import ABFcore
 
@@ -29,10 +30,50 @@ class Sweep:
 
 class ABF(ABFcore):
     def __init__(self, abf, preLoadData=True):
+
+        # execute core tasks (read header and data)
         self._loadEverything(abf, preLoadData)
+
+        # perform ABF class init tasks
+        self.baseline()
+
+        # pre-load the first sweep
         self.setSweep(0)
 
+    def baseline(self, timeSec1=None, timeSec2=None):
+        """
+        Call this to define a baseline region (in seconds). All subsequent
+        data obtained from setSweep will be automatically baseline-subtracted
+        to this region. This also affects downstream methods for data analysis.
+        Call this without arguments to reset baseline.
+        """
+        if timeSec1 or timeSec2:
+            if not timeSec1:
+                timeSec1 = 0
+            if not timeSec2:
+                timeSec2 = abf.sweepLengthSec
+            blPoint1 = timeSec1*self.dataRate
+            blPoint2 = timeSec2*self.dataRate
+            if blPoint1 < 0:
+                blPoint1 = 0
+            if blPoint2 >= len(self.sweepY):
+                blPoint2 = len(self.sweepY)
+            self.baselineTimes = [timeSec1, timeSec2]
+            self.baselinePoints = [blPoint1, blPoint2]
+        else:
+            self.baselineTimes = False
+            self.baselinePoints = False
+
     def setSweep(self, sweepNumber, channel=0, absoluteTime=False):
+        """
+        Args:
+            sweepNumber: sweep number to load (starting at 0)
+            channel: ABF channel (starting at 0)
+            absoluteTime: if False, sweepX always starts at 0.
+            baselineTimes: times (in seconds) to baseline subtract to
+        """
+
+        # TODO: prevent re-loading of the same sweep.
 
         # sweep number error checking
         while sweepNumber < 0:
@@ -82,6 +123,11 @@ class ABF(ABFcore):
             self.sweepX += sweepNumber * self.sweepLengthSec
         self._updateStimulusWaveform(sweepNumber, channel)
 
+        # baseline subtraction
+        if self.baselinePoints:
+            baseline = np.average(
+                self.sweepY[self.baselinePoints[0]:self.baselinePoints[1]])
+            self.sweepY = self.sweepY-baseline
 
 
 
