@@ -129,6 +129,25 @@ class ABF(ABFcore):
                 self.sweepY[self.baselinePoints[0]:self.baselinePoints[1]])
             self.sweepY = self.sweepY-baseline
 
+    def sweepAverage(self, timeSec1, timeSec2):
+        """
+        Return the average value between two times of the current sweep.
+        """
+        point1 = int(timeSec1*self.dataRate)
+        point2 = int(timeSec2*self.dataRate)
+        return np.average(self.sweepY[point1:point2])
+
+    def sweepError(self, timeSec1, timeSec2, stdErr=True):
+        """
+        Return the standard error or standard deviation of the current sweep
+        between the given times.
+        """
+        point1 = int(timeSec1*self.dataRate)
+        point2 = int(timeSec2*self.dataRate)
+        er = np.std(self.sweepY[point1:point2])
+        if stdErr:
+            er = er / np.sqrt(point2-point1)
+        return er
 
 
 # developer sandbox
@@ -138,16 +157,5 @@ if __name__ == "__main__":
     for fname in sorted(glob.glob("../data/*.abf")):
         abf = ABF(fname)
         print(abf.abfID, abf._commandContainsDeltas())
-
-    # abf = ABF("../data/171116sh_0018.abf")
-
-    # fig = plt.figure()
-    # ax1 = fig.add_subplot(211)
-    # ax2 = fig.add_subplot(212, sharex=ax1)
-    # for sweep in abf.sweepList:
-    #     abf.setSweep(sweep, absoluteTime=True)
-    #     ax1.plot(abf.sweepX, abf.sweepY, color='b')
-    #     ax2.plot(abf.sweepX, abf.sweepC, color='r')
-    # plt.show()
 
     print("DONE")
