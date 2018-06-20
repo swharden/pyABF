@@ -4,6 +4,7 @@ Documentation, code examples, and more can be found at: https://github.com/swhar
 """
 
 from pyabf.abf import ABF
+from pyabf import plot
 
 __version__ = '2.0.1'
 
