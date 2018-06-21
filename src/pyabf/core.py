@@ -191,6 +191,9 @@ class ABFcore:
             self.sweepCount = self._headerV2.lActualEpisodes
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
+                self.gapFree = True
+            else:
+                self.gapFree = False
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
             self.sweepPointCount = int(
                 self.sweepPointCount / self.channelCount)
@@ -314,6 +317,11 @@ class ABFcore:
 
         To access data sweep by sweep, write your own class function! 
         That's outside the scope of this core ABF class.
+
+        For some reason it seems gap free channels are reversed. I added a hack
+        that reverses the order of channels for multi-channel gap-free files.
+        I'm not sure if this is valid, but it improved the n=1 gap free file 
+        I have access to at the time.
         """
 
         self._fb.seek(self.dataByteStart)
@@ -321,6 +329,8 @@ class ABFcore:
         raw = np.reshape(
             raw, (int(len(raw)/self.channelCount), self.channelCount))
         raw = np.rot90(raw)
+        if self.gapFree:
+            raw = raw[::-1]
         self.data = np.empty(raw.shape, dtype='float32')
         for i in range(self.channelCount):
             self.data[i] = np.multiply(
