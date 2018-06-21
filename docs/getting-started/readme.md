@@ -170,7 +170,7 @@ ax2.set_ylabel(abf.sweepLabelC)
 
 fig.subplots_adjust(hspace=.4)  # add more space between the subplots
 
-ax1.axes.set_xlim(0.1, 0.2)  # zoom between 100 and 200 ms
+ax1.axes.set_xlim(0.1, 0.4)  # zoom between 100 and 200 ms
 ```
 
 **Output:**
