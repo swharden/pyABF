@@ -1,6 +1,6 @@
 # Sample ABFs
 
-This is a small collection of various ABFs I practice developing with. Many of them were emailed to me by contributors. If you have a unique type of ABF file, email it to me and I will include it here. Note that this page is generated automatically.
+This is a small collection of various ABFs I practice developing with. Many of them were emailed to me by contributors. If you have a unique type of ABF file, email it to me and I will include it here. Note that this page is generated automatically by [generate.py](generate.py).
 
 ABF (version) | channels | sweeps | protocol | thumbnail
 ---|---|---|---|---
