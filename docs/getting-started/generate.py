@@ -293,14 +293,14 @@ They start out simple and increase in complexity.
         md += "\n\n"+cleanDocstrings(func.__doc__)
 
         # include the source code of the function
-        md += "\n\n```python\n"
+        md += "\n\n**Code:**\n\n```python\n"
         md += cleanCode(inspect.getsource(func))
         md += "\n```"
 
         # show the image if it exists
         imgName = functionName+".jpg"
         if os.path.exists(os.path.dirname(__file__)+"/source/"+imgName):
-            md += f"\n\n![source/{imgName}](source/{imgName})"
+            md += f"\n\n**Output:**\n\n![source/{imgName}](source/{imgName})"
 
     # save the markdown page
     with open(os.path.dirname(__file__)+"/readme.md", 'w') as f:
