@@ -177,7 +177,8 @@ class ABFcore:
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(self.sweepPointCount / self.channelCount)
+            self.sweepPointCount = int(
+                self.sweepPointCount / self.channelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         elif self.abfFileFormat == 2:
             self.dataByteStart = self._sectionMap.DataSection[0]*512
@@ -190,7 +191,8 @@ class ABFcore:
             if self.sweepCount == 0:  # gap free file
                 self.sweepCount = 1
             self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(self.sweepPointCount / self.channelCount)
+            self.sweepPointCount = int(
+                self.sweepPointCount / self.channelCount)
             self.sweepLengthSec = self.sweepPointCount / self.dataRate
         else:
             raise NotImplementedError("Invalid ABF file format")
@@ -324,60 +326,62 @@ class ABFcore:
                 raw[i], self.scaleFactors[i], dtype='float32')
 
     def getInfoPage(self):
-            """
-            Return an object to let the user inspect methods and variables 
-            of this ABF class as well as the full contents of the ABF header
-            """
-            page = pyabf.text.InfoPage(self.abfID+".abf")
+        """
+        Return an object to let the user inspect methods and variables 
+        of this ABF class as well as the full contents of the ABF header
+        """
+        page = pyabf.text.InfoPage(self.abfID+".abf")
 
-            # add info about this ABF instance
+        # add info about this ABF instance
 
-            page.addSection("ABF Class Methods")
-            for thingName in sorted(dir(self)):
-                if thingName.startswith("_"):
+        page.addSection("ABF Class Methods")
+        for thingName in sorted(dir(self)):
+            if thingName.startswith("_"):
+                continue
+            thing = getattr(self, thingName)
+            if "method" in str(type(thing)):
+                page.addThing("abf.%s()" % (thingName))
+
+        page.addSection("ABF Class Variables")
+        for thingName in sorted(dir(self)):
+            if thingName.startswith("_"):
+                continue
+            thing = getattr(self, thingName)
+            if "method" in str(type(thing)):
+                continue
+            if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray, range)):
+                page.addThing(thingName, thing)
+            else:
+                print("Unsure how to generate infor for:",
+                      thingName, type(thing))
+
+        # add all ABF header information (different in ABF1 vs ABF2)
+
+        headerParts = []
+        if self.abfFileFormat == 1:
+            headerParts.append(["ABF1 Header", self._headerV1])
+        elif self.abfFileFormat == 2:
+            headerParts.append(["ABF2 Header", self._headerV2])
+            headerParts.append(["SectionMap", self._sectionMap])
+            headerParts.append(["ProtocolSection", self._protocolSection])
+            headerParts.append(["ADCSection", self._adcSection])
+            headerParts.append(["DACSection", self._dacSection])
+            headerParts.append(
+                ["EpochPerDACSection", self._epochPerDacSection])
+            headerParts.append(["EpochSection", self._epochSection])
+            headerParts.append(["TagSection", self._tagSection])
+            headerParts.append(["StringsSection", self._stringsSection])
+            headerParts.append(["StringsIndexed", self._stringsIndexed])
+        for headerItem in headerParts:
+            thingTitle, thingItself = headerItem
+            page.addSection(thingTitle)
+            page.addDocs(thingItself.__doc__)
+            for subItemName in sorted(dir(thingItself)):
+                if subItemName.startswith("_"):
                     continue
-                thing = getattr(self, thingName)
-                if "method" in str(type(thing)):
-                    page.addThing("abf.%s()" % (thingName))
-                    
-            page.addSection("ABF Class Variables")
-            for thingName in sorted(dir(self)):
-                if thingName.startswith("_"):
-                    continue
-                thing = getattr(self, thingName)
-                if "method" in str(type(thing)):
-                    continue
-                if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray, range)):
-                    page.addThing(thingName, thing)
-                else:
-                    print("Unsure how to generate infor for:", thingName, type(thing))
+                page.addThing(subItemName, getattr(thingItself, subItemName))
 
-            # add all ABF header information (different in ABF1 vs ABF2)
-
-            headerParts = []
-            if self.abfFileFormat==1:
-                headerParts.append(["ABF1 Header", self._headerV1])
-            elif self.abfFileFormat==2:
-                headerParts.append(["ABF2 Header", self._headerV2])
-                headerParts.append(["SectionMap", self._sectionMap])
-                headerParts.append(["ProtocolSection", self._protocolSection])
-                headerParts.append(["ADCSection", self._adcSection])
-                headerParts.append(["DACSection", self._dacSection])
-                headerParts.append(["EpochPerDACSection", self._epochPerDacSection])
-                headerParts.append(["EpochSection", self._epochSection])
-                headerParts.append(["TagSection", self._tagSection])
-                headerParts.append(["StringsSection", self._stringsSection])
-                headerParts.append(["StringsIndexed", self._stringsIndexed])
-            for headerItem in headerParts:
-                thingTitle, thingItself = headerItem
-                page.addSection(thingTitle)
-                page.addDocs(thingItself.__doc__)
-                for subItemName in sorted(dir(thingItself)):
-                    if subItemName.startswith("_"):
-                        continue
-                    page.addThing(subItemName, getattr(thingItself, subItemName))
-
-            return page
+        return page
 
     def _makeUsefulObjects(self):
         """
@@ -399,7 +403,8 @@ class ABFcore:
         epoch_ramp = 2
 
         # create the waveform and pre-fill it entirely with the holding value
-        self.sweepC = np.full(self.sweepPointCount, self.holdingCommand[channel])
+        self.sweepC = np.full(self.sweepPointCount,
+                              self.holdingCommand[channel])
 
         # this function only supports ABF2 formatted files
         if self.abfFileFormat != 2:
@@ -407,20 +412,26 @@ class ABFcore:
 
         # it's just holding through 1/64th of the sweep length (why?!?)
         position = int(self.sweepPointCount/64)
+        self.epochPoints = [position]
 
         # update the waveform for each epoch
         for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
             pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
             deltaCommand = self._epochPerDacSection.fEpochLevelInc[epochNumber] * sweepNumber
-            deltaCommandLast = self._epochPerDacSection.fEpochLevelInc[epochNumber] * (sweepNumber-1)
+            deltaCommandLast = self._epochPerDacSection.fEpochLevelInc[epochNumber] * (
+                sweepNumber-1)
             thisCommand = self._epochPerDacSection.fEpochInitLevel[epochNumber]
             afterDelta = thisCommand+deltaCommand
             position2 = position + pointCount
+            self.epochPoints.append(position2)
+
+            # TODO: make updating sweepC optional
 
             # if nInterEpisodeLevel start from the last command
             if self._dacSection.nInterEpisodeLevel[channel]:
-                self.sweepC = np.full(self.sweepPointCount, thisCommand+deltaCommandLast)
-                
+                self.sweepC = np.full(
+                    self.sweepPointCount, thisCommand+deltaCommandLast)
+
             # do something different depending on what type of epoch it is
             if epochType == epoch_disabled:
                 continue
@@ -451,9 +462,35 @@ class ABFcore:
         """
         returns True if sweeps contain deltas.
         """
-        if self.abfFileFormat==1:
+        if self.abfFileFormat == 1:
             return False
         if np.any(self._epochPerDacSection.fEpochLevelInc):
             return True
         else:
             return False
+
+    def sweepD(self, digitalOutputNumber=0):
+        """
+        Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
+        Digital outputs start at 0 and are usually 0-7. Returned waveform will be
+        scaled from 0 to 1, although in reality they are 0V and 5V.
+        """
+
+        # generate a matrix of digital outputs per epoch
+        numOutputs = self._protocolSection.nDigitizerTotalDigitalOuts
+        byteStatesByEpoch = self._epochSection.nEpochDigitalOutput
+        numEpochs = len(byteStatesByEpoch)
+        statesAll = np.full((numOutputs, numEpochs), 0)
+        for epochNumber in range(numEpochs):
+            byteState = bin(byteStatesByEpoch[epochNumber])[2:]
+            byteState = "0"*(numOutputs-len(byteState))+byteState
+            byteState = [int(x) for x in list(byteState)]
+            statesAll[:, epochNumber] = byteState[::-1]
+
+        # synthesize a sweep representing the pin state of the digital output
+        states = statesAll[digitalOutputNumber]
+        sweepD = np.full(self.sweepPointCount, 0)
+        for epoch in range(len(states)):
+            sweepD[self.epochPoints[epoch]:
+                   self.epochPoints[epoch+1]] = states[epoch]
+        return sweepD
