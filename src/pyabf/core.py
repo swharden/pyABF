@@ -167,6 +167,8 @@ class ABFcore:
         This includes things like data rate, number of channels, number
         of sweeps, etc.
         """
+
+        # ABF file version specific lookups
         if self.abfFileFormat == 1:
             self.dataByteStart = self._headerV1.lDataSectionPtr*512
             self.dataByteStart += self._headerV1.nNumPointsIgnored
@@ -175,12 +177,6 @@ class ABFcore:
             self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
             self.dataSecPerPoint = 1/self.dataRate
             self.sweepCount = self._headerV1.lActualEpisodes
-            if self.sweepCount == 0:  # gap free file
-                self.sweepCount = 1
-            self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(
-                self.sweepPointCount / self.channelCount)
-            self.sweepLengthSec = self.sweepPointCount / self.dataRate
         elif self.abfFileFormat == 2:
             self.dataByteStart = self._sectionMap.DataSection[0]*512
             self.dataPointCount = self._sectionMap.DataSection[2]
@@ -189,17 +185,19 @@ class ABFcore:
                 1e6 / self._protocolSection.fADCSequenceInterval)
             self.dataSecPerPoint = 1/self.dataRate
             self.sweepCount = self._headerV2.lActualEpisodes
-            if self.sweepCount == 0:  # gap free file
-                self.sweepCount = 1
-                self.gapFree = True
-            else:
-                self.gapFree = False
-            self.sweepPointCount = int(self.dataPointCount / self.sweepCount)
-            self.sweepPointCount = int(
-                self.sweepPointCount / self.channelCount)
-            self.sweepLengthSec = self.sweepPointCount / self.dataRate
         else:
             raise NotImplementedError("Invalid ABF file format")
+
+        # now calculate things with the values we calculated
+        if self.sweepCount == 0:
+            self.gapFree = True
+            self.sweepCount = 1
+        else:
+            self.gapFree = False
+
+        self.sweepPointCount = int(
+            self.dataPointCount / self.sweepCount / self.channelCount)
+        self.sweepLengthSec = self.sweepPointCount / self.dataRate
 
     def _determineDataUnits(self):
         """
@@ -362,8 +360,10 @@ class ABFcore:
                 continue
             if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray, range)):
                 page.addThing(thingName, thing)
+            elif thing is None or thing is False or thing is True:
+                page.addThing(thingName, thing)
             else:
-                print("Unsure how to generate infor for:",
+                print("Unsure how to generate info for:",
                       thingName, type(thing))
 
         # add all ABF header information (different in ABF1 vs ABF2)
@@ -485,6 +485,9 @@ class ABFcore:
         Create a 2d array indicating the high/low state (1 or 0) of each digital
         output (rows) for each epoch (columns).
         """
+        if self.abfFileFormat != 2:
+            self.digitalWaveformEpochs = None
+            return
         numOutputs = self._protocolSection.nDigitizerTotalDigitalOuts
         byteStatesByEpoch = self._epochSection.nEpochDigitalOutput
         numEpochs = len(byteStatesByEpoch)
@@ -502,6 +505,9 @@ class ABFcore:
         Digital outputs start at 0 and are usually 0-7. Returned waveform will be
         scaled from 0 to 1, although in reality they are 0V and 5V.
         """
+        if self.abfFileFormat != 2:
+            warnings.warn("Digital outputs of ABF1 files not supported.")
+            return False
         states = self.digitalWaveformEpochs[digitalOutputNumber]
         sweepD = np.full(self.sweepPointCount, 0)
         for epoch in range(len(states)):
