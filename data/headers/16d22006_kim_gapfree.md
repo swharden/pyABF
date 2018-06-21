@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,15 +19,20 @@
 * abfVersion = `2.0.0.0`
 * adcNames = `['IN 2', 'IN 3']`
 * adcUnits = `['dB', 'mV']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459    0.10375977]  [ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598    0.01098633]]`
+* data = `[[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598    0.01098633]  [ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459    0.10375977]]`
 * dataByteStart = `4608`
 * dataPointCount = `966000`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
+* digitalWaveformEpochs = `[]`
+* epochPoints = `[7546]`
+* gapFree = `True`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
@@ -42,7 +51,7 @@
 * sweepUnitsX = `sec`
 * sweepUnitsY = `dB`
 * sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   4.82997000e+01    4.82998000e+01   4.82999000e+01]`
-* sweepY = `[ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459   0.10375977]`
+* sweepY = `[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598   0.01098633]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,6 +19,8 @@
 * abfVersion = `2.0.0.0`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['pA', 'pA']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
 * dacNames = `['Cmd 0', 'Cmd 1']`
@@ -24,6 +30,9 @@
 * dataPointCount = `1040000`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
+* digitalWaveformEpochs = `[[1 0 0 0 0 0 0 0]  [1 0 0 0 0 0 0 0]  [1 0 0 0 0 0 0 0]  [1 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]  [0 0 0 0 0 0 0 0]]`
+* epochPoints = `[625, 2625, 4625, 9625, 14625, 19625, 24625, 29625, 34625, 36625, 38625, 43625, 48625, 53625, 58625, 63625, 68625]`
+* gapFree = `False`
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`

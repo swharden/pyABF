@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,6 +19,8 @@
 * abfVersion = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`
 * adcUnits = `['uA', 'mV', 'V', 'V']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `4`
 * channelList = `[0, 1, 2, 3]`
 * dacNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
@@ -24,6 +30,9 @@
 * dataPointCount = `3220568`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
+* digitalWaveformEpochs = `[[1 1 1]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]]`
+* epochPoints = `[967, 20967, 40967, 60967]`
+* gapFree = `False`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`

@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,6 +19,8 @@
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
 * adcUnits = `['pA']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
 * dacNames = `['Cmd 0']`
@@ -24,6 +30,9 @@
 * dataPointCount = `120000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
+* digitalWaveformEpochs = `[[0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]]`
+* epochPoints = `[37, 1037, 2037]`
+* gapFree = `False`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`

@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,6 +19,8 @@
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
 * adcUnits = `['mV']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
 * dacNames = `['Cmd 0']`
@@ -24,6 +30,9 @@
 * dataPointCount = `960000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
+* digitalWaveformEpochs = `[[0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]]`
+* epochPoints = `[937, 2937, 12937, 22937, 32937, 42937]`
+* gapFree = `False`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`

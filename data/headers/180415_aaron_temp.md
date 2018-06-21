@@ -2,8 +2,12 @@
 
 ## ABF Class Methods
 
+* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -15,6 +19,8 @@
 * abfVersion = `2.3.0.0`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['V', 'deg C']`
+* baselinePoints = `False`
+* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
 * dacNames = `['OUT 0', 'Cmd 1']`
@@ -24,6 +30,9 @@
 * dataPointCount = `200000`
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
+* digitalWaveformEpochs = `[]`
+* epochPoints = `[1562]`
+* gapFree = `False`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
