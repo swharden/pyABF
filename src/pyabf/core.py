@@ -66,6 +66,7 @@ class ABFcore:
         self._determineProtocolComment()
         self._makeTagTimesHumanReadable()
         self._makeUsefulObjects()
+        self._digitalWaveformEpochs()
         if preLoadData:
             self._loadAndScaleData()
         self._fileClose()
@@ -469,14 +470,11 @@ class ABFcore:
         else:
             return False
 
-    def sweepD(self, digitalOutputNumber=0):
+    def _digitalWaveformEpochs(self):
         """
-        Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
-        Digital outputs start at 0 and are usually 0-7. Returned waveform will be
-        scaled from 0 to 1, although in reality they are 0V and 5V.
+        Create a 2d array indicating the high/low state (1 or 0) of each digital
+        output (rows) for each epoch (columns).
         """
-
-        # generate a matrix of digital outputs per epoch
         numOutputs = self._protocolSection.nDigitizerTotalDigitalOuts
         byteStatesByEpoch = self._epochSection.nEpochDigitalOutput
         numEpochs = len(byteStatesByEpoch)
@@ -486,9 +484,15 @@ class ABFcore:
             byteState = "0"*(numOutputs-len(byteState))+byteState
             byteState = [int(x) for x in list(byteState)]
             statesAll[:, epochNumber] = byteState[::-1]
+        self.digitalWaveformEpochs = statesAll
 
-        # synthesize a sweep representing the pin state of the digital output
-        states = statesAll[digitalOutputNumber]
+    def sweepD(self, digitalOutputNumber=0):
+        """
+        Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
+        Digital outputs start at 0 and are usually 0-7. Returned waveform will be
+        scaled from 0 to 1, although in reality they are 0V and 5V.
+        """
+        states = self.digitalWaveformEpochs[digitalOutputNumber]
         sweepD = np.full(self.sweepPointCount, 0)
         for epoch in range(len(states)):
             sweepD[self.epochPoints[epoch]:
