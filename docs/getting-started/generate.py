@@ -382,9 +382,6 @@ They start out simple and increase in complexity.
         if not functionName.startswith("demo_"):
             continue
 
-        # if not "10a" in functionName:
-            # continue
-
         # run the function
         print(f"### RUNNING {functionName}()")
         func = getattr(uses, functionName)
