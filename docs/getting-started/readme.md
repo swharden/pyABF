@@ -336,7 +336,6 @@ for epochNumber, outputState in enumerate(outputStateByEpoch):
     if outputState == 1:
         t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
         t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
-        print(t1, t2)
         plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
 
 plt.show()
@@ -345,3 +344,35 @@ plt.show()
 **Output:**
 
 ![source/demo_10a_digital_output_shading.jpg](source/demo_10a_digital_output_shading.jpg)
+
+## Working with Gap-Free Files
+
+The pyABF project considers everything like it's an episodic ABF.
+Gap free ABF files are treated as if they were episodic files with
+a single sweep.
+
+When an abf object is instantiated, `setSweep(0)` is called
+automatically, so the entire gap-free set of data is pre-loaded into
+sweepX and sweepY.
+
+Note also that if it doesn't seem like the units are consistant
+with a simple current-clamp or voltage-clamp signal, the label
+is made from the channel name and the units.
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("16d22006_kim_gapfree.abf")
+
+plt.figure(figsize=(8, 5))
+plt.plot(abf.sweepX, abf.sweepY, lw=.5)
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelX)
+plt.title("Example Gap Free File")
+plt.show()
+```
+
+**Output:**
+
+![source/demo_11a_gap_free.jpg](source/demo_11a_gap_free.jpg)
