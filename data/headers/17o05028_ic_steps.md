@@ -32,7 +32,6 @@
 * dataSecPerPoint = `5e-05`
 * digitalWaveformEpochs = `[[0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]]`
 * epochPoints = `[937, 2937, 12937, 22937, 32937, 42937]`
-* gapFree = `False`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`

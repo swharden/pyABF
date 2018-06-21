@@ -32,7 +32,6 @@
 * dataSecPerPoint = `5e-05`
 * digitalWaveformEpochs = `[[0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]]`
 * epochPoints = `[156, 4156]`
-* gapFree = `False`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`

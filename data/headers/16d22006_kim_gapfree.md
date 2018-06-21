@@ -32,7 +32,6 @@
 * dataSecPerPoint = `0.0001`
 * digitalWaveformEpochs = `[]`
 * epochPoints = `[7546]`
-* gapFree = `True`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`

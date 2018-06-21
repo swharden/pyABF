@@ -32,7 +32,6 @@
 * dataSecPerPoint = `5e-05`
 * digitalWaveformEpochs = `[[0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]]`
 * epochPoints = `[1093, 11093, 21093, 31093, 41093, 51093, 61093]`
-* gapFree = `False`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
