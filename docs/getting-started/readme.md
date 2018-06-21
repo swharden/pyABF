@@ -328,7 +328,7 @@ for sweepNumber in abf.sweepList:
     plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
 plt.ylabel(abf.sweepLabelY)
 plt.xlabel(abf.sweepLabelX)
-plt.title("Current to Digital Output")
+plt.title("Shaded Digital Output #4")
 plt.axis([1.10, 1.25, -150, 50])
 
 outputStateByEpoch = abf.digitalWaveformEpochs[4]  # digital output 4
@@ -337,7 +337,7 @@ for epochNumber, outputState in enumerate(outputStateByEpoch):
         t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
         t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
         print(t1, t2)
-        plt.axvspan(t1, t2, color='r', alpha=.5, lw=0)
+        plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
 
 plt.show()
 ```
