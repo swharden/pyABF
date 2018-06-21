@@ -41,7 +41,7 @@ import pyabf
 abf = pyabf.ABF("17o05028_ic_steps.abf")
 abf.setSweep(14)
 plt.figure(figsize=(8, 5))
-plt.plot(abf.sweepX, abf.sweepY)
+plt.plot(abf.sweepX, abf.sweepY, lw=.5)
 ```
 
 **Output:**
@@ -221,8 +221,8 @@ import pyabf
 abf = pyabf.ABF("17o05026_vc_stim.abf")
 
 # only plot data between this time range
-i1=int(abf.dataRate*3.0)
-i2=int(abf.dataRate*3.5)
+i1 = int(abf.dataRate*3.0)
+i2 = int(abf.dataRate*3.5)
 
 # use a custom colormap
 cm = plt.get_cmap("winter")
@@ -247,3 +247,84 @@ plt.tight_layout()
 **Output:**
 
 ![source/demo_08a_xy_offset.jpg](source/demo_08a_xy_offset.jpg)
+
+## Accessing Digital Outputs
+
+Epochs don't just control DAC clamp settings, they also control digital
+outputs. Digital outputs are stored as an 8-bit byte with 0 representing
+off and 1 representing on. Calling `abf.sweepD(digOutNum)` will return
+a waveform (scaled 0 to 1) to show the high/low state of the digital
+output number given (usually 0-7). Here a digital output controls an 
+optogenetic stimulator, and a light-evoked EPSC is seen several 
+milliseconds after the stimulus
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("17o05026_vc_stim.abf")
+
+fig = plt.figure(figsize=(8, 5))
+
+ax1 = fig.add_subplot(211)
+ax1.set_title("Digital Output 4")
+ax1.set_ylabel("State")
+
+# plot the digital output of the first sweep
+ax1.plot(abf.sweepX, abf.sweepD(4), color='r')
+
+ax2 = fig.add_subplot(212, sharex=ax1)
+ax2.set_title("Recorded Waveform")
+ax2.set_xlabel(abf.sweepLabelY)
+ax2.set_ylabel(abf.sweepLabelC)
+
+# plot the data from every sweep
+for sweepNumber in abf.sweepList:
+    abf.setSweep(sweepNumber)
+    ax2.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
+
+fig.subplots_adjust(hspace=.4)
+ax2.axes.set_xlim(1.10, 1.25)
+ax2.axes.set_ylim(-150, 50)
+```
+
+**Output:**
+
+![source/demo_09a_digital_outputs.jpg](source/demo_09a_digital_outputs.jpg)
+
+## Shading Digital Outputs
+
+Drawing digital outputs on the same graph as the data is a bit more
+subtle because it requires you to know the times digital outputs
+switch state (rather than the instantaneous state of the output at every
+point in time).
+
+Notice how much easier life gets when we don't deal with subplots.
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("17o05026_vc_stim.abf")
+
+plt.figure(figsize=(8, 5))
+for sweepNumber in abf.sweepList:
+    abf.setSweep(sweepNumber)
+    plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelX)
+plt.title("Current to Digital Output")
+plt.axis([1.10, 1.25, -150, 50])
+
+outputStateByEpoch = abf.digitalWaveformEpochs[4]  # digital output 4
+for epochNumber, outputState in enumerate(outputStateByEpoch):
+    if outputState == 1:
+        t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
+        t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
+        print(t1,t2)
+        plt.axvspan(t1, t2, color='r', alpha=.5, lw=0)
+```
+
+**Output:**
+
+![source/demo_10a_digital_output_shading.jpg](source/demo_10a_digital_output_shading.jpg)
