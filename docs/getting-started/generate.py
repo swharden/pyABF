@@ -97,13 +97,13 @@ class Uses:
         abf.setSweep(sweepNumber=0, channel=0)
         ax1 = fig.add_subplot(211)
         ax1.set_title(f"Channel {abf.sweepChannel+1}")
-        ax1.plot(abf.sweepX, abf.sweepY)
+        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
         ax1.set_ylabel(abf.sweepLabelY)
 
         abf.setSweep(sweepNumber=0, channel=1)
         ax2 = fig.add_subplot(212)
         ax2.set_title(f"Channel {abf.sweepChannel+1}")
-        ax2.plot(abf.sweepX, abf.sweepY)
+        ax2.plot(abf.sweepX, abf.sweepY, lw=.5)
         ax2.set_xlabel(abf.sweepLabelX)
         ax2.set_ylabel(abf.sweepLabelY)
 
@@ -128,7 +128,7 @@ class Uses:
 
         ax1 = fig.add_subplot(211)
         ax1.set_title("ADC (recorded waveform)")
-        ax1.plot(abf.sweepX, abf.sweepY)
+        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
         ax1.set_ylabel(abf.sweepLabelY)
 
         ax2 = fig.add_subplot(212)
@@ -157,7 +157,7 @@ class Uses:
 
         ax1 = fig.add_subplot(211)
         ax1.set_title("ADC (recorded waveform)")
-        ax1.plot(abf.sweepX, abf.sweepY)
+        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
         ax1.set_ylabel(abf.sweepLabelY)
 
         ax2 = fig.add_subplot(212, sharex=ax1)  # this links them together
@@ -190,7 +190,8 @@ class Uses:
 
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
-            plt.plot(abf.sweepX, abf.sweepY + 140*sweepNumber, color='C0')
+            plt.plot(abf.sweepX, abf.sweepY + 140*sweepNumber,
+                     color='C0', lw=.5)
 
         plt.gca().get_yaxis().set_visible(False)  # hide Y axis
         plt.xlabel(abf.sweepLabelX)
@@ -307,7 +308,7 @@ class Uses:
             if outputState == 1:
                 t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
                 t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
-                print(t1,t2)
+                print(t1, t2)
                 plt.axvspan(t1, t2, color='r', alpha=.5, lw=0)
 
         self.saveAndClose()
@@ -323,7 +324,7 @@ def cleanCode(s):
     uses = Uses()
     s = s.replace("\n        ", "\n")
     s = s.replace("data/abfs/", "")
-    s = s.replace("self.saveAndClose()", "")
+    s = s.replace("self.saveAndClose()", "plt.show()")
     s = s.replace("self.figsize", str(uses.figsize))
     s = s.split('"""', 2)[2].strip()
     return s
@@ -356,8 +357,8 @@ They start out simple and increase in complexity.
         if not functionName.startswith("demo_"):
             continue
 
-        #if not "10a" in functionName:
-            #continue
+        # if not "10a" in functionName:
+            # continue
 
         # run the function
         print(f"### RUNNING {functionName}()")

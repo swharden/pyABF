@@ -42,6 +42,7 @@ abf = pyabf.ABF("17o05028_ic_steps.abf")
 abf.setSweep(14)
 plt.figure(figsize=(8, 5))
 plt.plot(abf.sweepX, abf.sweepY, lw=.5)
+plt.show()
 ```
 
 **Output:**
@@ -71,6 +72,7 @@ plt.ylabel(abf.sweepLabelY)
 plt.xlabel(abf.sweepLabelX)
 plt.title(abf.abfID)
 plt.tight_layout()
+plt.show()
 ```
 
 **Output:**
@@ -93,17 +95,19 @@ fig = plt.figure(figsize=(8, 5))
 abf.setSweep(sweepNumber=0, channel=0)
 ax1 = fig.add_subplot(211)
 ax1.set_title(f"Channel {abf.sweepChannel+1}")
-ax1.plot(abf.sweepX, abf.sweepY)
+ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
 ax1.set_ylabel(abf.sweepLabelY)
 
 abf.setSweep(sweepNumber=0, channel=1)
 ax2 = fig.add_subplot(212)
 ax2.set_title(f"Channel {abf.sweepChannel+1}")
-ax2.plot(abf.sweepX, abf.sweepY)
+ax2.plot(abf.sweepX, abf.sweepY, lw=.5)
 ax2.set_xlabel(abf.sweepLabelX)
 ax2.set_ylabel(abf.sweepLabelY)
 
 fig.subplots_adjust(hspace=.4)  # add more space between the subplots
+
+plt.show()
 ```
 
 **Output:**
@@ -127,7 +131,7 @@ fig = plt.figure(figsize=(8, 5))
 
 ax1 = fig.add_subplot(211)
 ax1.set_title("ADC (recorded waveform)")
-ax1.plot(abf.sweepX, abf.sweepY)
+ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
 ax1.set_ylabel(abf.sweepLabelY)
 
 ax2 = fig.add_subplot(212)
@@ -137,6 +141,8 @@ ax2.set_xlabel(abf.sweepLabelX)
 ax2.set_ylabel(abf.sweepLabelC)
 
 fig.subplots_adjust(hspace=.4)  # add more space between the subplots
+
+plt.show()
 ```
 
 **Output:**
@@ -159,7 +165,7 @@ fig = plt.figure(figsize=(8, 5))
 
 ax1 = fig.add_subplot(211)
 ax1.set_title("ADC (recorded waveform)")
-ax1.plot(abf.sweepX, abf.sweepY)
+ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
 ax1.set_ylabel(abf.sweepLabelY)
 
 ax2 = fig.add_subplot(212, sharex=ax1)  # this links them together
@@ -171,6 +177,8 @@ ax2.set_ylabel(abf.sweepLabelC)
 fig.subplots_adjust(hspace=.4)  # add more space between the subplots
 
 ax1.axes.set_xlim(0.1, 0.4)  # zoom between 100 and 200 ms
+
+plt.show()
 ```
 
 **Output:**
@@ -195,12 +203,15 @@ plt.figure(figsize=(8, 5))
 
 for sweepNumber in abf.sweepList:
     abf.setSweep(sweepNumber)
-    plt.plot(abf.sweepX, abf.sweepY + 140*sweepNumber, color='C0')
+    plt.plot(abf.sweepX, abf.sweepY + 140*sweepNumber,
+             color='C0', lw=.5)
 
 plt.gca().get_yaxis().set_visible(False)  # hide Y axis
 plt.xlabel(abf.sweepLabelX)
 plt.margins(0, .02)
 plt.tight_layout()
+
+plt.show()
 ```
 
 **Output:**
@@ -242,6 +253,8 @@ plt.gca().get_yaxis().set_visible(False)  # hide Y axis
 plt.gca().get_xaxis().set_visible(False)  # hide X axis
 plt.margins(.02, .02)
 plt.tight_layout()
+
+plt.show()
 ```
 
 **Output:**
@@ -286,6 +299,8 @@ for sweepNumber in abf.sweepList:
 fig.subplots_adjust(hspace=.4)
 ax2.axes.set_xlim(1.10, 1.25)
 ax2.axes.set_ylim(-150, 50)
+
+plt.show()
 ```
 
 **Output:**
@@ -321,8 +336,10 @@ for epochNumber, outputState in enumerate(outputStateByEpoch):
     if outputState == 1:
         t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
         t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
-        print(t1,t2)
+        print(t1, t2)
         plt.axvspan(t1, t2, color='r', alpha=.5, lw=0)
+
+plt.show()
 ```
 
 **Output:**
