@@ -4,8 +4,10 @@ Documentation, code examples, and more can be found at: https://github.com/swhar
 """
 
 from pyabf.abf import ABF
+from pyabf import plot
+from pyabf import calc
 
-__version__ = '0.1.17'
+__version__ = '2.0.1'
 
 def info():
     """display information about the pyabf package."""
@@ -13,4 +15,9 @@ def info():
     _pyabfFolder=os.path.abspath(os.path.dirname(__file__))
     print("pyabf %s was imported from %s"%(__version__,_pyabfFolder))
 
-__all__ = ('ABF','info')
+def help():
+    """launch the pyABF project page in a browser."""
+    import webbrowser
+    webbrowser.open("http://github.com/swharden/pyABF")
+
+__all__ = ('ABF','info','help')

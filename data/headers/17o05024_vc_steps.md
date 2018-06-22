@@ -1,236 +1,313 @@
-# ABF Header Contents
+# 17o05024_vc_steps.abf
 
-## Header
-* fFileSignature = `b'ABF2'`
-* fFileVersionNumber = `(0, 0, 6, 2)`
-* uFileInfoSize = `512`
+## ABF Class Methods
+
+* abf.baseline()
+* abf.getInfoPage()
+* abf.setSweep()
+* abf.sweepAverage()
+* abf.sweepD()
+* abf.sweepError()
+
+## ABF Class Variables
+
+* abfDateTime = `2017-01-05 14:49:53`
+* abfFileComment = ``
+* abfFileFormat = `2`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
+* abfID = `17o05024_vc_steps`
+* abfVersion = `2.6.0.0`
+* adcNames = `['IN 0']`
+* adcUnits = `['pA']`
+* baselinePoints = `False`
+* baselineTimes = `False`
+* channelCount = `1`
+* channelList = `[0]`
+* dacNames = `['Cmd 0']`
+* dacUnits = `['mV']`
+* data = `[[-21.36230278 -21.24023247 -21.24023247 ..., -20.75195122 -20.14159966   -19.40917778]]`
+* dataByteStart = `6656`
+* dataPointCount = `490000`
+* dataRate = `20000`
+* dataSecPerPoint = `5e-05`
+* digitalWaveformEpochs = `[[0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]]`
+* epochPoints = `[1093, 11093, 21093, 31093, 41093, 51093, 61093]`
+* holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* protocol = `0202 IV dual`
+* protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
+* scaleFactors = `[0.12207030670197155]`
+* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepChannel = `0`
+* sweepCount = `7`
+* sweepLabelC = `Membrane Potential (mV)`
+* sweepLabelX = `time (seconds)`
+* sweepLabelY = `Clamp Current (pA)`
+* sweepLengthSec = `3.5`
+* sweepList = `[0, 1, 2, 3, 4, 5, 6]`
+* sweepNumber = `0`
+* sweepPointCount = `70000`
+* sweepUnitsC = `mV`
+* sweepUnitsX = `sec`
+* sweepUnitsY = `pA`
+* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   3.49985000e+00    3.49990000e+00   3.49995000e+00]`
+* sweepY = `[-21.36230278 -21.24023247 -21.24023247 ..., -21.48437309 -21.60644341  -21.85058403]`
+* tagComments = `[]`
+* tagSweeps = `[]`
+* tagTimesMin = `[]`
+* tagTimesSec = `[]`
+
+## ABF2 Header
+
+> The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
+
+* FileGUID = `3595561293`
+* fFileSignature = `ABF2`
+* fFileVersionNumber = `[0, 0, 6, 2]`
 * lActualEpisodes = `7`
+* nCRCEnable = `0`
+* nDataFormat = `0`
+* nFileType = `1`
+* nSimultaneousScan = `1`
+* uCreatorNameIndex = `1`
+* uCreatorVersion = `168230915`
+* uFileCRC = `0`
+* uFileInfoSize = `512`
 * uFileStartDate = `20171005`
 * uFileStartTimeMS = `52792817`
+* uModifierNameIndex = `0`
+* uModifierVersion = `0`
+* uProtocolPathIndex = `2`
 * uStopwatchTime = `8205`
-* nFileType = `1`
-* nDataFormat = `0`
-* nSimultaneousScan = `1`
-* nCRCEnable = `0`
-* uFileCRC = `0`
-* FileGUID = `3595561293`
 * unknown1 = `1202434462`
 * unknown2 = `2861915294`
 * unknown3 = `4153321813`
-* uCreatorVersion = `168230915`
-* uCreatorNameIndex = `1`
-* uModifierVersion = `0`
-* uModifierNameIndex = `0`
-* uProtocolPathIndex = `2`
 
-## Section Map
-* ProtocolSection = `(1, 512, 1)`
-* ADCSection = `(2, 128, 1)`
-* DACSection = `(3, 256, 8)`
-* EpochSection = `(8, 32, 6)`
-* ADCPerDACSection = `(0, 0, 0)`
-* EpochPerDACSection = `(7, 48, 6)`
-* UserListSection = `(0, 0, 0)`
-* StatsRegionSection = `(9, 128, 1)`
-* MathSection = `(0, 0, 0)`
-* StringsSection = `(10, 172, 20)`
-* DataSection = `(13, 2, 490000)`
-* TagSection = `(0, 0, 0)`
-* ScopeSection = `(11, 769, 1)`
-* DeltaSection = `(0, 0, 0)`
-* VoiceTagSection = `(0, 0, 0)`
-* SynchArraySection = `(1928, 8, 7)`
-* AnnotationSection = `(0, 0, 0)`
-* StatsSection = `(0, 0, 0)`
+## SectionMap
+
+> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
+
+* ADCPerDACSection = `[0, 0, 0]`
+* ADCSection = `[2, 128, 1]`
+* AnnotationSection = `[0, 0, 0]`
+* DACSection = `[3, 256, 8]`
+* DataSection = `[13, 2, 490000]`
+* DeltaSection = `[0, 0, 0]`
+* EpochPerDACSection = `[7, 48, 6]`
+* EpochSection = `[8, 32, 6]`
+* MathSection = `[0, 0, 0]`
+* ProtocolSection = `[1, 512, 1]`
+* ScopeSection = `[11, 769, 1]`
+* StatsRegionSection = `[9, 128, 1]`
+* StatsSection = `[0, 0, 0]`
+* StringsSection = `[10, 172, 20]`
+* SynchArraySection = `[1928, 8, 7]`
+* TagSection = `[0, 0, 0]`
+* UserListSection = `[0, 0, 0]`
+* VoiceTagSection = `[0, 0, 0]`
 
 ## ProtocolSection
-* nOperationMode = `5`
-* fADCSequenceInterval = `50.0`
+
+> This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
+
 * bEnableFileCompression = `0`
-* sUnused = `b'\x00\x00\x00'`
-* uFileCompressionRatio = `1`
-* fSynchTimeUnit = `12.5`
-* fSecondsPerRun = `7200.0`
-* lNumSamplesPerEpisode = `70000`
-* lPreTriggerSamples = `20`
-* lEpisodesPerRun = `7`
-* lRunsPerTrial = `1`
-* lNumberOfTrials = `1`
-* nAveragingMode = `0`
-* nUndoRunCount = `0`
-* nFirstEpisodeInRun = `0`
-* fTriggerThreshold = `0.0`
-* nTriggerSource = `-3`
-* nTriggerAction = `0`
-* nTriggerPolarity = `0`
-* fScopeOutputInterval = `0.0`
+* fADCRange = `10.0`
+* fADCSequenceInterval = `50.0`
+* fAverageWeighting = `0.10000000149011612`
+* fCellID = `[0.0, 0.0, 0.0]`
+* fDACRange = `10.0`
 * fEpisodeStartToStart = `0.0`
-* fRunStartToStart = `0.0`
-* lAverageCount = `1`
-* fTrialStartToStart = `0.0`
-* nAutoTriggerStrategy = `1`
 * fFirstRunDelayS = `0.0`
-* nChannelStatsStrategy = `0`
+* fRunStartToStart = `0.0`
+* fScopeOutputInterval = `0.0`
+* fSecondsPerRun = `7200.0`
+* fStatisticsPeriod = `1.0`
+* fSynchTimeUnit = `12.5`
+* fTrialStartToStart = `0.0`
+* fTriggerThreshold = `0.0`
+* lADCResolution = `32768`
+* lAverageCount = `1`
+* lDACResolution = `32768`
+* lEpisodesPerRun = `7`
+* lFileCommentIndex = `0`
+* lFinishDisplayNum = `70000`
+* lNumSamplesPerEpisode = `70000`
+* lNumberOfTrials = `1`
+* lPreTriggerSamples = `20`
+* lRunsPerTrial = `1`
 * lSamplesPerTrace = `40000`
 * lStartDisplayNum = `0`
-* lFinishDisplayNum = `70000`
-* nShowPNRawData = `0`
-* fStatisticsPeriod = `1.0`
 * lStatisticsMeasurements = `5`
-* nStatisticsSaveStrategy = `0`
-* fADCRange = `10.0`
-* fDACRange = `10.0`
-* lADCResolution = `32768`
-* lDACResolution = `32768`
-* nExperimentType = `2`
-* nManualInfoStrategy = `1`
-* nCommentsEnable = `0`
-* lFileCommentIndex = `0`
-* nAutoAnalyseEnable = `1`
-* nSignalType = `0`
-* nDigitalEnable = `0`
-* nActiveDACChannel = `0`
-* nDigitalHolding = `0`
-* nDigitalInterEpisode = `0`
-* nDigitalDACChannel = `0`
-* nDigitalTrainActiveLogic = `1`
-* nStatsEnable = `1`
-* nStatisticsClearStrategy = `1`
-* nLevelHysteresis = `64`
 * lTimeHysteresis = `1`
+* nActiveDACChannel = `0`
 * nAllowExternalTags = `0`
-* nAverageAlgorithm = `0`
-* fAverageWeighting = `0.10000000149011612`
-* nUndoPromptStrategy = `0`
-* nTrialTriggerSource = `-1`
-* nStatisticsDisplayStrategy = `0`
-* nExternalTagType = `2`
-* nScopeTriggerOut = `0`
-* nLTPType = `0`
 * nAlternateDACOutputState = `0`
 * nAlternateDigitalOutputState = `0`
-* fCellID = `(0.0, 0.0, 0.0)`
+* nAutoAnalyseEnable = `1`
+* nAutoTriggerStrategy = `1`
+* nAverageAlgorithm = `0`
+* nAveragingMode = `0`
+* nChannelStatsStrategy = `0`
+* nCommentsEnable = `0`
+* nDigitalDACChannel = `0`
+* nDigitalEnable = `0`
+* nDigitalHolding = `0`
+* nDigitalInterEpisode = `0`
+* nDigitalTrainActiveLogic = `1`
 * nDigitizerADCs = `16`
 * nDigitizerDACs = `4`
-* nDigitizerTotalDigitalOuts = `16`
 * nDigitizerSynchDigitalOuts = `8`
+* nDigitizerTotalDigitalOuts = `16`
 * nDigitizerType = `6`
+* nExperimentType = `2`
+* nExternalTagType = `2`
+* nFirstEpisodeInRun = `0`
+* nLTPType = `0`
+* nLevelHysteresis = `64`
+* nManualInfoStrategy = `1`
+* nOperationMode = `5`
+* nScopeTriggerOut = `0`
+* nShowPNRawData = `0`
+* nSignalType = `0`
+* nStatisticsClearStrategy = `1`
+* nStatisticsDisplayStrategy = `0`
+* nStatisticsSaveStrategy = `0`
+* nStatsEnable = `1`
+* nTrialTriggerSource = `-1`
+* nTriggerAction = `0`
+* nTriggerPolarity = `0`
+* nTriggerSource = `-3`
+* nUndoPromptStrategy = `0`
+* nUndoRunCount = `0`
+* uFileCompressionRatio = `1`
 
 ## ADCSection
-* nADCNum = `0`
-* nTelegraphEnable = `1`
-* nTelegraphInstrument = `24`
-* fTelegraphAdditGain = `5.0`
-* fTelegraphFilter = `2000.0`
-* fTelegraphMembraneCap = `0.0`
-* nTelegraphMode = `0`
-* fTelegraphAccessResistance = `0.0`
-* nADCPtoLChannelMap = `0`
-* nADCSamplingSeq = `0`
-* fADCProgrammableGain = `1.0`
-* fADCDisplayAmplification = `4.166602611541748`
-* fADCDisplayOffset = `-105.0`
-* fInstrumentScaleFactor = `0.0005000000237487257`
-* fInstrumentOffset = `0.0`
-* fSignalGain = `1.0`
-* fSignalOffset = `0.0`
-* fSignalLowpassFilter = `5000.0`
-* fSignalHighpassFilter = `1.0`
-* nLowpassFilterType = `0`
-* nHighpassFilterType = `0`
-* fPostProcessLowpassFilter = `100000.0`
-* nPostProcessLowpassFilterType = `b'\x00'`
-* bEnabledDuringPN = `0`
-* nStatsChannelPolarity = `1`
-* lADCChannelNameIndex = `3`
-* lADCUnitsIndex = `4`
+
+> Information about the ADC (what gets recorded).      There is 1 item per ADC. 
+
+* bEnabledDuringPN = `[0]`
+* fADCDisplayAmplification = `[4.166602611541748]`
+* fADCDisplayOffset = `[-105.0]`
+* fADCProgrammableGain = `[1.0]`
+* fInstrumentOffset = `[0.0]`
+* fInstrumentScaleFactor = `[0.0005000000237487257]`
+* fPostProcessLowpassFilter = `[100000.0]`
+* fSignalGain = `[1.0]`
+* fSignalHighpassFilter = `[1.0]`
+* fSignalLowpassFilter = `[5000.0]`
+* fSignalOffset = `[0.0]`
+* fTelegraphAccessResistance = `[0.0]`
+* fTelegraphAdditGain = `[5.0]`
+* fTelegraphFilter = `[2000.0]`
+* fTelegraphMembraneCap = `[0.0]`
+* lADCChannelNameIndex = `[3]`
+* lADCUnitsIndex = `[4]`
+* nADCNum = `[0]`
+* nADCPtoLChannelMap = `[0]`
+* nADCSamplingSeq = `[0]`
+* nHighpassFilterType = `[0]`
+* nLowpassFilterType = `[0]`
+* nPostProcessLowpassFilterType = `['\x00']`
+* nStatsChannelPolarity = `[1]`
+* nTelegraphEnable = `[1]`
+* nTelegraphInstrument = `[24]`
+* nTelegraphMode = `[0]`
 
 ## DACSection
-* nDACNum = `[0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0]`
-* nTelegraphDACScaleFactorEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
-* fInstrumentHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACScaleFactor = `[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]`
-* fDACHoldingLevel = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACCalibrationFactor = `[1.0008957386016846, 1.0010067224502563, 1.000895619392395, 1.0008400678634644, 1.0, 1.0, 1.0, 1.0]`
-* fDACCalibrationOffset = `[0.0, -2.0, -3.0, 2.0, 0.0, 0.0, 0.0, 0.0]`
-* lDACChannelNameIndex = `[5, 7, 9, 11, 13, 15, 17, 19]`
-* lDACChannelUnitsIndex = `[6, 8, 10, 12, 14, 16, 18, 20]`
-* lDACFilePtr = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* lDACFileNumEpisodes = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nWaveformEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
-* nWaveformSource = `[1, 1, 1, 1, 0, 0, 0, 0]`
-* nInterEpisodeLevel = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* fDACFileScale = `[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]`
-* fDACFileOffset = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* lDACFileEpisodeNum = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nDACFileADCNum = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nConditEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* lConditNumPulses = `[1, 0, 0, 0, 0, 0, 0, 0]`
+
+> Information about the DAC (what gets clamped).      There is 1 item per DAC. 
+
 * fBaselineDuration = `[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fBaselineLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACCalibrationFactor = `[1.0008957386016846, 1.0010067224502563, 1.000895619392395, 1.0008400678634644, 1.0, 1.0, 1.0, 1.0]`
+* fDACCalibrationOffset = `[0.0, -2.0, -3.0, 2.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACFileOffset = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACFileScale = `[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]`
+* fDACHoldingLevel = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACScaleFactor = `[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]`
+* fInstrumentHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fMembTestPostSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
+* fMembTestPreSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
+* fPNHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fPNInterpulse = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fPNSettlingTime = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
+* fPostTrainLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fPostTrainPeriod = `[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]`
 * fStepDuration = `[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fStepLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fPostTrainPeriod = `[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]`
-* fPostTrainLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* nMembTestEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nLeakSubtractType = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nPNPolarity = `[1, 1, 1, 1, 1, 1, 1, 1]`
-* fPNHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* nPNNumADCChannels = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nPNPosition = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nPNNumPulses = `[4, 4, 4, 4, 4, 4, 4, 4]`
-* fPNSettlingTime = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
-* fPNInterpulse = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* nLTPUsageOfDAC = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nLTPPresynapticPulses = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* lConditNumPulses = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* lDACChannelNameIndex = `[5, 7, 9, 11, 13, 15, 17, 19]`
+* lDACChannelUnitsIndex = `[6, 8, 10, 12, 14, 16, 18, 20]`
+* lDACFileEpisodeNum = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* lDACFileNumEpisodes = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * lDACFilePathIndex = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* fMembTestPreSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
-* fMembTestPostSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
+* lDACFilePtr = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nConditEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nDACFileADCNum = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nDACNum = `[0, 1, 2, 3, 4, 5, 6, 7]`
+* nInterEpisodeLevel = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nLTPPresynapticPulses = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nLTPUsageOfDAC = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * nLeakSubtractADCIndex = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nLeakSubtractType = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nMembTestEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nPNNumADCChannels = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nPNNumPulses = `[4, 4, 4, 4, 4, 4, 4, 4]`
+* nPNPolarity = `[1, 1, 1, 1, 1, 1, 1, 1]`
+* nPNPosition = `[0, 0, 0, 0, 0, 0, 0, 0]`
+* nTelegraphDACScaleFactorEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* nWaveformEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* nWaveformSource = `[1, 1, 1, 1, 0, 0, 0, 0]`
 
 ## EpochPerDACSection
-* nEpochNum = `[0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]`
-* nEpochType = `[1, 1, 1, 1, 1, 1]`
+
+> This section contains waveform protocol information. These are most of     the values set when using the epoch the waveform editor. Note that digital     output signals are not stored here, but are in EpochSection. 
+
 * fEpochInitLevel = `[-70.0, -110.0, -70.0, -50.0, -110.0, -50.0]`
 * fEpochLevelInc = `[0.0, 10.0, 0.0, 0.0, 10.0, 0.0]`
-* lEpochInitDuration = `[10000, 10000, 10000, 10000, 10000, 10000]`
 * lEpochDurationInc = `[0, 0, 0, 0, 0, 0]`
+* lEpochInitDuration = `[10000, 10000, 10000, 10000, 10000, 10000]`
 * lEpochPulsePeriod = `[0, 0, 0, 0, 0, 0]`
 * lEpochPulseWidth = `[0, 0, 0, 0, 0, 0]`
+* nDACNum = `[0, 0, 0, 0, 0, 0]`
+* nEpochNum = `[0, 1, 2, 3, 4, 5]`
+* nEpochType = `[1, 1, 1, 1, 1, 1]`
 
 ## EpochSection
+
+> This section contains the digital output signals for each epoch. This     section has been overlooked by some previous open-source ABF-reading     projects. Note that the digital output is a single byte, but represents      8 bits corresponding to 8 outputs (7->0). When working with these bits,     I convert it to a string like "10011101" for easy eyeballing. 
+
 * nEpochDigitalOutput = `[0, 0, 0, 0, 0, 0]`
+* nEpochNum = `[0, 1, 2, 3, 4, 5]`
 
 ## TagSection
 
+> Tags are comments placed in ABF files during the recording. Physically     they are located at the end of the file (after the data).      Later we will populate the times and sweeps (human-understandable units)     by multiplying the lTagTime by fSynchTimeUnit from the protocol section. 
+
+* lTagTime = `[]`
+* nTagType = `[]`
+* nVoiceTagNumberorAnnotationIndex = `[]`
+* sComment = `[]`
+* sweeps = `[]`
+* timesMin = `[]`
+* timesSec = `[]`
+
 ## StringsSection
+
+> Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.       The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf      protocol path and comments. The other strings are very large and I do not      know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
+
+* strings = `[b"SSCH\x01\x00\x00\x00\x14\x00\x00\x00'\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Clampex\x00S:\\Protocols\\permanent\\0202 IV dual.pro\x00IN 0\x00pA\x00Cmd 0\x00mV\x00Cmd 1\x00mV\x00Cmd 2\x00mV\x00Cmd 3\x00mV\x00AO #4\x00mV\x00AO #5\x00mV\x00AO #6\x00mV\x00AO #7\x00mV\x00", b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00@\x04', b'\xff\xff\xff\x00\xc0\xc0\xc0\x00\x80\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\xc0\xc0\xc0\x00\xff\xff\x00\x00\x80\x80\x80\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\xb8\x88G\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf5\xff\x90\x01 \x00\x00\x00Arial\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00IN 0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x01\x00\x00\x00\x00\x00\x80?\xcfT\x85@\x00\x00\xd2\xc2\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00J\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x80\x00\x00\x80\x80\x00\x00\x00\x00\x80\x00\x80\x00\x80\x00\x00\x80\x80\x00\x80\x80\x80\x00\xff\x00', b'\x00\x00\x00\x80\x80\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Q\xffR\xffR\xffR\xffM\xffV\xff', b'Z\xffZ\xffO\xffI\xffF\xffG\xffM\xffU\xffX\xffX\xffR\xffJ\xffD\xffF\xffN\xffT\xff\\\xff_\xff_\xffY\xffP\xffM\xffJ\xffL\xffJ\xffG\xffC\xffC\xffI\xffU\xff]\xffe\xff^\xffT\xffK\xffN\xffO\xffW\xff]\xffX\xffT\xffU\xffZ\xffa\xffa\xff_\xffb\xffa\xffV\xffQ\xffM\xffO\xffP\xffG\xffA\xffD\xffQ\xffY\xff[\xff^\xffY\xffT\xffZ\xff]\xffZ\xffW\xffP\xffL\xffM\xffP\xffS\xffU\xffS\xffO\xffO\xffP\xffL\xffH\xffI\xffP\xffY\xff\\\xff]\xffU\xffN\xffR\xff', b'V\xffT\xffS\xffV\xffW\xffS\xffM\xffF\xffJ\xffS\xffY\xffZ\xffR\xffN\xffG\xffI\xffK\xffM\xffS\xffW\xffY\xffU\xffS\xffQ\xffP\xffT\xffS\xffR\xffL\xffD\xff;\xff?\xffI\xffP\xffZ\xff[\xff\\\xffZ\xff[\xffT\xffO\xffK\xffI\xffK\xffQ\xffX\xffX\xff[\xff^\xffb\xffe\xffb\xffX\xffT\xffV\xffQ\xffO\xffS\xffS\xffN\xffK\xffD\xffE\xffI\xffW\xff[\xffi\xffm\xffh\xffZ\xffU\xffS\xffL\xffN\xffO\xffG\xffD\xff?\xffB\xff@\xffC\xffF\xffO\xffQ\xffU\xffR\xff', b'J\xff@\xffA\xffJ\xffR\xffQ\xffM\xffQ\xffV\xffV\xffN\xffP\xffR\xffU\xffV\xffU\xffR\xffJ\xffI\xffO\xffX\xffY\xffV\xffS\xffV\xffN\xffJ\xffL\xffM\xffK\xffP\xffS\xffX\xffW\xffU\xffU\xffZ\xff[\xffW\xff\\\xffd\xffi\xffd\xff[\xffW\xffV\xffP\xffG\xffJ\xffM\xffP\xffO\xffP\xffM\xffL\xffI\xffG\xffG\xffJ\xffM\xffL\xffM\xffQ\xffX\xffZ\xffN\xffF\xffF\xffO\xffY\xffc\xffh\xff\\\xffP\xffQ\xffQ\xffR\xff[\xffb\xffg\xffe\xff]\xffW\xffS\xffW\xffX\xff', b'[\xff[\xffV\xffS\xffQ\xffT\xffY\xff`\xffc\xff_\xff]\xff]\xff[\xffS\xffJ\xffJ\xffN\xffX\xffY\xffR\xffI\xffH\xffM\xffS\xffW\xffN\xffI\xffM\xffQ\xffO\xffI\xffL\xffP\xffQ\xffJ\xffK\xffT\xffW\xffO\xffG\xffE\xffE\xffL\xffT\xffZ\xffT\xffP\xffS\xffZ\xffZ\xff[\xffS\xffL\xffL\xffQ\xffV\xffU\xffS\xffM\xffN\xffM\xffN\xffQ\xffT\xffQ\xffR\xffO\xffO\xffJ\xffP\xffT\xff\\\xff^\xffW\xffK\xffJ\xffM\xffQ\xffS\xffR\xffV\xff]\xff[\xffX\xffT\xffJ\xff', b'M\xffU\xff_\xffb\xffb\xffX\xffN\xffI\xffG\xffG\xffG\xffL\xffL\xffJ\xffF\xffI\xffM\xffR\xffP\xffL\xffN\xffM\xffL\xffG\xffE\xffE\xffD\xffE\xffJ\xffL\xffD\xff;\xff9\xff:\xffB\xffR\xffZ\xffR\xffF\xffD\xffF\xffF\xffL\xffK\xffI\xffS\xffU\xffS\xffS\xffR\xffG\xff;\xff;\xff@\xffA\xffA\xffF\xffH\xffQ\xffW\xffU\xffR\xffI\xffB\xff=\xff9\xff>\xffC\xffI\xffO\xffN\xffJ\xffF\xffA\xffD\xffH\xffJ\xffI\xffH\xffJ\xffE\xffC\xff?\xff<\xffA\xff@\xff', b'J\xffN\xffK\xffJ\xffG\xffJ\xffN\xffT\xffS\xffO\xffI\xff<\xff9\xff:\xffC\xffD\xffD\xffG\xffC\xff>\xff9\xff?\xffG\xffM\xffN\xffM\xffP\xffN\xffM\xffE\xffE\xffE\xffK\xffJ\xffD\xff?\xffG\xffP\xffP\xffT\xffS\xffT\xffV\xffS\xffH\xffG\xffH\xffF\xffE\xffJ\xffF\xffC\xffI\xffM\xffM\xffR\xff[\xff]\xffV\xffN\xffD\xff@\xffE\xffK\xffS\xffX\xffV\xffO\xffO\xffO\xffO\xffM\xffK\xffL\xffJ\xffK\xffM\xffO\xffH\xffE\xffD\xffG\xffF\xffR\xffZ\xffU\xff', b'J\xffC\xff@\xff>\xffC\xffG\xffO\xffM\xffN\xffO\xffQ\xffO\xffM\xffQ\xffU\xff]\xff_\xff_\xffW\xffL\xffI\xffF\xff@\xff;\xff@\xffL\xffT\xffV\xffL\xff<\xff3\xff@\xffT\xffa\xffb\xffd\xffe\xffc\xffX\xffP\xffN\xffL\xffI\xffI\xffH\xffF\xffI\xffP\xffV\xffT\xffN\xffH\xffB\xffE\xffF\xffF\xffL\xffP\xffQ\xffN\xffO\xffP\xffL\xffK\xffP\xffV\xffW\xffX\xff\\\xff_\xff`\xffd\xff_\xffY\xffS\xffO\xffP\xffQ\xffT\xffU\xffW\xff\\\xff]\xff`\xffZ\xffQ\xff', b'N\xffP\xffX\xffd\xfff\xffa\xff^\xffb\xff[\xffU\xffQ\xffP\xffU\xff\\\xffV\xffI\xffI\xffN\xffQ\xffP\xffS\xffW\xffV\xffR\xffO\xffU\xffT\xffQ\xffM\xffU\xffY\xffY\xffP\xffH\xffG\xffO\xffY\xff\\\xffb\xffe\xffd\xffb\xffb\xff`\xffb\xffa\xffZ\xffQ\xffN\xffM\xffL\xffL\xffO\xffL\xffO\xffP\xffR\xffV\xffZ\xffX\xffY\xffU\xffT\xffP\xffO\xffI\xffF\xffH\xffR\xffT\xffU\xffQ\xffT\xffR\xffM\xffJ\xffM\xffK\xffK\xffU\xffV\xffT\xffP\xffS\xffW\xffZ\xff', b'[\xffY\xffQ\xffM\xffN\xffN\xffX\xffW\xffO\xffI\xffK\xffJ\xffO\xffK\xffP\xffU\xff[\xffa\xffa\xff]\xffV\xffH\xff?\xff@\xffH\xffP\xffM\xffL\xffT\xff_\xffd\xffe\xffb\xffW\xffM\xffH\xffI\xffG\xffH\xffL\xffH\xffH\xffR\xffU\xffS\xffW\xffU\xffO\xffO\xffV\xff[\xff]\xffW\xffP\xffN\xffP\xffV\xffY\xff`\xffe\xff\\\xffW\xffT\xffT\xffU\xffX\xff`\xffe\xff_\xffQ\xffE\xffB\xffC\xffO\xffX\xff[\xffU\xffM\xffT\xff`\xffe\xffa\xffX\xffS\xffT\xff[\xff', b'\\\xffY\xffS\xffM\xffM\xffP\xffV\xffX\xffZ\xffZ\xff]\xff`\xffZ\xffW\xffN\xffF\xffC\xffJ\xffQ\xffR\xffV\xffP\xffM\xffM\xffP\xffP\xffO\xffO\xffV\xff_\xffd\xfff\xff_\xffW\xffT\xffX\xffc\xffj\xff^\xffR\xffN\xffR\xffT\xffS\xffK\xffQ\xffZ\xff^\xffZ\xffY\xffU\xffT\xffR\xffW\xffS\xffL\xffK\xffO\xffP\xffX\xff]\xffa\xffZ\xffQ\xffJ\xffM\xffO\xffP\xffM\xffK\xffM\xffO\xffO\xffI\xffS\xffV\xffV\xffT\xffU\xffW\xffV\xffY\xffX\xffV\xffU\xffW\xff', b'Z\xff[\xffT\xffP\xffK\xffO\xffT\xffX\xffZ\xff`\xff`\xffZ\xffV\xffL\xffC\xff<\xff>\xffD\xffL\xffP\xffW\xffW\xffT\xffO\xffK\xffJ\xffP\xffS\xffQ\xffQ\xffU\xff\\\xffX\xffU\xffT\xffM\xffI\xffI\xffH\xffL\xffP\xffN\xffL\xffI\xffL\xffQ\xffO\xffK\xffG\xffF\xffL\xffM\xffJ\xffL\xffN\xffP\xffQ\xffS\xffV\xffT\xffT\xffP\xffJ\xffL\xffJ\xffE\xffA\xffE\xffN\xffR\xffT\xffQ\xffO\xffP\xffP\xffS\xffV\xffT\xffM\xffJ\xffL\xffL\xffV\xff[\xffT\xffO\xff']`
+
+## StringsIndexed
+
+> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
+
+* lADCChannelName = `['IN 0']`
+* lADCUnits = `['pA']`
+* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
+* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
+* lDACFilePath = `['', '', '', '', '', '', '', '']`
+* lFileComment = ``
+* nLeakSubtractADC = `['', '', '', '', '', '', '', '']`
 * uCreatorName = `Clampex`
 * uModifierName = ``
 * uProtocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
-* lFileComment = ``
-* lADCUnits = `pA`
-* lADCChannelNames = `IN 0`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
-* lDACChannelNames = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
-
-## Extras
-* abfFilename = `C:\Users\scott\Documents\GitHub\pyABF\data\17o05024_vc_steps.abf`
-* abfID = `17o05024_vc_steps`
-* abfDatetime = `2017-01-05 14:49:52.817000`
-* dataByteStart = `6656`
-* dataPointCount = `490000`
-* dataChannels = `1`
-* timeSecPerPoint = `5e-05`
-* timePointPerSec = `20000.0`
-* rate = `20000.0`
-* sweepCount = `7`
-* sweepPointCount = `70000`
-* sweepLengthSec = `3.5`
-* gain = `5.0`
-* mode = `VC`
-* units = `pA`
-* unitsCommand = `mV`
-* commandHoldingByDAC = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
-* protocol = `0202 IV dual.pro`
-* dataScale = `0.12207030670197155`

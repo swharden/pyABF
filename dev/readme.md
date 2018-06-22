@@ -1,2 +1,3 @@
-# Developer Tools
-Files here aren't intended to be used by non-developers. They will likely be poorly documented.
+# Developer Files
+These are things that only the primary author is intended to use.
+They may represent work-in-progress projects.
