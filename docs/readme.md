@@ -2,6 +2,22 @@
 pyABF was written to be so intuitive to use (with a predictive IDE) that extensive documentation is not necessary.
 The best way to learn how to interact with pyABF is to check out the [examples](getting-started), then just start using it!
 
+## Installation
+
+```bash
+pip install --upgrade pyabf
+```
+
+## Quickstart
+```python
+import pyabf
+abf = pyabf.ABF("demo.abf")
+abf.setSweep(3) # sweeps start at 0
+print(abf.sweepY) # sweep data (ADC)
+print(abf.sweepC) # sweep command (DAC)
+print(abf.sweepX) # sweep times (seconds)
+```
+
 ## Getting Started
 * [Getting Started with pyABF](getting-started) - reading ABFs and plotting sweeps with matplotlib
 
