@@ -27,7 +27,7 @@ if __name__ == "__main__":
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
     md += "of ABF file, email it to me and I will include it here. Note that this page "
-    md += "is generated automatically by [generate.py](generate.py).\n\n"
+    md += "is generated automatically by [generate-data-index](generate-data-index).\n\n"
 
     md += "ABF (version) | channels | sweeps | protocol | thumbnail\n"
     md += "---|---|---|---|---\n"
@@ -96,5 +96,5 @@ if __name__ == "__main__":
         f.write(md)
 
     # update the file index
-    #pyabf.text.indexFolder(PATH_HERE+"/../data/headers/")
+    # pyabf.text.indexFolder(PATH_HERE+"/../data/headers/")
     print("DONE")

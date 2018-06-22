@@ -31,16 +31,13 @@ class Uses:
         ## Access Sweep Data
 
         Load an ABF and display data from a certain sweep. 
-        The output will look like: 
-        `[-60.08911 -60.08911 ..., -61.67602 -61.64550]`.
-        Note that sweeps start at 0, so calling `setSweep(14)` really loads
-        the 15th sweep.
         """
         import pyabf
-        plt.figure(figsize=self.figsize)
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
-        abf.setSweep(14)
-        print(abf.sweepY)
+        abf.setSweep(14) # sweeps start at 0
+        print(abf.sweepY) # sweep data (ADC)
+        print(abf.sweepC) # sweep command (DAC)
+        print(abf.sweepX) # sweep times (seconds)
 
     def demo_02a_plot_matplotlib_sweep(self):
         """
