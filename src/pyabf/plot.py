@@ -2,10 +2,8 @@
 This file contains code to plot ABF data using matplotlib.
 
 Users are typically encouraged to write their own plotting functions, but
-I have added common tasks here for my own convenience.
-
-This file is also a good primer for how to make many types of common
-electrophysiological plots using pyABF and matplotlib.
+I have added common tasks here for my own convenience. It is mostly for testing
+and it is not actively developed.
 """
 
 import os
