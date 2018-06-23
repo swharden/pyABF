@@ -34,10 +34,10 @@ class Uses:
         """
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
-        abf.setSweep(14) # sweeps start at 0
-        print(abf.sweepY) # sweep data (ADC)
-        print(abf.sweepC) # sweep command (DAC)
-        print(abf.sweepX) # sweep times (seconds)
+        abf.setSweep(14)  # sweeps start at 0
+        print(abf.sweepY)  # sweep data (ADC)
+        print(abf.sweepC)  # sweep command (DAC)
+        print(abf.sweepX)  # sweep times (seconds)
 
     def demo_02a_plot_matplotlib_sweep(self):
         """
@@ -336,6 +336,41 @@ class Uses:
         plt.title("Example Gap Free File")
         self.saveAndClose()
 
+    def demo_12a_tags(self):
+        """
+        ## Accessing Comments (Tags) in ABF Files
+
+        While recording an ABF the user can insert a comment at a certain
+        time point. ClampFit calls these "tags", and they can be a useful
+        way to mark things like drug applications during an experiment.
+
+        A list of comments (the text of tags) is stored in a list 
+        `abf.tagComments`. The sweep for each tag is in `abf.tagSweeps`, while
+        the time of each tag is in `abf.tagTimesSec` and `abf.tagTimesMin`
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/16d05007_vc_tags.abf")
+
+        # first plot the entire ABF continuously
+        plt.figure(figsize=self.figsize)
+        for sweep in abf.sweepList:
+            abf.setSweep(sweep, absoluteTime=True)
+            abf.sweepY[:int(abf.dataRate*1.0)] = np.nan #blank the memtest
+            plt.plot(abf.sweepX, abf.sweepY, lw=.5, color='C0')
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
+
+        # now add the tags as vertical lines
+        for i, tagTimeSec in enumerate(abf.tagTimesSec):
+            plt.axvline(abf.tagTimesSec[i], label=abf.tagComments[i],
+                        color=f"C{i+3}", ls='--', alpha=.8)
+        plt.legend()
+
+        plt.title("ABF File Comments (Tags)")
+        self.saveAndClose()
+
+
 def cleanDocstrings(s):
     s = s.strip()
     s = s.replace("\n        ", "\n")
@@ -378,6 +413,9 @@ They start out simple and increase in complexity.
     for functionName in sorted(dir(uses)):
         if not functionName.startswith("demo_"):
             continue
+
+        #if not "tag" in functionName:
+            #continue
 
         # run the function
         print(f"### RUNNING {functionName}()")

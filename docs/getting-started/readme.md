@@ -6,7 +6,7 @@ This page is a collection of common tasks performed by pyABF.
 They start out simple and increase in complexity.
 
   * All ABFs used are provided in  [the data folder](/data/)
-  * These tests (and this output) are automated by [generate-docs.py](generate-docs.py)
+  * These tests (and this output) are automated by [generate.py](generate.py)
   * Examples `import matplotlib.pyplot as plt`
   * Examples `import numpy as np`
   * Alternate color scheme provided with `plt.style.use('bmh')`
@@ -14,20 +14,17 @@ They start out simple and increase in complexity.
 
 ## Access Sweep Data
 
-Load an ABF and display data from a certain sweep. 
-The output will look like: 
-`[-60.08911 -60.08911 ..., -61.67602 -61.64550]`.
-Note that sweeps start at 0, so calling `setSweep(14)` really loads
-the 15th sweep.
+Load an ABF and display data from a certain sweep.
 
 **Code:**
 
 ```python
 import pyabf
-plt.figure(figsize=(8, 5))
 abf = pyabf.ABF("17o05028_ic_steps.abf")
-abf.setSweep(14)
-print(abf.sweepY)
+abf.setSweep(14)  # sweeps start at 0
+print(abf.sweepY)  # sweep data (ADC)
+print(abf.sweepC)  # sweep command (DAC)
+print(abf.sweepX)  # sweep times (seconds)
 ```
 
 ## Plot Sweep Data
@@ -376,3 +373,42 @@ plt.show()
 **Output:**
 
 ![source/demo_11a_gap_free.jpg](source/demo_11a_gap_free.jpg)
+
+## Accessing Comments (Tags) in ABF Files
+
+While recording an ABF the user can insert a comment at a certain
+time point. ClampFit calls these "tags", and they can be a useful
+way to mark things like drug applications during an experiment.
+
+A list of comments (the text of tags) is stored in a list 
+`abf.tagComments`. The sweep for each tag is in `abf.tagSweeps`, while
+the time of each tag is in `abf.tagTimesSec` and `abf.tagTimesMin`
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("16d05007_vc_tags.abf")
+
+# first plot the entire ABF continuously
+plt.figure(figsize=(8, 5))
+for sweep in abf.sweepList:
+    abf.setSweep(sweep, absoluteTime=True)
+    abf.sweepY[:int(abf.dataRate*1.0)] = np.nan #blank the memtest
+    plt.plot(abf.sweepX, abf.sweepY, lw=.5, color='C0')
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelX)
+
+# now add the tags as vertical lines
+for i, tagTimeSec in enumerate(abf.tagTimesSec):
+    plt.axvline(abf.tagTimesSec[i], label=abf.tagComments[i],
+                color=f"C{i+3}", ls='--', alpha=.8)
+plt.legend()
+
+plt.title("ABF File Comments (Tags)")
+plt.show()
+```
+
+**Output:**
+
+![source/demo_12a_tags.jpg](source/demo_12a_tags.jpg)
