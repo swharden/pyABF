@@ -314,19 +314,21 @@ class ABFcore:
         That's outside the scope of this core ABF class.
         """
 
-        # usually ABF data is 16-bit integers. Sometimes after modifying
-        # ABFs with ClampFit, they're other formats. If we see 4-byte data
-        # points, assume they're 32-bit floats.
-        
+        # usually ABF data is 16-bit integers. Every once and a while you
+        # find ABFs with other data formats. Usually this happens after the
+        # file is modified with ClampFIt.
         if self.abfFileFormat==1:
             dtype = np.int16
-        else:
+        elif self.abfFileFormat==2:
             if self._sectionMap.DataSection[1] == 2:
                 dtype = np.int16
             elif self._sectionMap.DataSection[1] == 4:
-                dtype = np.float32
+                if self._headerV2.nDataFormat==1:
+                    dtype = np.float32
+                else:
+                    dtype = np.int16
             else:
-                raise NotImplementedError("uncommon data point size")
+                raise NotImplementedError("strange data point size")
 
         self._fb.seek(self.dataByteStart)
         raw = np.fromfile(self._fb, dtype=dtype, count=self.dataPointCount)
