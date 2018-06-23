@@ -19,22 +19,23 @@ plt.style.use('bmh')  # alternative color scheme
 
 if __name__ == "__main__":
 
-
-    fname = PATH_DATA+"/2018_04_13_0016a_original.abf"
-    abf = pyabf.ABF(fname)
+    # plot the first file
+    abf = pyabf.ABF(PATH_DATA+"/2018_04_13_0016a_original.abf")
     abf.setSweep(sweepNumber=0, channel=1)
-    plt.plot(abf.sweepY, label="original ABF")
+    plt.plot(abf.sweepX, abf.sweepY, label="original ABF")
 
-    fname = PATH_DATA+"/2018_04_13_0016b_modified.abf"
-    abf = pyabf.ABF(fname)
+    # plot the second file on top of it
+    abf = pyabf.ABF(PATH_DATA+"/2018_04_13_0016b_modified.abf")
     abf.setSweep(sweepNumber=0, channel=1)
     mult = -(1/3)
-    plt.plot(abf.sweepY * mult, label="modified ABF")
+    plt.plot(abf.sweepX, abf.sweepY * mult, label="modified ABF")
 
-    plt.title("2018_04_13_0016 inspection")
+    # decorate the plot and zoom to an interesting area
+    plt.title("2018_04_13_0016 inspection (pyABF v2)")
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.legend()
+    plt.axis([.005,.015,-150,350])
     plt.show()
 
     print("DONE")
