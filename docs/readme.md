@@ -28,18 +28,3 @@ print(abf.sweepX) # sweep times (seconds)
 * [Demo data plotted with common colormaps](advanced/v1%20cookbook/2017-11-12%20colormaps/colormaps.pdf)
 * [Membrane Test Theory and Analaysis Techniques](advanced/v1%20cookbook/memtest-simulation.ipynb) - including how to measure cell capacitance from voltage-clamp steps
 * [pyABF V1 cookbook](advanced/cookbook) - the syntax is outdated, but some code and theory is useful
-
-## Having Problems?
-If you are encountering a problem, unexpected behavior, or have a use case I haven't anticipated, let me know about it!
-You can ***e-mail me (SWHarden@gmail.com) and attach the ABF you are having trouble with*** so I can modify the code to 
-ensure your ABF format is supported! I can only develop for (and test with) ABFs I have access to, so I appreciate your
-contributions!
-
-## Publishing Something Cool?
-I'm glad the pyABF project facilitated your research!
-Consider citing this project by name so it can benefit others too:
-
-> _"Computational analysis of electrophysiological recordings was performed using custom
-> software written for Python 3.6 and the pyABF module."_
-
-If your publication was supported by pyABF, let me know about it! I'd love to list it here.
