@@ -190,7 +190,7 @@ class ABFcore:
             raise NotImplementedError("Invalid ABF file format")
 
         # now calculate things with the values we calculated
-        if self.sweepCount == 0: # gap free
+        if self.sweepCount == 0:  # gap free
             self.sweepCount = 1
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
@@ -314,8 +314,22 @@ class ABFcore:
         That's outside the scope of this core ABF class.
         """
 
+        # usually ABF data is 16-bit integers. Sometimes after modifying
+        # ABFs with ClampFit, they're other formats. If we see 4-byte data
+        # points, assume they're 32-bit floats.
+        
+        if self.abfFileFormat==1:
+            dtype = np.int16
+        else:
+            if self._sectionMap.DataSection[1] == 2:
+                dtype = np.int16
+            elif self._sectionMap.DataSection[1] == 4:
+                dtype = np.float32
+            else:
+                raise NotImplementedError("uncommon data point size")
+
         self._fb.seek(self.dataByteStart)
-        raw = np.fromfile(self._fb, dtype=np.int16, count=self.dataPointCount)
+        raw = np.fromfile(self._fb, dtype=dtype, count=self.dataPointCount)
         raw = np.reshape(
             raw, (int(len(raw)/self.channelCount), self.channelCount))
         raw = np.rot90(raw)
