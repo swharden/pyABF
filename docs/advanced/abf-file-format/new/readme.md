@@ -15,15 +15,8 @@ The field of cellular electrophysiology uses highly-sensitive voltage and curren
 
 Axon Binary Format (ABF) files are encoded in a proprietary format. In the late 90s and early 2000s the internal file structure of ABF files was widely understood and custom software could be easily written to read data from these files. In 2006 pCLAMP 10 was released, featuring a new file format (ABF2) which was intentionally undocumented. Programmers seeking to write software to analyze ABF files were told by Molecular Devices that they had to interact with ABF files exclusively through a 32-bit Windows-only DLL (abffio.dll) they provide (without source code) as part of the Axon pCLAMP SDK.
 
-> "_One of the goals of the ABF reading routines is to isolate the applications programmer from the need to know anything other than the most basic information about the file format. ABF 2.0 now uses a header of variable length.  This means that it is now essential to use the ABFFIO.DLL library to access the data._" \
- \
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- -&nbsp;Axon ABF User Guide, page 9
+> "_One of the goals of the ABF reading routines is to isolate the applications programmer from the need to know anything other than the most basic information about the file format. ABF 2.0 now uses a header of variable length.  This means that it is now essential to use the ABFFIO.DLL library to access the data._" 
+ -[ABF User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (page 9)
 
 The purpose of the pyABF project is to document how to extract meaningful information directly from ABF files (including those encoded in the ABF2 file format) without relying on a DLL or any external libraries, and to provide a Pythonic API to provide simple and intuitive access to ABF header and data values. Efforts were taken to maximize portability of these findings so that similar ABF-reading APIs can be developed for other programming languages in the future.
 
@@ -127,7 +120,7 @@ self._fileClose()
 # References
 
 ### Official ABF Documents and Software
-* Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (cached)
+* Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (3rd party cache)
 * [pCLAMP 10 download page](http://mdc.custhelp.com/app/answers/detail/a_id/18779/~/axon™-pclamp™-10-electrophysiology-data-acquisition-%26-analysis-software) for pCLAMP, ClampFit, and AxoScope
 * [Historical pCLAMP User Guides](http://mdc.custhelp.com/app/answers/detail/a_id/18747/session/L2F2LzEvdGltZS8xNTI5Nzc5MDQ2L3NpZC9TdEZxa1hQbg%3D%3D)
 * [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) (contains abffio.dll)   
