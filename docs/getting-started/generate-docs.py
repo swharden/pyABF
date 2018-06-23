@@ -356,7 +356,7 @@ class Uses:
         plt.figure(figsize=self.figsize)
         for sweep in abf.sweepList:
             abf.setSweep(sweep, absoluteTime=True)
-            abf.sweepY[:int(abf.dataRate*1.0)] = np.nan #blank the memtest
+            abf.sweepY[:int(abf.dataRate*1.0)] = np.nan  # blank the memtest
             plt.plot(abf.sweepX, abf.sweepY, lw=.5, color='C0')
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
@@ -368,6 +368,43 @@ class Uses:
         plt.legend()
 
         plt.title("ABF File Comments (Tags)")
+        self.saveAndClose()
+
+    def demo_13a_baseline(self):
+        """
+        ## Baseline Subtraction
+
+        Sometimes it is worthwhile to center every sweep at 0. This can be done
+        easily by running `abf.baseline(t1, t2)` (where t1 and t2 are both times
+        in seconds). Subsequent `setSweep()` calls will automatically subtract
+        the average data value between these two points from the entire sweep,
+        centering it at zero.
+
+        To turn off baseline subtraction after it has been enabled, call 
+        `abf.baseline()` without arguments.
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+        plt.figure(figsize=self.figsize)
+
+        # enable baseline subtraction and plot a demo sweep
+        abf.baseline(2.1, 2.15)
+        abf.setSweep(3)
+        plt.plot(abf.sweepX, abf.sweepY, label="subtracted")
+
+        # disable baseline subtraction and plot a demo sweep
+        abf.baseline()
+        abf.setSweep(3)
+        plt.plot(abf.sweepX, abf.sweepY, label="original")
+
+        # decorate the plot
+        plt.title("Sweep Baseline Subtraction")
+        plt.axhline(0,color='k',ls='--')
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
+        plt.legend()
+        plt.axis([2, 2.5, -50, 20])
         self.saveAndClose()
 
 
@@ -410,12 +447,19 @@ They start out simple and increase in complexity.
 
     # then run each of the use case functions above
     uses = Uses()
+
+    # determine if the developer is actively testing a single function
+    testingOnly = False
+    for functionName in sorted(dir(uses)):
+        if "_test" in functionName:
+            testingOnly = True
+
     for functionName in sorted(dir(uses)):
         if not functionName.startswith("demo_"):
             continue
 
-        #if not "tag" in functionName:
-            #continue
+        if testingOnly and not "_test" in functionName:
+            continue
 
         # run the function
         print(f"### RUNNING {functionName}()")

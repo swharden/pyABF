@@ -126,7 +126,7 @@ class ABF(ABFcore):
         # baseline subtraction
         if self.baselinePoints:
             baseline = np.average(
-                self.sweepY[self.baselinePoints[0]:self.baselinePoints[1]])
+                self.sweepY[int(self.baselinePoints[0]):int(self.baselinePoints[1])])
             self.sweepY = self.sweepY-baseline
 
     def sweepAverage(self, timeSec1, timeSec2):

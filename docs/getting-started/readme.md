@@ -394,7 +394,7 @@ abf = pyabf.ABF("16d05007_vc_tags.abf")
 plt.figure(figsize=(8, 5))
 for sweep in abf.sweepList:
     abf.setSweep(sweep, absoluteTime=True)
-    abf.sweepY[:int(abf.dataRate*1.0)] = np.nan #blank the memtest
+    abf.sweepY[:int(abf.dataRate*1.0)] = np.nan  # blank the memtest
     plt.plot(abf.sweepX, abf.sweepY, lw=.5, color='C0')
 plt.ylabel(abf.sweepLabelY)
 plt.xlabel(abf.sweepLabelX)
@@ -412,3 +412,45 @@ plt.show()
 **Output:**
 
 ![source/demo_12a_tags.jpg](source/demo_12a_tags.jpg)
+
+## Baseline Subtraction
+
+Sometimes it is worthwhile to center every sweep at 0. This can be done
+easily by running `abf.baseline(t1, t2)` (where t1 and t2 are both times
+in seconds). Subsequent `setSweep()` calls will automatically subtract
+the average data value between these two points from the entire sweep,
+centering it at zero.
+
+To turn off baseline subtraction after it has been enabled, call 
+`abf.baseline()` without arguments.
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("17o05026_vc_stim.abf")
+plt.figure(figsize=(8, 5))
+
+# enable baseline subtraction and plot a demo sweep
+abf.baseline(2.1, 2.15)
+abf.setSweep(3)
+plt.plot(abf.sweepX, abf.sweepY, label="subtracted")
+
+# disable baseline subtraction and plot a demo sweep
+abf.baseline()
+abf.setSweep(3)
+plt.plot(abf.sweepX, abf.sweepY, label="original")
+
+# decorate the plot
+plt.title("Sweep Baseline Subtraction")
+plt.axhline(0,color='k',ls='--')
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelX)
+plt.legend()
+plt.axis([2, 2.5, -50, 20])
+plt.show()
+```
+
+**Output:**
+
+![source/demo_13a_baseline.jpg](source/demo_13a_baseline.jpg)
