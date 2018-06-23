@@ -1,3 +1,8 @@
+# WARNING: OUTDATED CONTENT
+**I re-wrote pyABF from scratch in June 2018, and I have greatly improved my understanding of the ABF file format since the creation of this document. I am working on an updated version of the _Unofficial ABF File Format Guide_, but it is not yet complete. I am leaving this document here for reference. The incomplete new documentation can be found [here](new)**.
+
+------
+
 # SWHarden's Unofficial ABF File Format Guide
 Electrophysiology data acquired with pCLAMP (clampEx and clampFit, developed by Molecular Devices) is saved in a proprietary format. The internal structure of these ABF (Axon Binary Format) files is intentionally undocumented (since 2006 when pCLAMP 10 featured the ABF2 file format), as its users are encouraged to interact with the data exclusively through a 32-bit DLL they provide (without source code).
 
