@@ -35,9 +35,6 @@ print(abf.sweepX) # sweep times (seconds)
 ## Motivation
 As a cellular neurophysiologist / electrophysiologist, I have a lot of experience analyzing electrophysiology data with many of the currently-available software options (both free and commercial). None of these options have proven flexible enough for my style of ***exploratory data analysis*** where I pursue scientific discoveries by analyzing data in new and creative ways (necessitating the rapid creation of custom experimental software). I was motivated to create the type of library and documentation I wish I had all along, and will be happy if these efforts chip away at the ABF-reading barrier which separates creative scientists from the ability to analyze their own data. I am a strong proponent of open source software, and hope that the sharing of this project will inspire future scientists and coders as well as promote the collaborative development of software to facilitate scientific discovery and ultimately improve the lives of those who will benefit from medical and scientific advancement.
 
-![](/docs/graphics/2017-11-18-multichannel.png)
-
-
 ## Publishing Something Cool?
 I'm glad the pyABF project facilitated your research!
 Consider citing this project by name so it can benefit others too:
@@ -56,3 +53,4 @@ If you have ABF files which are unsupported (or read incorrectly) by this softwa
 
 
 ![](/docs/graphics/spacer_paired_patch.jpg)
+![](/docs/graphics/2017-11-18-multichannel.png)
