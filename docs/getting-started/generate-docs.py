@@ -400,11 +400,54 @@ class Uses:
 
         # decorate the plot
         plt.title("Sweep Baseline Subtraction")
-        plt.axhline(0,color='k',ls='--')
+        plt.axhline(0, color='k', ls='--')
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         plt.legend()
         plt.axis([2, 2.5, -50, 20])
+        self.saveAndClose()
+
+    def demo_14a_gaussian_filter(self):
+        """
+        ## Gaussian Filter (Lowpass Filter / Data Smoothing)
+
+        Noisy data can be filtered in software. This is especially helpful
+        for inspection of evoked or spontaneuos post-synaptic currents. To
+        apply low-pass filtering on a specific channel, invoke the 
+        `abf.filter.gaussian()` method a single time. After that, every
+        `setSweep()` will display filtered data.
+
+        The degree of smoothing is defined by _sigma_ (milliseconds units), 
+        passed as an argument: `abf.filter.gaussian(abf, sigma)`. Increase
+        sigma to increase the smoothness. Note that calling this filter 
+        multiple times on the same ABF will make it progressively smoother, but
+        the act is resource-intense and not recommended. 
+
+        Set sigma to 0 to remove all filters (the original data will be re-read
+        from the ABF file).
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+        plt.figure(figsize=self.figsize)
+
+        # plot the original data
+        abf.setSweep(3)
+        plt.plot(abf.sweepX, abf.sweepY, alpha=.3, label="original")
+
+        # show multiple degrees of smoothless
+        for sigma in [.5, 2, 10]:
+            pyabf.filter.gaussian(abf, 0)  # remove old filter
+            pyabf.filter.gaussian(abf, sigma)  # apply custom sigma
+            abf.setSweep(3)  # reload sweep
+            plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label=f"sigma: {sigma}")
+
+        # zoom in on an interesting region
+        plt.title("Gaussian Filtering")
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
+        plt.axis([8.20, 8.30, -45, -5])
+        plt.legend()
         self.saveAndClose()
 
 
