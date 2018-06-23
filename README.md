@@ -25,12 +25,12 @@ print(abf.sweepX) # sweep times (seconds)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
 
 ## Features
+* To an idea of what pyABF can do, check out the [getting started](/docs/getting-started) page
 * No obscure dependencies (just matplotlib and numpy)
 * Actively developed (as of 2018)
-* Pythonic API
+* Pythonic API (intended for a predictive IDE)
 * Cross-platform, open-source, 100% Python
 * Supports 32-bit and 64-bit architectures
-* Well documented
 
 ## Motivation
 As a cellular neurophysiologist / electrophysiologist, I have a lot of experience analyzing electrophysiology data with many of the currently-available software options (both free and commercial). None of these options have proven flexible enough for my style of ***exploratory data analysis*** where I pursue scientific discoveries by analyzing data in new and creative ways (necessitating the rapid creation of custom experimental software). I was motivated to create the type of library and documentation I wish I had all along, and will be happy if these efforts chip away at the ABF-reading barrier which separates creative scientists from the ability to analyze their own data. I am a strong proponent of open source software, and hope that the sharing of this project will inspire future scientists and coders as well as promote the collaborative development of software to facilitate scientific discovery and ultimately improve the lives of those who will benefit from medical and scientific advancement.
