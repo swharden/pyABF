@@ -19,12 +19,22 @@ plt.style.use('bmh')  # alternative color scheme
 
 if __name__ == "__main__":
 
-    fname = PATH_DATA+"/2018_04_13_0016b_modified.abf"
 
+    fname = PATH_DATA+"/2018_04_13_0016a_original.abf"
     abf = pyabf.ABF(fname)
-    print(abf.abfID)
+    abf.setSweep(sweepNumber=0, channel=1)
+    plt.plot(abf.sweepY, label="original ABF")
 
-    plt.plot(abf.sweepY)
+    fname = PATH_DATA+"/2018_04_13_0016b_modified.abf"
+    abf = pyabf.ABF(fname)
+    abf.setSweep(sweepNumber=0, channel=1)
+    mult = -(1/3)
+    plt.plot(abf.sweepY * mult, label="modified ABF")
+
+    plt.title("2018_04_13_0016 inspection")
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.legend()
     plt.show()
 
     print("DONE")
