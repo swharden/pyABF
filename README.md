@@ -38,8 +38,18 @@ As a cellular neurophysiologist / electrophysiologist, I have a lot of experienc
 ![](/docs/graphics/spacer_paired_patch.jpg)
 ![](/docs/graphics/2017-11-18-multichannel.png)
 
+
+## Publishing Something Cool?
+I'm glad the pyABF project facilitated your research!
+Consider citing this project by name so it can benefit others too:
+
+> _"Computational analysis of electrophysiological recordings was performed using custom
+> software written for Python 3.6 and the pyABF module."_
+
+If your publication was supported by pyABF, let me know about it! I'd love to list it here.
+
 ## Feature Requests / Unsupported ABF Files
-If you have ABF files which are unsupported (or read incorrectly) by this software, chances are it is simply due to a use case I have not run across yet, so I would like to know about it! I can only develop and test this software against ABF files I have access to, so if you're interested in having your ABF file supported send me an email (and the ABF file you are trying to analyze) and I will investigate it. If I come up with a solution I will update the pyabf package so everyone will benefit from the change!
+If you have ABF files which are unsupported (or read incorrectly) by this software, chances are it is simply due to a use case I have not run across yet, so I would like to know about it! I can only develop and test this software against ABF files I have access to, so if you're interested in having your ABF file supported send me an email (and the ABF file you are trying to analyze) and I will investigate it. If I come up with a solution I will update the pyabf package so everyone will benefit from the change. I can only develop for (and test against) ABFs I have access to, so I appreciate your contributions!
 
 **Scott W Harden, DMD, PhD**\
 [www.SWHarden.com](http://www.SWHarden.com)\
