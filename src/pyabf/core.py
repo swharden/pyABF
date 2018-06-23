@@ -23,6 +23,7 @@ from pyabf.structures import EpochSection
 from pyabf.structures import TagSection
 from pyabf.structures import StringsSection
 from pyabf.structures import StringsIndexed
+from pyabf.structures import BLOCKSIZE
 import pyabf.text
 
 
@@ -171,7 +172,7 @@ class ABFcore:
 
         # ABF file version specific lookups
         if self.abfFileFormat == 1:
-            self.dataByteStart = self._headerV1.lDataSectionPtr*512
+            self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
             self.dataByteStart += self._headerV1.nNumPointsIgnored
             self.dataPointCount = self._headerV1.lActualAcqLength
             self.channelCount = self._headerV1.nADCNumChannels
@@ -179,7 +180,7 @@ class ABFcore:
             self.dataSecPerPoint = 1/self.dataRate
             self.sweepCount = self._headerV1.lActualEpisodes
         elif self.abfFileFormat == 2:
-            self.dataByteStart = self._sectionMap.DataSection[0]*512
+            self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
             self.dataPointCount = self._sectionMap.DataSection[2]
             self.channelCount = self._sectionMap.ADCSection[2]
             self.dataRate = int(

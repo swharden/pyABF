@@ -5,6 +5,8 @@ Code here relates to extraction of header values from ABF1 and ABF2 file headers
 import io
 import struct
 
+BLOCKSIZE = 512
+
 
 def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     """
@@ -160,7 +162,7 @@ class ProtocolSection:
     channel scaling factors.
     """
     def __init__(self, fb, sectionMap):
-        seekTo = sectionMap.ProtocolSection[0]*512
+        seekTo = sectionMap.ProtocolSection[0]*BLOCKSIZE
         fb.seek(seekTo)
         self.nOperationMode = readStruct(fb, "h")
         self.fADCSequenceInterval = readStruct(fb, "f")
@@ -244,7 +246,7 @@ class ADCSection:
     """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.ADCSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
 
         self.nADCNum = [None]*entryCount
         self.nTelegraphEnable = [None]*entryCount
@@ -312,7 +314,7 @@ class DACSection:
     """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.DACSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
 
         self.nDACNum = [None]*entryCount
         self.nTelegraphDACScaleFactorEnable = [None]*entryCount
@@ -409,7 +411,7 @@ class EpochPerDACSection:
     """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochPerDACSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
 
         self.nEpochNum = [None]*entryCount
         self.nDACNum = [None]*entryCount
@@ -444,7 +446,7 @@ class EpochSection:
     """
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
 
         self.nEpochNum = [None]*entryCount
         self.nEpochDigitalOutput = [None]*entryCount
@@ -466,7 +468,7 @@ class TagSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.TagSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
 
         self.lTagTime = [None]*entryCount
         self.sComment = [None]*entryCount
@@ -500,7 +502,7 @@ class StringsSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.StringsSection
-        byteStart = blockStart*512
+        byteStart = blockStart*BLOCKSIZE
         self.strings = [None]*entryCount
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)
