@@ -22,7 +22,8 @@ plt.style.use('bmh')  # alternative color scheme
 # now you are free to import additional modules
 import glob
 
-if __name__ == "__main__":
+def go():
+
     md = "# Sample ABFs\n\n"
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
@@ -98,3 +99,8 @@ if __name__ == "__main__":
     # update the file index
     # pyabf.text.indexFolder(PATH_HERE+"/../data/headers/")
     print("DONE")
+
+
+
+if __name__ == "__main__":
+    go()

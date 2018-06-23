@@ -466,8 +466,8 @@ def cleanCode(s):
     s = s.split('"""', 2)[2].strip()
     return s
 
+def go():
 
-if __name__ == "__main__":
 
     # start by deleting the contents of the output folder
     for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
@@ -525,3 +525,7 @@ They start out simple and increase in complexity.
     # save the markdown page
     with open(os.path.dirname(__file__)+"/readme.md", 'w') as f:
         f.write(md)
+
+
+if __name__ == "__main__":
+    go()
