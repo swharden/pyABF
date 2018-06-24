@@ -30,18 +30,17 @@ python setup.py --quiet sdist
 :: upload to the test server
 twine upload --username swharden --repository-url https://test.pypi.org/legacy/ dist/*
 explorer https://test.pypi.org/project/pyabf/
-pause
 
 :: upload to real server
 echo CONTINUE TO UPLOAD TO REAL PYPI
-pause
 twine upload --username swharden dist/*
 explorer https://pypi.org/project/pyabf/
-pause
-
 
 :: delete old builds
 rmdir /S /q _build
 rmdir /S /q build
 rmdir /S /q dist
 rmdir /S /q pyabf.egg-info
+
+echo COMPLETE
+pause
