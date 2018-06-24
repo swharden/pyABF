@@ -700,9 +700,11 @@ for i in range(channelCount):
         scaleFactors[i] /= fTelegraphAdditGain[i]
     scaleFactors[i] *= fADCRange
     scaleFactors[i] /= lADCResolution
+    scaleFactors[i] += fInstrumentOffset[i]
+    scaleFactors[i] -= fSignalOffset[i]
 ```
 
-_note that `fSignalOffset` and `fSignalOffset` should be applied to the data after scaling. It should not modify the scale factor itself! This error has probably gone unnoticed because I always use ABFs with zero offset._
+Yes, offsets are to be applied to the _scale factor_, and not the data itself.
 
 By now, you have a list of scale factors (one for each channel) and will be ready for when the data is loaded.
 
@@ -798,11 +800,10 @@ raw = np.reshape(raw, (int(len(raw)/channelCount), channelCount))
 raw = np.rot90(raw)
 raw = raw[::-1]
 
-# multiply each channel by its scale factor and shift it by its offsets
+# multiply each channel by its scale factor
 data = np.empty(raw.shape, dtype='float32')
 for i in range(channelCount):
     data[i] = np.multiply(raw[i], scaleFactors[i], dtype='float32')
-    data[i] = data[i] + fInstrumentOffset[i] - fSignalOffset[i]
 ```
 
 ## fileClose()
