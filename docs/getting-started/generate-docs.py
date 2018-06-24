@@ -505,7 +505,7 @@ They start out simple and increase in complexity.
             continue
 
         # run the function
-        print(f"### RUNNING {functionName}()")
+        print(f"executing {functionName}()")
         func = getattr(uses, functionName)
         func()
 

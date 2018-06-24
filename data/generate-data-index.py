@@ -40,7 +40,7 @@ def go():
 
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
         abf = pyabf.ABF(fname)
-        print("processing", abf.abfID, "...")
+        print("generating thumbnail for", abf.abfID, "...")
 
         # create info pages
         page = abf.getInfoPage()
