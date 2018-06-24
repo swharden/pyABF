@@ -53,7 +53,9 @@ def go():
             abf.setSweep(0, channel)
             firstValues.append("%.05f" % (abf.sweepY[0]))
         if abf.abfID in FIRSTVALUES.keys():
-            assert firstValues == FIRSTVALUES[abf.abfID]
+            if not firstValues == FIRSTVALUES[abf.abfID]:
+                print("ERROR!!!", firstValues, FIRSTVALUES[abf.abfID])
+                raise ValueError
             print("Verified first values of", abf.abfID)
         else:
             valuesNeedUpdating = True

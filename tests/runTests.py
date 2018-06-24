@@ -38,4 +38,4 @@ if __name__ == "__main__":
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
     runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 
-    print("TESTS COMPLETED SUCCESSFULLY")
+    print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
