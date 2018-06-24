@@ -1,1158 +1,880 @@
-# WARNING: OUTDATED CONTENT
-**I re-wrote pyABF from scratch in June 2018, and I have greatly improved my understanding of the ABF file format since the creation of this document. I am working on an updated version of the _Unofficial ABF File Format Guide_, but it is not yet complete. I am leaving this document here for reference. The incomplete new documentation can be found [here](new)**.
+# Unofficial Guide to the ABF File Format
 
-------
+***by [Scott Harden](http://www.SWHarden.com)***
 
-# SWHarden's Unofficial ABF File Format Guide
-Electrophysiology data acquired with pCLAMP (clampEx and clampFit, developed by Molecular Devices) is saved in a proprietary format. The internal structure of these ABF (Axon Binary Format) files is intentionally undocumented (since 2006 when pCLAMP 10 featured the ABF2 file format), as its users are encouraged to interact with the data exclusively through a 32-bit DLL they provide (without source code).
+### Introduction
 
->According to the [official documentation](https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf): "_One of the goals of the ABF reading routines is to isolate the applications programmer from the need to know anything other than the most basic information about the file format. ABF 2.0 now uses a header of variable length.  This means that it is now essential to use the ABFFIO.DLL library to access the data._"
+The field of cellular electrophysiology uses highly-sensitive voltage and current measurement devices to gain insights into the electrical properties of biological membranes. Voltage-clamp and current-clamp circuits are used to measure the flow of ions through ion channels embedded in small patches of cell membranes. This technique is called _patch-clamp electrophysiology_, and Axon Instruments (now a division of Molecular Devices) sells patch-clamp systems (including amplifiers, digitizers, and software) which are commonly used by electrophysiologists in scientific research environments. Electrophysiological data produced by theses systems is saved in Axon Binary Format (ABF) files. Their patch-clamp analysis software suite (pCLAMP) includes acquisition software (Clampex) and analysis software (ClampFit) which can read and write ABF files.
 
-The purpose of this page is to document how to extract meaningful information directly from ABF files encoded in the ABF2 file format without relying on a DLL or any external libraries. Although this pages displays a few examples of code using Python, effort has been invested to ensure these concepts can be easily ported to other languages (with personal interest in writing an ABF reader for C# (Visual Studio) and PHP.
+### Reading ABF Files
 
-This document is a blend of code and insights provided by the work of previous developers (see  [References](#references)) supplemented with additional code and insights added by the author. Discovery of previously-undocumented features (e.g., extracting digital output command signals from the waveform protocol) was primarially achieved by comparing ABFs in a hex editor (comparing files byte-by-byte, modifying individual bits and viewing modified files in ClampEx).
+Axon Binary Format (ABF) files are encoded in a proprietary format. In the late 90s and early 2000s the internal file structure of ABF files was widely understood and custom software could be easily written to read data from these files. In 2006 pCLAMP 10 was released, featuring a new file format (ABF2) which was intentionally undocumented. Programmers seeking to write software to analyze ABF files were told by Molecular Devices that they had to interact with ABF files exclusively through a 32-bit Windows-only DLL (abffio.dll) they provide (without source code) as part of the Axon pCLAMP SDK.
 
-Documentation and development is biased toward the use-cases of the author: Analysis of 1-2 channel ABF2 fixed-length episodic files (voltage clamp and current clamp) recorded using whole-cell patch-clamp technique in brain slices. No effort will be invested into documenting features I don't use (e.g., variable-length sweeps, or voice tags). If you benefit from the information provided on this document and figure out how to achieve additional functionality or implement your own improvements into this basic framework, please contact me so I can add your contributions to this growing collection of source code examples and documentation!
+> "_One of the goals of the ABF reading routines is to isolate the applications programmer from the need to know anything other than the most basic information about the file format. ABF 2.0 now uses a header of variable length.  This means that it is now essential to use the ABFFIO.DLL library to access the data._" 
+ -[ABF User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (page 9)
 
-# Reading an ABF
-The overall process of reading ABF file occurs in a series of steps in this order. Each step has its own section described in detail further down in this document.
+The purpose of the pyABF project is to document how to extract meaningful information directly from ABF files (including those encoded in the ABF2 file format) without relying on a DLL or any external libraries, and to provide a Pythonic API to provide simple and intuitive access to ABF header and data values. Efforts were taken to maximize portability of these findings so that similar ABF-reading APIs can be developed for other programming languages in the future.
 
-* Read the **ABF header** and confirm it is an ABF2 file
-* Create **section map** noting byte locations of all sections
-* Pull strings from **StringsSection**
-* Pull ABF acquisition information from **ProtocolSection**
-* Pull comment tags from **TagSection**
-* Recreate the epoch chart using **EpochSection** and **EpochPerDACSection**
-* Add to the epoch chart using **ADCSection** and **DACSection**
-* Load sweep data as desired from the **DataSection**
+### Development of this Guide
 
-## Extracting Structured Data from Binary Files
-Core to the ability to extract data from ABF files is an understanding of bytestrings and structs. Consider a bytestring of 16 bytes which is 128 bits in a row (128 1s or 0s). This byte string could represent 16 one-byte `char`s, 8 two-byte `short`s, 4 four-byte `int`s, 2 8-byte `long`s. The [_structure character format_](https://docs.python.org/2/library/struct.html#format-characters) for each variable type is standard across most programming languages and helps turn a continuous a series of bytes into separate variables. For example an int is an `i` (4 bytes) and a double is a `d` (8 bytes). Our 16-byte bytestring could be interpreted as `iiii` (4 `int`s) or `dd` (2 `long`s) or even a mix like `iid`.
+This document contains a blend of information I learned by inspecting the work of previous designers, supplemented with code examples and insights I discovered myself. A lot of my understanding initially came from reviewing what open-source ABF-reading projects were available, and I have tried to credit all of these developers by listing their projects at the bottom of this document. Characterization of previously-undocumented features (e.g., extracting digital output command waveforms from the ABF header) was primarily achieved by comparing ABFs in a hex editor, comparing files byte-by-byte, and modifying individual bits in ABF files to see how they changed when viewed in ClampFit.
 
-If I know a bytestring contains a certain list of variables, I know the order of the list, and I know the type of each variable, I can load the data into the variables one by one. In Python I can run `varName = struct.unpack(format, byteString)` where format is the character code for the variable type.
-
-I can simplify things in Python with dictionaries (or keyed arrays in other languages) by storing a list of variables and their respective struct characters (separated with an underscore) as a 1d array of strings. Consider this example:
-
-```python
-SAMPLE_KEYS=["myAge_i","myWage_f"]
-info={}
-for key in SAMPLE_KEYS:
-    varName,varFormat=key.split("_")
-    info[varName]=struct.unpack(varFormat, byteString)
-```
-
-This is how _ALL_ data is read from the ABF file. It gets fancier due to iterations (i.e., the same set of keys is used to read all keys from an epoch, but is looped over every epoch).
+Documentation and development is biased toward my personal use-cases for ABF files: Analysis of 1-2 channel ABF2 fixed-length episodic files (voltage clamp and current clamp) recorded using whole-cell patch-clamp technique in brain slices. Little effort has been invested into documenting features I don't personally use (such as variable-length sweeps and voice tags). If you benefit from the information provided in this document and figure out how to achieve additional functionality or implement your own improvements into this basic framework, please contact me so I can add your contributions to this growing collection of source code examples and documentation!
 
 # Reading the ABF Header
-The first thing to read when visiting a new ABF file is the header. The header has a bunch of values in a pre-defined sequence and always starts at byte position zero. This code demonstrates how to display all information in the header and uses the variable key method described earlier. 
+For the following examples we will be inspecting the content of ABF files in the [/data/](/data/) folder. Note that all header values of all ABFs in the [/data/](/data/) folder are provided in both markdown and HTML formats. I recommend reviewing example ABF headers in that folder while studying this document.
 
-### Standalone code to read an ABF header
+## Reading Structured Data
+Text files are usually UTF-8 encoded ASCII characters, where every 8-bit byte corresponds to a single character. On the other hand, binary files can contain variables which span multiple bytes, and they're not always directly mappable to ASCII characters. 
 
-```python
-KEYS_HEADER=["fFileSignature_4s","fFileVersionNumber_4b","uFileInfoSize_I","lActualEpisodes_I",
-  "uFileStartDate_I","uFileStartTimeMS_I","uStopwatchTime_I","nFileType_H","nDataFormat_H",
-  "nSimultaneousScan_H","nCRCEnable_H","uFileCRC_I","FileGUID_I","unknown1_I","unknown2_I",
-  "unknown3_I","uCreatorVersion_I","uCreatorNameIndex_I","uModifierVersion_I",
-  "uModifierNameIndex_I","uProtocolPathIndex_I"]
-
-import struct
-f=open(R"C:\data\17n06003.abf",'rb') # note1
-f.seek(0) # note2
-for key in KEYS_HEADER:
-    varName,varFormat=key.split("_")
-    varSize=struct.calcsize(varFormat)
-    byteString=f.read(varSize)
-    var=struct.unpack(varFormat,byteString)
-    if len(var)==1: var=var[0] # note3
-    print("%s (%s, %d bytes) = %s"%(varName,varFormat,varSize,var))
-f.close()
-```
-* note1: the file must be opened in read binary mode (not ascii mode).
-* note2: by default a newly opened file seeks to byte 0, but you can start reading data anywhere with `seek(bytePosition)`. Also note that every time a read occurs the position is automatically advanced. This is why you don't have to call `seek()` after every read.
-* note3: `struct.unpack()` always returns a tuple. If it has just 1 element, just return that element. `(7,)` becomes just `7`, but if the varFormat is multiple items (notice `fFileVersionNumber_4b`) the returned result is a tuple with multiple items. Noe that `4b` is the same as `bbbb`.
-
-### Example Output
-```
-fFileSignature (4s, 4 bytes) = b'ABF2'
-fFileVersionNumber (4b, 4 bytes) = (0, 0, 6, 2)
-uFileInfoSize (I, 4 bytes) = 512
-lActualEpisodes (I, 4 bytes) = 7
-uFileStartDate (I, 4 bytes) = 20171106
-uFileStartTimeMS (I, 4 bytes) = 44884136
-uStopwatchTime (I, 4 bytes) = 4128
-nFileType (H, 2 bytes) = 1
-nDataFormat (H, 2 bytes) = 0
-nSimultaneousScan (H, 2 bytes) = 1
-nCRCEnable (H, 2 bytes) = 0
-uFileCRC (I, 4 bytes) = 0
-FileGUID (I, 4 bytes) = 3595561293
-unknown1 (I, 4 bytes) = 1202434462
-unknown2 (I, 4 bytes) = 2861915294
-unknown3 (I, 4 bytes) = 4153321813
-uCreatorVersion (I, 4 bytes) = 168230915
-uCreatorNameIndex (I, 4 bytes) = 1
-uModifierVersion (I, 4 bytes) = 0
-uModifierNameIndex (I, 4 bytes) = 0
-uProtocolPathIndex (I, 4 bytes) = 2
-```
-
-# Sections and the Section Map
-
-The header was easy to read because we know its sequence of variables and their structures (`KEYS_HEADER`) and know to start reading at byte 0. Other secions have similar variable sequences (e.g., variables for digital-to-analog converter configuration) but as of ABF2 their first byte is different from file to file. Further, some sections have multiple _entries_ (e.g., the epoch section has one entry for each epoch). In addition to the byte position varying from file to file, the number of entries each section has may vary as well! To make sense of it we create a _section map_ which contains three details about every section: the first byte of a section, the number of bytes each entry has in that section, and the number of entries that section has. With these 3 values for each section we know where all data is in the ABF!
-
-Just like we extracted variables from the header with `KEYS_HEADER` (always starting at byte 0), we can get details about all sections with `KEYS_SECTIONS`. Conveniently the data about each section (`blockStart`, `entrySize`, `entryCount`) uses the same struct format `IIl` for every section (unsigned int, unsigned int, long). Note that a block always represents 512 bytes.
-
-Data for sections starts at byte 72 and shifts 16-bytes for every section (even though `IIl` is only 4+4+4=12 bytes).
-
-### Standalone Code to Create the ABF Section Map
+Since ABF files are binary, we need to open them with the `'rb'` mode. We can then read a certain number of bytes with `read(numBytes)`:
 
 ```python
-BLOCKSIZE=512
-KEYS_SECTIONS=['ProtocolSection_IIl','ADCSection_IIl','DACSection_IIl',
-    'EpochSection_IIl','ADCPerDACSection_IIl','EpochPerDACSection_IIl','UserListSection_IIl',
-    'StatsRegionSection_IIl','MathSection_IIl','StringsSection_IIl','DataSection_IIl',
-    'TagSection_IIl','ScopeSection_IIl','DeltaSection_IIl','VoiceTagSection_IIl',
-    'SynchArraySection_IIl','AnnotationSection_IIl','StatsSection_IIl']
-
-import struct
-f=open(R"C:\data\17n06003.abf",'rb')
-for keyNumber,key in enumerate(KEYS_SECTIONS):
-    f.seek(76+keyNumber*16)
-    varName,varFormat=key.split("_")
-    varSize=struct.calcsize(varFormat)
-    byteString=f.read(varSize)
-    blockStart,entrySize,entryCount=struct.unpack(varFormat,byteString)
-    firstByte=blockStart*BLOCKSIZE
-    print("%s @ byte %d (%d x %d byte entries)"%(varName,firstByte,entryCount,entrySize))
+f = open("14o08011_ic_pair.abf", 'rb')
+byteString = f.read(16)
 f.close()
 ```
 
-### Example Output
+Now let's display the 16 bytes we read:
 
 ```python
-ProtocolSection @ byte 512 (1 x 512 byte entries)
-ADCSection @ byte 1024 (1 x 128 byte entries)
-DACSection @ byte 1536 (8 x 256 byte entries)
-EpochSection @ byte 4096 (6 x 32 byte entries)
-ADCPerDACSection @ byte 0 (0 x 0 byte entries)
-EpochPerDACSection @ byte 3584 (6 x 48 byte entries)
-UserListSection @ byte 0 (0 x 0 byte entries)
-StatsRegionSection @ byte 4608 (1 x 128 byte entries)
-MathSection @ byte 0 (0 x 0 byte entries)
-StringsSection @ byte 5120 (20 x 172 byte entries)
-DataSection @ byte 6656 (490000 x 2 byte entries)
-TagSection @ byte 0 (0 x 0 byte entries)
-ScopeSection @ byte 5632 (1 x 769 byte entries)
-DeltaSection @ byte 0 (0 x 0 byte entries)
-VoiceTagSection @ byte 0 (0 x 0 byte entries)
-SynchArraySection @ byte 987136 (7 x 8 byte entries)
-AnnotationSection @ byte 0 (0 x 0 byte entries)
-StatsSection @ byte 0 (0 x 0 byte entries)
+b'ABF2\x00\x00\x00\x02\x00\x02\x00\x00\x03\x00\x00\x00'
 ```
 
-### Shortcut Method for Getting a Section's Byte Position
-If you are only interested in getting the `blockStart`, `entrySize`, and `entryCount` of a single section, you can use this shortcut table. If you read an `IIl` struct from each of these byte positions, you will get these three values.
+Notice the message starts with `b` - that means this is a _bytestring_ object, not a string! If a byte corresponds to an ASCII character ([on the chart](https://www.asciitable.com)), it is displayed by that character. If the character isn't ASCII, it's displayed in [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) format. If you count the number of bytes visually, you'll identify 16: 4 characters (`'ABF2'`) and 12 hexadecimal codes (each starting with `\x`).
 
-```
-byte 076: ProtocolSection
-byte 092: ADCSection
-byte 108: DACSection
-byte 124: EpochSection
-byte 140: ADCPerDACSection
-byte 156: EpochPerDACSection
-byte 172: UserListSection
-byte 188: StatsRegionSection
-byte 204: MathSection
-byte 220: StringsSection
-byte 236: DataSection
-byte 252: TagSection
-byte 268: ScopeSection
-byte 284: DeltaSection
-byte 300: VoiceTagSection
-byte 316: SynchArraySection
-byte 332: AnnotationSection
-byte 348: StatsSection
-```
-
-## List of Sections
-Although I read byte information for all sections, I typically don't _use_ data from every section. Only those in bold contain information I think is useful. Note that other ABF reading platforms (such as the MatLab code and the Neo-IO scripts) ignore some sections too. One such ignored section is `EpochSection`, which I discovered contains the digital output codes typically displayed in the waveform editor tab (note that all the other epoch settings are in `EpochPerDACSection`).
-
-* **ProtocolSection** - the protocol
-* **ADCSection** - one for each ADC channel
-* **DACSection** - one for each DAC channel
-* **EpochSection** - one for each epoch
-* ADCPerDACSection - one for each ADC for each DAC
-* **EpochPerDACSection** - one for each epoch for each DAC
-* UserListSection - one for each user list
-* StatsRegionSection - one for each stats region
-* MathSection - Math
-* **StringsSection** - ABF comments, protocol path, and channel units
-* **DataSection** - Data
-* **TagSection** - Tags
-* ScopeSection - Scope config
-* DeltaSection - Deltas
-* VoiceTagSection - Voice Tags
-* SynchArraySection - Synch Array
-* AnnotationSection - Annotations
-* StatsSection - Stats config
-
-# Reading theData
-This section is largely redacted. The best way to see how data is read is to view the source code provided in this folder. It all boils down to the extraction of binary data into objects using variable lists and structure codes. Some complex sections (i.e., `EpochPerDACSection`) have a structure for each DAC and need to be iterated several times (according to the `entryCount` found when creating the section map).
-
-# What information is available in an ABF?
-ABF files contain a _lot_ of structured variables. Most likely are only interested in a handfull of them. I'll list all of the variables here and add comments to the ones I think are important or noteworthy. Note that there are plenty of variables for which I have no clue what they do.
-
-## ProtocolSection (ABFHeader.protocol, dictionary)
-This is the abf header we practiced reading from earlier in this document.
-One advantage of this data block is that it can be read from any file (since it doesn't require creation of the section map). If you accidentally load a JPEG, you'll find out pretty quickly that something is wrong.
-
-#### Example
-```
-FileGUID = 813622370 # in theory this is an identifier unique to this file
-fFileSignature = ABF2 # first 4 bytes of the file
-fFileVersionNumber = [0, 0, 6, 2] # version number in REVERSE order. This means version 2.6.0.0
-lActualEpisodes = 16 # number of sweeps
-nCRCEnable = 0
-nDataFormat = 0
-nFileType = 1
-nSimultaneousScan = 1
-uCreatorNameIndex = 1
-uCreatorVersion = 168230915
-uFileCRC = 0
-uFileInfoSize = 512
-uFileStartDate = 20171005 # file recording date
-uFileStartTimeMS = 52966899 # file recording time
-uModifierNameIndex = 0
-uModifierVersion = 0
-uProtocolPathIndex = 2
-uStopwatchTime = 8379
-unknown1 = 1101957764
-unknown2 = 3041560705
-unknown3 = 3819584183
-```
-
-#### Notes
-* bytes 0-4 of the ABF file contain the file signature. It may be worth assuring this reads  `ABF2`
-* convert to date using `dt=datetime.datetime.strptime(str(self.header['uFileStartDate']), "%Y%M%d")`
-* add time with `dt=dt+datetime.timedelta(seconds=self.header['uFileStartTimeMS']/1000)`
-
-
-## ADCSection (ABFHeader.adc, list of dictionaries)
-There is a list of these, 1 per DAC. I don't use anythig from this currently.
-
-#### Example
+Let's display the same message as a list of integers. Calling `list()` on a bytestring does this conversion:
 
 ```python
-bEnabledDuringPN = 0
-fADCDisplayAmplification = 12.307504653930664
-fADCDisplayOffset = -21.75
-fADCProgrammableGain = 1.0
-fInstrumentOffset = 0.0
-fInstrumentScaleFactor = 0.009999999776482582
-fPostProcessLowpassFilter = 100000.0
-fSignalGain = 1.0
-fSignalHighpassFilter = 1.0
-fSignalLowpassFilter = 5000.0
-fSignalOffset = 0.0
-fTelegraphAccessResistance = 0.0
-fTelegraphAdditGain = 1.0
-fTelegraphFilter = 10000.0
-fTelegraphMembraneCap = 0.0
-lADCChannelNameIndex = 3
-lADCUnitsIndex = 4
-nADCNum = 0
-nADCPtoLChannelMap = 0
-nADCSamplingSeq = 0
-nHighpassFilterType = 0
-nLowpassFilterType = 0
-nPostProcessLowpassFilterType = b'\x00'
-nStatsChannelPolarity = 1
-nTelegraphEnable = 1
-nTelegraphInstrument = 24
-nTelegraphMode = 1
+byteList = list(byteString)
+print(byteList)
 ```
 
-## DACSection (ABFHeader.dac)
-There is a list of these, 1 per DAC.
+We then observe a list of 16 integers, each representing one of the bytes in the bytestring:
 
-#### Example
-
-```python
-fBaselineDuration = 1.0
-fBaselineLevel = 0.0
-fDACCalibrationFactor = 1.0008957386016846
-fDACCalibrationOffset = 0.0
-fDACFileOffset = 0.0
-fDACFileScale = 1.0
-fDACHoldingLevel = 0.0 # this is the holding current
-fDACScaleFactor = 400.0
-fInstrumentHoldingLevel = 0.0
-fMembTestPostSettlingTimeMS = 100.0
-fMembTestPreSettlingTimeMS = 100.0
-fPNHoldingLevel = 0.0
-fPNInterpulse = 0.0
-fPNSettlingTime = 100.0
-fPostTrainLevel = 0.0
-fPostTrainPeriod = 10.0
-fStepDuration = 1.0
-fStepLevel = 0.0
-lConditNumPulses = 1
-lDACChannelNameIndex = 5
-lDACChannelUnitsIndex = 6
-lDACFileEpisodeNum = 0
-lDACFileNumEpisodes = 0
-lDACFilePathIndex = 0
-lDACFilePtr = 0
-nConditEnable = 0
-nDACFileADCNum = 0
-nDACNum = 0
-nInterEpisodeLevel = 0
-nLTPPresynapticPulses = 0
-nLTPUsageOfDAC = 0
-nLeakSubtractADCIndex = 0
-nLeakSubtractType = 0
-nMembTestEnable = 0
-nPNNumADCChannels = 0
-nPNNumPulses = 4
-nPNPolarity = 1
-nPNPosition = 0
-nTelegraphDACScaleFactorEnable = 1
-nWaveformEnable = 1
-nWaveformSource = 1
+```
+[65, 66, 70, 50, 0, 0, 0, 2, 0, 2, 0, 0, 3, 0, 0, 0]
 ```
 
-## EpochSection (ABFHeader.epochSection)
-* I use this to capture the digital output signal for each epoch. I get it from `nEpochDigitalOutput`. Rather than handle it as a separate dictionary or array or something, I read it then insert "sDigitalOutput" into the regular epoch object (a list of dictionaries).
-* The digital output is a single byte, but represents 8 bits corresponding to 8 outputs (7->0). I convert it to a string like "10011101" for easy eyeballing.
-* Convert a byte (int) to an 8-character binary string of 1s and 0s with `format(byteInteger,'b').rjust(8,'0')`
+As we would predict from the [ASCII table](https://www.asciitable.com), `'A'`, `'B'`, `'F'`, and `'2'`, correspond to integers `65`, `66`, `70`, and `50`.
 
-## EpochPerDACSection (ABFHeader.epochPerDac)
-This is what you probably think of when you visualize the _waveform editor_ tab in ClampEx. Aside from the digital outputs, most of the stuff is here. After adding manually inserting the digital output onto the epoch dictionaries, a sample epoch (4) is shown here.
+## Determine if a File is ABF1 or ABF2
+Notice the first 4 characters are `'ABF2'`. This is how you know this is an ABF2 format ABF file. ABF1 files start with `'ABF '` where the 4th character is a space (ASCII 32). Therefore the fastest way to determine if a file is ABF1 or ABF2 is to determine if the 4th byte of the file is `50` or `32`.
 
-#### Example
+## Reading Multi-byte Integers from Bytestrings
+
+I happen to know that the number of sweeps in an episodic ABF2 file is a four-byte unsigned integer formed from bytes 13, 14, 15, and 16. One way to read just these 4 bytes is to use the `seek()` method of the file object to go to byte 13, then just read-out 4 bytes. Note that to read byte 1 you'd `seek(0)`, so to read byte 13 you'd `seek(12)`.
 
 ```python
-fEpochInitLevel = -50.0 # command current or voltage
-fEpochLevelInc = 10.0 # delta command
-lEpochDurationInc = 0 # delta duration
-lEpochInitDuration = 10000 # duration (MS)
-lEpochPulsePeriod = 0 # pulse period
-lEpochPulseWidth = 0 # pulse width
-nDACNum = 0 # this epoch entry goes with DAC0
-nEpochNum = 4 # epoch 4 corresponds to epoch D.
-nEpochType = 1 # this epoch is a "step"
-sDigitalOutput = 00000000 # digital output codes (added from EpochSection)
+f.seek(12)
+byteString = f.read(4)
+byteList = list(byteString)
+print(byteList)
 ```
 
-#### Notes
-* Epoch types: 1=step, 4=ramp
-  * One way to figure out the rest is to modify this byte in a hex editor then view the protocol!
+The output is then 4 bytes:
 
-## StringsSection (ABFHeader.strings and ABFHeader.stringsAll)
-This section seems poorly documented and poorly understood across multiple ABF reading libraries, but I've made some good progress recently at understanding it. 
-
-**The StringsSection contains information about:**
-* ADC labels for each channel (e.g., `[CMD 0, CMD 1]`)
-* ADC units for each channel (e.g., `[mV, mV]`)
-* DAC labels for each channel (e.g., `[IN 0, IN 1]`)
-* DAC units for each channel (e.g., `[pA, pA]`)
-* Program used to record the ABF (e.g., `AxoScope`, `Clampex`)
-* Protocol path (e.g., `C:\scott\coolness.pro`)
-* the ABF comment (set in the waveform editor)
-
-**Each string is an index in an array of strings.** The location in memory of these strings is defined in the `StringsSection` portion of the Section Map. The location, size, and number of strings seems to vary across ABFs, but I find I only need to read the first string. It is usually a few hundred characters long. Find the last instance of "\x00\x00" (ascii encoding) and delete all characters before that. Then split the string at "\x00" (ascii, again) so that the first element of the list is blank and the second should say something like "Clampex". When this is true, you've done it correctly. Note that [the matlab script](https://github.com/voyn/transalyzer/blob/master/Functions/abf2load.m#L307) takes a different approach and just splits at the words `clampex`,`clampfit`,`axoscope`,`patchxpress` which is interesting but may be unreliable (mind your caps!). 
-
-Now that the first chunk of the StringSection is itself broken into a list of strings, this is a variable (a list) is something I will keep around and refer to as `indexedStrings` for the remainder of this document.
-
-**indexedStrings** (index: string)
-* 00: ``
-* 01: `Clampex`
-* 02: `S:\Protocols\permanent\0402 VC 2s MT-50.pro`
-* 03: `SWHLab5[0402]`
-* 04: `IN 0`
-* 05: `pA`
-* 06: `Cmd 0`
-* 07: `mV`
-* 08: `Cmd 1`
-* 09: `mV`
-* 10: `Cmd 2`
-* 11: `mV`
-* 12: `Cmd 3`
-* 13: `mV`
-
-**Now hop around your header and look for keys containing the word "Index"** and use these indexedStrings to populate their values. You'll find the following (shown here with my example values):
-
-* uModifierNameIndex = `0`
-* uCreatorNameIndex = `1`
-* uProtocolPathIndex = `2`
-* lFileCommentIndex = `3`
-* lADCChannelNameIndex = `[4, 6]`
-* lADCUnitsIndex = `[5, 7]`
-* lDACChannelNameIndex = `[8, 10, 12, 14]`
-* lDACChannelUnitsIndex = `[9, 11, 13, 15]`
-* lDACFilePathIndex = `[0, 0, 0, 0]` 
-* nLeakSubtractADCIndex = `[0, 0, 0, 0]`
-
-_Notice that the numbers in this list correspond to the index positions of `indexedStrings` in the list above_
-
-#### Notes
-
-* The first string is always the protocol file (if it exists) but I get mixed results on the second line. If a comment doesn't eixst, that line is just gone
-* You probably should not rely on capturing unit information from these strings because they seem unreliable...
-
-## DataSection
-The data section is where the electrical recordings are stored. To see how to retrieve this data, navigate to the "Reading Sweep data" section of this document.
-
-## TagSection (ABFHeader.tags)
-At the end of the file are the tags (time-encoded text comments).
-
-```python
-### TAG 0 ###
-lTagTime = 13918208
-nTagType = 1
-nVoiceTagNumberorAnnotationIndex = 0
-sComment = +TGOT
-
-### TAG 1 ###
-lTagTime = 23588864
-nTagType = 1
-nVoiceTagNumberorAnnotationIndex = 0
-sComment = -TGOT
+```
+[3, 0, 0, 0]
 ```
 
-### Extracting comments and tag times:
-```python
-commentTags=ABFHeader.header["sComment"]
-commentTimes=ABFHeader.header["lTagTime"]
-```
+The [struct](https://docs.python.org/2/library/struct.html) package lets us convert bytestrings into python objects as long as we know what format they are in (e.g., this value is a 4-byte, 32-bit, unsigned integer). According to the [list of struct format characters](https://docs.python.org/2/library/struct.html#format-characters), this data type corresponds to the C `unsigned int` and has the format `I`. 
 
-### Correcting tag time units:
-The tag time numbers are large integers. Turn them into seconds by dividing them by `fSynchTimeUnit` (in `ProtocolSection`) and again by 1,000,000.
+This program uses `struct.unpack()` to pull an `I`-formatted value from the 4 bytes starting at the 13th byte of the file.
 
 ```python
-commentTimesSec=[x*ABFHeader.header["fSynchTimeUnit"]/1e6 for x in commentTimes]
-```
-
-I take it a step further and provide times in minutes as well as sweep numbers for convenience:
-
-```python
-commentTimesMin=[x*60 for x in commentTimesSec]
-commentSweeps=[int(x/sweepLengthSec) for x in commentTimesSec]
-```
-
-# Reading Sweep Data
-When designing an application to read ABF sweep data, much attention should be paid to optomizing speed. For example, [Numpy's memmap feature](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.memmap.html) seems like an excellent way to access sweep data directly from the file buffer! In this example, however, simplicity is desired over speed.
-
-### Standalone Code to Read All Data in an ABF
-
-```python
-BLOCKSIZE=512
 import struct
-f=open(R"C:\data\17n06003.abf",'rb')
-f.seek(236) # byte position (shortcut) for DataSection map information
-blockStart,entrySize,entryCount=struct.unpack("IIl",f.read(struct.calcsize("IIl")))
-f.seek(blockStart*BLOCKSIZE) # go to the byte position of the first data point
-byteString=f.read(entrySize*entryCount) # read the data into a byte string
-sweepData=struct.unpack('%dh'%(entryCount),byteString) # unpack it to a list
+
+f = open("14o08011_ic_pair.abf", 'rb')
+f.seek(12)
+byteString = f.read(4)
+f.close()
+
+numSweeps = struct.unpack("I", byteString)
+print(numSweeps)
+```
+
+The output is what you'd expect:
+```
+(3,)
+```
+
+Notice it's a [tuple](https://www.w3schools.com/python/python_tuples.asp). It doesn't really matter, just expect `struct.unpack()` to always return tuples. In my code I often convert them to lists right away because I frequently change the content of items in the returned data, and tuples are immutable.
+
+## Writing a Function to Read Structured Data
+
+Since we will be reading lots of structured data, our lives get easier if we can write a function to simplify it. Notice that I use `struct.calcsize()` to determine how many bytes we must `read()`.
+
+```python
+def readStruct(f, structFormat, seekTo=-1):
+  if seekTo>=0:
+    f.seek(seekTo)
+  byteCount = struct.calcsize(structFormat)
+  byteString = f.read(byteCount)
+  value = struct.unpack(structFormat, byteString)
+  return list(value)
+```
+
+I can now call it multiple times easily. Also note that to retrieve multiple values of the same type, send a string format with a number before the character. A struct format of `'5I'` will return a tuple of 5 integers, `'4b'` will return a list of 4 bytes, and `'4s'` will a list of 4 characters.
+
+```python
+f = open("14o08011_ic_pair.abf", 'rb')
+print(readStruct(f, "4s", 0))
+print(readStruct(f, "I", 12))
 f.close()
 ```
 
-That's it, really! If you want to test it out, try graphing what you got with matplotlib:
+Now we can tell this is an ABF2 file with 3 sweeps:
+
+```
+[b'ABF2']
+[3]
+```
+
+To convert a character-containing bytestring to a string object, use `.decode()`. I usually add extra arguments to ensure it decodes ASCII and doesn't crash if it encounters a non-character code.
+
+```python
+value1 = readStruct(f, "4s", 0)[0]
+print(value1)
+value2 = value1[0].decode("ascii", errors="ignore")
+print(value2)
+```
+
+You can recognize the bytestring from the `b`, and the second line is a true string:
+
+```
+b'ABF2'
+ABF2
+```
+
+## Byte Maps and Structured Data
+
+How did I know that the 4 bytes starting at byte position 13 contained an unsigned integer indicating the number of sweeps in the ABF? It's because I have a _byte map_ for the ABF2 header, and the same data values are always at the same positions. There is another byte map for ABF1 files. You can find these byte maps (derived from _structs_ found in C headers and other source code) in the [structures.py](/src/pyabf/structures.py) file of the pyABF source code.
+
+## ABF1 Header
+
+Reading the ABF1 header is very simple. The same variables are always found at the same byte positions. This code can be used to read the entire ABF1 header. 
+
+```python
+fFileSignature = readStruct(f, "4s", 0)
+fFileVersionNumber = readStruct(f, "f", 4)
+nOperationMode = readStruct(f, "h", 8)
+lActualAcqLength = readStruct(f, "i", 10)
+nNumPointsIgnored = readStruct(f, "h", 14)
+lActualEpisodes = readStruct(f, "i", 16)
+lFileStartTime = readStruct(f, "i", 24)
+lDataSectionPtr = readStruct(f, "i", 40)
+lTagSectionPtr = readStruct(f, "i", 44)
+lNumTagEntries = readStruct(f, "i", 48)
+lSynchArrayPtr = readStruct(f, "i", 92)
+lSynchArraySize = readStruct(f, "i", 96)
+nDataFormat = readStruct(f, "h", 100)
+nADCNumChannels = readStruct(f, "h", 120)
+fADCSampleInterval = readStruct(f, "f", 122)
+fSynchTimeUnit = readStruct(f, "f", 130)
+lNumSamplesPerEpisode = readStruct(f, "i", 138)
+lPreTriggerSamples = readStruct(f, "i", 142)
+lEpisodesPerRun = readStruct(f, "i", 146)
+fADCRange = readStruct(f, "f", 244)
+lADCResolution = readStruct(f, "i", 252)
+nFileStartMillisecs = readStruct(f, "h", 366)
+nADCPtoLChannelMap = readStruct(f, "16h", 378)
+nADCSamplingSeq = readStruct(f, "16h", 410)
+sADCChannelName = readStruct(f, "10s"*16, 442)
+sADCUnits = readStruct(f, "8s"*16, 602)
+fADCProgrammableGain = readStruct(f, "16f", 730)
+fInstrumentScaleFactor = readStruct(f, "16f", 922)
+fInstrumentOffset = readStruct(f, "16f", 986)
+fSignalGain = readStruct(f, "16f", 1050)
+fSignalOffset = readStruct(f, "16f", 1114)
+nDigitalEnable = readStruct(f, "h", 1436)
+nActiveDACChannel = readStruct(f, "h", 1440)
+nDigitalHolding = readStruct(f, "h", 1584)
+nDigitalInterEpisode = readStruct(f, "h", 1586)
+nDigitalValue = readStruct(f, "10h", 2588)
+lDACFilePtr = readStruct(f, "2i", 2048)
+lDACFileNumEpisodes = readStruct(f, "2i", 2056)
+fDACCalibrationFactor = readStruct(f, "4f", 2074)
+fDACCalibrationOffset = readStruct(f, "4f", 2090)
+nWaveformEnable = readStruct(f, "2h", 2296)
+nWaveformSource = readStruct(f, "2h", 2300)
+nInterEpisodeLevel = readStruct(f, "2h", 2304)
+nEpochType = readStruct(f, "20h", 2308)
+fEpochInitLevel = readStruct(f, "20f", 2348)
+fEpochLevelInc = readStruct(f, "20f", 2428)
+lEpochInitDuration = readStruct(f, "20i", 2508)
+lEpochDurationInc = readStruct(f, "20i", 2588)
+nTelegraphEnable = readStruct(f, "16h", 4512)
+fTelegraphAdditGain = readStruct(f, "16f", 4576)
+sProtocolPath = readStruct(f, "384s", 4898)
+```
+
+A detailed description of which variables are useful is in the [ABF File Reading Sequence](#ABF%20File%20Reading%20Sequence) section. 
+
+## ABF2 Header
+
+Reading the ABF2 header is similarly simple, as those variables are always found at the same byte positions too. This code can read the ABF2 header, but it's important to note that ABF2 files have many more additional variables stored throughout the file. These data values are stored in _sections_, which we will review later. For now, you can use the code we've already written to read all these variables from the ABF2 header.
+
+Notice that we only `seek()` once. This is because after reading a struct, the position of the file read buffer has been moved by the size of the struct. Unlike ABF1 headers which have irregularly-spaced data values, almost all ABF2 variable lists can be read consecutively without having to `seek()` from byte to byte.
+
+```python
+fb.seek(0)
+fFileSignature = readStruct(f, "4s")
+fFileVersionNumber = readStruct(f, "4b")
+uFileInfoSize = readStruct(f, "I")
+lActualEpisodes = readStruct(f, "I")
+uFileStartDate = readStruct(f, "I")
+uFileStartTimeMS = readStruct(f, "I")
+uStopwatchTime = readStruct(f, "I")
+nFileType = readStruct(f, "H")
+nDataFormat = readStruct(f, "H")
+nSimultaneousScan = readStruct(f, "H")
+nCRCEnable = readStruct(f, "H")
+uFileCRC = readStruct(f, "I")
+FileGUID = readStruct(f, "I")
+unknown1 = readStruct(f, "I")
+unknown2 = readStruct(f, "I")
+unknown3 = readStruct(f, "I")
+uCreatorVersion = readStruct(f, "I")
+uCreatorNameIndex = readStruct(f, "I")
+uModifierVersion = readStruct(f, "I")
+uModifierNameIndex = readStruct(f, "I")
+uProtocolPathIndex = readStruct(f, "I")
+```
+
+A detailed description of which variables are useful is in the [ABF File Reading Sequence](#ABF%20File%20Reading%20Sequence) section. 
+
+# Reading ABF Sections
+You'll notice the ABF2 header itself contains many fewer values than the ABF1 header. That's because its header values are split into _sections_. There's a DACSection, ADCsection, ProtocolSection, etc.
+Some sections (like ProtocolSection) are always "flat" and their corresponding struct of variables only gets read a single time. Other sections can be multidimensional, and their struct variables are read over and over to build an array of values (e.g., the structs for ADCsection get read once per ADC channel).
+
+This is a list of _sections_ contained in ABF2 headers along with a brief description of what they're for:
+
+* **ProtocolSection** - 
+This section contains information about the recording settings.
+This is useful for determining things like sample rate and
+channel scaling factors.
+
+* **ADCSection** - 
+Information about the ADC (what gets recorded). 
+There is 1 item per ADC.
+
+* **DACSection** - 
+Information about the DAC (what gets clamped). 
+There is 1 item per DAC.
+
+* **EpochPerDACSection** - 
+This section contains waveform protocol information. These are most of
+the values set when using the epoch the waveform editor. Note that digital
+output signals are not stored here, but are in EpochSection.
+
+* **EpochSection** - 
+This section contains the digital output signals for each epoch. This
+section has been overlooked by some previous open-source ABF-reading
+projects. Note that the digital output is a single byte, but represents 
+8 bits corresponding to 8 outputs (7->0). When working with these bits,
+I convert it to a string like "10011101" for easy eyeballing.
+
+* **TagSection** - 
+Tags are comments placed in ABF files during the recording. Physically
+they are located at the end of the file (after the data).
+Later we will populate the times and sweeps (human-understandable units)
+by multiplying the lTagTime by fSynchTimeUnit from the protocol section.
+
+* **StringsSection** - 
+Part of the ABF file contains long strings. Some of these can be broken
+apart into indexed strings. 
+The first string is the only one which seems to contain useful information.
+This contains information like channel names, channel units, and abf 
+protocol path and comments. The other strings are very large and I do not 
+know what they do.
+Strings which contain indexed substrings are separated by \\x00 characters.
+
+* **DataSection** - 
+This is the exciting part. It contains the electrophysiological data itself!
+
+_**A note about other sections:** I only read data from the sections listed here.
+Other sections are either not useful for my applications, are typically unused,
+or have an undocumented struct format and cannot be deciphered._
+
+## Obtaining the Section Map
+
+Each section starts at a different byte position and its values can be read with its own list of structs. Unfortunately, the sections aren't at the same byte location in every ABF file. To discover where each section starts, how big it is, and how many replicates it has, we need to read from the Section Map. Thankfully, the section map is always at the same byte locations:
+
+```python
+# Sections I find useful
+ProtocolSection = readStruct(f, "IIl", 76)
+ADCSection = readStruct(f, "IIl", 92)
+DACSection = readStruct(f, "IIl", 108)
+EpochSection = readStruct(f, "IIl", 124)
+ADCPerDACSection = readStruct(f, "IIl", 140)
+EpochPerDACSection = readStruct(f, "IIl", 156)
+StringsSection = readStruct(f, "IIl", 220)
+DataSection = readStruct(f, "IIl", 236)
+TagSection = readStruct(f, "IIl", 252)
+
+# Sections I don't find useful
+UserListSection = readStruct(f, "IIl", 172)
+StatsRegionSection = readStruct(f, "IIl", 188)
+MathSection = readStruct(f, "IIl", 204)
+ScopeSection = readStruct(f, "IIl", 268)
+DeltaSection = readStruct(f, "IIl", 284)
+VoiceTagSection = readStruct(f, "IIl", 300)
+SynchArraySection = readStruct(f, "IIl", 316)
+AnnotationSection = readStruct(f, "IIl", 332)
+StatsSection = readStruct(f, "IIl", 348)
+
+```
+
+Notice that we read a struct format `IIl` for each section, corresponding to `int`, `int`, `long`. This causes all returned values to be a list of 3 numbers which reveals information for each section: 
+`[blockNumber, byteCount, itemCount]`.
+
+* `blockNumber` is the byte location where the section starts (each block is 512 bytes)
+* `byteCount` is the number of bytes each "read" of the section produces
+* `itemCount` is how many times consecutively the section should be read
+
+## Iteratively Reading Structured Data from Sections
+If you know how to read structured data at specific byte positions, you'll be able to figure out how
+to build arrays of section data by reading the same struct over and over for a given section once you've built the Section Map. The ideal strategy for this will vary depending on programming language.
+
+In Python I found it useful to create classes for each section, and make every variable
+a list that gets appended with new values every time the struct is re-read.
+These classes (and struct formats) can be found in pyABF's [structures.py](https://github.com/swharden/pyABF/blob/master/src/pyabf/structures.py) file, 
+which gets read by the ABFcore class in [core.py](https://github.com/swharden/pyABF/blob/master/src/pyabf/core.py).
+
+
+## Deciphering the StringsSection
+The strings section is somewhat confusing, but inside it are channel names, channel units, the path of the ABF protocol used, and comments (tags) in the ABF file. Because the StringsSection itself is so convoluted, I find it useful to make my own "indexedStrings" object (a list of strings). If this indexed string list is created properly, individual strings are pointed to from other variables in other sections (including the ABF2header, ProtocolSection, ADCsection, and DACsection).
+
+The StringsSection isn't like the other sections in the sense that this section doesn't have a rigid struct. Each item is a single string, so if there are 20 items there will be 20 strings. If the byteSize of a string is 123, read it using the struct format `123s`. It will return a bytestring which contains ASCII and non-ASCII characters, so don't try to `.decode()` it too early! 
+
+### Reading the StringsSection
+
+I start by isolating the first string as it's the only one containing useful information. I still don't know what the other strings are for.
+
+```python
+indexedStrings = stringsSection.strings[0]
+```
+
+The first chunk of the string contains a lot of garbage, then there's a lot of `\x00` (zero) values, then there's the useful data at the very end (a bunch of strings separated by a single `\x00` each)
+
+I cut-off the junk in the beginning by finding the final location of a double-zero, and chopping off everything before that.
+
+```python
+indexedStrings = indexedStrings[indexedStrings.rfind(b'\x00\x00'):]
+```
+
+I found that sometimes a mu (µ) is used as part of a unit label and this doesn't `decode()` to ASCII. Therefore I replace it with the letter u which is `\x75` on the [ASCII table](https://www.asciitable.com).
+
+```python
+indexedStrings = indexedStrings.replace(b'\xb5', b"\x75")
+```
+
+I then split the split on `\x00` bytes and drop-off the first element. This yields a list of bytestrings.
+
+```python
+indexedStrings = indexedStrings.split(b'\x00')[1:]
+```
+
+Every string should be ASCII formatted, so I `decode()` to make each bytestring a string.
+
+```python
+indexedStrings = [x.decode("ascii", errors='replace').strip() for x in indexedStrings]
+```
+
+_The difference between using `'ignore'` and `'replace'` in the error argument of `decode()` is that if something goofy happens and non-ASCII characters end up in a string (suggesting I'm parsing it wrong), `'replace'` will make them show up as `\x` hex codes spelled-out in ASCII text letting me know something is wrong._
+
+Note that most other open-source ABF-reading programs don't know how to read this section. They search for key words and try to split upon them. The abfload.m script tries to split on the words `clampex`, `clampfit`, `axoscope`, `patchxpress`. This method makes me a bit uneasy because I noticed in my file `Clampex` is capitalized which could complicate things. Also, I'm not sure if that list is exhaustive. Instead, the splitting-on-double-zero method shown above should keep doing the job. There's nothing preventing you from using both methods (first looking for a keyword, then resorting to a double-zero-split if that fails).
+
+### Indexing the StringsSection
+
+By now you should have an `indexedStrings` which is a list of strings looking something like this:
+
+```python
+indexedStrings = ['', 'Clampex', '', 'C:/path/protocol.pro', 'some comment',
+                  'IN 0', 'mV', 'IN 1', 'mV', 'Cmd 0', 'pA', 'Cmd 1', 'pA', 
+                  'Cmd 2', 'mV', 'Cmd 3', 'mV']
+```
+
+That's nice, but what do they mean? We have to figure out what these strings are by seeing where they're referred to by _index_ in this list as defined in several variables of other sections. 
+
+The first 5 values are in the same order in every ABF file I've seen, but from there it varies from file to file depending on DAC and ADC configuration.
+
+These values are pulled from the ABF2 header:
+* `indexedStrings[uModifierNameIndex]` - always blank for me, not sure what it is for
+* `indexedStrings[uCreatorNameIndex]` - name of program used to create the ABF
+* `indexedStrings[uProtocolPathIndex]` - path to the protocol used
+* `indexedStrings[lFileComment]` - file commend defined in the waveform editor
+
+These values are pulled from the ADCSection:
+* `indexedStrings[lADCChannelNameIndex]` - name/label of the ADC
+* `indexedStrings[lADCUnitsIndex]` - units of the ADC
+
+These values are pulled from the DACSection:
+* `indexedStrings[lDACChannelNameIndex]` - name/label of the ADC
+* `indexedStrings[lDACUnitsIndex]` - units of the ADC
+* `indexedStrings[lDACFilePath]` - path of custom stimulus waveform
+* `indexedStrings[nLeakSubtractADC]` - leak subtraction? Usually blank for me.
+
+_Note looking-up values in the ADC and DAC sections are a little more complex than I show here because the indexes are lists of indexes, not single numbers. The indexed strings of ADC and DAC sections will themselves be lists of strings._
+
+## Reading Data from DataSection
+Interestingly, reading data is no different than reading any other series of numbers from a binary file. We could even use the `readStruct()` function we wrote earlier to pull data from the file!
+
+To read sweep data from an ABF, learn about the data section:
+
+```python
+f = open("14o08011_ic_pair.abf", 'rb')
+DataSection = readStruct(f, "IIl", 236)
+print(DataSection)
+f.close()
+```
+
+This will reveal the blockNumber, byteCount, and itemCount:
+
+```
+[9, 2, 3600000]
+```
+
+This result tells us the following:
+  * ABF data starts at byte 4608 (9*512)
+  * Each data point is 2 bytes (probably 16-bit integers)
+  * There are 3,600,000 data points in this file
+
+Reviewing the [struct format characters](https://docs.python.org/2/library/struct.html#format-characters) you'll notice that 2-byte integers correspond to the `short` C type and are struct format `h`. 
+
+Lets read the first 10 data values from our ABF file using our `readStruct()` function:
+
+```python
+f = open("14o08011_ic_pair.abf", 'rb')
+DataSection = readStruct(f, "IIl", 236)
+data = readStruct(f, "10h", DataSection[0]*512)
+f.close()
+print(data)
+```
+
+The output is some seriously huge numbers. That's okay, because they're not properly scaled yet. We will tackle that issue later.
+
+```
+[-2147, -1839, -2147, -1838, -2147, -1838, -2147, -1837, -2147, -1838]
+```
+
+Something to consider is that the `readStruct()` function we wrote is simple and easy to use, but slow for massive amounts of data. [Numpy](http://www.numpy.org) is a Python package which is optimized for working with large amounts of multidimensional numerical data, and it has a function to read structured data directly from binary files into numpy arrays. We will use numpy for handling all ABF data from now on:
+
+```python
+import numpy as np
+f = open("14o08011_ic_pair.abf", 'rb')
+DataSection = readStruct(f, "IIl", 236)
+f.seek(DataSection[0]*512)
+data = np.fromfile(f, dtype=np.int16, count=DataSection[2])
+f.close()
+print(data)
+```
+
+The output is the same as before, it's just a numpy array, and it contains ALL data in the ABF file.
+
+```
+[-2147 -1839 -2147 ..., -1416 -1972 -1417]
+```
+
+If you have a single-channel ABF file, you're done! You can plot this data right away.
+
+If you have a multi-channel ABF file, data from each channel is _interleaved_. This means for a 2-channel ABF, to plot one channel you'd need to plot every other data point.
+
+How do you determine how many channels an ABF has? For ABF1 files it's the `nADCNumChannels` value in the header. For ABF2 files I take the third value (itemCount) from the `ADCsection` of the section map.
+
+Let's assume the number of channels is in a `channelCount` variable. The easiest way to _deinterleave_ a numpy array is to reshape it.
+
+After reshaping it, it forms 2 columns. I'd rather have two _rows_ so I can plot my two channels as data[0] and data[1], so it's necessary to use `np.rotate()`. Interestingly this places the channels in opposite order (the last channel is data[0]), so I reverse the order by slapping `[::-1]` at the end.
+
+```python
+f = open("14o08011_ic_pair.abf", 'rb')
+DataSection = readStruct(f, "IIl", 236)
+ADCSection = readStruct(f, "IIl", 92)
+channelCount = ADCSection[2]
+f.seek(DataSection[0]*512)
+data = np.fromfile(f, dtype=np.int16, count=DataSection[2])
+data = np.reshape(data, (int(len(data)/channelCount), channelCount))
+data = np.rot90(data)[::-1]
+f.close()
+print(data)
+```
+
+The final result is an n-dimensional numpy array where every row is an ADC channel.
+
+```
+[[-2147 -2147 -2147 ..., -1971 -1971 -1972]
+ [-1839 -1838 -1838 ..., -1417 -1416 -1417]]
+```
+
+Take a moment to appreciate we have a header-parsing multi-channel data reading ABF2 file reader in ten lines! Nice.
 
 ```python
 import matplotlib.pyplot as plt
-plt.plot(sweepData)
+plt.figure(figsize=(12,3))
+for channel in range(channelCount):
+    plt.plot(data[channel], label=f"channel {channel}", alpha=.7)
+plt.margins(0,0)
+plt.tight_layout()
+plt.axis([250_000, 425_000, -2300, 1700])
+plt.legend()
 plt.show()
 ```
-![](/doc/graphics/2017-11-06-raw.png)
 
-Okay let's get fancier. This is the code I use to create an image of nice wide dimensions, high resolution, without a frame:
+A few lines of [matplotlib](https://matplotlib.org) is all it takes to graph this ABF data by channel:
 
-```python
-import matplotlib.pyplot as plt
-plt.figure(figsize=(10,2)) # figure dimensions
-plt.plot(sweepData) # plot the data
-plt.margins(0,0) # stretch the data to the window
-plt.gca().axis('off') # remove square around edges
-plt.xticks([]) # remove x labels
-plt.yticks([]) # remove y labels
-plt.tight_layout() # fill the frame space
-plt.savefig(R"C:\data\2017-11-06-aps.png",dpi=200)
-```
-![](/doc/graphics/2017-11-06-aps.png)
+![](/docs/graphics/pyabfv2.png)
 
-### Notes
+Horizontal units can be converted to seconds by dividing by the sample rate. How to determine the sample rate is discussed later in this document.
 
-**Sweeps:** If you want to know where the bounds of individual sweeps are, look closer at the header. It contains a variable `lNumSamplesPerEpisode` which helps you determine data for each episode (sweep) starts. You could use something like:
-```
-sweepByteStart=int(byteDataStart+sweepNumber*(lNumSamplesPerEpisode*2))
-```
+Vertical units can be converted to true units by multiplying the data by a _scaling factor_ which has to be calculated from a variety of header values. Since the data originated as int16, the output of the ADC will span 2^16 units centered at 0 (-32,768 to 32,768), and hence this data is much larger vertically than expected. How to determine the scaling factor is discussed later in this document.
 
-**Scale:** Data coming out of the file is a signed integer. It needs to be convered to a float by dividing it by a scaling factor. The scaling factor also exists in the header variable as `lADCResolution`. To scale a list of sweep data, use something like:
-```
-dataScale=lADCResolution/1e6
-sweepData=[x*dataScale for x in data]
-```
 
-**Scale in multi-channel ABFs:** I haven't tested this extensively, but for some reason I got a weird behavior where the scale in 2-channel ABFs needed to be multiplied by 2. I don't understand it well enough to say this with confidence, but I suspect this is what should be done:
-```
-dataScale=lADCResolution/1e6*numberOfChannels
-sweepData=[x*dataScale for x in data]
-```
+# ABF File Reading Sequence
 
-# File access, locking, and storing data in memory
-Every ABF reading API probably has something like a `getSweepData(sweepNumber)` function which returns the data for that sweep. My goal is to design an ABF class which provides access to sweep data in the best way. I there are a few ways I can think of to go about this, each with different pros and cons.
+When pyABF loads an ABF file, the [ABFcore class](/src/pyabf/core.py) reads the contents of the entire ABF header, all sections, and all data, then does all the operations necessary to determine the number of channels, sweeps, sample rate, scaling factor, etc. It is written in such a way that it is agnostic as to whether it loads an ABF1 or ABF2 file. Any software written to analyze ABF files will benefit from reading ABF files in this same sequence. 
 
-* *ClampFit uses option 1.* - Pain in the butt becausae you can't view an ABF on a network drive if it's open on someone elses's computer.
-* *abffio.dll uses option 2* - but I'm not 100% on this
-* *I'm leaning toward option 3* - because I hate file blocking and I hate initiating the reading bytes over network drives
+In this section I will walk through every step pyABF uses to load ABF files, and mention some of the tricks and surprises I learned along the way. To benefit from advice in these sections it is assumed you have a full understanding of how to read ABF header and data values using the structures outlined in [structures.py](/src/pyabf/structures.py).
 
-**OPTION 1 - Keep the ABF file open:** Open the ABF file for buffered reading when the header reading class is instantiated and leave it open. It's already open when we request a sweep's data, so just seek() to that position and return the file's contents.
-  * **PRO:** opening the file takes a little bit of time (more on network drives) and so we save time by calling it once.
-  * **CON:** The file is locked open until the user manually destroys the class or calls file.close(). Open ABF files can not be viewed by ClampFit or abffio.dll (orly?)
-
-**OPTION 2 - Open the ABF when reading a sweep:** The goal here is to only have the ABF open when it's needed (once to read the header, then every time a sweep is requested). 
-  * **PRO:** only blocks file when sweeps are requested
-  * **PRO:** the user never has to manually close the file
-  * **CON:** the small amount of time it takes to open/close a file is multiplied by the number of times a a sweep is requested. This becomes much slower on network drives.
-  
-**OPTION 3 - Load all sweep data in memory:** We could open the file just once to read the header then load ALL the signal data into memory and close the file forever. It isn't _that_ much memory. A 16-bit 20khz signal only takes up 40kB/sec (2.4 MB/min). A whole hour of recording is 144 MB. ***Attention should be paid to the format of storage!*** The data loaded from the ABF is `int16`, so mindlessly converting it to floats could easily double (`float16` half precision) or quadruple (`float32` single precision) memory requirements. However, since we know data will be converted to a float eventually (when multiplied by its scaling factor), maybe we can save time by doing the conversion when the data is loaded. Doubling the memory requirement (288 MB / hr of recording) would prevent the need for integer-to-float conversion and data scaling (float multiplication) later, improving performance.
-
-  * **PRO:** no file blocking
-  * **PRO:** file opening/closing time is eliminated (big pro for network drives)
-  * **PRO:** on-demand file _reading_ time is eliminated (big pro for network drives)
-  * **CON:** class instantiation time is increased, but this could be disabled with an argument
-  
-
-# Faster data extraction with Numpy
-The slowest part about working with ABFs is reading their signal data (tens to hundreds of MB) and scaling it. Data is stored as signed 16-bit integers and must be scaled by a scaling factor and provided to the end user as an array of floats. While there are many ways we could read data from ABFs, if one is not careful they will write code that runs slowly. This is an easy trap for young players.
-
-## Python's integers are bigger than your ABF's
+To see specific examples code for any of the following sections, simply navigate to that function in the [ABFcore class](/src/pyabf/core.py).
 
 ```python
-fileBuffer = open("flename.abf", 'rb')
-fileBuffer.seek(someBytePosition)
-byteString = fileBuffer.read(numberOfPoints*2)
-dataValues = struct.unpack("%dh"%(numberOfPoints), byteString)
-fileBuffer.close()
+# This is what pyABF does to fully load an ABF file
+self._fileOpen()
+self._determineAbfFormat()
+self._readHeaders()
+self._formatVersion()
+self._determineCreationDateTime()
+self._determineDataProperties()
+self._determineDataUnits()
+self._determineDataScaling()
+self._determineHoldingValues()
+self._determineProtocolPath()
+self._determineProtocolComment()
+self._makeTagTimesHumanReadable()
+self._makeUsefulObjects()
+self._digitalWaveformEpochs()
+self._loadAndScaleData()
+self._fileClose()
 ```
 
-This code works, but there's a problem. We use `struct.unpack()` and request to decode the bytestring in `h` format (16-bit signed integer) from the bytestring. Consider our signal is just 100 data points. A 16-bit (2-byte) format means 100 points occupies 200 bytes of memory. However, `dataValues` is a tuple of integers _in your Python platform's default integer size_. For me that's 64-bit integers. This means that one line of code quadrupled the size of data in memory from 200 bytes to 800 bytes. For this reason, it is a bad idea to store ABF signal data in Python's default integer size.
 
-## Numpy's highly structured arrays support Int16
+## fileOpen()
+* Assert that the file path exists
+* Record the `abfID` variable as the filename without the extension
+* Open the file in `rb` mode (don't forget to close it later!)
+* I like to start timer for benchmarking at this point. [`time.perf_counter()`](https://docs.python.org/3/library/time.html#time.perf_counter) is perfect for this.
+
+## determineAbfFormat()
+* Read the first 4 bytes of the ABF file
+* If the first 3 bytes aren't `bABF`, it's not a valid file format!
+* If byte 4 is a ` ` (space), it's an ABF1 file.
+* If byte 4 is a `2`, it's an ABF2 file.
+
+## readHeaders()
+The purpose of this section is to read the entire header into memory. For ABF1 files this is just the header struct. For ABF2 files this is the header, section map, and all sub-sections. 
+
+It's a lot of work, but ultimately it's just reading structs from the file buffer exactly like described in the first half of this document. The values from these headers will be used in subsequent sections.
+
+Don't forget all the special work you have to do to create your own indexed StringsSection!
+
+## formatVersion()
+ABF file formats have versions more detailed than just "ABF1" and "ABF2". Both headers contain `fFileVersionNumber`, but it's formatted differently in ABF1 and ABF2 files. Unfortunately the versions are different variable formats. I prefer version numbers as `x.x.x.x` strings ([semantic versioning is a documented thing](https://semver.org)), so I convert both to a string version number.
+
+In ABF1 files `fFileVersionNumber` is a `f` (4 byte float):
 
 ```python
-fileBuffer = open("flename.abf", 'rb')
-fileBuffer.seek(someBytePosition)
-dataValues = numpy.fromfile(fileBuffer, dtype=np.int16, count=numberOfPoints)
-fileBuffer.close()
+# for ABF1 files
+abfVersion = "%.03f" % fFileVersionNumber
+abfVersion = list(abfVersion.replace(".", ""))
+abfVersion = ".".join(abfVersion)
 ```
 
-This code is faster and four times smaller in memory. It also eliminates the need to _convert_ to a numpy array later for scaling. If numpy is available, use this method! using `sys.getsizeof(dataValues)` you will learn that the entire numpy object is about 100 bytes larger than the data itself.
-
-## Scaling signal data (and floating point conversion)
-As we saw earlier when we tried to plot the raw data (unsigned integers), values right out of the ABF are crazy-large numbers and need to be scaled down before they are meaningful. The scaling factor is a float, and the fastest way to do what we want is to let numpy handle the integer/float multiplication and return the result as a numpy float datatype. Be sure to set the dtype! If your system's default float is a 64-bit float, we quadrupled our memory requirement again.
+In ABF2 files `fFileVersionNumber` is a `4b` (4 8-bit integers, in reverse order):
 
 ```python
-scaleFactor = lADCResolution / 1e6
-scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
+# for ABF2 files
+abfVersion = fFileVersionNumber[::-1]
+abfVersion = [str(x) for x in abfVersion]
+abfVersion = ".".join(abfVersion)
 ```
 
-## But wait, it's not that simple...
-The simple `scaleFactor` shown above works in most cases, but not in all cases. The easiest way to assess the sequence of required scaling factors is check out the lines which exist in everyone elses's code. Here is a snip from axonio.py, modified to the simplistic header structure (flat dictionary) used throughout this document:
+Now `abfVersion` contains the  ([semantic versionin](https://semver.org)) of the ABF file regardless of ABF1 or ABF2.
+
+## determineCreationDateTime()
+I like to know when the ABF was recorded. 
+
+ABF1 files don't store creation date/time in the header, so I get the file system creation date/time:
 
 ```python
-data = rawDataValues # large integers straight out of the ABF file
-data /= header['fInstrumentScaleFactor']
-data /= header['fSignalGain']
-data /= header['fADCProgrammableGain']
-if header['nTelegraphEnable'] :
-	data /= header['fTelegraphAdditGain']
-data *= header['fADCRange']
-data /= header['lADCResolution']
-data += header['fInstrumentOffset']
-data -= header['fSignalOffset']
+# for ABF1 files
+abfDateTime = round(os.path.getctime(abfFilePath))
+abfDateTime = datetime.datetime.fromtimestamp(abfDateTime)
 ```
 
-I tested this sequence and it holds true for ABF1 and ABF2 files identically. Here is the full code to functionally calculate the scale factor:
+ABF2 files store creation date/time in their header as a combination of `uFileStartDate` and `uFileStartTimeMS`:
 
 ```python
-# I found this little function useful
-def _first(self,thing):
-	"""If the thing is a list, return its first element. If not, return it as is."""
-	if type(thing) is list:
-		return thing[0]
-	else:
-		return thing          
-
-# now use the fancy sequence of scaling
-scaleFactor = 1 # start here
-scaleFactor /= _first(header['fInstrumentScaleFactor'])
-scaleFactor /= _first(header['fSignalGain'])
-scaleFactor /= _first(header['fADCProgrammableGain'])
-if header['nTelegraphEnable'] :
-	scaleFactor /= _first(header['fTelegraphAdditGain'])
-scaleFactor *= _first(header['fADCRange'])
-scaleFactor /= _first(header['lADCResolution'])
-scaleFactor += _first(header['fInstrumentOffset'])
-scaleFactor -= _first(header['fSignalOffset'])
-
-# then multiply the data by the scale as before
-scaledData=np.multiply(dataValues,scaleFactor,dtype='float32')
+# for ABF2 files
+startDate = str(uFileStartDate)
+startTime = round(uFileStartTimeMS/1000)
+startDate = datetime.datetime.strptime(startDate, "%Y%M%d")
+startTime = datetime.timedelta(seconds=startTime)
+abfDateTime = startDate+startTime
 ```
 
-_Note that the scale factor can vary by channel. Here is a simplistic way to only return the scale factor based on the scale of the first channel._
+## determineDataProperties()
+This is where I determine information about the signal data.
+This includes things like data rate, number of channels, number of sweeps, etc.
+I try to create a set of common variables to store these values, then just figure
+out how to set those variables depending on if I'm reading ABF1 or ABF2 files.
+Remember that `BLOCKSIZE = 512`
 
-**Should we use 16-, 32-, or 64-bit floats for representing signals?** Although float16 _might_ be okay, it distorts the trace a wee little bit due to floating point errors counfounded by the division and multiplication operations. In my recording conditions (whole-cell patch-clamp in brain slices) I calculated that the average floating point error in 16-bit floats (compared to 64-bit precision) is only 0.0023 pA. This seems acceptable (and well below the RMS noise floor), but also consider that the _peak_ floating point error in these conditions is 0.329632 pA. Also future operations (like low-pass filtering and baseline subtraction) would aplify this error and introduce additional error. That's not acceptable to me so I'll double my memory usage and go with a 32-bit floating point precision. 0.3 pA seems like a lot of error to me, but I think it comes from _two_ floating point math operations: one for the scale factor (int16 / float) and applying the scale factor (int16 * float). With 32-bit floats our peak deviation (compared to 64-bit precision) is 0.0000160469 pA. If I reach a point where that is not enough precision, I will want to find a new job. For now I'm satisfied with float-32 because we know it's accurate and at 20kHz recording rate (40 kB raw data / sec) we produce 80 kB of scaled floating-point data per second (or 288 MB per hour of recording).
+In both ABF1 and ABF2 files the sample rate is
+`1e6/fADCSampleInterval` and the number of sweeps is `lActualEpisodes`.
 
-
-# Designing for Numpy as an option (not a requirement)
-I want my ABFHeader class to be dependency-free. Buuuuuuut if numpy is around, let's use it. For all the reasons listed above, using numpy will massively improve performance. This is what I did to make Numpy optional:
-
-### Optional import of Numpy
-
-When importing the abf header module, try to import numpy. If it fails, that's fine!
+For ABF1 files, the byte location and size of the data is defined in 
+`lDataSectionPtr`, `nNumPointsIgnored`, and `lActualAcqLength`:
 
 ```python
-try:
-    import numpy as np # use Numpy if we have it
-except:
-    np=False
+# for ABF1 files
+dataByteStart = lDataSectionPtr*BLOCKSIZE
+dataByteStart += nNumPointsIgnored
+dataPointCount = lActualAcqLength
+channelCount = nADCNumChannels
+dataRate = int(1e6 / fADCSampleInterval)
+dataSecPerPoint = 1/dataRate
+sweepCount = lActualEpisodes
 ```
 
-### Optional use of Numpy
-
-When sweeps are requested, use Numpy if we have it, and don't if we don't! Functionality is exactly the same if numpy is available or not. The difference is numpy is faster and will return a `ndarray` object if it's used. Otherwise you'll get a traditional python list. The values are the same!
+For ABF2 files we already discussed how to find the location and size of data using the section map, so there's little new here:
 
 ```python
-fb=open("someFile.abf",'rb')
-fb.seek(firstBytePosition)
-scaleFactor = self.header['lADCResolution'] / 1e6
-if np:
-	data = np.fromfile(fb, dtype=np.int16, count=pointCount)
-	data = np.multiply(data,scaleFactor,dtype='float32')
-else:
-	print("WARNING: data is being retrieved without numpy (this is slow). See docs.")
-	data = struct.unpack("%dh"%(pointCount), fb.read(pointCount*2)) # 64-bit int
-	data = [point*scaleFactor for point in data] # 64-bit int * 64-bit floating point
-fb.close()
+# for ABF2 files
+dataByteStart = _sectionMap.DataSection[0]*BLOCKSIZE
+dataPointCount = _sectionMap.DataSection[2]
+channelCount = _sectionMap.ADCSection[2]
+dataRate = int(1e6 / _protocolSection.fADCSequenceInterval)
+dataSecPerPoint = 1/dataRate
+sweepCount = lActualEpisodes
 ```
 
-# Performance Testing
+For gap free files, the sweep length will be zero. I tend to treat this as
+an episodic file with 1 sweep. In every other sense, that's how it behaves.
 
-## Numpy vs. Python: Sweep Hopping
+## determineDataUnits()
+ADC units are what are displayed on the vertical axis of the graphs shown by ClampEx and ClampFit when you load an ABF file.
 
-I wrote a stress test that opens a 15 MB ABF file (about 6 minutes of data) and reads every sweep, and repeats this ten times. It then reports the total number of sweeps read, how long it took, and the average read time per sweep.
+For ABF1 files the channel units and labels are clearly written in `sADCUnits` and `sADCChannelName`.
 
-```
-Without Numpy
-read 1870 sweeps in 4.38152 sec (2.343 ms/sweep)
-read 1870 sweeps in 4.37068 sec (2.337 ms/sweep)
-read 1870 sweeps in 4.37608 sec (2.340 ms/sweep)
-read 1870 sweeps in 4.37229 sec (2.338 ms/sweep)
-read 1870 sweeps in 4.47250 sec (2.392 ms/sweep)
-total 21.97307 sec
+For ABF2 files it's not so easy. Units and channels are actually in the strings section, at position indexes indicated in multiple other sections. You'll have to create a custom indexed strings section matching-up these strings with the index values, then pull ADC units and ADC channel names from that. This process is described above in the StringsSection.
 
-With Numpy
-read 1870 sweeps in 0.34502 sec (0.185 ms/sweep)
-read 1870 sweeps in 0.32036 sec (0.171 ms/sweep)
-read 1870 sweeps in 0.31698 sec (0.170 ms/sweep)
-read 1870 sweeps in 0.31709 sec (0.170 ms/sweep)
-read 1870 sweeps in 0.32123 sec (0.172 ms/sweep)
-total 1.62068 sec
-```
+## determineDataScaling()
+As we saw earlier, directly reading data values as 16-bit integers produces beautiful data (and nice graphs) but the magnitude of the signal is way off. There is a certain multiple and offset which, when applied to this data, re-creates the original waveform. I call this process data scaling, even though technically it's more like scaling and offsetting.
 
-**Conclusion:** Numpy is 13.56 times faster than pure python when loading sweeps
+In this section I don't actually apply the scaling, I just determine how much to scale the data by if/when it's loaded later.
 
-## Numpy vs. Python: Full File Reading
-
-I was surprised to see performance goes in opposite directions when I load the full file in one block as compared to sweep by sweep. I think the weak point here is the `[x for x in y]` python code, and numpy shines. The performance _increase_ for numpy is probably the decrease in the need to `seek()` 1870 times.
-
-```
-without Numpy
-read 1870 full file 10 times in 7.35235 sec (3.932 ms/load)
-read 1870 full file 10 times in 7.30406 sec (3.906 ms/load)
-read 1870 full file 10 times in 7.43636 sec (3.977 ms/load)
-read 1870 full file 10 times in 7.32984 sec (3.920 ms/load)
-read 1870 full file 10 times in 7.39116 sec (3.952 ms/load)
-total 36.81377 sec
-
-with Numpy
-read full file 10 times in 0.23099 sec (0.124 ms/load)
-read full file 10 times in 0.21806 sec (0.117 ms/load)
-read full file 10 times in 0.21913 sec (0.117 ms/load)
-read full file 10 times in 0.21845 sec (0.117 ms/load)
-read full file 10 times in 0.21978 sec (0.118 ms/load)
-total 1.10641 sec
-```
-
-**Conclusion:** Numpy is 33.27 times faster than pure python when loading a full file
-
-## Loading Full Files into Memory: do this!
-These data demonstrate that reading a full file into memory (and scaling it) is extremely fast and doesn't take-up much memory. I vote we do this automatically without even asking. A one-hour-long ABF would take one second to load into memory (incluidng scaling) and only occupy 288 MB of memory. Open a file, grab its header, pull its data, and close it. File locking issues gone forever.
-
-# Epoch/signal misalignment and pre-padding offset
-For some reason I still don't understand, some data gets recorded _before_ epoch A begins in each sweep. More confusingly, it's not a fixed amount of pre-epoch time for each sweep. Instead, ***Exactly 1/64'th of the sweep length exists in the pre-epoch area at the beginning each sweep.*** This must be taken into account if you intend to synthesize the protocol waveform from just the epoch table. This is what I've done, and these are my results.
-
-# Using a Byte Map To Extract Single Header Values
-Let's say we aren't interested in tags and amplifier settings and epochs and all that stuff. We just want to capture a couple values out of an ABF header. In this case, even the 300 line ABFheader class is overkill, as we can get these values in about ten lines. This bytemap indicates which variables have fixed vs dynamic byte locations in the ABF file, and walks you through how to capture a value even if it's in a dynamically-located section.
-
-**Example Problem:** _How can I read just `lADCResolution` from an ABF header?_
-* Ensure the first 4 bytes of the file are `b'ABF2'`
-* Notice `lADCResolution` is in `ProtocolSection` so find that section's byte position
-* byte 76 of the section map (fixed byte positions) indicates the `ProtocolSection` start block.
-* We know from the section key that `ProtocolSection` has a structure format of `IIl`. These are 3 variables (blockNumber, entrySize, entryCount) and we only want the first one.
-* We know from the byte map below (ABFheader._byteMap) that the byte idicating where ProtocolSection starts is at byte 76.
-* To get `blockNumber` just read the `I` (a 4-byte unsigned integer) at byte position 76
-* `bytePosition = blockNumber * 512` (ABF2 blocks are a fixed 512 bytes)
-* We know from the section key that `lADCResolution` has struct format `i` (a 4-byte signed integer)
-* Therefore, just read the struct format `i` at position `bytePosition` and you have your `lADCResolution`
-
-**Example Code:** This STANDALONE script reads all sweep data and scales it using lADCResolution
-```python
-import struct
-import numpy as np
-
-def getSectionValue(fb,byteOfSectionBlock,sectionOffset=0,fmt="h"):
-    """Return an arbitrary value from an arbitrary section in an ABF2 header."""
-    fb.seek(byteOfSectionBlock)
-    sectionBlock,entryByteSize,entryCount=struct.unpack("IIl",fb.read(struct.calcsize("IIl")))
-    fmt=str(entryCount)+fmt
-    fb.seek(sectionBlock*512+sectionOffset)
-    val=struct.unpack(fmt,fb.read(struct.calcsize(fmt)))
-    val=val[0] if len(val)==1 else val
-    return val
-
-def getScaledSignalData(abfFileName):
-    """Return a numpy array of the scaled signal data for a recording."""
-    fb=open(abfFileName,'rb')
-    if not fb.read(4)==b'ABF2':
-        raise ValueError("only ABF2 files are supported by this example")
-    scalingFactor = getSectionValue(fb,76,118,"i") # ProtocolSection [76] (just want lADCResolution [118])
-    data = getSectionValue(fb,236) # DataSection [236] (we want all of it)
-    fb.close()    
-    return np.array(data)*scalingFactor/1e6
-
-signalData = getScaledSignalData("../../../../data/17o05027_ic_ramp.abf")
-print(signalData)    
-```
-
-**Output:** `[-51.544064 -51.6096   -51.675136 ..., -42.074112 -42.074112 -42.041344]`
-
-## Byte Map
-_this data is accessible via `ABFHeader._byteMap`_
-
-```
-### Header (fixed byte positions) ###
-fFileSignature: [0]
-fFileVersionNumber: [4]
-uFileInfoSize: [8]
-lActualEpisodes: [12]
-uFileStartDate: [16]
-uFileStartTimeMS: [20]
-uStopwatchTime: [24]
-nFileType: [28]
-nDataFormat: [30]
-nSimultaneousScan: [32]
-nCRCEnable: [34]
-uFileCRC: [36]
-FileGUID: [40]
-unknown1: [44]
-unknown2: [48]
-unknown3: [52]
-uCreatorVersion: [56]
-uCreatorNameIndex: [60]
-uModifierVersion: [64]
-uModifierNameIndex: [68]
-uProtocolPathIndex: [72]
-
-### Section Map (fixed byte positions) ###
-ProtocolSection: [76]
-ADCSection: [92]
-DACSection: [108]
-EpochSection: [124]
-ADCPerDACSection: [140]
-EpochPerDACSection: [156]
-UserListSection: [172]
-StatsRegionSection: [188]
-MathSection: [204]
-StringsSection: [220]
-DataSection: [236]
-TagSection: [252]
-ScopeSection: [268]
-DeltaSection: [284]
-VoiceTagSection: [300]
-SynchArraySection: [316]
-AnnotationSection: [332]
-StatsSection: [348]
-
-### ProtocolSection (section byte offsets) ###
-nOperationMode: [+0]
-fADCSequenceInterval: [+2]
-bEnableFileCompression: [+6]
-sUnused: [+7]
-uFileCompressionRatio: [+10]
-fSynchTimeUnit: [+14]
-fSecondsPerRun: [+18]
-lNumSamplesPerEpisode: [+22]
-lPreTriggerSamples: [+26]
-lEpisodesPerRun: [+30]
-lRunsPerTrial: [+34]
-lNumberOfTrials: [+38]
-nAveragingMode: [+42]
-nUndoRunCount: [+44]
-nFirstEpisodeInRun: [+46]
-fTriggerThreshold: [+48]
-nTriggerSource: [+52]
-nTriggerAction: [+54]
-nTriggerPolarity: [+56]
-fScopeOutputInterval: [+58]
-fEpisodeStartToStart: [+62]
-fRunStartToStart: [+66]
-lAverageCount: [+70]
-fTrialStartToStart: [+74]
-nAutoTriggerStrategy: [+78]
-fFirstRunDelayS: [+80]
-nChannelStatsStrategy: [+84]
-lSamplesPerTrace: [+86]
-lStartDisplayNum: [+90]
-lFinishDisplayNum: [+94]
-nShowPNRawData: [+98]
-fStatisticsPeriod: [+100]
-lStatisticsMeasurements: [+104]
-nStatisticsSaveStrategy: [+108]
-fADCRange: [+110]
-fDACRange: [+114]
-lADCResolution: [+118]
-lDACResolution: [+122]
-nExperimentType: [+126]
-nManualInfoStrategy: [+128]
-nCommentsEnable: [+130]
-lFileCommentIndex: [+132]
-nAutoAnalyseEnable: [+136]
-nSignalType: [+138]
-nDigitalEnable: [+140]
-nActiveDACChannel: [+142]
-nDigitalHolding: [+144]
-nDigitalInterEpisode: [+146]
-nDigitalDACChannel: [+148]
-nDigitalTrainActiveLogic: [+150]
-nStatsEnable: [+152]
-nStatisticsClearStrategy: [+154]
-nLevelHysteresis: [+156]
-lTimeHysteresis: [+158]
-nAllowExternalTags: [+162]
-nAverageAlgorithm: [+164]
-fAverageWeighting: [+166]
-nUndoPromptStrategy: [+170]
-nTrialTriggerSource: [+172]
-nStatisticsDisplayStrategy: [+174]
-nExternalTagType: [+176]
-nScopeTriggerOut: [+178]
-nLTPType: [+180]
-nAlternateDACOutputState: [+182]
-nAlternateDigitalOutputState: [+184]
-fCellID: [+186]
-nDigitizerADCs: [+198]
-nDigitizerDACs: [+200]
-nDigitizerTotalDigitalOuts: [+202]
-nDigitizerSynchDigitalOuts: [+204]
-nDigitizerType: [+206]
-
-### ADCSection (section byte offsets) ###
-nADCNum: [+0]
-nTelegraphEnable: [+2]
-nTelegraphInstrument: [+4]
-fTelegraphAdditGain: [+6]
-fTelegraphFilter: [+10]
-fTelegraphMembraneCap: [+14]
-nTelegraphMode: [+18]
-fTelegraphAccessResistance: [+20]
-nADCPtoLChannelMap: [+24]
-nADCSamplingSeq: [+26]
-fADCProgrammableGain: [+28]
-fADCDisplayAmplification: [+32]
-fADCDisplayOffset: [+36]
-fInstrumentScaleFactor: [+40]
-fInstrumentOffset: [+44]
-fSignalGain: [+48]
-fSignalOffset: [+52]
-fSignalLowpassFilter: [+56]
-fSignalHighpassFilter: [+60]
-nLowpassFilterType: [+64]
-nHighpassFilterType: [+65]
-fPostProcessLowpassFilter: [+66]
-nPostProcessLowpassFilterType: [+70]
-bEnabledDuringPN: [+71]
-nStatsChannelPolarity: [+72]
-lADCChannelNameIndex: [+74]
-lADCUnitsIndex: [+78]
-
-### DACSection (section byte offsets) ###
-nDACNum: [+0]
-nTelegraphDACScaleFactorEnable: [+2]
-fInstrumentHoldingLevel: [+4]
-fDACScaleFactor: [+8]
-fDACHoldingLevel: [+12]
-fDACCalibrationFactor: [+16]
-fDACCalibrationOffset: [+20]
-lDACChannelNameIndex: [+24]
-lDACChannelUnitsIndex: [+28]
-lDACFilePtr: [+32]
-lDACFileNumEpisodes: [+36]
-nWaveformEnable: [+40]
-nWaveformSource: [+42]
-nInterEpisodeLevel: [+44]
-fDACFileScale: [+46]
-fDACFileOffset: [+50]
-lDACFileEpisodeNum: [+54]
-nDACFileADCNum: [+58]
-nConditEnable: [+60]
-lConditNumPulses: [+62]
-fBaselineDuration: [+66]
-fBaselineLevel: [+70]
-fStepDuration: [+74]
-fStepLevel: [+78]
-fPostTrainPeriod: [+82]
-fPostTrainLevel: [+86]
-nMembTestEnable: [+90]
-nLeakSubtractType: [+92]
-nPNPolarity: [+94]
-fPNHoldingLevel: [+96]
-nPNNumADCChannels: [+100]
-nPNPosition: [+102]
-nPNNumPulses: [+104]
-fPNSettlingTime: [+106]
-fPNInterpulse: [+110]
-nLTPUsageOfDAC: [+114]
-nLTPPresynapticPulses: [+116]
-lDACFilePathIndex: [+118]
-fMembTestPreSettlingTimeMS: [+122]
-fMembTestPostSettlingTimeMS: [+126]
-nLeakSubtractADCIndex: [+130]
-
-### EpochPerDACSection (section byte offsets) ###
-nEpochNum: [+0]
-nEpochType: [+4]
-fEpochInitLevel: [+6]
-fEpochLevelInc: [+10]
-lEpochInitDuration: [+14]
-lEpochDurationInc: [+18]
-lEpochPulsePeriod: [+22]
-lEpochPulseWidth: [+26]
-
-### EpochSection (section byte offsets) ###
-nEpochDigitalOutput: [+2]
-
-### TagSection (section byte offsets) ###
-lTagTime: [+0]
-sComment: [+4]
-nTagType: [+60]
-nVoiceTagNumberorAnnotationIndex: [+62]
-```
-
-# Reading Multichannel ABFs
-Raw data is interleaved by the number of channels. That's it! The number of channels is the number of entries (the third value of `ADCSection`).
-
-**Python tips:** 
-* Get every 7th number from a python list: use `data=someList[::7]`. 
-* Get every 7th number starting from the third point: `data=someList[2::7]`. 
-* Get an ABF signal:  `data=abfData[channel::numberOfChannels]`.
-
-**Example: plot multi-channel ABF data**
-```python
-import matplotlib.pyplot as plt
-import numpy as np
-abf=ABFheader(abfFileName)
-for i in range(abf.header['dataChannels']):
-	Ys=abf.data[i::abf.header['dataChannels']]
-	Xs=np.arange(len(Ys))*abf.header['timeSecPerPoint']
-	plt.plot(Xs,Ys)
-```
-
-![](/doc/graphics/2017-11-18-multichannel.png)
-
-
-# Reading ABF1 Files
-Although I created this entire project with the intent of only working with ABF2 files (all of my personal data is ABF2, and Clampex has been creating ABF2 files since 2006), reading ABF1 files is so easy I might as well just document it. Forget everything you know about byte maps and sections. ABF1 has a fixed header structure. 
-
-**Fixed header structure of the ABF1 header.** _(Each item expresses variableName, byteLocation, and structFormat)_
+It's important to remember that the scaling may be different for every channel, so this scaling routine produces a scaling factor for every channel (and stores them in a list called `scaleFactors`). I start by setting every scaleFactor to 1.
 
 ```python
-HEADERV1 = [('fFileSignature',0,'4s'),('fFileVersionNumber',4,'f'),('nOperationMode',8,'h'),
-('lActualAcqLength',10,'i'),('nNumPointsIgnored',14,'h'),('lActualEpisodes',16,'i'),('lFileStartTime',24,'i'),
-('lDataSectionPtr',40,'i'),('lTagSectionPtr',44,'i'),('lNumTagEntries',48,'i'),('lSynchArrayPtr',92,'i'),
-('lSynchArraySize',96,'i'),('nDataFormat',100,'h'),('nADCNumChannels',120,'h'),('fADCSampleInterval',122,'f'),
-('fSynchTimeUnit',130,'f'),('lNumSamplesPerEpisode',138,'i'),('lPreTriggerSamples',142,'i'),
-('lEpisodesPerRun',146,'i'),('fADCRange',244,'f'),('lADCResolution',252,'i'),('nFileStartMillisecs',366,'h'),
-('nADCPtoLChannelMap',378,'16h'),('nADCSamplingSeq',410,'16h'),('sADCChannelName',442,'10s'*16),
-('sADCUnits',602,'8s'*16),('fADCProgrammableGain',730,'16f'),('fInstrumentScaleFactor',922,'16f'),
-('fInstrumentOffset',986,'16f'),('fSignalGain',1050,'16f'),('fSignalOffset',1114,'16f'),
-('nDigitalEnable',1436,'h'),('nActiveDACChannel',1440,'h'),('nDigitalHolding',1584,'h'),
-('nDigitalInterEpisode',1586,'h'),('nDigitalValue',2588,'10h'),('lDACFilePtr',2048,'2i'),
-('lDACFileNumEpisodes',2056,'2i'),('fDACCalibrationFactor',2074,'4f'),('fDACCalibrationOffset',2090,'4f'),
-('nWaveformEnable',2296,'2h'),('nWaveformSource',2300,'2h'),('nInterEpisodeLevel',2304,'2h'),
-('nEpochType',2308,'20h'),('fEpochInitLevel',2348,'20f'),('fEpochLevelInc',2428,'20f'),
-('lEpochInitDuration',2508,'20i'),('lEpochDurationInc',2588,'20i'),('nTelegraphEnable',4512,'16h'),
-('fTelegraphAdditGain',4576,'16f'),('sProtocolPath',4898,'384s')]
+self.scaleFactors = [1]*channelCount
 ```
 
-**Example ABF1 header values from an old file I found:**
-```
-fFileSignature = ['ABF']
-fFileVersionNumber = [1.8300000429153442]
-nOperationMode = [5]
-lActualAcqLength = [720000]
-nNumPointsIgnored = [0]
-lActualEpisodes = [6]
-lFileStartTime = [57175]
-lDataSectionPtr = [16]
-lTagSectionPtr = [0]
-lNumTagEntries = [0]
-lSynchArrayPtr = [2829]
-lSynchArraySize = [6]
-nDataFormat = [0]
-nADCNumChannels = [2]
-fADCSampleInterval = [25.0]
-fSynchTimeUnit = [12.5]
-lNumSamplesPerEpisode = [120000]
-lPreTriggerSamples = [32]
-lEpisodesPerRun = [6]
-fADCRange = [10.0]
-lADCResolution = [32768]
-nFileStartMillisecs = [328]
-nADCPtoLChannelMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-nADCSamplingSeq = [0, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-sADCChannelName = ['Voltage 0', 'Current 1', 'IN 2', 'Ext Cmd', 'IN 4', 'IN 5', 'I_Steps', 'IN 7', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'readout', 'exposure']
-sADCUnits = ['pA', 'pA', 'V', 'mV', 'V', 'V', 'pA', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']
-fADCProgrammableGain = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-fInstrumentScaleFactor = [0.0005000000237487257, 0.0005000000237487257, 1.0, 0.05000000074505806, 1.0, 1.0, 0.002469999948516488, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-fInstrumentOffset = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-fSignalGain = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-fSignalOffset = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-nDigitalEnable = [1]
-nActiveDACChannel = [0]
-nDigitalHolding = [16]
-nDigitalInterEpisode = [0]
-nDigitalValue = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-lDACFilePtr = [0, 0]
-lDACFileNumEpisodes = [0, 0]
-fDACCalibrationFactor = [1.0842299461364746, 1.0852099657058716, 1.0, 1.0]
-fDACCalibrationOffset = [-253.0, -260.0, 0.0, 0.0]
-nWaveformEnable = [1, 0]
-nWaveformSource = [1, 1]
-nInterEpisodeLevel = [0, 0]
-nEpochType = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-fEpochInitLevel = [-70.0, -80.0, -70.0, -70.0, -70.0, -70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-fEpochLevelInc = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-lEpochInitDuration = [100, 1000, 20, 10000, 100, 30000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-lEpochDurationInc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-nTelegraphEnable = [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-fTelegraphAdditGain = [20.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-sProtocolPath = ['D:\\Data\\Protocols\\noMovies).pro']
+Determining scaling for ABF1 files couldn't be easier:
+
+```python
+# for ABF1
+for i in range(channelCount):
+    scaleFactors[i] = lADCResolution/1e6
 ```
 
-# Porting to C#
+Unfortunately, ABF2 files require a lot more steps:
 
-_**ADDITIONAL CODE:** Full source code, more programs, and downloadable Visual Studio project files are in the [/dev/](/dev/) folder_
-
-I whipped up a function for C# which reads sweeps of scaled data right out of ABF2 files. It's a little thin on the error checking, but it gets the job done. Don't forget to add `using System.IO;` to the top so we have access to BinaryReader. By the way, my SweepReader.exe is 6kb.
-
-### Example Standalone Sweep Reading Function
-
-```C#
-/* Return an array of scaled data from a given sweep (sweep numbers start at 1) */
-public static float[] GetSweepData(string abfFileName, int sweepNumber=1)
-{
-	// open the file in binary mode
-	BinaryReader fb = new BinaryReader(File.Open(abfFileName, FileMode.Open));
-
-	// verify this is an ABF2 file
-	if (new string(fb.ReadChars(4)) != "ABF2")
-		throw new System.ArgumentException("The file is not a valid ABF2 file.");
-
-	// pull everything we need from the header information (using our byte map cheat sheet)
-	int BLOCKSIZE = 512; // blocks are a fixed size in ABF1 and ABF2 files
-	fb.BaseStream.Seek(12, SeekOrigin.Begin); // this byte stores the number of sweeps
-	long sweepCount = fb.ReadUInt32();
-	fb.BaseStream.Seek(76, SeekOrigin.Begin); // this byte stores the ProtocolSection block number
-	long posProtocolSection = fb.ReadUInt32()*BLOCKSIZE;
-	long poslADCResolution = posProtocolSection + 118; // figure out where lADCResolution lives
-	fb.BaseStream.Seek(poslADCResolution, SeekOrigin.Begin); // then go there
-	long lADCResolution = fb.ReadInt32();
-	float scaleFactor = lADCResolution / (float)1e6;
-	fb.BaseStream.Seek(236, SeekOrigin.Begin); // this byte stores the DataSection block number
-	long posDataSection = fb.ReadUInt32() * BLOCKSIZE;
-	long dataPointByteSize = fb.ReadUInt32(); // this will always be 2 for a 16-bit DAC
-	long dataPointCount = fb.ReadInt64();
-	long sweepPointCount = dataPointCount / sweepCount;
-
-	// make sure our requested sweep is valid
-	if ((sweepNumber > sweepCount) ||(sweepNumber < 1))
-		throw new System.ArgumentException("Invalid sweep requested.");
-
-	// figure out what data positions we want to read (modify these lines to get ALL data)
-	long dataByteStart = posDataSection + (sweepNumber-1) * sweepPointCount * dataPointByteSize;
-	long pointsToRead = sweepPointCount;
-
-	// fill the float array by reading raw data out of the ABF, scaling as we go
-	fb.BaseStream.Seek(dataByteStart, SeekOrigin.Begin);
-	float[] data = new float[pointsToRead];
-	for (long i=0; i < pointsToRead; i++)
-		data[i] = fb.ReadInt16() * scaleFactor;
-	fb.Close(); // close and unlock the file ASAP
-
-	// display the data
-	System.Console.Write("DATA FOR SWEEP {0}: ",sweepNumber);
-	for (int i =0; i<3; i++)
-		System.Console.Write("{0}, ", data[i]);
-	System.Console.Write("...");
-	for (int i = 3; i > 0; i--)
-		System.Console.Write(", {0}", data[pointsToRead - i]);
-	System.Console.Write(" ({0} points in total)\n",data.Length);
-
-	return data;
-}
+```python
+# for ABF2
+for i in range(channelCount):
+    scaleFactors[i] /= fInstrumentScaleFactor[i]
+    scaleFactors[i] /= fSignalGain[i]
+    scaleFactors[i] /= fADCProgrammableGain[i]
+    if nTelegraphEnable:
+        scaleFactors[i] /= fTelegraphAdditGain[i]
+    scaleFactors[i] *= fADCRange
+    scaleFactors[i] /= lADCResolution
 ```
 
-### Output
-`DATA FOR SWEEP 1: -4.325376, -4.292608, -4.096, ..., -6.651904, -6.684672, -6.848512 (200000 points in total)`
+_note that `fSignalOffset` and `fSignalOffset` should be applied to the data after scaling. It should not modify the scale factor itself! This error has probably gone unnoticed because I always use ABFs with zero offset._
 
-# Gap-Free Recording Mode
-Gap-free files don't have sweeps (episodes). The whole recording is continuous. I prefer to treat these ABFs as episodic files with 1 sweep, it's just that the one sweep is the full length of the recording.
+By now, you have a list of scale factors (one for each channel) and will be ready for when the data is loaded.
 
-For gap free files `lActualEpisodes = 0`. Keep this in mind, and your code may prefer to do something like `sweepCount = max(lActualEpisodes, 1)` to ensure it's always at least 1. We also have to think closer about how we calculate `sweepPointCount`. I employ soomething like:
+## determineHoldingValues()
+When a waveform epoch isn't commanding the DAC clamp value, the holding value is used. Holding values are stored as a list (one item per channel).
 
-```python     
-self.header['sweepPointCount']=int(self.header['lNumSamplesPerEpisode']/self.header['dataChannels'])
-if self.header['sweepCount'] == 0: # gap free mode
-    self.header['sweepPointCount']=int(self.header['dataPointCount']/self.header['dataChannels'])
+In ABF1 files this is `fEpochInitLevel`
+
+In ABF2 files this is `fDACHoldingLevel`
+
+## determineProtocolPath()
+If a protocol was used to record the ABF, its stored in the header.
+
+In ABF1 files it's in `sProtocolPath`.
+
+In ABF2 files we should have already prepared the list of indexed strings, and therefore have this value waiting for us in `indexedStrings[uProtocolPathIndex]`.
+
+## determineProtocolComment()
+ABF file comments are not supported in ABF1 files.
+
+In ABF2 files we should have already prepared the list of indexed strings, and therefore have this value waiting for us in `indexedStrings[lFileCommentIndex]`.
+
+## makeTagTimesHumanReadable()
+If tags are added to ABF2 files, their TagSection will contain lists of items. 
+The `sComment` list contains the text of the comments and `lTagTime` contains the
+exact time point of each comment. There are problems with both of these lists, and they
+need to be cleaned up a bit to be most useful.
+
+First, the comments need to be cleaned up. They're bytestrings (not strings) and they're padded with spaces.
+
+```python
+tagComments = [x.decode("ascii", errors='ignore').strip() for x in sComment]
 ```
+
+Next, tag times are in crazy units. Let's convert them to seconds. This can be done by multiplying each by `fSynchTimeUnit` then dividing it by `1e6`.
+
+```python
+tagTimesSec = [x*fSynchTimeUnit/1e6 for x in lTagTime]
+```
+
+## makeUsefulObjects()
+By this point, virtually all of the header data has been loaded.
+I take this opportunity to create helpful objects. One of such is
+a list pre-populated with channel numbers, and another with sweep numbers.
+
+```python
+channelList = list(range(self.channelCount))
+sweepList = list(range(self.sweepCount))
+```
+
+This lets me rapidly loop through sweeps anywhere in my code like:
+
+```python
+for sweepNumber in sweepList:
+  print("I'm on sweep", sweepNumber)
+```
+
+## digitalWaveformEpochs()
+The waveform editor doesn't just let you control DAC values, it also lets you
+control the ON/OFF state of digital outputs. This section creates a 2d array 
+indicating the high/low state (1 or 0) of each digital output (rows) for each 
+epoch (columns).
+
+```python
+numOutputs = nDigitizerTotalDigitalOuts
+byteStatesByEpoch = nEpochDigitalOutput
+numEpochs = len(byteStatesByEpoch)
+digitalWaveformEpochs = np.full((numOutputs, numEpochs), 0)
+for epochNumber in range(numEpochs):
+    byteState = bin(byteStatesByEpoch[epochNumber])[2:]
+    byteState = "0"*(numOutputs-len(byteState))+byteState
+    byteState = [int(x) for x in list(byteState)]
+    digitalWaveformEpochs[:, epochNumber] = byteState[::-1]
+print(digitalWaveformEpochs)
+```
+
+DAC waveform generation is discussed in detail below.
+
+## loadAndScaleData()
+The final thing to do when loading an ABF is to read its sweep data. We already
+discussed above how to load data with numpy and arrange it as a multidimensional
+array. Here I show how to use numpy to scale the data too.
+
+Ideally we defined `dataByteStart`, `dataPointCount`, and `channelCount`
+in earlier sections. This makes the data reader ABF version agnostic, 
+identically supporting ABF1 and ABF2 formats.
+
+```python
+# loaddata as a numpy array
+f.seek(dataByteStart)
+raw = np.fromfile(f, dtype=dtype, count=dataPointCount)
+raw = np.reshape(raw, (int(len(raw)/channelCount), channelCount))
+raw = np.rot90(raw)
+raw = raw[::-1]
+
+# multiply each channel by its scale factor and shift it by its offsets
+data = np.empty(raw.shape, dtype='float32')
+for i in range(channelCount):
+    data[i] = np.multiply(raw[i], scaleFactors[i], dtype='float32')
+    data[i] = data[i] + fInstrumentOffset[i] - fSignalOffset[i]
+```
+
+## fileClose()
+You're completely done! All header values are read, and all data is loaded in 
+memory.
+
+* terminate the performance counter, and calculate the load time
+* close the file (earlier opened in `rb` mode)
+
+## Producing Data for Individual Sweeps
+Although `data` holds the entire data in the ABF organized by channel, often
+you just want to analyze data sweep by sweep. I like to create a `sweepX` and
+`sweepY` variable for easy graphing.
+
+```python
+pointStart = sweepPointCount * sweepNumber
+pointEnd = pointStart + sweepPointCount
+sweepY = data[channel, pointStart:pointEnd]
+sweepX = np.arange(len(sweepY))*dataSecPerPoint
+```
+
+Note that sweepX is "sweep time", always starting at zero. If absolute time is required, add an extra line to offset it by the start time of this sweep:
+
+```python
+sweepX += sweepNumber * sweepLengthSec
+```
+
+## Generating Stimulus Waveforms
+Information about DAC epochs is stored in EpochPerDACSection. The `_updateStimulusWaveform()` function in [core.py](/src/pyabf/core.py) reads this section and can generate a stimulus waveform for a particular channel of a given sweep. This is often unnecessary computational effort as the stimulus waveform is rarely graphed, so perform this task with reservation.
+
+In the waveform editor tab you can select the "type" of epoch (step, pulse, ramp, etc.). Disabled is type 0, step is type 1, and ramp is type 2. Additional steps exist, but I haven't written stimulus generator code (yet) for them. I'll refer you to [core.py](/src/pyabf/core.py) to see the latest stimulus waveform generation code.
+
+Note also that [core.py](/src/pyabf/core.py) contains a `sweepD()` function which returns the stimulus waveform of
+a digital output. Since we generated the digital output matrix as part of `digitalWaveformEpochs()` a few steps back, this waveform is simple to generate. 
+
+```python
+states = digitalWaveformEpochs[digitalOutputNumber]
+sweepD = np.full(sweepPointCount, 0)
+for epoch in range(len(states)):
+    sweepD[epochPoints[epoch]:epochPoints[epoch+1]] = states[epoch]
+```
+
+Now the given digital output waveform is in `sweepD` to compliment `sweepX` and `sweepY`.
+
+# Continued Development
+
+This document is extensive, but still a survey-level overview of the ABF file format and how to read its contents with Python. In its current state, this document should be enough to help anybody get started reading ABF files in any programming language. While future development of this document may be limited, the core classes of the pyABF project ([structures.py](/src/pyabf/structures.py), [core.py](/src/pyabf/core.py), and [abf.py](/src/pyabf/abf.py)) will continue to be actively developed. Technical documentation and code examples live and grow inside these files, so for additional insights and further reading consider reviewing the source code of the latest versions of these files.
 
 # References
 
-* [Python struct format characters](https://docs.python.org/2/library/struct.html#format-characters)
-* [Numpy.fromfile()](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fromfile.html)
-* [Numpy's built-in dataypes](https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.scalars.html#arrays-scalars-built-in)
+### Official ABF Documents and Software
+* Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (3rd party cache)
+* [pCLAMP 10 download page](http://mdc.custhelp.com/app/answers/detail/a_id/18779/~/axon™-pclamp™-10-electrophysiology-data-acquisition-%26-analysis-software) for pCLAMP, ClampFit, and AxoScope
+* [Historical pCLAMP User Guides](http://mdc.custhelp.com/app/answers/detail/a_id/18747/session/L2F2LzEvdGltZS8xNTI5Nzc5MDQ2L3NpZC9TdEZxa1hQbg%3D%3D)
+* [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) (contains abffio.dll)   
 
-## Equipment and Theory
+### Other ABF-reading Projects
+* [BioSig](https://github.com/dongzhenye/biosignal-tools/tree/master/biosig4c%2B%2B/t210) uses modified Axon Library Files
+  * [abfheader.h](https://github.com/dongzhenye/biosignal-tools/blob/master/biosig4c%2B%2B/t210/abfheadr.h) - 
+_Defines the ABFFileHeader structure and provides prototypes for functions implemented in ABFHEADR.CPP for reading and writing ABFFileHeaders_
+  * [axon_structs.h](https://github.com/dongzhenye/biosignal-tools/blob/master/biosig4c%2B%2B/t210/axon_structs.h) - _brief header containing all structures of ABF_
+  * [sopen_abf_read.c](https://github.com/dongzhenye/biosignal-tools/blob/master/biosig4c%2B%2B/t210/sopen_abf_read.c) - _reads data from ABF files_
+* MatLab - [abf2load.m](https://www.mathworks.com/matlabcentral/fileexchange/45667-apanalysis?focused=6744051&tab=function) - reads ABF files in MatLab
+* StimFit - [abflib.cpp](https://github.com/neurodroid/stimfit/blob/master/src/libstfio/abf/abflib.cpp) - C++ implementation of an ABF reader
+* Neo-IO - [axonrawio.py](https://github.com/NeuralEnsemble/python-neo/blob/master/neo/rawio/axonrawio.py)
+* QUB Express - [Python 2 code](https://qub.mandelics.com/src/qub-express/qubx/data_abf.py) interacts with abffio.dll 
+
+### Electrophysiology Equipment and Theory
 * [Axoclamp-2B theory and operation](https://neurophysics.ucsd.edu/Manuals/Axon%20Instruments/Axoclamp-2B_Manual.pdf)
 * [pCLAMP 10 User Guide](https://neurophysics.ucsd.edu/Manuals/Axon%20Instruments/pCLAMP10-User-Guide-RevA.pdf)
 
-## ABF File Format
-* [Official ABF Format PDF](https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf) - It's interesting, but they ONLY want you to use their DLL to access ABF data, so this document doesn't help much when learning how to access information directly from the binary file.
-* [Official Axon pCLAMP ABF SDK](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page)
-  * [abfheader.h](https://github.com/dongzhenye/biosignal-tools/blob/master/biosig4c%2B%2B/t210/abfheadr.h) is on github
-  * Most code elsewhere mimics these variable names.
-  * Comments are useful in defining variable names.
-  * Variables are not in the same order they are in the structs which build the file itself.
-* MatLab ABF Readers
-  * [MatLab ABF Loader (sbf2load.m)](https://github.com/voyn/transalyzer/blob/master/Functions/abf2load.m)
-  * [official](https://www.mathworks.com/matlabcentral/fileexchange/45667-apanalysis?focused=6744051&tab=function) - This code floats on the internet in several places. I think it was line-by-line ported to Python for the Neo-IO project
-* StimFit
-  * [abflib.cpp](https://github.com/neurodroid/stimfit/blob/master/src/libstfio/abf/abflib.cpp) - another implementation of an ABF reader.
-  *  Header structures are define is in [ProtocolStructs.h](https://github.com/neurodroid/stimfit/blob/master/src/libstfio/abf/axon2/ProtocolStructs.h)
-* Neo-IO
-  * [axonrawio.py](https://github.com/NeuralEnsemble/python-neo/blob/master/neo/rawio/axonrawio.py)
-* QUB Express
-  * Python 2 code written to interact with abffio.dll contains interesting content in its [python code](https://qub.mandelics.com/src/qub-express/qubx/data_abf.py)
+### Programming Concepts
+* [Python struct format characters](https://docs.python.org/2/library/struct.html#format-characters)
+* [Numpy.fromfile()](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fromfile.html)
+* [Numpy's built-in dataypes](https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.scalars.html#arrays-scalars-built-in)
