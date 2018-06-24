@@ -1,6 +1,7 @@
+pyABF: a pure-Python ABF file reader
+====================================
 
-pyABF: A Python Package for Reading Files in Axon Binary Format (ABF)
-==============================================================================
+**pyABF** provides a Python interface to files in the Axon Binary Format (ABF)
 
 * `Project Homepage <https://github.com/swharden/pyABF>`_
 * `Getting Started with pyABF <https://github.com/swharden/pyABF/tree/master/docs/getting-started>`_

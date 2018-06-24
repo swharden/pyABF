@@ -13,7 +13,7 @@ with open(os.path.abspath(PATH_HERE+"/pyabf/_version.py")) as f:
     print("loaded version:", __version__)
 
 # load the descripntion
-with open(os.path.abspath(PATH_HERE+"/pyabf/_version.py")) as f:
+with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
     print("loaded description: (%s lines)"%(long_description.count("\n")))
 
