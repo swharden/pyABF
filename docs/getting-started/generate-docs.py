@@ -260,7 +260,7 @@ class Uses:
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
         pyabf.plot.sweeps(abf, title=False, offsetXsec=.05,
                           offsetYunits=15, startAtSec=3, endAtSec=3.5)
-        pyabf.plot.scalebar(abf)
+        pyabf.plot.scalebar(abf, hideFrame=False)
         plt.tight_layout()
         self.saveAndClose()
 
