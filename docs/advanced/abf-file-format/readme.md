@@ -183,7 +183,8 @@ nADCSamplingSeq = readStruct(f, "16h", 410)
 sADCChannelName = readStruct(f, "10s"*16, 442)
 sADCUnits = readStruct(f, "8s"*16, 602)
 fADCProgrammableGain = readStruct(f, "16f", 730)
-fInstrumentScaleFactor = readStruct(f, "16f", 922)
+fInstrument
+= readStruct(f, "16f", 922)
 fInstrumentOffset = readStruct(f, "16f", 986)
 fSignalGain = readStruct(f, "16f", 1050)
 fSignalOffset = readStruct(f, "16f", 1114)
@@ -672,6 +673,8 @@ For ABF2 files it's not so easy. Units and channels are actually in the strings 
 ## determineDataScaling()
 As we saw earlier, directly reading data values as 16-bit integers produces beautiful data (and nice graphs) but the magnitude of the signal is way off. There is a certain multiple and offset which, when applied to this data, re-creates the original waveform. I call this process data scaling, even though technically it's more like scaling and offsetting.
 
+_Usually ABF data is stored as `int`, in which case the data must be multiplied by the scaling factor. If the data type is `float`, the data should not be multiplied by the scaling factor. Indication of data type is in `nDataFormat` which is 0 for `int` and 1 for `float`._
+
 In this section I don't actually apply the scaling, I just determine how much to scale the data by if/when it's loaded later.
 
 It's important to remember that the scaling may be different for every channel, so this scaling routine produces a scaling factor for every channel (and stores them in a list called `scaleFactors`). I start by setting every scaleFactor to 1.
@@ -805,6 +808,8 @@ data = np.empty(raw.shape, dtype='float32')
 for i in range(channelCount):
     data[i] = np.multiply(raw[i], scaleFactors[i], dtype='float32')
 ```
+
+_Usually ABF data is stored as `int`, in which case the data must be multiplied by the scaling factor. If the data type is `float`, the data should not be multiplied by the scaling factor! Indication of data type is in `nDataFormat` which is 0 for `int` and 1 for `float`._
 
 ## fileClose()
 You're completely done! All header values are read, and all data is loaded in 
