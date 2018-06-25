@@ -235,6 +235,35 @@ class Uses:
 
         self.saveAndClose()
 
+    def demo_08b_using_plot_module(self):
+        """
+        ## Advanced Plotting with the `pyabf.plot` Module
+
+        pyabf has a plot module which has been designed to simplify the act
+        of creating matplotlib plots of electrophysiological data loaded with
+        the ABF class. This module isn't fully developed yet (so don't rely
+        on code you write today working with it tomorrow), but it's a strong
+        start and has some interesting functionality that might be worth
+        inspecting. 
+
+        If you care a lot about how your graphs look, plot them yourself with
+        matplotlib commands. If you want to save keystrokes, don't care how
+        the graphs look, or don't know how to use matplotlib (and don't feel
+        like learning), maybe some of the functions in `pyabf.plot` will be
+        useful to you. You don't have to import it, just call its functions
+        and pass-in the abf object you're currently working with.
+
+        Notice in this example there is an L-shaped scalebar. Nice!
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+        pyabf.plot.sweeps(abf, title=False, offsetXsec=.05,
+                          offsetYunits=15, startAtSec=3, endAtSec=3.5)
+        pyabf.plot.scalebar(abf)
+        plt.tight_layout()
+        self.saveAndClose()
+
     def demo_09a_digital_outputs(self):
         """
         ## Accessing Digital Outputs
@@ -466,8 +495,8 @@ def cleanCode(s):
     s = s.split('"""', 2)[2].strip()
     return s
 
-def go():
 
+def go():
 
     # start by deleting the contents of the output folder
     for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
