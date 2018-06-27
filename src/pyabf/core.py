@@ -314,10 +314,8 @@ class ABFcore:
         To access data sweep by sweep, write your own class function! 
         That's outside the scope of this core ABF class.
         """
-
-        # usually ABF data is 16-bit integers. Every once and a while you
-        # find ABFs with other data formats. Usually this happens after the
-        # file is modified with ClampFIt.
+        
+        # determine the data type
         if self.abfFileFormat==1:
             dtype = np.int16
         elif self.abfFileFormat==2:
@@ -331,16 +329,22 @@ class ABFcore:
             else:
                 raise NotImplementedError("strange data point size")
 
+        # read the data from the ABF file
         self._fb.seek(self.dataByteStart)
         raw = np.fromfile(self._fb, dtype=dtype, count=self.dataPointCount)
         raw = np.reshape(
             raw, (int(len(raw)/self.channelCount), self.channelCount))
         raw = np.rot90(raw)
         raw = raw[::-1]
-        self.data = np.empty(raw.shape, dtype='float32')
-        for i in range(self.channelCount):
-            self.data[i] = np.multiply(
-                raw[i], self.scaleFactors[i], dtype='float32')
+
+        # if the data was originally an int, it must be scaled
+        if dtype == np.int16:
+            self.data = np.empty(raw.shape, dtype='float32')
+            for i in range(self.channelCount):
+                self.data[i] = np.multiply(
+                    raw[i], self.scaleFactors[i], dtype='float32')
+        else:
+            self.data = raw
 
     def getInfoPage(self):
         """
