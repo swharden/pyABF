@@ -1,6 +1,6 @@
 # The pyABF Project
 
-**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unecessaary. 
+**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unecessaary. Just glance over the code examples and graphs on the [getting started with pyABF](/docs/getting-started) page and you're good to go!
 
 ![](/docs/graphics/2017-11-06-aps.png)
 
@@ -21,8 +21,9 @@ print(abf.sweepX) # sweep times (seconds)
 
 ## Documenation
 * [Getting Started with pyABF](/docs/getting-started)
-* [Full Documentation](/docs/)
+* [Additional pyABF Documentation](/docs/)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
+* [pyABF on PyPI](https://pypi.org/project/pyabf/)
 
 ## Features
 * To an idea of what pyABF can do, check out the [getting started](/docs/getting-started) page
