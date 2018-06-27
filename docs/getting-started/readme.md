@@ -7,8 +7,8 @@ They start out simple and increase in complexity.
 
   * All ABFs used are provided in  [the data folder](/data/)
   * These tests (and this output) are automated by [generate-docs.py](generate-docs.py)
-  * Examples `import matplotlib.pyplot as plt`
-  * Examples `import numpy as np`
+  * You are expected to `import matplotlib.pyplot as plt`
+  * You are expected to `import numpy as np`
   * Alternate color scheme provided with `plt.style.use('bmh')`
 
 
