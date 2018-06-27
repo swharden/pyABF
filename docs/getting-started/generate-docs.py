@@ -1,5 +1,13 @@
 """
-Boilerplate use case scrpit.
+This file contains functions to demonstrate core functionality of the pyABF module.
+
+Functions prefaced with "demo_" may be run automatically to generate the quickstart guide.
+In this case their docstrings will be included in the quickstart readme (markdown-formatted)
+and their code will be added to the readme along with any images saved with the same filename
+as the function.
+
+This documentation generator doubles as a test suite, as a variety of ABF loading and plotting
+functions are executed while the documentation and supportive graphs are regnerated.
 """
 
 import os
