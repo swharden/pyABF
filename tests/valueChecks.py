@@ -40,7 +40,7 @@ FIRSTVALUES['17o05027_ic_ramp'] = ['-48.00415']
 FIRSTVALUES['17o05028_ic_steps'] = ['-47.08862']
 FIRSTVALUES['180415_aaron_temp'] = ['-0.35187', '17148.52344']
 FIRSTVALUES['2018_04_13_0016a_original'] = ['-115.96679', '-15.25879']
-FIRSTVALUES['2018_04_13_0016b_modified'] = ['353.90253', '22.71727']
+FIRSTVALUES['2018_04_13_0016b_modified'] = ['-115.96679', '-7.44399']
 FIRSTVALUES['model_vc_ramp'] = ['-138.42772']
 FIRSTVALUES['model_vc_step'] = ['-140.13670']
 
@@ -54,7 +54,9 @@ def go():
             firstValues.append("%.05f" % (abf.sweepY[0]))
         if abf.abfID in FIRSTVALUES.keys():
             if not firstValues == FIRSTVALUES[abf.abfID]:
-                print("ERROR!!!", firstValues, FIRSTVALUES[abf.abfID])
+                print("ERROR WITH", abf.abfID)
+                print("  expected:", FIRSTVALUES[abf.abfID])
+                print("  actual:", firstValues)
                 raise ValueError
             print("Verified first values of", abf.abfID)
         else:
