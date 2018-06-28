@@ -484,8 +484,7 @@ class ABFcore:
                 self.sweepC[position:position2] = ramp
 
             else:
-                warnings.warn(
-                    "treating unknown epoch type like a step", epochType)
+                warnings.warn("treating unknown epoch type %d like a step" % epochType)
                 self.sweepC[position:position2] = afterDelta
             position += pointCount
 
