@@ -53,7 +53,7 @@ class ABFcore:
         """
         self.abfFilePath = os.path.abspath(abf)
         if not os.path.exists(self.abfFilePath):
-            raise ValueError("file does not exist", self.abfFilePath)
+            raise ValueError("ABF file does not exist: %s"%self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
         self._fileOpen()
         self._determineAbfFormat()
