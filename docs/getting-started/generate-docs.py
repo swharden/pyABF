@@ -34,11 +34,35 @@ class Uses:
         plt.savefig(outputFile, dpi=self.dpi)
         plt.close()
 
+    def demo_00a_load_abf(self):
+        """
+        ## Load an ABF File
+
+        Give an ABF file path to `pyabf.ABF()` to get started
+        
+        **Code:**
+        ```python
+        import pyabf
+        abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
+        print(abf)
+        ```
+
+        **Output:**
+        ```
+        ABF file (16d05007_vc_tags.abf) with 1 channel, 187 sweeps, and a total length of 6.23 min.
+        ```
+        """
+        pass
+
     def demo_01a_print_sweep_data(self):
         """
         ## Access Sweep Data
 
-        Load an ABF and display data from a certain sweep. 
+        ABF objects provide access to ABF data by sweep number. Sweep numbers
+        start at zero, and after setting a sweep you can access that sweep's
+        ADC data (`sweepY`), DAC simulus waveform / command signal (`sweepC`), 
+        or the time units for the sweep (`sweepX`).
+
         """
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
@@ -516,13 +540,31 @@ def go():
 # Getting Started with pyABF
 
 This page is a collection of common tasks performed by pyABF.
-They start out simple and increase in complexity.
+They start out simple and increase in complexity. Browsing this page is the best
+way to get started with pyABF, as every core function is demonstrated in this
+document.
 
-  * All ABFs used are provided in  [the data folder](/data/)
-  * These tests (and this output) are automated by [generate-docs.py](generate-docs.py)
-  * You are expected to `import matplotlib.pyplot as plt`
-  * You are expected to `import numpy as np`
-  * Alternate color scheme provided with `plt.style.use('bmh')`
+The generation of this guide is fully automated 
+([generate-docs.py](by generate-docs.py)) so this page doubles as a test suite.
+All ABFs used in these examples are provided in  [the data folder](/data/), so
+you can replicate them yourself.
+
+## Prerequisite Imports
+
+Although it's not explicitly shown in every example, it is assumed the following
+lines are present at the top of your Python script:
+
+```python
+import pyabf
+import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use('bmh')
+```
+
+The last line defines the default style of all the graphs on this page. I've 
+started to prefer the "bmh" style (with gray backgrounds), but a full list
+of example styles is on [Tony Syu's page](https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html)
+and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery/style_sheets/style_sheets_reference.html)
 """
 
     # then run each of the use case functions above
@@ -549,10 +591,12 @@ They start out simple and increase in complexity.
         # use the function docstring as the markdown text
         md += "\n\n"+cleanDocstrings(func.__doc__)
 
-        # include the source code of the function
-        md += "\n\n**Code:**\n\n```python\n"
-        md += cleanCode(inspect.getsource(func))
-        md += "\n```"
+        # include the source code of the function (if it's not just a pass)
+        code = inspect.getsource(func)
+        if not code.strip().endswith("pass"):
+            md += "\n\n**Code:**\n\n```python\n"
+            md += cleanCode(code)
+            md += "\n```"
 
         # show the image if it exists
         imgName = functionName+".jpg"
