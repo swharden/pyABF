@@ -47,13 +47,25 @@ class ABFcore:
     def __init__(self, abf, preLoadData=True):
         self._loadEverything(abf, preLoadData)
 
+    def __str__(self):
+        txt = f"ABF file ({self.abfID}.abf)"
+        txt += f" with {self.channelCount} channel"
+        if self.channelCount > 1:
+            txt += "s"
+        txt += f", {self.sweepCount} sweep"
+        if self.sweepCount > 1:
+            txt += "s"
+        abfLengthMin = self.sweepLengthSec*self.sweepCount/60.0
+        txt += f", and a total length of %.02f min."%(abfLengthMin)
+        return txt
+
     def _loadEverything(self, abf, preLoadData):
         """
         This used to be the __init__ of the ABF class.
         """
         self.abfFilePath = os.path.abspath(abf)
         if not os.path.exists(self.abfFilePath):
-            raise ValueError("ABF file does not exist: %s"%self.abfFilePath)
+            raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
         self._fileOpen()
         self._determineAbfFormat()
@@ -314,15 +326,15 @@ class ABFcore:
         To access data sweep by sweep, write your own class function! 
         That's outside the scope of this core ABF class.
         """
-        
+
         # determine the data type
-        if self.abfFileFormat==1:
+        if self.abfFileFormat == 1:
             dtype = np.int16
-        elif self.abfFileFormat==2:
+        elif self.abfFileFormat == 2:
             if self._sectionMap.DataSection[1] == 2:
                 dtype = np.int16
             elif self._sectionMap.DataSection[1] == 4:
-                if self._headerV2.nDataFormat==1:
+                if self._headerV2.nDataFormat == 1:
                     dtype = np.float32
                 else:
                     dtype = np.int16
