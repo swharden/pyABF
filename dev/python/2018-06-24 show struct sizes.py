@@ -10,7 +10,7 @@ sectionSizes = {'HeaderV1': 1678, 'HeaderV2': 76, 'SectionMap': 216,
 import struct
 import os
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_SRC = os.path.abspath(PATH_HERE+"/../src/")
+PATH_SRC = os.path.abspath(PATH_HERE+"/../../src/")
 
 with open(PATH_SRC+"/pyabf/structures.py") as f:
     lines = f.readlines()
@@ -35,4 +35,4 @@ for line in lines:
         structFormat = line.split(",")[1].strip().replace(")", "")
         structFormat = eval(structFormat)
         byteSize = struct.calcsize(structFormat)
-        #print(className, varName, byteSize, line.count(","))
+        print(className, varName, byteSize, line.count(","))
