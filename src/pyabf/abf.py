@@ -121,13 +121,23 @@ class ABF(ABFcore):
         self.sweepX = np.arange(len(self.sweepY))*self.dataSecPerPoint
         if absoluteTime:
             self.sweepX += sweepNumber * self.sweepLengthSec
-        self._updateStimulusWaveform(sweepNumber, channel)
+
+        # update stimulus waveform
+        self._stimulusWaveform(sweepNumber, channel)
 
         # baseline subtraction
         if self.baselinePoints:
             baseline = np.average(
                 self.sweepY[int(self.baselinePoints[0]):int(self.baselinePoints[1])])
             self.sweepY = self.sweepY-baseline
+            
+    @property
+    def sweepC(self):
+        """
+        Generate the sweep command waveform only when requested.
+        """
+        return self._stimulusWaveform(sweepNumber=self.sweepNumber,
+                                      channel=self.sweepChannel)
 
     def sweepAverage(self, timeSec1, timeSec2):
         """

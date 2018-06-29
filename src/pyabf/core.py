@@ -426,7 +426,7 @@ class ABFcore:
         self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
 
-    def _updateStimulusWaveform(self, sweepNumber, channel):
+    def _stimulusWaveform(self, sweepNumber, channel):
         """
         Update self.sweepC with the stimulus waveform for a given sweep.
         Epoch information is stored in EpochPerDACSection.
@@ -438,7 +438,7 @@ class ABFcore:
         epoch_ramp = 2
 
         # create the waveform and pre-fill it entirely with the holding value
-        self.sweepC = np.full(self.sweepPointCount,
+        sweepC = np.full(self.sweepPointCount,
                               self.holdingCommand[channel])
 
         # this function only supports ABF2 formatted files
@@ -464,7 +464,7 @@ class ABFcore:
 
             # if nInterEpisodeLevel start from the last command
             if self._dacSection.nInterEpisodeLevel[channel]:
-                self.sweepC = np.full(
+                sweepC = np.full(
                     self.sweepPointCount, thisCommand+deltaCommandLast)
 
             # do something different depending on what type of epoch it is
@@ -472,25 +472,27 @@ class ABFcore:
                 continue
 
             elif epochType == epoch_step:
-                self.sweepC[position:position2] = afterDelta
+                sweepC[position:position2] = afterDelta
 
             elif epochType == epoch_ramp:
                 ramp = np.arange(pointCount)/pointCount
-                rampStart = self.sweepC[position-1]
+                rampStart = sweepC[position-1]
                 rampEnd = afterDelta
                 rampDiff = rampEnd-rampStart
                 ramp *= rampDiff
                 ramp += rampStart
-                self.sweepC[position:position2] = ramp
+                sweepC[position:position2] = ramp
 
             else:
                 warnings.warn("treating unknown epoch type %d like a step" % epochType)
-                self.sweepC[position:position2] = afterDelta
+                sweepC[position:position2] = afterDelta
             position += pointCount
 
         # if nInterEpisodeLevel sustain the last command (ignore holding)
         if self._dacSection.nInterEpisodeLevel[channel]:
-            self.sweepC[position2:] = afterDelta
+            sweepC[position2:] = afterDelta
+
+        return sweepC
 
     def _commandContainsDeltas(self):
         """
