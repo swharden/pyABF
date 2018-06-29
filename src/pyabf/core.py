@@ -430,6 +430,9 @@ class ABFcore:
         """
         Update the list of time points where each epoch starts and ends.
         """
+        if self.abfFileFormat!=2:
+            self.epochPoints = []
+            return
         position = int(self.sweepPointCount/64)
         self.epochPoints = [position]
         for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
@@ -454,7 +457,7 @@ class ABFcore:
 
         # this function only supports ABF2 formatted files
         if self.abfFileFormat != 2:
-            return
+            return sweepC
 
         # it's just holding through 1/64th of the sweep length (why?!?)
         position = int(self.sweepPointCount/64)
