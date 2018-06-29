@@ -18,11 +18,11 @@ python versionIncrease.py
 cd ../../src/
 
 :: delete old builds
-rmdir /S /q _build
-rmdir /S /q build
-rmdir /S /q dist
-rmdir /S /q pyabf.egg-info
-
+rmdir /S /q _build 2>nul
+rmdir /S /q build 2>nul
+rmdir /S /q dist 2>nul
+rmdir /S /q pyabf.egg-info 2>nul
+ 
 :: create your distribution
 echo building distribution with setuptools...
 python setup.py --quiet sdist
@@ -37,10 +37,10 @@ twine upload --username swharden dist/*
 explorer https://pypi.org/project/pyabf/
 
 :: delete old builds
-rmdir /S /q _build
-rmdir /S /q build
-rmdir /S /q dist
-rmdir /S /q pyabf.egg-info
+rmdir /S /q _build 2>nul
+rmdir /S /q build 2>nul
+rmdir /S /q dist 2>nul
+rmdir /S /q pyabf.egg-info 2>nul
 
 echo COMPLETE
 pause
