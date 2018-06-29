@@ -545,7 +545,7 @@ way to get started with pyABF, as every core function is demonstrated in this
 document.
 
 The generation of this guide is fully automated 
-([generate-docs.py](by generate-docs.py)) so this page doubles as a test suite.
+(by [generate-docs.py](generate-docs.py)) so this page doubles as a test suite.
 All ABFs used in these examples are provided in  [the data folder](/data/), so
 you can replicate them yourself.
 
