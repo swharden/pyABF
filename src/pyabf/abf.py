@@ -122,8 +122,8 @@ class ABF(ABFcore):
         if absoluteTime:
             self.sweepX += sweepNumber * self.sweepLengthSec
 
-        # update stimulus waveform
-        self._stimulusWaveform(sweepNumber, channel)
+        # update epoch time points
+        self._updateTimePoints()
 
         # baseline subtraction
         if self.baselinePoints:

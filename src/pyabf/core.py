@@ -426,6 +426,17 @@ class ABFcore:
         self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
 
+    def _updateTimePoints(self):
+        """
+        Update the list of time points where each epoch starts and ends.
+        """
+        position = int(self.sweepPointCount/64)
+        self.epochPoints = [position]
+        for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
+            pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
+            self.epochPoints.append(position + pointCount)
+            position += pointCount
+
     def _stimulusWaveform(self, sweepNumber, channel):
         """
         Update self.sweepC with the stimulus waveform for a given sweep.
@@ -447,7 +458,6 @@ class ABFcore:
 
         # it's just holding through 1/64th of the sweep length (why?!?)
         position = int(self.sweepPointCount/64)
-        self.epochPoints = [position]
 
         # update the waveform for each epoch
         for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
@@ -458,7 +468,6 @@ class ABFcore:
             thisCommand = self._epochPerDacSection.fEpochInitLevel[epochNumber]
             afterDelta = thisCommand+deltaCommand
             position2 = position + pointCount
-            self.epochPoints.append(position2)
 
             # TODO: make updating sweepC optional
 
