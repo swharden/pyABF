@@ -136,6 +136,7 @@ class ABF(ABFcore):
             baseline = np.average(
                 self.sweepY[int(self.baselinePoints[0]):int(self.baselinePoints[1])])
             self.sweepY = self.sweepY-baseline
+            self.sweepLabelY = "Δ " + self.sweepLabelY
             
     @property
     def sweepC(self):
