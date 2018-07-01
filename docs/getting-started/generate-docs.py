@@ -512,6 +512,36 @@ class Uses:
         plt.legend()
         self.saveAndClose()
 
+    def demo_15a_IV_curve(self):
+        """
+        ## Create an I/V Curve
+
+        This example analyzes 171116sh_0013.abf (a voltage clamp ABF which 
+        goes from -110 mV to -50 mV increasing the clamp voltage by 5 mV each
+        sweep).
+
+        Currents are the average value of each sweep between the 0.5 and 1 sec
+        mark. Notice our use of the `pyabf.calc` module to get the average
+        value between two marks for every sweep. Clamp values are obtained
+        from `abf.epochValues`, a 2d array of DAC command values at each
+        epoch (columns) arranged by sweep (rows).
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
+        plt.figure(figsize=self.figsize)
+
+        currents = pyabf.calc.averageValue(abf, .5, 1)
+        voltages = abf.epochValues
+
+        plt.figure(figsize = (8, 5))
+        plt.grid(alpha=.5, ls='--')
+        plt.plot(voltages, currents,'.-', ms=15)
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelC)
+        plt.title(f"I/V Relationship of {abf.abfID}")
+
+        self.saveAndClose()
 
 def cleanDocstrings(s):
     s = s.strip()
