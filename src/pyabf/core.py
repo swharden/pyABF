@@ -56,7 +56,7 @@ class ABFcore:
         if self.sweepCount > 1:
             txt += "s"
         abfLengthMin = self.sweepLengthSec*self.sweepCount/60.0
-        txt += f", and a total length of %.02f min."%(abfLengthMin)
+        txt += f", and a total length of %.02f min." % (abfLengthMin)
         return txt
 
     def _loadEverything(self, abf, preLoadData=True):
@@ -80,6 +80,8 @@ class ABFcore:
         self._determineProtocolComment()
         self._makeTagTimesHumanReadable()
         self._makeUsefulObjects()
+        self._updateTimePoints()
+        self._calculateDACvaluesByEpoch()
         self._digitalWaveformEpochs()
         if preLoadData:
             self._loadAndScaleData()
@@ -188,7 +190,7 @@ class ABFcore:
             self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
             self.dataByteStart += self._headerV1.nNumPointsIgnored
             self.dataPointCount = self._headerV1.lActualAcqLength
-            self.dataPointByteSize = 2 # ABF 1 files always have int16 points?
+            self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
             self.channelCount = self._headerV1.nADCNumChannels
             self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
             self.dataSecPerPoint = 1/self.dataRate
@@ -433,7 +435,7 @@ class ABFcore:
         """
         Update the list of time points where each epoch starts and ends.
         """
-        if self.abfFileFormat!=2:
+        if self.abfFileFormat != 2:
             self.epochPoints = []
             return
         position = int(self.sweepPointCount/64)
@@ -442,6 +444,15 @@ class ABFcore:
             pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
             self.epochPoints.append(position + pointCount)
             position += pointCount
+
+    def _calculateDACvaluesByEpoch(self, epochNumber=0):
+        epochList = range(len(self._epochPerDacSection.nEpochType))
+        self.epochValues = np.empty((self.sweepCount, len(epochList)))
+        for epoch in epochList:
+            for sweep in self.sweepList:
+                dacHere = self._epochPerDacSection.fEpochInitLevel[epoch]
+                dacDelta = self._epochPerDacSection.fEpochLevelInc[epoch] * sweep
+                self.epochValues[sweep, epoch]=dacHere+dacDelta
 
     def _stimulusWaveform(self, sweepNumber, channel):
         """
@@ -456,7 +467,7 @@ class ABFcore:
 
         # create the waveform and pre-fill it entirely with the holding value
         sweepC = np.full(self.sweepPointCount,
-                              self.holdingCommand[channel])
+                         self.holdingCommand[channel])
 
         # this function only supports ABF2 formatted files
         if self.abfFileFormat != 2:
@@ -499,7 +510,8 @@ class ABFcore:
                 sweepC[position:position2] = ramp
 
             else:
-                warnings.warn("treating unknown epoch type %d like a step" % epochType)
+                warnings.warn(
+                    "treating unknown epoch type %d like a step" % epochType)
                 sweepC[position:position2] = afterDelta
             position += pointCount
 

@@ -3,6 +3,7 @@ Code here performs calculations on data from ABF objects.
 """
 import numpy as np
 
+
 def sweepNumbersByTime(abf, timeSec1, timeSec2):
     """
     Returns a list of sweeps containing data between the two times.
@@ -19,9 +20,11 @@ def averageSweep(abf, sweepNumbers=None, baselineTimeSec1=False, baselineTimeSec
     raise NotImplementedError
     return abf.dataY
 
-def averageValue(abf, timeSec1, timeSec2, sweepNumbers=None, channel=0, stdErr=True):
+
+def averageValue(abf, timeSec1, timeSec2, sweepNumbers=None, channel=0, calcError=False, stdErr=True):
     """
-    Return [AVs, ERs] between two time points for the given sweeps.
+    Return the average between two time points for the given sweeps.
+    If calcError is True, return [AV, ERR].
     """
     if sweepNumbers is None:
         sweepNumbers = abf.sweepList
@@ -34,8 +37,12 @@ def averageValue(abf, timeSec1, timeSec2, sweepNumbers=None, channel=0, stdErr=T
     for sweepNumber in sweepNumbers:
         abf.setSweep(sweepNumber=sweepNumber, channel=channel)
         avs[sweepNumber] = abf.sweepAverage(timeSec1, timeSec2)
-        ers[sweepNumber] = abf.sweepError(timeSec1, timeSec2, stdErr)
-    if stdErr:
+        if calcError:
+            ers[sweepNumber] = abf.sweepError(timeSec1, timeSec2, stdErr)
+    if calcError and stdErr:
         ers = ers / np.sqrt(len(sweepNumbers))
 
-    return [avs, ers]
+    if calcError:
+        return [avs, ers]
+    else:
+        return avs
