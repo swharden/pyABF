@@ -74,7 +74,7 @@ def plotHeader(abf):
     for subplot in [121, 122]:
         plt.subplot(subplot)
 
-        plt.gca().patch.set_alpha(0)
+        #plt.gca().patch.set_alpha(0)
         plt.gca().patch.set_facecolor('w')
         plt.gca().patch.set_facecolor('w')
 
