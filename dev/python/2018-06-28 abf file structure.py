@@ -31,39 +31,46 @@ def sectionBytes(section):
     return [firstByte, byteCount]
 
 
-if __name__ == "__main__":
-    for fname in glob.glob(PATH_DATA+"/*.abf")[4:5]:
-        fileParts = {}
-        fileParts["file"] = [0, os.path.getsize(fname)-1]
-        abf = pyabf.ABF(fname)
-        if abf.abfFileFormat == 1:
-            fileParts["ABFheaderV1"] = [0, 4898+684]  # start byte and size
-            fileParts["DataSection"] = [
-                abf._headerV1.lDataSectionPtr*BLOCKSIZE]
-        else:
-            fileParts["ABFheaderV2"] = [0, 75]
-            fileParts["SectionMap"] = [76, 348+16]
-            fileParts["ProtocolSection"] = sectionBytes(
-                abf._sectionMap.ProtocolSection)
-            fileParts["ADCSection"] = sectionBytes(abf._sectionMap.ADCSection)
-            fileParts["DACSection"] = sectionBytes(abf._sectionMap.DACSection)
-            fileParts["EpochPerDACSection"] = sectionBytes(
-                abf._sectionMap.EpochPerDACSection)
-            fileParts["EpochSection"] = sectionBytes(
-                abf._sectionMap.EpochSection)
-            fileParts["TagSection"] = sectionBytes(abf._sectionMap.TagSection)
-            fileParts["StringsSection"] = sectionBytes(
-                abf._sectionMap.StringsSection)
-            fileParts["DataSection"] = sectionBytes(
-                abf._sectionMap.DataSection)
+def plotHeader(abfFileName):
+    """create a figure showing where the header sections are."""
 
-        plt.figure(figsize=(12, 3))
+    abf = pyabf.ABF(fname)
+
+    fileParts = {}
+    fileParts["file"] = [0, os.path.getsize(fname)-1]
+
+    if abf.abfFileFormat == 1:
+        fileParts["ABFheaderV1"] = [0, 4898+684]  # start byte and size
+        fileParts["DataSection"] = [
+            abf._headerV1.lDataSectionPtr*BLOCKSIZE, abf.dataPointCount]
+    else:
+        fileParts["ABFheaderV2"] = [0, 75]
+        fileParts["SectionMap"] = [76, 348+16]
+        fileParts["ProtocolSection"] = sectionBytes(
+            abf._sectionMap.ProtocolSection)
+        fileParts["ADCSection"] = sectionBytes(abf._sectionMap.ADCSection)
+        fileParts["DACSection"] = sectionBytes(abf._sectionMap.DACSection)
+        fileParts["EpochPerDACSection"] = sectionBytes(
+            abf._sectionMap.EpochPerDACSection)
+        fileParts["EpochSection"] = sectionBytes(
+            abf._sectionMap.EpochSection)
+        fileParts["TagSection"] = sectionBytes(abf._sectionMap.TagSection)
+        fileParts["StringsSection"] = sectionBytes(
+            abf._sectionMap.StringsSection)
+        fileParts["DataSection"] = sectionBytes(
+            abf._sectionMap.DataSection)
+
+    plt.figure(figsize=(12, 3))
+
+    # LEFT SUBPLOT
+
+    for subplot in [121, 122]:
+        plt.subplot(subplot)
+
         for i, part in enumerate(fileParts.keys()):
             firstByte, byteCount = fileParts[part]
-            lastByte = firstByte + byteCount
-            print(part, firstByte, lastByte)
+            #lastByte = firstByte + byteCount
             color = plt.get_cmap("jet")(i/len(fileParts))
-            print(part)
             if part == "file":
                 rect = patches.Rectangle((firstByte, -.5), byteCount, .5,
                                          linewidth=0, facecolor='.5',
@@ -82,13 +89,33 @@ if __name__ == "__main__":
 
         plt.text(0, -.25, "  "+abf.abfID, ha='left', va='center')
         plt.xlabel("Byte Position")
-        plt.title("ABF Byte Map for "+abf.abfID+".abf")
         plt.margins(.1, .1)
         plt.gca().get_yaxis().set_visible(False)  # hide Y axis
         plt.tight_layout()
-        plt.legend(loc='upper right', fontsize=8, shadow=True, framealpha=1)
-        plt.axis([-100, abf._sectionMap.DataSection[0]*512+1500, -.5, 1.5])
-        plt.show()
-        plt.close()
+        if subplot == 121:
+            plt.title("ABF Byte Map for "+abf.abfID+".abf")
+        else:
+            plt.legend(loc='upper right', fontsize=8,
+                       shadow=True, framealpha=1)
+
+    plt.subplot(121)
+    plt.axis([-100, abf.dataByteStart+1500, -.5, 1])
+    plt.subplot(122)
+    x1 = abf.dataByteStart + abf.dataByteStart*abf.dataPointCount*2
+    x2 = os.path.getsize(fname)
+    plt.axis([x1-1500, x2+1500, -.5, 1])
+
+    fnameOut = os.path.dirname(os.path.dirname(abfFileName))
+    fnameOut +="/headers/"+abf.abfID+"_header.png"
+    plt.savefig(fnameOut)
+    plt.close()
+
+
+if __name__ == "__main__":
+    for fname in glob.glob(PATH_DATA+"/*.abf"):
+        print("generating header map for", os.path.basename(fname))
+        plotHeader(fname)
+
+    plt.show()
 
     print("DONE")

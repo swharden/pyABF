@@ -87,6 +87,7 @@ class ABFcore:
 
     def _fileOpen(self):
         """Open the ABF file in rb mode."""
+        self._fileSize = os.path.getsize(self.abfFilePath)
         self._fb = open(self.abfFilePath, 'rb')
         self._fileOpenTime = time.perf_counter()
 
@@ -187,6 +188,7 @@ class ABFcore:
             self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
             self.dataByteStart += self._headerV1.nNumPointsIgnored
             self.dataPointCount = self._headerV1.lActualAcqLength
+            self.dataPointByteSize = 2 # ABF 1 files always have int16 points?
             self.channelCount = self._headerV1.nADCNumChannels
             self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
             self.dataSecPerPoint = 1/self.dataRate
@@ -194,6 +196,7 @@ class ABFcore:
         elif self.abfFileFormat == 2:
             self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
             self.dataPointCount = self._sectionMap.DataSection[2]
+            self.dataPointByteSize = self._sectionMap.DataSection[1]
             self.channelCount = self._sectionMap.ADCSection[2]
             self.dataRate = int(
                 1e6 / self._protocolSection.fADCSequenceInterval)
