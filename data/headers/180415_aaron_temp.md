@@ -33,6 +33,7 @@
 * dataSecPerPoint = `1e-05`
 * digitalWaveformEpochs = `[]`
 * epochPoints = `[1562]`
+* epochValues = `[]`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
