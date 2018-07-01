@@ -73,6 +73,12 @@ class ABF(ABFcore):
             baselineTimes: times (in seconds) to baseline subtract to
         """
 
+        if not "data" in (dir(self)):
+            print("ABF data not preloaded. Loading now...")
+            self._fileOpen()
+            self._loadAndScaleData()
+            self._fileClose()
+
         # TODO: prevent re-loading of the same sweep.
 
         # sweep number error checking

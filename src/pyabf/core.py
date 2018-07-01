@@ -59,7 +59,7 @@ class ABFcore:
         txt += f", and a total length of %.02f min."%(abfLengthMin)
         return txt
 
-    def _loadEverything(self, abf, preLoadData):
+    def _loadEverything(self, abf, preLoadData=True):
         """
         This used to be the __init__ of the ABF class.
         """
