@@ -39,7 +39,7 @@ class Uses:
         ## Load an ABF File
 
         Give an ABF file path to `pyabf.ABF()` to get started
-        
+
         **Code:**
         ```python
         import pyabf
@@ -97,7 +97,7 @@ class Uses:
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
 
         plt.figure(figsize=self.figsize)
-        for sweepNumber in [0,5,10,15]:
+        for sweepNumber in [0, 5, 10, 15]:
             abf.setSweep(sweepNumber)
             plt.plot(abf.sweepX, abf.sweepY, alpha=.5,
                      label=f"sweep {sweepNumber}")
@@ -529,19 +529,55 @@ class Uses:
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
-        plt.figure(figsize=self.figsize)
-
         currents = pyabf.calc.averageValue(abf, .5, 1)
         voltages = abf.epochValues
 
-        plt.figure(figsize = (8, 5))
+        plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')
-        plt.plot(voltages, currents,'.-', ms=15)
+        plt.plot(voltages, currents, '.-', ms=15)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelC)
         plt.title(f"I/V Relationship of {abf.abfID}")
 
         self.saveAndClose()
+
+    def demo_16_average_sweep(self):
+        """
+        ## Averaging Sweeps
+
+        Sometimes you want to analyze a sweep which is the average of several
+        sweeps. Often this is used in conjunction with baseline subtraction.
+
+        This can be done using the `pyabf.calc.averageSweep()` function.
+        Although here it's given without arguments, it can take a list of
+        specific sweep numbers.
+        """
+
+        import pyabf
+        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+        abf.baseline(1.10, 1.16)
+
+        plt.figure(figsize=self.figsize)
+        plt.grid(alpha=.5, ls='--')
+        plt.axhline(0, color='k', ls=':')
+
+        # plot all individual sweeps
+        for sweep in abf.sweepList:
+            abf.setSweep(sweep)
+            plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
+
+        # calculate and plot the average of all sweeps        
+        sweepAvg = pyabf.calc.averageSweep(abf)
+        plt.plot(abf.sweepX, sweepAvg, color='C1', lw=2)
+
+        # decorate the plot and zoom in on the interesting area
+        plt.title(f"Average of {abf.sweepCount} sweeps")
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
+        plt.axis([1.10, 1.25, -110, 20])
+
+        self.saveAndClose()
+
 
 def cleanDocstrings(s):
     s = s.strip()

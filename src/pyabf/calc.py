@@ -12,13 +12,27 @@ def sweepNumbersByTime(abf, timeSec1, timeSec2):
     return [1, 2, 3]
 
 
-def averageSweep(abf, sweepNumbers=None, baselineTimeSec1=False, baselineTimeSec2=False, stdErr=True):
+def averageSweep(abf, sweepNumbers=None, baselineTimeSec1=False, baselineTimeSec2=False, calculateError=False, stdErr=True):
     """
     Returns the average of the given sweeps. 
     This returns a whole sweep, not just a single number.
+    If you want baseline subtraction, call abf.baseline() before this.
+    If calculateError is true, the returned data is [sweepAvg, sweepErr].
     """
-    raise NotImplementedError
-    return abf.dataY
+    if sweepNumbers is None:
+        sweepNumbers = abf.sweepList
+    sweepAvg = np.empty((len(sweepNumbers),len(abf.sweepY)))
+    for sweep in sweepNumbers:
+        abf.setSweep(sweep)
+        sweepAvg[sweep] = abf.sweepY
+    sweepAvg = np.average(sweepAvg, 0)
+    if calculateError:
+        sweepErr = np.std(sweepAvg, 0)
+        if stdErr:
+            sweepErr = sweepErr / np.sqrt(len(sweepNumbers))
+        return [sweepAvg, sweepErr]
+    else:
+        return sweepAvg
 
 
 def averageValue(abf, timeSec1, timeSec2, sweepNumbers=None, channel=0, calcError=False, stdErr=True):
