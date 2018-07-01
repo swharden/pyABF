@@ -97,10 +97,10 @@ class Uses:
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
 
         plt.figure(figsize=self.figsize)
-        for sweepNumber in range(abf.sweepCount)[::5]:
+        for sweepNumber in [0,5,10,15]:
             abf.setSweep(sweepNumber)
             plt.plot(abf.sweepX, abf.sweepY, alpha=.5,
-                     label=f"sweep {sweepNumber+1}")
+                     label=f"sweep {sweepNumber}")
 
         plt.margins(0, .1)
         plt.legend()
