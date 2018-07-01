@@ -320,7 +320,8 @@ import pyabf
 abf = pyabf.ABF("17o05026_vc_stim.abf")
 pyabf.plot.sweeps(abf, title=False, offsetXsec=.05,
                   offsetYunits=15, startAtSec=3, endAtSec=3.5)
-pyabf.plot.scalebar(abf, hideFrame=False)
+pyabf.plot.scalebar(abf, hideFrame=True)
+plt.gca().patch.set_alpha(0)
 plt.tight_layout()
 plt.show()
 ```
