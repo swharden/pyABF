@@ -446,6 +446,9 @@ class ABFcore:
             position += pointCount
 
     def _calculateDACvaluesByEpoch(self, epochNumber=0):
+        if self.abfFileFormat != 2:
+            self.epochValues = [[]]
+            return
         epochList = range(len(self._epochPerDacSection.nEpochType))
         self.epochValues = np.empty((self.sweepCount, len(epochList)))
         for epoch in epochList:
