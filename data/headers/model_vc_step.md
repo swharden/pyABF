@@ -27,6 +27,7 @@
 * dacUnits = `['mV']`
 * data = `[[-140.13670349 -140.2587738  -140.2587738  ..., -139.2822113  -140.99119568   -141.60154724]]`
 * dataByteStart = `6656`
+* dataPointByteSize = `2`
 * dataPointCount = `200000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`

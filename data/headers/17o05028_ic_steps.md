@@ -27,6 +27,7 @@
 * dacUnits = `['pA']`
 * data = `[[-47.08862305 -47.1496582  -47.11914062 ..., -62.37792969 -62.40844727   -62.37792969]]`
 * dataByteStart = `6656`
+* dataPointByteSize = `2`
 * dataPointCount = `960000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
