@@ -183,14 +183,13 @@ def go():
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
     md += "of ABF file, email it to me and I will include it here. Note that this page "
-    md += "is generated automatically by [generate-data-index](generate-data-index).\n\n"
+    md += "is generated automatically by [generate-data-index.py](generate-data-index.py).\n\n"
 
-    md += "ABF (version) | channels | sweeps | protocol | thumbnail\n"
-    md += "---|---|---|---|---\n"
+    md += "ABF Information | Header Map | Thumbnails\n"
+    md += "---|---|---\n"
 
     # clear everything that used to be in the headers folder
     for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        #print("deleting", fname, "...")
         os.remove(fname)
 
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
@@ -204,14 +203,17 @@ def go():
         plotHeader(abf)
 
         # update main readme
-        md += "[%s.abf](headers/%s.md) (%s)|" % (abf.abfID,
-                                                 abf.abfID, abf.abfVersion)
-        md += "%s (%s)|" % (abf.channelCount, ", ".join(abf.adcUnits))
-        md += "%s|" % (abf.sweepCount)
-        md += "%s|" % (abf.protocol)
+        md += f"**{abf.abfID}.abf**<br />"
+        md += f"ABF Version: {abf.abfVersion}<br />"
+        md += "Channels: %d (%s)<br />"%(abf.channelCount, ", ".join(abf.adcUnits))
+        md += f"Sweeps: {abf.sweepCount}<br />"
+        md += f"Protocol: _{abf.protocol}_"
+        md += " | "
+        md += "![headers/%s_map.png](headers/%s_map.png)<br />" % (abf.abfID, abf.abfID)
+        md += "[view entire header](headers/%s.md)"%(abf.abfID)
+        md += " | "
         md += "![headers/%s.png](headers/%s.png)" % (abf.abfID, abf.abfID)
-        md += "![headers/%s_map.png](headers/%s_map.png)\n" % (
-            abf.abfID, abf.abfID)
+        md += "\n"
 
     # write main readme
     with open(PATH_HERE+"/../data/readme.md", 'w') as f:
