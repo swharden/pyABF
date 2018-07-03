@@ -172,7 +172,7 @@ class ABFcore:
             # use file creation time stored in ABF header
             startDate = str(self._headerV2.uFileStartDate)
             startTime = round(self._headerV2.uFileStartTimeMS/1000)
-            startDate = datetime.datetime.strptime(startDate, "%Y%M%d")
+            startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
             startTime = datetime.timedelta(seconds=startTime)
             self.abfDateTime = startDate+startTime
         else:
