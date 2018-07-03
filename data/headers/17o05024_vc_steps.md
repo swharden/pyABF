@@ -11,10 +11,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2017-01-05 14:49:53`
+* abfDateTime = `2017-10-05 14:39:53`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
 * abfID = `17o05024_vc_steps`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`

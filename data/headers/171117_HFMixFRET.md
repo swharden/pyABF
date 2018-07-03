@@ -11,10 +11,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2017-01-17 13:05:27`
+* abfDateTime = `2017-11-17 12:54:27`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`

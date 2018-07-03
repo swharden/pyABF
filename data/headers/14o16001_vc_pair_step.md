@@ -11,10 +11,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2014-01-16 10:11:35`
+* abfDateTime = `2014-10-16 10:01:35`
 * abfFileComment = `SWH[MTIV]`
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
 * abfID = `14o16001_vc_pair_step`
 * abfVersion = `2.0.0.0`
 * adcNames = `['IN 0', 'IN 1']`
