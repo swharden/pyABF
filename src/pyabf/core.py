@@ -463,6 +463,8 @@ class ABFcore:
         Epoch information is stored in EpochPerDACSection.
         """
 
+        #TODO: FULLY RECODE ALL EPOCH HANDLING CODE! This is crummy and hacky.
+
         # known epoch types
         epoch_disabled = 0
         epoch_step = 1
@@ -479,6 +481,14 @@ class ABFcore:
         # it's just holding through 1/64th of the sweep length (why?!?)
         position = int(self.sweepPointCount/64)
 
+        # prepare variables useful later
+
+        # epochs are sequentially listed per channel
+        # NOTE: this fixes some ABFs but breaks others. A full re-code is needed.
+        #epochCount = len(self._epochPerDacSection.nEpochType)
+        #epochCountPerChannel = epochCount / self.channelCount
+        #epicsForThisChannel = np.arange(epochCountPerChannel) + epochCountPerChannel*channel
+        
         # update the waveform for each epoch
         for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
             pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
@@ -488,8 +498,6 @@ class ABFcore:
             thisCommand = self._epochPerDacSection.fEpochInitLevel[epochNumber]
             afterDelta = thisCommand+deltaCommand
             position2 = position + pointCount
-
-            # TODO: make updating sweepC optional
 
             # if nInterEpisodeLevel start from the last command
             if self._dacSection.nInterEpisodeLevel[channel]:
@@ -510,11 +518,14 @@ class ABFcore:
                 rampDiff = rampEnd-rampStart
                 ramp *= rampDiff
                 ramp += rampStart
-                sweepC[position:position2] = ramp
+                try:
+                    sweepC[position:position2] = ramp
+                except:
+                    warnings.warn("multi-channel stimulus waveforms are buggy!")
 
-            else:
-                warnings.warn(
-                    "treating unknown epoch type %d like a step" % epochType)
+            else:                
+                msg = f"treating unknown epoch type {epochType} like a step"
+                warnings.warn(msg)
                 sweepC[position:position2] = afterDelta
             position += pointCount
 
