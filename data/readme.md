@@ -5,7 +5,7 @@ This is a small collection of various ABFs I practice developing with. Many of t
 ABF (version) | channels | sweeps | protocol | thumbnail
 ---|---|---|---|---
 [05210017_vc_abf1.abf](headers/05210017_vc_abf1.md) (1.8.3.0)|2 (pA, pA)|6|Apply ACh with imaging (VC) 2 (no movies)|![headers/05210017_vc_abf1.png](headers/05210017_vc_abf1.png)![headers/05210017_vc_abf1_map.png](headers/05210017_vc_abf1_map.png)
-[130618 1-12.abf](headers/130618 1-12.md) (1.3.0.0)|1 (pA)|3|{|![headers/130618 1-12.png](headers/130618 1-12.png)![headers/130618 1-12_map.png](headers/130618 1-12_map.png)
+[130618-1-12.abf](headers/130618-1-12.md) (1.3.0.0)|1 (pA)|3|{|![headers/130618-1-12.png](headers/130618-1-12.png)![headers/130618-1-12_map.png](headers/130618-1-12_map.png)
 [14o08011_ic_pair.abf](headers/14o08011_ic_pair.md) (2.0.0.0)|2 (mV, mV)|3|pair-loose-60|![headers/14o08011_ic_pair.png](headers/14o08011_ic_pair.png)![headers/14o08011_ic_pair_map.png](headers/14o08011_ic_pair_map.png)
 [14o16001_vc_pair_step.abf](headers/14o16001_vc_pair_step.md) (2.0.0.0)|2 (pA, pA)|13|pair-MTIV|![headers/14o16001_vc_pair_step.png](headers/14o16001_vc_pair_step.png)![headers/14o16001_vc_pair_step_map.png](headers/14o16001_vc_pair_step_map.png)
 [16d05007_vc_tags.abf](headers/16d05007_vc_tags.md) (2.0.0.0)|1 (pA)|187|0402 VC 2s MT-50|![headers/16d05007_vc_tags.png](headers/16d05007_vc_tags.png)![headers/16d05007_vc_tags_map.png](headers/16d05007_vc_tags_map.png)
