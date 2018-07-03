@@ -5,6 +5,7 @@ This is a small collection of various ABFs I practice developing with. Many of t
 ABF (version) | channels | sweeps | protocol | thumbnail
 ---|---|---|---|---
 [05210017_vc_abf1.abf](headers/05210017_vc_abf1.md) (1.8.3.0)|2 (pA, pA)|6|Apply ACh with imaging (VC) 2 (no movies)|![headers/05210017_vc_abf1.png](headers/05210017_vc_abf1.png)![headers/05210017_vc_abf1_map.png](headers/05210017_vc_abf1_map.png)
+[130618 1-12.abf](headers/130618 1-12.md) (1.3.0.0)|1 (pA)|3|{|![headers/130618 1-12.png](headers/130618 1-12.png)![headers/130618 1-12_map.png](headers/130618 1-12_map.png)
 [14o08011_ic_pair.abf](headers/14o08011_ic_pair.md) (2.0.0.0)|2 (mV, mV)|3|pair-loose-60|![headers/14o08011_ic_pair.png](headers/14o08011_ic_pair.png)![headers/14o08011_ic_pair_map.png](headers/14o08011_ic_pair_map.png)
 [14o16001_vc_pair_step.abf](headers/14o16001_vc_pair_step.md) (2.0.0.0)|2 (pA, pA)|13|pair-MTIV|![headers/14o16001_vc_pair_step.png](headers/14o16001_vc_pair_step.png)![headers/14o16001_vc_pair_step_map.png](headers/14o16001_vc_pair_step_map.png)
 [16d05007_vc_tags.abf](headers/16d05007_vc_tags.md) (2.0.0.0)|1 (pA)|187|0402 VC 2s MT-50|![headers/16d05007_vc_tags.png](headers/16d05007_vc_tags.png)![headers/16d05007_vc_tags_map.png](headers/16d05007_vc_tags_map.png)
@@ -25,6 +26,12 @@ ABF (version) | channels | sweeps | protocol | thumbnail
 [17o05027_ic_ramp.abf](headers/17o05027_ic_ramp.md) (2.6.0.0)|1 (mV)|2|0111 continuous ramp|![headers/17o05027_ic_ramp.png](headers/17o05027_ic_ramp.png)![headers/17o05027_ic_ramp_map.png](headers/17o05027_ic_ramp_map.png)
 [17o05028_ic_steps.abf](headers/17o05028_ic_steps.md) (2.6.0.0)|1 (mV)|16|0112 steps dual -50 to 150 step 10|![headers/17o05028_ic_steps.png](headers/17o05028_ic_steps.png)![headers/17o05028_ic_steps_map.png](headers/17o05028_ic_steps_map.png)
 [180415_aaron_temp.abf](headers/180415_aaron_temp.md) (2.3.0.0)|2 (V, deg C)|1|PacemakerTempTest|![headers/180415_aaron_temp.png](headers/180415_aaron_temp.png)![headers/180415_aaron_temp_map.png](headers/180415_aaron_temp_map.png)
+[18702001-biphasicTrain.abf](headers/18702001-biphasicTrain.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-biphasicTrain.png](headers/18702001-biphasicTrain.png)![headers/18702001-biphasicTrain_map.png](headers/18702001-biphasicTrain_map.png)
+[18702001-cosTrain.abf](headers/18702001-cosTrain.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-cosTrain.png](headers/18702001-cosTrain.png)![headers/18702001-cosTrain_map.png](headers/18702001-cosTrain_map.png)
+[18702001-pulseTrain.abf](headers/18702001-pulseTrain.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-pulseTrain.png](headers/18702001-pulseTrain.png)![headers/18702001-pulseTrain_map.png](headers/18702001-pulseTrain_map.png)
+[18702001-ramp.abf](headers/18702001-ramp.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-ramp.png](headers/18702001-ramp.png)![headers/18702001-ramp_map.png](headers/18702001-ramp_map.png)
+[18702001-step.abf](headers/18702001-step.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-step.png](headers/18702001-step.png)![headers/18702001-step_map.png](headers/18702001-step_map.png)
+[18702001-triangleTrain.abf](headers/18702001-triangleTrain.md) (2.6.0.0)|2 (pA, A)|3|0201 memtest|![headers/18702001-triangleTrain.png](headers/18702001-triangleTrain.png)![headers/18702001-triangleTrain_map.png](headers/18702001-triangleTrain_map.png)
 [2018_04_13_0016a_original.abf](headers/2018_04_13_0016a_original.md) (2.0.0.0)|2 (pA, pA)|52|ONRec_Hv1|![headers/2018_04_13_0016a_original.png](headers/2018_04_13_0016a_original.png)![headers/2018_04_13_0016a_original_map.png](headers/2018_04_13_0016a_original_map.png)
 [2018_04_13_0016b_modified.abf](headers/2018_04_13_0016b_modified.md) (2.6.0.0)|2 (pA, pA)|48|ONRec_Hv1|![headers/2018_04_13_0016b_modified.png](headers/2018_04_13_0016b_modified.png)![headers/2018_04_13_0016b_modified_map.png](headers/2018_04_13_0016b_modified_map.png)
 [model_vc_ramp.abf](headers/model_vc_ramp.md) (2.6.0.0)|1 (pA)|50|0204 Cm ramp|![headers/model_vc_ramp.png](headers/model_vc_ramp.png)![headers/model_vc_ramp_map.png](headers/model_vc_ramp_map.png)
