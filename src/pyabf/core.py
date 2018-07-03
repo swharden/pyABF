@@ -280,7 +280,10 @@ class ABFcore:
         if self.abfFileFormat == 1:
             self.protocolPath = self._headerV1.sProtocolPath
             self.protocol = os.path.basename(self.protocolPath)
-            self.protocol = os.path.splitext(self.protocol)[0]
+            if self.protocolPath.endswith(".pro"):
+                self.protocol = os.path.splitext(self.protocol)[0]
+            else:
+                self.protocol = ""
         elif self.abfFileFormat == 2:
             self.protocolPath = self._stringsIndexed.uProtocolPath
             self.protocol = os.path.basename(self.protocolPath)
