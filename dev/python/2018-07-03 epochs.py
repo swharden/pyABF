@@ -1,24 +1,50 @@
-# import the pyabf module from this development folder
-import os
-import sys
-PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_SRC = os.path.abspath(PATH_HERE+"/../../src/")
-PATH_DATA = os.path.abspath(PATH_HERE+"/../../data/abfs/")
-sys.path.insert(0, PATH_SRC)  # for importing
-sys.path.append("../../src/")  # for your IDE
-import pyabf
-import glob
+"""
+How do we really want to interact with epochs, generate stimulus waveforms,
+and keep track of digital outputs?
 
-import matplotlib.pyplot as plt
-import numpy as np
-import warnings
+HIGH LEVEL - how to request a waveform
+
+    abf.setSweep(5,channel=1)
+    print(abf.sweepY)
+    print(abf.sweepC)
+    print(abf.epochs) # sweep-agnostic epochs for all channels
+    print(abf.epochs[1]) # sweep-agnostic epochs for this channel
+    print(abf.sweepEpochs) # epochs for this sweep and channel
+
+    # this means epochs must be a list of epoch objects
+
+HIGH LEVEL - how to request epoch bound points
+    abf.e
+
+MID LEVEL - what does sweepC() do?
 
 
-# class Epoch:
-#     def __init__(self):
-#         self.type = 1
-#         self.level = -70
-#         self.levelDelta = 5
+
+
+"""
+from imports import *
+
+class Epoch:
+    def __init__(self):
+        """
+        This class holds properties related to a single epoch.
+        """
+        self.type = 0
+        self.level = 0
+        self.levelDelta = 0
+        self.duration = 0
+        self.durationDelta = 0
+        self.trainPeriod = 0
+        self.pulseWidth = 0
+        self.digitalOut = 0
+        self.pointFirst = 0
+        self.pointLast = 0
+
+    def stimulusWaveform(self, sweep):
+        """
+        Create the stimulus waveform for a given sweep.
+        """
+        return []
 
 
 class Epochs:

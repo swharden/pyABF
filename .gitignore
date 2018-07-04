@@ -106,3 +106,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+dev/python/dontsync.png
