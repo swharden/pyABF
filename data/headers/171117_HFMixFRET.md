@@ -59,6 +59,70 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 
+## Epochs for Channel 0
+
+
+```
+                Ch0 EPOCH    pre      A      B      C   post
+                     Type   Step   Step   Step   Step   Step
+         First Level (mV)   -100   -100   -100   -100   -100
+         Delta Level (mV)      0      0     20      0      0
+ First Duration (samples)    967  20000  20000  20000      0
+ Delta Duration (samples)      0      0      0      0      0
+   Train Period (samples)      0      0      0      0      0
+    Pulse Width (samples)      0      0      0      0      0
+    Epoch Start (samples)      0    967  20967  40967  60967
+      Epoch End (samples)    967  20967  40967  60967  62900
+```
+
+## Epochs for Channel 1
+
+
+```
+                Ch1 EPOCH    pre   post
+                     Type   Step   Step
+         First Level (mV)      0      0
+         Delta Level (mV)      0      0
+ First Duration (samples)    967      0
+ Delta Duration (samples)      0      0
+   Train Period (samples)      0      0
+    Pulse Width (samples)      0      0
+    Epoch Start (samples)      0    967
+      Epoch End (samples)    967  62900
+```
+
+## Epochs for Channel 2
+
+
+```
+                Ch2 EPOCH    pre   post
+                     Type   Step   Step
+       First Level (AO #)      0      0
+       Delta Level (AO #)      0      0
+ First Duration (samples)    967      0
+ Delta Duration (samples)      0      0
+   Train Period (samples)      0      0
+    Pulse Width (samples)      0      0
+    Epoch Start (samples)      0    967
+      Epoch End (samples)    967  62900
+```
+
+## Epochs for Channel 3
+
+
+```
+                Ch3 EPOCH    pre   post
+                     Type   Step   Step
+    First Level (6     A)      0      0
+    Delta Level (6     A)      0      0
+ First Duration (samples)    967      0
+ Delta Duration (samples)      0      0
+   Train Period (samples)      0      0
+    Pulse Width (samples)      0      0
+    Epoch Start (samples)      0    967
+      Epoch End (samples)    967  62900
+```
+
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 

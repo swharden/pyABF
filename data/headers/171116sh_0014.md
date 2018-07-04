@@ -59,6 +59,22 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 
+## Epochs for Channel 0
+
+
+```
+                Ch0 EPOCH    pre      A      B   post
+                     Type   Step   Ramp   Ramp   Step
+         First Level (mV)    -70    -80    -70    -70
+         Delta Level (mV)      0      0      0      0
+ First Duration (samples)     37   1000   1000      0
+ Delta Duration (samples)      0      0      0      0
+   Train Period (samples)      0      0      0      0
+    Pulse Width (samples)      0      0      0      0
+    Epoch Start (samples)      0     37   1037   2037
+      Epoch End (samples)     37   1037   2037   2436
+```
+
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
