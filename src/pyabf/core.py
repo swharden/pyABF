@@ -24,6 +24,7 @@ from pyabf.structures import TagSection
 from pyabf.structures import StringsSection
 from pyabf.structures import StringsIndexed
 from pyabf.structures import BLOCKSIZE
+from pyabf.epochs import Epochs
 import pyabf.text
 
 
@@ -86,6 +87,7 @@ class ABFcore:
         if preLoadData:
             self._loadAndScaleData()
         self._fileClose()
+        self._processEpochs()
 
     def _fileOpen(self):
         """Open the ABF file in rb mode."""
@@ -583,3 +585,8 @@ class ABFcore:
             sweepD[self.epochPoints[epoch]:
                    self.epochPoints[epoch+1]] = states[epoch]
         return sweepD
+
+    def _processEpochs(self):
+        self.epochsByChannel=[]
+        for channel in self.channelList:
+            self.epochsByChannel.append(Epochs(self, channel))

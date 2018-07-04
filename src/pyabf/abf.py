@@ -156,10 +156,14 @@ class ABF(ABFcore):
 
 # developer sandbox
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+    warnings.warn("DO NOT RUN THIS FILE DIRECTLY!!!!")
 
-    for fname in sorted(glob.glob("../data/*.abf")):
+    PATH_HERE = os.path.dirname(__file__)
+    PATH_DATA = os.path.abspath(PATH_HERE + "/../../data/abfs/")
+    for fname in sorted(glob.glob(PATH_DATA+"/*.*")):
         abf = ABF(fname)
-        print(abf.abfID, abf._commandContainsDeltas())
+        for channel in abf.channelList:
+            epochs = abf.epochsByChannel[channel]
+            print(f"{abf.abfID} Ch{channel} {epochs}")
 
     print("DONE")
