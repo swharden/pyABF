@@ -18,6 +18,9 @@ def populateEpochInfo(abf, sweep=0, channel=0):
     """
     Provide easy-to-use lists of command values, types, and times.
     """
+
+    warnings.warn("DONT USE THIS")
+    
     # TODO: support more epoch types
 
     # TODO: create epochs for ABF1 files
@@ -84,17 +87,7 @@ def populateEpochInfo(abf, sweep=0, channel=0):
 if __name__ == "__main__":
     # abf = pyabf.ABF(PATH_DATA+"/171116sh_0013.abf")  # ramp
     # abf = pyabf.ABF(PATH_DATA+"/2018_04_13_0016b_modified.abf") # delta t
-    abf = pyabf.ABF(PATH_DATA+"/14o16001_vc_pair_step.abf")  # delta c
-
-    fig, axs = plt.subplots(2, 1, sharex='all')
-
-    for sweep in abf.sweepList:
-        abf.setSweep(sweep, 0)
-        epochPoints, epochValues = populateEpochInfo(abf, sweep)
-
-        axs[0].plot(abf.sweepX, abf.sweepY, color='b', lw=.5, alpha=.5)
-        axs[1].step(abf.sweepX[epochPoints], epochValues, color='r')
-
-    plt.show()
+    # abf = pyabf.ABF(PATH_DATA+"/14o16001_vc_pair_step.abf")  # delta c
+    abf = pyabf.ABF(PATH_DATA+"/18702001-step.abf")  # complex step
 
     print("DONE")
