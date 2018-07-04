@@ -14,7 +14,7 @@
 * abfDateTime = `2017-11-17 12:54:27`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[[1 1 1]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]]`
 * epochPoints = `[967, 20967, 40967, 60967]`
 * epochValues = `[[-100. -100. -100.]  [-100.  -80. -100.]  [-100.  -60. -100.]  [-100.  -40. -100.]  [-100.  -20. -100.]  [-100.    0. -100.]  [-100.   20. -100.]  [-100.   40. -100.]  [-100.   60. -100.]  [-100.   80. -100.]  [-100.  100. -100.]  [-100.  120. -100.]  [-100.  140. -100.]]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`

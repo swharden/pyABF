@@ -14,7 +14,7 @@
 * abfDateTime = `2017-10-05 14:42:47`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
 * abfID = `17o05028_ic_steps`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[[0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]]`
 * epochPoints = `[937, 2937, 12937, 22937, 32937, 42937]`
 * epochValues = `[[   0.  -50.    0.  -50.  -50.]  [   0.  -40.    0.  -50.  -40.]  [   0.  -30.    0.  -50.  -30.]  [   0.  -20.    0.  -50.  -20.]  [   0.  -10.    0.  -50.  -10.]  [   0.    0.    0.  -50.    0.]  [   0.   10.    0.  -50.   10.]  [   0.   20.    0.  -50.   20.]  [   0.   30.    0.  -50.   30.]  [   0.   40.    0.  -50.   40.]  [   0.   50.    0.  -50.   50.]  [   0.   60.    0.  -50.   60.]  [   0.   70.    0.  -50.   70.]  [   0.   80.    0.  -50.   80.]  [   0.   90.    0.  -50.   90.]  [   0.  100.    0.  -50.  100.]]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`

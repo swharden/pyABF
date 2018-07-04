@@ -14,7 +14,7 @@
 * abfDateTime = `2017-11-27 08:17:49`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\model_vc_step.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_step.abf`
 * abfID = `model_vc_step`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[[0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]  [0]]`
 * epochPoints = `[156, 4156]`
 * epochValues = `[[-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]  [-80.]]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`

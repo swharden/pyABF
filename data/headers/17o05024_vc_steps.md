@@ -14,7 +14,7 @@
 * abfDateTime = `2017-10-05 14:39:53`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
 * abfID = `17o05024_vc_steps`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[[0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]  [0 0 0 0 0 0]]`
 * epochPoints = `[1093, 11093, 21093, 31093, 41093, 51093, 61093]`
 * epochValues = `[[ -70. -110.  -70.  -50. -110.  -50.]  [ -70. -100.  -70.  -50. -100.  -50.]  [ -70.  -90.  -70.  -50.  -90.  -50.]  [ -70.  -80.  -70.  -50.  -80.  -50.]  [ -70.  -70.  -70.  -50.  -70.  -50.]  [ -70.  -60.  -70.  -50.  -60.  -50.]  [ -70.  -50.  -70.  -50.  -50.  -50.]]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`

@@ -14,7 +14,7 @@
 * abfDateTime = `2017-11-27 08:18:00`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
 * abfID = `model_vc_ramp`
 * abfVersion = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[[0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]]`
 * epochPoints = `[37, 1037, 2037]`
 * epochValues = `[[-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`

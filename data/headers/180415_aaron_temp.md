@@ -14,7 +14,7 @@
 * abfDateTime = `2018-03-13 14:45:56`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
 * abfVersion = `2.3.0.0`
 * adcNames = `['IN 0', 'IN 1']`
@@ -34,6 +34,7 @@
 * digitalWaveformEpochs = `[]`
 * epochPoints = `[1562]`
 * epochValues = `[]`
+* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
