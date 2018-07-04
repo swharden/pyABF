@@ -15,19 +15,6 @@ if __name__ == "__main__":
 
 from pyabf.core import ABFcore
 
-
-class Sweep:
-    def __init__(self):
-        self.x = None
-        self.y = None
-        self.c = None
-        self.number = None
-        self.channel = None
-        self.units = None
-        self.unitsX = "seconds"
-        self.unitsClamp = None
-
-
 class ABF(ABFcore):
     def __init__(self, abf, preLoadData=True):
 
