@@ -399,6 +399,12 @@ class ABFcore:
             else:
                 print("Unsure how to generate info for:",
                       thingName, type(thing))
+        
+        for channel in self.channelList:
+            page.addSection("Epochs for Channel %d"%channel)
+            text = self.epochsByChannel[channel].text
+            page.addThing("~CODE~", text)
+
 
         # add all ABF header information (different in ABF1 vs ABF2)
 
