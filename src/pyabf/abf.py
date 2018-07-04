@@ -15,6 +15,7 @@ if __name__ == "__main__":
 
 from pyabf.core import ABFcore
 
+
 class ABF(ABFcore):
     def __init__(self, abf, preLoadData=True):
 
@@ -59,6 +60,17 @@ class ABF(ABFcore):
             absoluteTime: if False, sweepX always starts at 0.
             baselineTimes: times (in seconds) to baseline subtract to
         """
+
+        # basic error checking
+        if not sweepNumber in self.sweepList:
+            msg = "Sweep %d not available (must be 0 - %d)" % (
+                sweepNumber, self.sweepCount-1)
+            raise ValueError(msg)
+        if not channel in self.channelList:
+            msg = "Channel %d not available (must be 0 - %d)" % (
+                channel, self.channelCount-1)
+            raise ValueError(msg)
+            
 
         if not "data" in (dir(self)):
             print("ABF data not preloaded. Loading now...")
@@ -124,7 +136,7 @@ class ABF(ABFcore):
                 self.sweepY[int(self.baselinePoints[0]):int(self.baselinePoints[1])])
             self.sweepY = self.sweepY-baseline
             self.sweepLabelY = "Δ " + self.sweepLabelY
-            
+
     @property
     def sweepC(self):
         """
