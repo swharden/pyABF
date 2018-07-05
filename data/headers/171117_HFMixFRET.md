@@ -63,64 +63,56 @@
 
 
 ```
-                Ch0 EPOCH    pre      A      B      C   post
-                     Type   Step   Step   Step   Step   Step
-         First Level (mV)   -100   -100   -100   -100   -100
-         Delta Level (mV)      0      0     20      0      0
- First Duration (samples)    967  20000  20000  20000      0
- Delta Duration (samples)      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0
-    Epoch Start (samples)      0    967  20967  40967  60967
-      Epoch End (samples)    967  20967  40967  60967  62900
+                Ch0 EPOCH      A      B      C
+                     Type   Step   Step   Step
+         First Level (mV)   -100   -100   -100
+         Delta Level (mV)      0     20      0
+ First Duration (samples)  20000  20000  20000
+ Delta Duration (samples)      0      0      0
+   Train Period (samples)      0      0      0
+    Pulse Width (samples)      0      0      0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-                Ch1 EPOCH    pre   post
-                     Type   Step   Step
-         First Level (mV)      0      0
-         Delta Level (mV)      0      0
- First Duration (samples)    967      0
- Delta Duration (samples)      0      0
-   Train Period (samples)      0      0
-    Pulse Width (samples)      0      0
-    Epoch Start (samples)      0    967
-      Epoch End (samples)    967  62900
+                Ch1 EPOCH
+                     Type
+         First Level (mV)
+         Delta Level (mV)
+ First Duration (samples)
+ Delta Duration (samples)
+   Train Period (samples)
+    Pulse Width (samples)
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-                Ch2 EPOCH    pre   post
-                     Type   Step   Step
-       First Level (AO #)      0      0
-       Delta Level (AO #)      0      0
- First Duration (samples)    967      0
- Delta Duration (samples)      0      0
-   Train Period (samples)      0      0
-    Pulse Width (samples)      0      0
-    Epoch Start (samples)      0    967
-      Epoch End (samples)    967  62900
+                Ch2 EPOCH
+                     Type
+       First Level (AO #)
+       Delta Level (AO #)
+ First Duration (samples)
+ Delta Duration (samples)
+   Train Period (samples)
+    Pulse Width (samples)
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-                Ch3 EPOCH    pre   post
-                     Type   Step   Step
-    First Level (6     A)      0      0
-    Delta Level (6     A)      0      0
- First Duration (samples)    967      0
- Delta Duration (samples)      0      0
-   Train Period (samples)      0      0
-    Pulse Width (samples)      0      0
-    Epoch Start (samples)      0    967
-      Epoch End (samples)    967  62900
+                Ch3 EPOCH
+                     Type
+    First Level (6     A)
+    Delta Level (6     A)
+ First Duration (samples)
+ Delta Duration (samples)
+   Train Period (samples)
+    Pulse Width (samples)
 ```
 
 ## ABF2 Header

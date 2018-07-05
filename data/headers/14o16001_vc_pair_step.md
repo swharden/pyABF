@@ -63,32 +63,28 @@
 
 
 ```
-                Ch0 EPOCH    pre      A      B      C      D      E      F      G      H   post
-                     Type   Step   Step   Step   Step   Step   Step   Step   Step   Step   Step
-         First Level (mV)    -70    -70    -80    -70   -110    -70    -50   -110    -50    -50
-         Delta Level (mV)      0      0      0      0      5      0      0      5      0      0
- First Duration (samples)    625   2000   2000   5000   5000   5000   5000   5000   5000      0
- Delta Duration (samples)      0      0      0      0      0      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0      0      0      0      0      0
-    Epoch Start (samples)      0    625   2625   4625   9625  14625  19625  24625  29625  34625
-      Epoch End (samples)    625   2625   4625   9625  14625  19625  24625  29625  34625  40624
+                Ch0 EPOCH      A      B      C      D      E      F      G      H
+                     Type   Step   Step   Step   Step   Step   Step   Step   Step
+         First Level (mV)    -70    -80    -70   -110    -70    -50   -110    -50
+         Delta Level (mV)      0      0      0      5      0      0      5      0
+ First Duration (samples)   2000   2000   5000   5000   5000   5000   5000   5000
+ Delta Duration (samples)      0      0      0      0      0      0      0      0
+   Train Period (samples)      0      0      0      0      0      0      0      0
+    Pulse Width (samples)      0      0      0      0      0      0      0      0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-                Ch1 EPOCH    pre      A      B      C      D      E      F      G      H   post
-                     Type   Step   Step   Step   Step   Step   Step   Step   Step   Step   Step
-         First Level (mV)    -70    -70    -80    -70   -110    -70    -50   -110    -50    -50
-         Delta Level (mV)      0      0      0      0      5      0      0      5      0      0
- First Duration (samples)    625   2000   2000   5000   5000   5000   5000   5000   5000      0
- Delta Duration (samples)      0      0      0      0      0      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0      0      0      0      0      0
-    Epoch Start (samples)      0    625   2625   4625   9625  14625  19625  24625  29625  34625
-      Epoch End (samples)    625   2625   4625   9625  14625  19625  24625  29625  34625  40624
+                Ch1 EPOCH      A      B      C      D      E      F      G      H
+                     Type   Step   Step   Step   Step   Step   Step   Step   Step
+         First Level (mV)    -70    -80    -70   -110    -70    -50   -110    -50
+         Delta Level (mV)      0      0      0      5      0      0      5      0
+ First Duration (samples)   2000   2000   5000   5000   5000   5000   5000   5000
+ Delta Duration (samples)      0      0      0      0      0      0      0      0
+   Train Period (samples)      0      0      0      0      0      0      0      0
+    Pulse Width (samples)      0      0      0      0      0      0      0      0
 ```
 
 ## ABF2 Header

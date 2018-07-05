@@ -63,32 +63,28 @@
 
 
 ```
-                Ch0 EPOCH    pre   post
-                     Type   Step   Step
-          First Level (V)      0      0
-          Delta Level (V)      0      0
- First Duration (samples)   1562      0
- Delta Duration (samples)      0      0
-   Train Period (samples)      0      0
-    Pulse Width (samples)      0      0
-    Epoch Start (samples)      0   1562
-      Epoch End (samples)   1562 101561
+                Ch0 EPOCH
+                     Type
+          First Level (V)
+          Delta Level (V)
+ First Duration (samples)
+ Delta Duration (samples)
+   Train Period (samples)
+    Pulse Width (samples)
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-                Ch1 EPOCH    pre   post
-                     Type   Step   Step
-         First Level (mV)      0      0
-         Delta Level (mV)      0      0
- First Duration (samples)   1562      0
- Delta Duration (samples)      0      0
-   Train Period (samples)      0      0
-    Pulse Width (samples)      0      0
-    Epoch Start (samples)      0   1562
-      Epoch End (samples)   1562 101561
+                Ch1 EPOCH
+                     Type
+         First Level (mV)
+         Delta Level (mV)
+ First Duration (samples)
+ Delta Duration (samples)
+   Train Period (samples)
+    Pulse Width (samples)
 ```
 
 ## ABF2 Header

@@ -39,7 +39,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
 * scaleFactors = `[0.12207030670197155, 0.00030517578125]`
-* sweepC = `[-70. -70. -70. ...,  25.  25.  25.]`
+* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `3`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -63,32 +63,28 @@
 
 
 ```
-                Ch0 EPOCH    pre      A      B      C      D   post
-                     Type   Step   Step   Step   Ramp   Ramp   Step
-         First Level (mV)    -70    -80    -70    -80    -70    -70
-         Delta Level (mV)      0      0      0      0      0      0
- First Duration (samples)    312   4000   4000   1000   1000      0
- Delta Duration (samples)      0      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0      0
-    Epoch Start (samples)      0    312   4312   8312   9312  10312
-      Epoch End (samples)    312   4312   8312   9312  10312  20311
+                Ch0 EPOCH      A      B      C      D
+                     Type   Step   Step   Ramp   Ramp
+         First Level (mV)    -80    -70    -80    -70
+         Delta Level (mV)      0      0      0      0
+ First Duration (samples)   4000   4000   1000   1000
+ Delta Duration (samples)      0      0      0      0
+   Train Period (samples)      0      0      0      0
+    Pulse Width (samples)      0      0      0      0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-                Ch1 EPOCH    pre      A      B      C   post
-                     Type   Step   Step   Step     3?   Step
-         First Level (mV)    -10    -20    -10     25     25
-         Delta Level (mV)      0      0      0     10      0
- First Duration (samples)    312   1000   4000  10000      0
- Delta Duration (samples)      0      0      0      0      0
-   Train Period (samples)      0      0      0   1000      0
-    Pulse Width (samples)      0      0      0    200      0
-    Epoch Start (samples)      0    312   1312   5312  15312
-      Epoch End (samples)    312   1312   5312  15312  20311
+                Ch1 EPOCH      A      B      C
+                     Type   Step   Step     3?
+         First Level (mV)    -20    -10     25
+         Delta Level (mV)      0      0     10
+ First Duration (samples)   1000   4000  10000
+ Delta Duration (samples)      0      0      0
+   Train Period (samples)      0      0   1000
+    Pulse Width (samples)      0      0    200
 ```
 
 ## ABF2 Header

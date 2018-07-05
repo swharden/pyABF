@@ -63,16 +63,14 @@
 
 
 ```
-                Ch0 EPOCH    pre      A      B   post
-                     Type   Step   Ramp   Ramp   Step
-         First Level (mV)    -70    -80    -70    -70
-         Delta Level (mV)      0      0      0      0
- First Duration (samples)     37   1000   1000      0
- Delta Duration (samples)      0      0      0      0
-   Train Period (samples)      0      0      0      0
-    Pulse Width (samples)      0      0      0      0
-    Epoch Start (samples)      0     37   1037   2037
-      Epoch End (samples)     37   1037   2037   2436
+                Ch0 EPOCH      A      B
+                     Type   Ramp   Ramp
+         First Level (mV)    -80    -70
+         Delta Level (mV)      0      0
+ First Duration (samples)   1000   1000
+ Delta Duration (samples)      0      0
+   Train Period (samples)      0      0
+    Pulse Width (samples)      0      0
 ```
 
 ## ABF2 Header
