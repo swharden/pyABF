@@ -4,6 +4,8 @@ analog and digital waveforms to represent command signals.
 """
 
 import warnings
+import numpy as np
+
 
 class Epochs:
     def __init__(self, abf, channel):
@@ -16,13 +18,13 @@ class Epochs:
 
         self._initEpochVars()
 
-        if abf.abfFileFormat==1:
+        if abf.abfFileFormat == 1:
             self._updateForABFv1()
-        elif abf.abfFileFormat==2:
+        elif abf.abfFileFormat == 2:
             self._addPreEpoch()
             self._fillEpochsFromABF()
             self._addPostEpoch()
-            
+
         self._createEpochLabels()
         self._updateEpochDetails()
 
@@ -59,7 +61,7 @@ class Epochs:
         Currently this makes it look like a single step epoch over the 
         entire sweep.
         """
-        #TODO: support this better
+        # TODO: support this better
         warnings.warn("ABFv1 epoch synthesis not fully supported")
         self.pointStart.append(0)
         self.pointEnd.append(self.abf.sweepPointCount)
@@ -122,8 +124,7 @@ class Epochs:
         else:
             # revert back to holding
             self.pointStart.append(self.pointEnd[-1])  # TODO: +1?
-            self.pointEnd.append(
-                self.abf.sweepPointCount - 1 + self._pointOffset)
+            self.pointEnd.append(self.abf.sweepPointCount + self._pointOffset)
             self.type.append(1)
             self.level.append(self.level[-1])
             self.levelDelta.append(0)
@@ -148,8 +149,7 @@ class Epochs:
         else:
             # if so, add a fake epoch (step) back to the holding values
             self.pointStart.append(self.pointEnd[-1])  # TODO: +1?
-            self.pointEnd.append(
-                self.abf.sweepPointCount - 1 + self._pointOffset)
+            self.pointEnd.append(self.abf.sweepPointCount + self._pointOffset)
             self.type.append(1)
             self.level.append(self.level[-1])
             self.levelDelta.append(0)
@@ -211,3 +211,52 @@ class Epochs:
         out += self._txtFmt("Epoch End (samples)", self.pointEnd)
         out += "\n"
         return out
+
+    def stimulusWaveform(self, sweepNumber=0):
+        """
+        Return a signal (the same size as a sweep) representing the command
+        waveform of the DAC for the given channel. Since command waveforms
+        can change sweep to sweep due to deltas, an optional sweep number can
+        be given as an argument.
+        """
+
+        # start by creating the command signal filled with the holding command
+        sweepC = np.full(self.abf.sweepPointCount,
+                         self.abf.holdingCommand[self.channel])
+
+        # then step through epoch by epoch filling it with its contents
+        for epochNumber in self.epochList:
+
+            # skip past disabled epochs
+            if self.type[epochNumber]==0:
+                continue
+
+            # determine the sweep-dependent level
+            sweepLevel = self.level[epochNumber]
+            sweepLevel += self.levelDelta[epochNumber]*sweepNumber
+
+            # simplify the bounds of the sweepC we intend to modify
+            i1 = self.pointStart[epochNumber]
+            i2 = self.pointEnd[epochNumber]
+
+            # TODO: figure out if sweep length is real or short by 1/64
+            if i2 > (len(sweepC)):
+                i2 = len(sweepC)
+                warnings.warn("sweep length is shorter than expected.")
+
+            # create a numpy array to hold the waveform for only this epoch
+            chunk = np.empty(int(i2-i1))
+
+            # determine how to fill the chunk based on the epoch type
+            if self.type[epochNumber]==1:
+                # step epoch
+                chunk.fill(sweepLevel)
+            else:
+                msg = f"unknown sweep type: {self.type[epochNumber]}"
+                msg+= " (treating as a step)"
+                chunk.fill(sweepLevel)
+
+            # modify this chunk based on the type of waveform
+            sweepC[i1:i2] = chunk
+
+        return sweepC

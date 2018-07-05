@@ -22,22 +22,39 @@ COLORBLIND_COLORS = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf',
 
 if __name__ == "__main__":
 
-    abf = pyabf.ABF(PATH_DATA+"/18702001-step.abf")  # complex step
-    sweep=2
+    abf = pyabf.ABF(PATH_DATA+"/18702001-step.abf")  # complex step   
     channel=1
-    abf.setSweep(sweep, channel)
-    epochs = abf.epochsByChannel[channel]
+    
+    fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, sharex=True)
 
-    for epochNumber in epochs.epochList:
-        i1 = epochs.pointStart[epochNumber]
-        i2 = epochs.pointEnd[epochNumber]
-        plt.plot(abf.sweepX[i1:i2], abf.sweepY[i1:i2],
-                 lw=5, alpha=.8, label=epochs.label[epochNumber],
-                 color=COLORBLIND_COLORS[epochNumber])
-    plt.legend()
-    plt.title(time.time())
-    plt.tight_layout()
-    # plt.show()
-    plt.savefig(PATH_HERE+"/dontsync.png")
+    for sweepNumber in abf.sweepList:
+      abf.setSweep(sweepNumber, channel)
+      epochs = abf.epochsByChannel[channel]
+      for epochNumber in epochs.epochList:
+          i1 = epochs.pointStart[epochNumber]
+          i2 = epochs.pointEnd[epochNumber]
+
+          # plot the signal
+          ax1.plot(abf.sweepX[i1:i2], abf.sweepY[i1:i2],
+                  alpha=.8, color=COLORBLIND_COLORS[epochNumber])
+
+          # plot the command
+          sweepC = abf.sweepC
+          ax2.plot(abf.sweepX[i1:i2], sweepC[i1:i2],
+                  alpha=.8, color=COLORBLIND_COLORS[epochNumber])
+
+    # decorate the plot
+    ax1.set_title("ADC Signal")
+    ax1.set_ylabel(abf.sweepLabelY)
+    ax2.set_title("DAC Command")
+    ax2.set_ylabel(abf.sweepLabelC)
+    ax2.set_xlabel(abf.sweepLabelX)
+
+    fig.tight_layout()
+    plt.show()
+    #fig.savefig(PATH_HERE+"/dontsync.png")
+
+    #import webbrowser
+    #webbrowser.open(PATH_HERE+"/dontsync.png")
 
     print("DONE")

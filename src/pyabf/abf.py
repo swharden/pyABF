@@ -142,8 +142,8 @@ class ABF(ABFcore):
         """
         Generate the sweep command waveform only when requested.
         """
-        return self._stimulusWaveform(sweepNumber=self.sweepNumber,
-                                      channel=self.sweepChannel)
+        #return self._stimulusWaveform(sweepNumber=self.sweepNumber,channel=self.sweepChannel)
+        return self.epochsByChannel[self.sweepChannel].stimulusWaveform(self.sweepNumber)
 
     def sweepAverage(self, timeSec1, timeSec2):
         """

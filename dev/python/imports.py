@@ -13,3 +13,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import warnings
 import time
+
+np.set_printoptions(suppress=True)
+plt.style.use('bmh')
