@@ -27,8 +27,6 @@ def runFunctionInFile(filename, functionName="go"):
         print("ERROR: %s has no %s() function" %
               (os.path.basename(filename), functionName))
     else:
-        print("\nEXECUTING: %s() in %s" %
-              (functionName, os.path.basename(filename)))
         getattr(theModule, functionName)()
 
 

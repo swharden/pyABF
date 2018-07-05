@@ -58,8 +58,6 @@ class Epochs:
         Currently this makes it look like a single step epoch over the 
         entire sweep.
         """
-        # TODO: support this better
-        warnings.warn("ABFv1 epoch synthesis not fully supported")
         self.type.append(1)
         self.level.append(self.abf.holdingCommand[self.channel])
         self.levelDelta.append(0)

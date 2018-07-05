@@ -13,7 +13,7 @@ PATH_DATA = os.path.abspath(PATH_HERE+"/../data/abfs/")
 sys.path.insert(0, PATH_SRC)  # for importing
 sys.path.append("../src/")  # for your IDE
 import pyabf
-pyabf.info()
+
 import datetime
 import numpy as np
 import matplotlib.patches as patches
@@ -39,8 +39,6 @@ def sectionBytes(section):
 
 def plotHeader(abf):
     """create a figure showing where the header sections are."""
-
-    print("generating header map for", abf.abfID, "...")
 
     byteMap = {}
     byteMap["file"] = [0, abf._fileSize-1]
@@ -127,7 +125,6 @@ def infoPage(abf):
     """
     Create markdown and HTML file containing header details.
     """
-    print("generating info for", abf.abfID, "...")
     page = abf.getInfoPage()
     headerPath = os.path.abspath(PATH_HERE+"/../data/headers/")
     with open(headerPath+"/%s.md" % (abf.abfID), 'w') as f:
@@ -140,8 +137,6 @@ def plotThumbnail(abf):
     """
     Create a graph some the DAC (command) and ADC (measure) data
     """
-    print("generating data preview for", abf.abfID, "...")
-
     # create figure and subplots
     fig = plt.figure(figsize=(8, 6))
     fig.patch.set_alpha(0)  # transparent background
@@ -201,6 +196,8 @@ def go():
         infoPage(abf)
         plotThumbnail(abf)
         plotHeader(abf)
+        print(".", end="")
+        sys.stdout.flush()
 
         # update main readme
         md += f"**{abf.abfID}.abf**<br />"
@@ -218,9 +215,8 @@ def go():
     # write main readme
     with open(PATH_HERE+"/../data/readme.md", 'w') as f:
         f.write(md)
-
-    print("DATA INDEX GENERATION COMPLETE")
-
+    
+    print(" OK")
 
 if __name__ == "__main__":
     go()

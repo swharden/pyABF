@@ -52,6 +52,7 @@ FIRSTVALUES['18702001-triangleTrain'] = ['-9.88769', '-1.03577']
 FIRSTVALUES['130618-1-12'] = ['-19.72634']
 
 def go():
+    print("Checking first values ", end="")
     valuesNeedUpdating = False
     for fname in glob.glob(PATH_DATA+"/*.abf"):
         abf = pyabf.ABF(fname)
@@ -65,12 +66,15 @@ def go():
                 print("  expected:", FIRSTVALUES[abf.abfID])
                 print("  actual:", firstValues)
                 raise ValueError
-            print("Verified first values of", abf.abfID)
+            #print("Verified first values of", abf.abfID)
+            print(".", end="")
+            sys.stdout.flush()
         else:
             valuesNeedUpdating = True
             print("FIRSTVALUES['%s'] = %s" % (abf.abfID, firstValues))
     if valuesNeedUpdating:
         raise ValueError("UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
+    print(" OK")
 
 
 if __name__ == "__main__":

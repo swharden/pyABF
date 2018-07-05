@@ -21,6 +21,20 @@ import numpy as np
 import glob
 import inspect
 
+class NoStdStreams(object):
+    def __init__(self, stdout = None):
+        self.devnull = open(os.devnull,'w')
+        self._stdout = stdout or self.devnull or sys.stdout
+
+    def __enter__(self):
+        self.old_stdout = sys.stdout
+        self.old_stdout.flush() 
+        sys.stdout = self._stdout
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._stdout.flush()
+        sys.stdout = self.old_stdout
+        self.devnull.close()
 
 class Uses:
     def __init__(self):
@@ -634,6 +648,8 @@ of example styles is on [Tony Syu's page](https://tonysyu.github.io/raw_content/
 and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery/style_sheets/style_sheets_reference.html)
 """
 
+    print("Generating quickstart docs ", end="")
+
     # then run each of the use case functions above
     uses = Uses()
 
@@ -651,9 +667,12 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
             continue
 
         # run the function
-        print(f"executing {functionName}()")
+        #print(f"executing {functionName}()")
         func = getattr(uses, functionName)
-        func()
+        with NoStdStreams(): # silence print statements
+            func()
+        print(".", end="")
+        sys.stdout.flush()
 
         # use the function docstring as the markdown text
         md += "\n\n"+cleanDocstrings(func.__doc__)
@@ -673,6 +692,8 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
     # save the markdown page
     with open(os.path.dirname(__file__)+"/readme.md", 'w') as f:
         f.write(md)
+        
+    print(" OK")
 
 
 if __name__ == "__main__":
