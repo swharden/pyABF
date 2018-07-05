@@ -5,7 +5,7 @@ analog and digital waveforms to represent command signals.
 
 import warnings
 import numpy as np
-
+import copy
 
 class Epochs:
     def __init__(self, abf, channel):
@@ -19,13 +19,12 @@ class Epochs:
         self._initEpochVars()
 
         if abf.abfFileFormat == 1:
-            self._updateForABFv1()
+            self._fillEpochsFromABFv1()
         elif abf.abfFileFormat == 2:
-            self._addPreEpoch()
-            self._fillEpochsFromABF()
-            self._addPostEpoch()
+            self._fillEpochsFromABFv2()
+        else:
+            raise NotImplemented("unsupported ABF file format")
 
-        self._createEpochLabels()
         self._updateEpochDetails()
 
     def __len__(self):
@@ -43,8 +42,6 @@ class Epochs:
         """
         Create empty lists for every field of the waveform editor
         """
-        self.pointStart = []
-        self.pointEnd = []
         self.label = []
         self.type = []
         self.level = []
@@ -55,7 +52,7 @@ class Epochs:
         self.pulseWidth = []
         self.digitalOutputs = []  # TODO: this never gets filled
 
-    def _updateForABFv1(self):
+    def _fillEpochsFromABFv1(self):
         """
         Do our best to create an epoch from what we know about the ABFv1.
         Currently this makes it look like a single step epoch over the 
@@ -63,36 +60,16 @@ class Epochs:
         """
         # TODO: support this better
         warnings.warn("ABFv1 epoch synthesis not fully supported")
-        self.pointStart.append(0)
-        self.pointEnd.append(self.abf.sweepPointCount)
         self.type.append(1)
         self.level.append(self.abf.holdingCommand[self.channel])
         self.levelDelta.append(0)
-        self.duration.append(self.abf.sweepPointCount)
+        self.duration.append(0)
         self.durationDelta.append(0)
         self.pulsePeriod.append(0)
         self.pulseWidth.append(0)
-        self.digitalOutputs.append(self.abf.sweepPointCount)
+        self.digitalOutputs.append(0)
 
-    def _addPreEpoch(self):
-        """
-        The pre-epoch period is 1/64th of the swep length (dear god why?!)
-        so make a fake epoch to represent this pre-epoch
-        """
-        self._pointOffset = int(self.abf.sweepPointCount/64)
-
-        self.pointStart.append(0)
-        self.pointEnd.append(self._pointOffset)
-        self.type.append(1)
-        self.level.append(self.abf.holdingCommand[self.channel])
-        self.levelDelta.append(0)
-        self.duration.append(self._pointOffset)
-        self.durationDelta.append(0)
-        self.pulsePeriod.append(0)
-        self.pulseWidth.append(0)
-        self.digitalOutputs.append(self._pointOffset)
-
-    def _fillEpochsFromABF(self):
+    def _fillEpochsFromABFv2(self):
         """
         Read the ABF header and append to the epoch lists
         """
@@ -102,7 +79,6 @@ class Epochs:
             if dacNum != self.channel:
                 continue
             epPerDac = self.abf._epochPerDacSection
-            self.pointStart.append(self.pointStart[-1]+self.duration[-1])
             self.type.append(epPerDac.nEpochType[i])
             self.level.append(epPerDac.fEpochInitLevel[i])
             self.levelDelta.append(epPerDac.fEpochLevelInc[i])
@@ -110,59 +86,13 @@ class Epochs:
             self.durationDelta.append(epPerDac.lEpochDurationInc[i])
             self.pulsePeriod.append(epPerDac.lEpochPulsePeriod[i])
             self.pulseWidth.append(epPerDac.lEpochPulseWidth[i])
-            self.pointEnd.append(self.pointStart[-1]+self.duration[-1])
-
-    def _addPostEpoch(self):
-        """
-        There is ABF data after the last epoch is over. Create a fake epoch
-        to represent this.
-        """
-        if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
-            # don't revert back to holding, sustain last epoch.
-            # do this by extending the last epoch to the end of the sweep.
-            self.pointEnd[-1] = self.abf.sweepPointCount-1 + self._pointOffset
-        else:
-            # revert back to holding
-            self.pointStart.append(self.pointEnd[-1])  # TODO: +1?
-            self.pointEnd.append(self.abf.sweepPointCount + self._pointOffset)
-            self.type.append(1)
-            self.level.append(self.level[-1])
-            self.levelDelta.append(0)
-            self.duration.append(0)
-            self.durationDelta.append(0)
-            self.pulsePeriod.append(0)
-            self.pulseWidth.append(0)
-
-    def _createEpochLabels(self):
-        self.label = [chr(x+64) for x in range(len(self.type))]
-        self.label[0] = "pre"
-        if self.duration[-1] == 0:
-            self.label[-1] = "post"
-
-    def _prePulseDetermine(self):
-        """
-        What happens after the last epoch? Is it holding, or sustained?
-        """
-        if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
-            # if not, sustain the last epoch through to the end of the sweep
-            self.pointEnd[-1] = self.abf.sweepPointCount-1 + self._pointOffset
-        else:
-            # if so, add a fake epoch (step) back to the holding values
-            self.pointStart.append(self.pointEnd[-1])  # TODO: +1?
-            self.pointEnd.append(self.abf.sweepPointCount + self._pointOffset)
-            self.type.append(1)
-            self.level.append(self.level[-1])
-            self.levelDelta.append(0)
-            self.duration.append(0)
-            self.durationDelta.append(0)
-            self.pulsePeriod.append(0)
-            self.pulseWidth.append(0)
 
     def _updateEpochDetails(self):
         """
         After all epochs have been loaded, do some housekeeping
         """
 
+        self.label = [chr(x+65) for x in range(len(self.type))]
         self.epochCount = len(self.type)
         self.epochList = range(self.epochCount)
         self.dacUnits = self.abf.dacUnits[self.channel]
@@ -171,6 +101,8 @@ class Epochs:
         """
         Format a label and its values for text-block printing.
         """
+        label = copy.copy(label)
+        values = copy.copy(values)
 
         if label == "Type":
             for i, value in enumerate(values):
@@ -207,8 +139,6 @@ class Epochs:
         out += self._txtFmt("Delta Duration (samples)", self.durationDelta)
         out += self._txtFmt("Train Period (samples)", self.pulsePeriod)
         out += self._txtFmt("Pulse Width (samples)", self.pulseWidth)
-        out += self._txtFmt("Epoch Start (samples)", self.pointStart)
-        out += self._txtFmt("Epoch End (samples)", self.pointEnd)
         out += "\n"
         return out
 
@@ -224,7 +154,19 @@ class Epochs:
         sweepC = np.full(self.abf.sweepPointCount,
                          self.abf.holdingCommand[self.channel])
 
+        # determine if we return to holding between epochs
+        if self.abf.abfFileFormat==1:
+            returnToHolding = False
+        elif self.abf.abfFileFormat==2:
+            if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
+                returnToHolding = True
+            else:
+                returnToHolding = False
+        else:
+            raise NotImplementedError("ABF format unsupported")
+        
         # then step through epoch by epoch filling it with its contents
+        position = int(self.abf.sweepPointCount/64)
         for epochNumber in self.epochList:
 
             # skip past disabled epochs
@@ -232,17 +174,22 @@ class Epochs:
                 continue
 
             # determine the sweep-dependent level
-            sweepLevel = self.level[epochNumber]
-            sweepLevel += self.levelDelta[epochNumber]*sweepNumber
+            sweepLevel = self.level[epochNumber] + self.levelDelta[epochNumber]*sweepNumber
+            sweepLevelLast = self.level[epochNumber] + self.levelDelta[epochNumber]*(sweepNumber-1)
 
-            # simplify the bounds of the sweepC we intend to modify
-            i1 = self.pointStart[epochNumber]
-            i2 = self.pointEnd[epochNumber]
+            # if not return to hold between sweeps, start where last ended
+            if returnToHolding:
+                sweepC.fill(sweepLevelLast)
+                #TODO: this is slow, and may be buggy for stimuli with delta-time mixed in with deta-level
 
-            # TODO: figure out if sweep length is real or short by 1/64
-            if i2 > (len(sweepC)):
-                i2 = len(sweepC)
-                warnings.warn("sweep length is shorter than expected.")
+            # determine the sweep-dependent duration
+            epochPoints = self.duration[epochNumber]
+            epochPoints += self.durationDelta[epochNumber]*sweepNumber
+
+            # update index points and slide position forward for next epoch
+            i1 = position
+            i2 = i1 + epochPoints
+            position = position + epochPoints
 
             # create a numpy array to hold the waveform for only this epoch
             chunk = np.empty(int(i2-i1))
@@ -251,12 +198,30 @@ class Epochs:
             if self.type[epochNumber]==1:
                 # step epoch
                 chunk.fill(sweepLevel)
+            if self.type[epochNumber]==2:
+                # ramp epoch
+                chunk = np.arange(epochPoints)/epochPoints
+                rampStart = sweepC[i1-1]
+                rampDiff = sweepLevel-rampStart
+                chunk *= rampDiff
+                chunk += rampStart
             else:
+                # unsupported epoch
                 msg = f"unknown sweep type: {self.type[epochNumber]}"
                 msg+= " (treating as a step)"
+                warnings.warn(msg)
                 chunk.fill(sweepLevel)
 
             # modify this chunk based on the type of waveform
             sweepC[i1:i2] = chunk
+
+        # code for when epochs dont return to holding between sweeps
+        if returnToHolding:
+
+            # sustain the final step through the end of the sweep
+            sweepC[i2:] = sweepC[i2-1]
+
+            # each sweep command starts where the last left off (not at hold)
+            #sweepC += sweepLevelLast
 
         return sweepC

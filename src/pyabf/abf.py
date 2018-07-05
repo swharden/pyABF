@@ -145,8 +145,9 @@ class ABF(ABFcore):
         """
         Generate the sweep command waveform only when requested.
         """
-        return self._stimulusWaveform(sweepNumber=self.sweepNumber,channel=self.sweepChannel)
-        #return self.epochsByChannel[self.sweepChannel].stimulusWaveform(self.sweepNumber)
+        #return self._stimulusWaveform(sweepNumber=self.sweepNumber,channel=self.sweepChannel)
+        sweepEpochs = self.epochsByChannel[self.sweepChannel]
+        return sweepEpochs.stimulusWaveform(self.sweepNumber)
 
     def sweepAverage(self, timeSec1, timeSec2):
         """
@@ -175,10 +176,14 @@ if __name__ == "__main__":
 
     PATH_HERE = os.path.dirname(__file__)
     PATH_DATA = os.path.abspath(PATH_HERE + "/../../data/abfs/")
-    for fname in sorted(glob.glob(PATH_DATA+"/*.*")):
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
+        if not "model_vc_ramp" in fname:
+            continue
         abf = ABF(fname)
         for channel in abf.channelList:
-            epochs = abf.epochsByChannel[channel]
-            print(f"{abf.abfID} Ch{channel} {epochs}")
+            print(abf.epochsByChannel[channel].text)
+            #epochs = abf.epochsByChannel[channel]
+            #print(f"{abf.abfID} Ch{channel} {epochs}")
+            
 
     print("DONE")
