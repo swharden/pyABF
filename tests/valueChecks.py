@@ -43,6 +43,13 @@ FIRSTVALUES['2018_04_13_0016a_original'] = ['-115.96679', '-15.25879']
 FIRSTVALUES['2018_04_13_0016b_modified'] = ['-115.96679', '-7.44399']
 FIRSTVALUES['model_vc_ramp'] = ['-138.42772']
 FIRSTVALUES['model_vc_step'] = ['-140.13670']
+FIRSTVALUES['18702001-biphasicTrain'] = ['-10.74219', '-1.03607']
+FIRSTVALUES['18702001-cosTrain'] = ['-8.05664', '-1.03638']
+FIRSTVALUES['18702001-pulseTrain'] = ['-11.71875', '-1.03607']
+FIRSTVALUES['18702001-ramp'] = ['-12.20703', '-1.03638']
+FIRSTVALUES['18702001-step'] = ['-10.49805', '-1.03546']
+FIRSTVALUES['18702001-triangleTrain'] = ['-9.88769', '-1.03577']
+FIRSTVALUES['130618-1-12'] = ['-19.72634']
 
 def go():
     valuesNeedUpdating = False
@@ -63,7 +70,7 @@ def go():
             valuesNeedUpdating = True
             print("FIRSTVALUES['%s'] = %s" % (abf.abfID, firstValues))
     if valuesNeedUpdating:
-        print("PLEASE UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
+        raise ValueError("UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
 
 
 if __name__ == "__main__":
