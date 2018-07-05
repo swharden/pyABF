@@ -130,6 +130,15 @@ class Epochs:
         Return all epoch levels as a text block, similar to how ClampFit does
         this when poking through the file properties dialog
         """
+
+        if self.abf.abfFileFormat==1:
+            return "Epoch data from ABF1 files is not available"
+
+        if self.abf._dacSection.nWaveformSource[self.channel]==2:
+            out = "Epochs ignored. DAC controlled by custom waveform:\n"
+            out += self.abf._stringsIndexed.lDACFilePath[0]
+            return out
+
         out = "\n"
         out += self._txtFmt("Ch%d EPOCH" % self.channel, self.label)
         out += self._txtFmt("Type", self.type)
@@ -150,6 +159,16 @@ class Epochs:
         be given as an argument.
         """
 
+        # return an empty waveform for ABFv1 files
+        if self.abf.abfFileFormat==1:
+            sweepC = np.full(self.abf.sweepPointCount,np.nan)
+            return sweepC
+
+        # return an empty waveform if a custom waveform file was used
+        if self.abf._dacSection.nWaveformSource[self.channel]==2:
+            sweepC = np.full(self.abf.sweepPointCount,np.nan)
+            return sweepC
+        
         # start by creating the command signal filled with the holding command
         sweepC = np.full(self.abf.sweepPointCount,
                          self.abf.holdingCommand[self.channel])
@@ -198,7 +217,7 @@ class Epochs:
             if self.type[epochNumber]==1:
                 # step epoch
                 chunk.fill(sweepLevel)
-            if self.type[epochNumber]==2:
+            elif self.type[epochNumber]==2:
                 # ramp epoch
                 chunk = np.arange(epochPoints)/epochPoints
                 rampStart = sweepC[i1-1]

@@ -32,7 +32,8 @@ if __name__ == "__main__":
     #abf = pyabf.ABF(PATH_DATA+"/17o05027_ic_ramp.abf")  # weird
     #abf = pyabf.ABF(PATH_DATA+"/171116sh_0014.abf")  # weird
 
-    abf = pyabf.ABF(PATH_DATA+"/130618-1-12.abf")  # weird
+    abf = pyabf.ABF(PATH_DATA+"/130618-1-12.abf")  # ABF1
+    #abf = pyabf.ABF(PATH_DATA+"/171116sh_0017.abf")  # custom waveform
     
     channel=abf.channelCount-1
     
@@ -41,6 +42,8 @@ if __name__ == "__main__":
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber, channel)
         epochs = abf.epochsByChannel[channel]
+
+        print(epochs.text)
       
         ax1.plot(abf.sweepX, abf.sweepY, alpha=.6)
         ax2.plot(abf.sweepX, abf.sweepC, alpha=.6)
