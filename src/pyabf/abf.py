@@ -137,6 +137,9 @@ class ABF(ABFcore):
             self.sweepY = self.sweepY-baseline
             self.sweepLabelY = "Δ " + self.sweepLabelY
 
+        # make sure sweepPointCount is always accurate
+        assert (self.sweepPointCount == len(self.sweepY))
+
     @property
     def sweepC(self):
         """
