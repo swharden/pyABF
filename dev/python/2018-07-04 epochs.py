@@ -22,26 +22,28 @@ COLORBLIND_COLORS = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf',
 
 if __name__ == "__main__":
 
-    abf = pyabf.ABF(PATH_DATA+"/18702001-step.abf")  # complex step   
-    channel=1
+    #abf = pyabf.ABF(PATH_DATA+"/171116sh_0013.abf")  # ramp
+    #abf = pyabf.ABF(PATH_DATA+"/2018_04_13_0016a_original.abf") # delta t
+    #abf = pyabf.ABF(PATH_DATA+"/14o16001_vc_pair_step.abf")  # delta level
+    #abf = pyabf.ABF(PATH_DATA+"/18702001-step.abf")  # complex step
+    #abf = pyabf.ABF(PATH_DATA+"/18702001-ramp.abf")  # complex ramp
+    #abf = pyabf.ABF(PATH_DATA+"/05210017_vc_abf1.abf")  # abf1 step
+    #abf = pyabf.ABF(PATH_DATA+"/171116sh_0013.abf")  # ramps held
+    #abf = pyabf.ABF(PATH_DATA+"/17o05027_ic_ramp.abf")  # weird
+    #abf = pyabf.ABF(PATH_DATA+"/171116sh_0014.abf")  # weird
+
+    abf = pyabf.ABF(PATH_DATA+"/130618-1-12.abf")  # weird
+    
+    channel=abf.channelCount-1
     
     fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, sharex=True)
 
     for sweepNumber in abf.sweepList:
-      abf.setSweep(sweepNumber, channel)
-      epochs = abf.epochsByChannel[channel]
-      for epochNumber in epochs.epochList:
-          i1 = epochs.pointStart[epochNumber]
-          i2 = epochs.pointEnd[epochNumber]
-
-          # plot the signal
-          ax1.plot(abf.sweepX[i1:i2], abf.sweepY[i1:i2],
-                  alpha=.8, color=COLORBLIND_COLORS[epochNumber])
-
-          # plot the command
-          sweepC = abf.sweepC
-          ax2.plot(abf.sweepX[i1:i2], sweepC[i1:i2],
-                  alpha=.8, color=COLORBLIND_COLORS[epochNumber])
+        abf.setSweep(sweepNumber, channel)
+        epochs = abf.epochsByChannel[channel]
+      
+        ax1.plot(abf.sweepX, abf.sweepY, alpha=.6)
+        ax2.plot(abf.sweepX, abf.sweepC, alpha=.6)
 
     # decorate the plot
     ax1.set_title("ADC Signal")
