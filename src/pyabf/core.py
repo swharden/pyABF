@@ -46,7 +46,8 @@ class ABFcore:
     """
 
     def __init__(self, abf, preLoadData=True):
-        self._loadEverything(abf, preLoadData)
+        self._preLoadData = preLoadData
+        self._loadEverything(abf)
 
     def __str__(self):
         txt = f"ABF file ({self.abfID}.abf)"
@@ -60,7 +61,10 @@ class ABFcore:
         txt += f", and a total length of %.02f min." % (abfLengthMin)
         return txt
 
-    def _loadEverything(self, abf, preLoadData=True):
+    def __repr__(self):
+        return 'ABFcore(abf="%s", preLoadData=%s)' % (self.abfFilePath, self._preLoadData)
+
+    def _loadEverything(self, abf):
         """
         This used to be the __init__ of the ABF class.
         """
@@ -84,7 +88,7 @@ class ABFcore:
         self._updateTimePoints()
         self._calculateDACvaluesByEpoch()
         self._digitalWaveformEpochs()
-        if preLoadData:
+        if self._preLoadData:
             self._loadAndScaleData()
         self._fileClose()
         self._processEpochs()
@@ -399,12 +403,11 @@ class ABFcore:
             else:
                 print("Unsure how to generate info for:",
                       thingName, type(thing))
-        
+
         for channel in self.channelList:
-            page.addSection("Epochs for Channel %d"%channel)
+            page.addSection("Epochs for Channel %d" % channel)
             text = self.epochsByChannel[channel].text
             page.addThing("~CODE~", text)
-
 
         # add all ABF header information (different in ABF1 vs ABF2)
 
@@ -466,7 +469,7 @@ class ABFcore:
             for sweep in self.sweepList:
                 dacHere = self._epochPerDacSection.fEpochInitLevel[epoch]
                 dacDelta = self._epochPerDacSection.fEpochLevelInc[epoch] * sweep
-                self.epochValues[sweep, epoch]=dacHere+dacDelta
+                self.epochValues[sweep, epoch] = dacHere+dacDelta
 
     def _digitalWaveformEpochs(self):
         """
@@ -504,6 +507,6 @@ class ABFcore:
         return sweepD
 
     def _processEpochs(self):
-        self.epochsByChannel=[]
+        self.epochsByChannel = []
         for channel in self.channelList:
             self.epochsByChannel.append(Epochs(self, channel))

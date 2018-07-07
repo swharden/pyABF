@@ -20,13 +20,17 @@ class ABF(ABFcore):
     def __init__(self, abf, preLoadData=True):
 
         # execute core tasks (read header and data)
-        self._loadEverything(abf, preLoadData)
+        self._preLoadData = preLoadData
+        self._loadEverything(abf)
 
         # perform ABF class init tasks
         self.baseline()
 
         # pre-load the first sweep
         self.setSweep(0)
+        
+    def __repr__(self):
+        return 'ABF(abf="%s", preLoadData=%s)' % (self.abfFilePath, self._preLoadData)
 
     def baseline(self, timeSec1=None, timeSec2=None):
         """
