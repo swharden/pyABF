@@ -7,6 +7,7 @@ import warnings
 import numpy as np
 import copy
 
+
 class Epochs:
     def __init__(self, abf, channel):
         """
@@ -110,10 +111,10 @@ class Epochs:
                     values[i] = "Step"
                 elif value == 2:
                     values[i] = "Ramp"
+                elif value == 3:
+                    values[i] = "Pulse"
                 else:
                     values[i] = "%d?" % value
-                    msg = "UNSUPPORTED EPOCH TYPE: %d" % value
-                    warnings.warn(msg)
 
         line = label.rjust(25, ' ')
         for val in values:
@@ -129,10 +130,10 @@ class Epochs:
         this when poking through the file properties dialog
         """
 
-        if self.abf.abfFileFormat==1:
+        if self.abf.abfFileFormat == 1:
             return "Epoch data from ABF1 files is not available"
 
-        if self.abf._dacSection.nWaveformSource[self.channel]==2:
+        if self.abf._dacSection.nWaveformSource[self.channel] == 2:
             out = "Epochs ignored. DAC controlled by custom waveform:\n"
             out += self.abf._stringsIndexed.lDACFilePath[0]
             return out
@@ -158,46 +159,57 @@ class Epochs:
         """
 
         # return an empty waveform for ABFv1 files
-        if self.abf.abfFileFormat==1:
-            sweepC = np.full(self.abf.sweepPointCount,np.nan)
+        if self.abf.abfFileFormat == 1:
+            sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
 
         # return an empty waveform if a custom waveform file was used
-        if self.abf._dacSection.nWaveformSource[self.channel]==2:
-            sweepC = np.full(self.abf.sweepPointCount,np.nan)
+        if self.abf._dacSection.nWaveformSource[self.channel] == 2:
+            sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
-        
+
         # start by creating the command signal filled with the holding command
         sweepC = np.full(self.abf.sweepPointCount,
                          self.abf.holdingCommand[self.channel])
 
         # determine if we return to holding between epochs
-        if self.abf.abfFileFormat==1:
+        if self.abf.abfFileFormat == 1:
             returnToHolding = False
-        elif self.abf.abfFileFormat==2:
+        elif self.abf.abfFileFormat == 2:
             if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
                 returnToHolding = True
             else:
                 returnToHolding = False
         else:
             raise NotImplementedError("ABF format unsupported")
-        
+
         # then step through epoch by epoch filling it with its contents
         position = int(self.abf.sweepPointCount/64)
         for epochNumber in self.epochList:
 
             # skip past disabled epochs
-            if self.type[epochNumber]==0:
+            if self.type[epochNumber] == 0:
                 continue
 
             # determine the sweep-dependent level
-            sweepLevel = self.level[epochNumber] + self.levelDelta[epochNumber]*sweepNumber
-            sweepLevelLast = self.level[epochNumber] + self.levelDelta[epochNumber]*(sweepNumber-1)
+            sweepLevel = self.level[epochNumber] + \
+                self.levelDelta[epochNumber]*sweepNumber
+
+            # determine the command of this epoch from the previous sweep
+            sweepLevelLast = self.level[epochNumber] + \
+                self.levelDelta[epochNumber]*(sweepNumber-1)
+
+            # determine the sweep level of the previous epoch
+            if epochNumber == 0:
+                levelPreviousEpoch = self.abf.holdingCommand[self.channel]
+            else:
+                levelPreviousEpoch = self.level[epochNumber-1] + \
+                    self.levelDelta[epochNumber-1]*sweepNumber
 
             # if not return to hold between sweeps, start where last ended
             if returnToHolding:
                 sweepC.fill(sweepLevelLast)
-                #TODO: this is slow, and may be buggy for stimuli with delta-time mixed in with deta-level
+                # TODO: this is slow, and may be buggy for stimuli with delta-time mixed in with deta-level
 
             # determine the sweep-dependent duration
             epochPoints = self.duration[epochNumber]
@@ -211,21 +223,36 @@ class Epochs:
             # create a numpy array to hold the waveform for only this epoch
             chunk = np.empty(int(i2-i1))
 
-            # determine how to fill the chunk based on the epoch type
-            if self.type[epochNumber]==1:
-                # step epoch
+            # fill epoch: step
+            if self.type[epochNumber] == 1:
+
                 chunk.fill(sweepLevel)
-            elif self.type[epochNumber]==2:
-                # ramp epoch
+
+            # fill epoch: ramp
+            elif self.type[epochNumber] == 2:
+
                 chunk = np.arange(epochPoints)/epochPoints
                 rampStart = sweepC[i1-1]
                 rampDiff = sweepLevel-rampStart
                 chunk *= rampDiff
                 chunk += rampStart
+
+            # fill epoch: pulse train
+            elif self.type[epochNumber] == 3:
+                pulsePeriod = self.pulsePeriod[epochNumber]
+                pulseWidth = self.pulseWidth[epochNumber]
+                pulseCount = int(len(chunk)/pulsePeriod)
+                levelOff = levelPreviousEpoch
+                levelOn = sweepLevel
+                chunk.fill(levelOff)
+                for pulse in range(pulseCount):
+                    p1 = int(pulsePeriod*pulse)
+                    p2 = int(p1 + pulseWidth)
+                    chunk[p1:p2] = levelOn
             else:
                 # unsupported epoch
                 msg = f"unknown sweep type: {self.type[epochNumber]}"
-                msg+= " (treating as a step)"
+                msg += " (treating as a step)"
                 warnings.warn(msg)
                 chunk.fill(sweepLevel)
 
