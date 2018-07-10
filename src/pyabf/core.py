@@ -245,23 +245,33 @@ class ABFcore:
         out of the file it must be scaled to floating-point values which match
         the units. Scaling data may be different by channel, and this section
         reads the header to determine how to scale each channel.
+
+
+        According to official docs each data point should be:
+            (DataPoint - fInstrumentOffset + fSignalOffset)
+            * fInstrumentScaleFactor * fSignalGain * fADCProgrammableGain 
+            * (lADCResolution / fADCRange)
         """
+
+        self._dataGain = [1]*self.channelCount
+        self._dataOffset = [0]*self.channelCount
+
         if self.abfFileFormat == 1:
-            self.scaleFactors = [1]*self.channelCount
             for i in range(self.channelCount):
-                self.scaleFactors[i] = self._headerV1.lADCResolution/1e6
+                self._dataGain[i] = self._headerV1.lADCResolution/1e6
+        
         elif self.abfFileFormat == 2:
-            self.scaleFactors = [1]*self.channelCount
             for i in range(self.channelCount):
-                self.scaleFactors[i] /= self._adcSection.fInstrumentScaleFactor[i]
-                self.scaleFactors[i] /= self._adcSection.fSignalGain[i]
-                self.scaleFactors[i] /= self._adcSection.fADCProgrammableGain[i]
+                self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
+                self._dataGain[i] /= self._adcSection.fSignalGain[i]
+                self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
                 if self._adcSection.nTelegraphEnable:
-                    self.scaleFactors[i] /= self._adcSection.fTelegraphAdditGain[i]
-                self.scaleFactors[i] *= self._protocolSection.fADCRange
-                self.scaleFactors[i] /= self._protocolSection.lADCResolution
-                self.scaleFactors[i] += self._adcSection.fInstrumentOffset[i]
-                self.scaleFactors[i] -= self._adcSection.fSignalOffset[i]
+                    self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
+                self._dataGain[i] *= self._protocolSection.fADCRange
+                self._dataGain[i] /= self._protocolSection.lADCResolution
+                self._dataOffset[i] += self._adcSection.fInstrumentOffset[i]
+                self._dataOffset[i] -= self._adcSection.fSignalOffset[i]
+        
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -343,34 +353,38 @@ class ABFcore:
 
         # determine the data type
         if self.abfFileFormat == 1:
-            dtype = np.int16
-        elif self.abfFileFormat == 2:
-            if self._sectionMap.DataSection[1] == 2:
+            if self._headerV1.nDataFormat == 0:
                 dtype = np.int16
-            elif self._sectionMap.DataSection[1] == 4:
-                if self._headerV2.nDataFormat == 1:
-                    dtype = np.float32
-                else:
-                    dtype = np.int16
+            elif self._headerV1.nDataFormat == 1:
+                dtype = np.float32
             else:
-                raise NotImplementedError("strange data point size")
+                raise NotImplementedError("unknown data format")
+
+        if self.abfFileFormat == 2:
+            if self._headerV2.nDataFormat == 0:
+                dtype = np.int16
+            elif self._headerV2.nDataFormat == 1:
+                dtype = np.float32
+            else:
+                raise NotImplementedError("unknown data format")
 
         # read the data from the ABF file
         self._fb.seek(self.dataByteStart)
         raw = np.fromfile(self._fb, dtype=dtype, count=self.dataPointCount)
-        raw = np.reshape(
-            raw, (int(len(raw)/self.channelCount), self.channelCount))
+        nRows = self.channelCount
+        nCols = int(self.dataPointCount/self.channelCount)
+        raw = np.reshape(raw, (nCols, nRows))
         raw = np.rot90(raw)
         raw = raw[::-1]
 
+        # if data is int, scale it to float32 so we can scale it
+        self.data = raw.astype(np.float32)
+
         # if the data was originally an int, it must be scaled
         if dtype == np.int16:
-            self.data = np.empty(raw.shape, dtype='float32')
-            for i in range(self.channelCount):
-                self.data[i] = np.multiply(
-                    raw[i], self.scaleFactors[i], dtype='float32')
-        else:
-            self.data = raw
+            for i in range(self.channelCount):                
+                self.data[i] = np.multiply(self.data[i], self._dataGain[i])
+                self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
     def getInfoPage(self):
         """
