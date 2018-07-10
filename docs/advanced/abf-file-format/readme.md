@@ -675,6 +675,8 @@ As we saw earlier, directly reading data values as 16-bit integers produces beau
 
 _Usually ABF data is stored as `int`, in which case the data must be multiplied by the scaling factor. If the data type is `float`, the data should not be multiplied by the scaling factor. Indication of data type is in `nDataFormat` which is 0 for `int` and 1 for `float`._
 
+Note: there is an [official explaination](http://mdc.custhelp.com/app/answers/detail/a_id/16852/~/convert-data-file-from-another-program-to-an-abf-file-so-that-it-can-be-read-by) on the sequence of events to scale and offset data.
+
 In this section I don't actually apply the scaling, I just determine how much to scale the data by if/when it's loaded later.
 
 It's important to remember that the scaling may be different for every channel, so this scaling routine produces a scaling factor for every channel (and stores them in a list called `scaleFactors`). I start by setting every scaleFactor to 1.
