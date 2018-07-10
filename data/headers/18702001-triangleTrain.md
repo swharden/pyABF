@@ -77,7 +77,7 @@
 
 ```
                 Ch1 EPOCH      A      B      C
-                     Type   Step   Step     4?
+                     Type   Step   Step    Tri
          First Level (mV)    -20    -10     25
          Delta Level (mV)      0      0     10
  First Duration (samples)   1000   4000  10000

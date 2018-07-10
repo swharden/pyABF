@@ -113,6 +113,10 @@ class Epochs:
                     values[i] = "Ramp"
                 elif value == 3:
                     values[i] = "Pulse"
+                elif value == 4:
+                    values[i] = "Tri"
+                elif value == 5:
+                    values[i] = "Cos"
                 else:
                     values[i] = "%d?" % value
 
@@ -229,6 +233,7 @@ class Epochs:
                 pulseCount = 0
             levelOff = levelPreviousEpoch
             levelOn = sweepLevel
+            levelDelta = levelOn - levelOff
 
             # create a numpy array to hold the waveform for only this epoch
             chunk = np.empty(int(i2-i1))
@@ -262,6 +267,15 @@ class Epochs:
                     p3 = int(p1+pulsePeriod)
                     chunk[p1:p2] = np.linspace(levelOff, levelOn, int(p2-p1))
                     chunk[p2:p3] = np.linspace(levelOn, levelOff, int(p3-p2))
+
+            # fill epoch: cosine train
+            elif self.type[epochNumber] == 5:
+                vals = np.linspace(0, 2*pulseCount*np.pi, len(chunk))
+                vals += np.pi
+                cos = np.cos(vals) * levelDelta/2
+                chunk.fill(levelOff)
+                chunk += cos + levelDelta/2
+                
 
             else:
                 # unsupported epoch
