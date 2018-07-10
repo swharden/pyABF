@@ -38,7 +38,6 @@
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
-* scaleFactors = `[0.030517578807121044]`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `16`
