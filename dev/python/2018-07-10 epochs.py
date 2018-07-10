@@ -11,7 +11,7 @@ COLORBLIND_COLORS = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf',
 
 if __name__ == "__main__":
 
-    abf = pyabf.ABF(PATH_DATA+"/18702001-pulseTrain.abf")
+    abf = pyabf.ABF(PATH_DATA+"/18702001-biphasicTrain.abf")
     
     channel=abf.channelCount-1
     

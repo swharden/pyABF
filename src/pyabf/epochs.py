@@ -117,6 +117,8 @@ class Epochs:
                     values[i] = "Tri"
                 elif value == 5:
                     values[i] = "Cos"
+                elif value == 7:
+                    values[i] = "BiPhsc"
                 else:
                     values[i] = "%d?" % value
 
@@ -276,6 +278,15 @@ class Epochs:
                 chunk.fill(levelOff)
                 chunk += cos + levelDelta/2
                 
+            # fill epoch: biphasic train
+            elif self.type[epochNumber] == 7:
+                chunk.fill(levelOff)
+                for pulse in range(pulseCount):
+                    p1 = int(pulsePeriod*pulse)
+                    p3 = int(p1 + pulseWidth)
+                    p2 = int((p1+p3)/2)
+                    chunk[p1:p2] = levelOff + levelDelta
+                    chunk[p2:p3] = levelOff - levelDelta
 
             else:
                 # unsupported epoch
