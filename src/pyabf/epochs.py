@@ -220,17 +220,25 @@ class Epochs:
             i2 = i1 + epochPoints
             position = position + epochPoints
 
+            # create values useful if we analyze pulses
+            pulsePeriod = self.pulsePeriod[epochNumber]
+            pulseWidth = self.pulseWidth[epochNumber]
+            if pulsePeriod > 0:
+                pulseCount = int(int(i2-i1)/pulsePeriod)
+            else:
+                pulseCount = 0
+            levelOff = levelPreviousEpoch
+            levelOn = sweepLevel
+
             # create a numpy array to hold the waveform for only this epoch
             chunk = np.empty(int(i2-i1))
 
             # fill epoch: step
             if self.type[epochNumber] == 1:
-
                 chunk.fill(sweepLevel)
 
             # fill epoch: ramp
             elif self.type[epochNumber] == 2:
-
                 chunk = np.arange(epochPoints)/epochPoints
                 rampStart = sweepC[i1-1]
                 rampDiff = sweepLevel-rampStart
@@ -239,16 +247,22 @@ class Epochs:
 
             # fill epoch: pulse train
             elif self.type[epochNumber] == 3:
-                pulsePeriod = self.pulsePeriod[epochNumber]
-                pulseWidth = self.pulseWidth[epochNumber]
-                pulseCount = int(len(chunk)/pulsePeriod)
-                levelOff = levelPreviousEpoch
-                levelOn = sweepLevel
                 chunk.fill(levelOff)
                 for pulse in range(pulseCount):
                     p1 = int(pulsePeriod*pulse)
                     p2 = int(p1 + pulseWidth)
                     chunk[p1:p2] = levelOn
+
+            # fill epoch: triangle train
+            elif self.type[epochNumber] == 4:
+                chunk.fill(levelOff)
+                for pulse in range(pulseCount):
+                    p1 = int(pulsePeriod*pulse)
+                    p2 = int(p1 + pulseWidth)
+                    p3 = int(p1+pulsePeriod)
+                    chunk[p1:p2] = np.linspace(levelOff, levelOn, int(p2-p1))
+                    chunk[p2:p3] = np.linspace(levelOn, levelOff, int(p3-p2))
+
             else:
                 # unsupported epoch
                 msg = f"unknown sweep type: {self.type[epochNumber]}"
