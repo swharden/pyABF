@@ -154,9 +154,14 @@ def plotThumbnail(abf):
     if "loose" in abf.protocol:
         absoluteTime = True
 
+    # usually we plot channel 0, but sometimes manually override
+    channel = 0
+    if "18702001" in abf.abfID:
+        channel = 1
+
     # plot the data sweep by sweep
     for sweep in abf.sweepList:
-        abf.setSweep(sweep, absoluteTime=absoluteTime)
+        abf.setSweep(sweep, channel=channel, absoluteTime=absoluteTime)
         ax1.plot(abf.sweepX, abf.sweepY, alpha=.5, color='b', lw=.5)
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
 
