@@ -244,28 +244,31 @@ class ABFcore:
         Because data is stored as int16 values in the ABF file, after it is read
         out of the file it must be scaled to floating-point values which match
         the units. Scaling data may be different by channel, and this section
-        reads the header to determine how to scale each channel.
-
-
-        According to official docs each data point should be:
-            (DataPoint - fInstrumentOffset + fSignalOffset)
-            * fInstrumentScaleFactor * fSignalGain * fADCProgrammableGain 
-            * (lADCResolution / fADCRange)
+        reads the header to determine how to scale each channel. Note that after
+        data is scaled, it is then offset too.
         """
 
         self._dataGain = [1]*self.channelCount
         self._dataOffset = [0]*self.channelCount
 
         if self.abfFileFormat == 1:
-            for i in range(self.channelCount):
-                self._dataGain[i] = self._headerV1.lADCResolution/1e6
+            for i in range(self.channelCount):                
+                self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
+                self._dataGain[i] /= self._headerV1.fSignalGain[i]
+                self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
+                if self._headerV1.nTelegraphEnable[i]==1:
+                    self._dataGain[i] /= self._headerV1.fTelegraphAdditGain[i]
+                self._dataGain[i] *= self._headerV1.fADCRange
+                self._dataGain[i] /= self._headerV1.lADCResolution
+                self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
+                self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
         
         elif self.abfFileFormat == 2:
             for i in range(self.channelCount):
                 self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
                 self._dataGain[i] /= self._adcSection.fSignalGain[i]
                 self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
-                if self._adcSection.nTelegraphEnable:
+                if self._adcSection.nTelegraphEnable[i]==1:
                     self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
                 self._dataGain[i] *= self._protocolSection.fADCRange
                 self._dataGain[i] /= self._protocolSection.lADCResolution

@@ -18,7 +18,7 @@ import pyabf
 import glob
 
 FIRSTVALUES = {}
-FIRSTVALUES['05210017_vc_abf1'] = ['-146.34189', '624.13208']
+FIRSTVALUES['05210017_vc_abf1'] = ['-136.29149', '11625.36621']
 FIRSTVALUES['14o08011_ic_pair'] = ['-65.52124', '-56.12183']
 FIRSTVALUES['14o16001_vc_pair_step'] = ['-25.87890', '-31.49414']
 FIRSTVALUES['16d05007_vc_tags'] = ['0.85449']
@@ -33,7 +33,7 @@ FIRSTVALUES['171116sh_0017'] = ['-61.70654']
 FIRSTVALUES['171116sh_0018'] = ['-62.46948']
 FIRSTVALUES['171116sh_0019'] = ['-62.43896']
 FIRSTVALUES['171116sh_0020'] = ['72.75390']
-FIRSTVALUES['171117_HFMixFRET'] = ['-0.43945', '-1897.58301', '0.06989', '0.07080']
+FIRSTVALUES['171117_HFMixFRET'] = ['-0.43945', '-94.87915', '0.06989', '0.07080']
 FIRSTVALUES['17o05024_vc_steps'] = ['-21.36230']
 FIRSTVALUES['17o05026_vc_stim'] = ['-16.11328']
 FIRSTVALUES['17o05027_ic_ramp'] = ['-48.00415']
@@ -49,7 +49,7 @@ FIRSTVALUES['18702001-pulseTrain'] = ['-11.71875', '-1.03607']
 FIRSTVALUES['18702001-ramp'] = ['-12.20703', '-1.03638']
 FIRSTVALUES['18702001-step'] = ['-10.49805', '-1.03546']
 FIRSTVALUES['18702001-triangleTrain'] = ['-9.88769', '-1.03577']
-FIRSTVALUES['130618-1-12'] = ['-19.72634']
+FIRSTVALUES['130618-1-12'] = ['-188.33015']
 
 def go():
     print("Checking first values ", end="")
@@ -62,10 +62,10 @@ def go():
             firstValues.append("%.05f" % (abf.sweepY[0]))
         if abf.abfID in FIRSTVALUES.keys():
             if not firstValues == FIRSTVALUES[abf.abfID]:
-                print("ERROR WITH", abf.abfID)
+                print("\n\nERROR WITH", abf.abfID)
                 print("  expected:", FIRSTVALUES[abf.abfID])
                 print("  actual:", firstValues)
-                raise ValueError
+                #raise ValueError
             #print("Verified first values of", abf.abfID)
             print(".", end="")
             sys.stdout.flush()
