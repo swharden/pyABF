@@ -171,6 +171,9 @@ class Epochs:
 
         # return an empty waveform if a custom waveform file was used
         if self.abf._dacSection.nWaveformSource[self.channel] == 2:
+            warnings.warn("Custom waveforms are unsupported, using NaNs instead " +
+                          "for channel {} of sweep {}".format(self.channel,
+                          sweepNumber))
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
 
