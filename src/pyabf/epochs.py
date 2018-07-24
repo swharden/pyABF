@@ -68,6 +68,14 @@ class Epochs:
         self.pulseWidth.append(0)
         self.digitalOutputs.append(0)
 
+    def _is_custom_waveform(self):
+        """
+        Return True if the epoch is defined by a custom waveform in different
+        file, False for regular epochs.
+        """
+
+        return self.abf._dacSection.nWaveformSource[self.channel] == 2
+
     def _fillEpochsFromABFv2(self):
         """
         Read the ABF header and append to the epoch lists
@@ -139,7 +147,7 @@ class Epochs:
         if self.abf.abfFileFormat == 1:
             return "Epoch data from ABF1 files is not available"
 
-        if self.abf._dacSection.nWaveformSource[self.channel] == 2:
+        if self._is_custom_waveform():
             out = "Epochs ignored. DAC controlled by custom waveform:\n"
             out += self.abf._stringsIndexed.lDACFilePath[0]
             return out
@@ -170,7 +178,7 @@ class Epochs:
             return sweepC
 
         # return an empty waveform if a custom waveform file was used
-        if self.abf._dacSection.nWaveformSource[self.channel] == 2:
+        if  self._is_custom_waveform():
             warnings.warn("Custom waveforms are unsupported, using NaNs instead " +
                           "for channel {} of sweep {}".format(self.channel,
                           sweepNumber))
