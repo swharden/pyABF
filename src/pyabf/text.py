@@ -24,12 +24,12 @@ def indexFolder(folder, launch=True):
     for pic in sorted(pics):
         url = os.path.basename(pic)
         html += f"<a href='{url}'><img src='{url}'></a> "
-    
+
     html+="<h1>HTML Files</h1>"
     for pic in sorted(glob.glob(folder+"/*.html")):
         url = os.path.basename(pic)
         html += f"<li><a href='{url}'>{url}</a> "
-    
+
     html += "</body></html>"
     fname = folder+"/index-pics.html"
     with open(fname, 'w') as f:

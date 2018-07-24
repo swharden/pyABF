@@ -241,7 +241,7 @@ class ProtocolSection:
 
 class ADCSection:
     """
-    Information about the ADC (what gets recorded). 
+    Information about the ADC (what gets recorded).
     There is 1 item per ADC.
     """
     def __init__(self, fb, sectionMap):
@@ -309,7 +309,7 @@ class ADCSection:
 
 class DACSection:
     """
-    Information about the DAC (what gets clamped). 
+    Information about the DAC (what gets clamped).
     There is 1 item per DAC.
     """
     def __init__(self, fb, sectionMap):
@@ -440,7 +440,7 @@ class EpochSection:
     """
     This section contains the digital output signals for each epoch. This
     section has been overlooked by some previous open-source ABF-reading
-    projects. Note that the digital output is a single byte, but represents 
+    projects. Note that the digital output is a single byte, but represents
     8 bits corresponding to 8 outputs (7->0). When working with these bits,
     I convert it to a string like "10011101" for easy eyeballing.
     """
@@ -490,11 +490,11 @@ class TagSection:
 class StringsSection:
     """
     Part of the ABF file contains long strings. Some of these can be broken
-    apart into indexed strings. 
+    apart into indexed strings.
 
     The first string is the only one which seems to contain useful information.
-    This contains information like channel names, channel units, and abf 
-    protocol path and comments. The other strings are very large and I do not 
+    This contains information like channel names, channel units, and abf
+    protocol path and comments. The other strings are very large and I do not
     know what they do.
 
     Strings which contain indexed substrings are separated by \\x00 characters.

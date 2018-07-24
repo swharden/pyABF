@@ -117,7 +117,7 @@ class ABFcore:
 
     def _fileClose(self):
         """
-        Close the ABF file. Releasing it allows it to be read by ClampFit. 
+        Close the ABF file. Releasing it allows it to be read by ClampFit.
         Clampfit, regrettably, is a file-access-blocking data viewer.
         """
         self._fileCloseTime = time.perf_counter()
@@ -126,7 +126,7 @@ class ABFcore:
 
     def _readHeaders(self):
         """
-        Read all headers into memory. 
+        Read all headers into memory.
         Store them in variables that can be accessed at any time.
         """
         if self.abfFileFormat == 1:
@@ -252,7 +252,7 @@ class ABFcore:
         self._dataOffset = [0]*self.channelCount
 
         if self.abfFileFormat == 1:
-            for i in range(self.channelCount):                
+            for i in range(self.channelCount):
                 self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
                 self._dataGain[i] /= self._headerV1.fSignalGain[i]
                 self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
@@ -262,7 +262,7 @@ class ABFcore:
                 self._dataGain[i] /= self._headerV1.lADCResolution
                 self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
                 self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
-        
+
         elif self.abfFileFormat == 2:
             for i in range(self.channelCount):
                 self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
@@ -274,7 +274,7 @@ class ABFcore:
                 self._dataGain[i] /= self._protocolSection.lADCResolution
                 self._dataOffset[i] += self._adcSection.fInstrumentOffset[i]
                 self._dataOffset[i] -= self._adcSection.fSignalOffset[i]
-        
+
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -324,8 +324,8 @@ class ABFcore:
 
     def _makeTagTimesHumanReadable(self):
         """
-        Tags are comments placed at specific time points in ABF files. 
-        Unfortunately the time code (lTagTime) isn't in useful unit. This 
+        Tags are comments placed at specific time points in ABF files.
+        Unfortunately the time code (lTagTime) isn't in useful unit. This
         section converts tag times into human-readable units (like seconds).
         """
         if self.abfFileFormat == 1:
@@ -350,7 +350,7 @@ class ABFcore:
         array, reshapes them into a 2D array (each channel is a row), and
         scales them by multiplying each channel by its scaling factor.
 
-        To access data sweep by sweep, write your own class function! 
+        To access data sweep by sweep, write your own class function!
         That's outside the scope of this core ABF class.
         """
 
@@ -385,13 +385,13 @@ class ABFcore:
 
         # if the data was originally an int, it must be scaled
         if dtype == np.int16:
-            for i in range(self.channelCount):                
+            for i in range(self.channelCount):
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
     def getInfoPage(self):
         """
-        Return an object to let the user inspect methods and variables 
+        Return an object to let the user inspect methods and variables
         of this ABF class as well as the full contents of the ABF header
         """
         page = pyabf.text.InfoPage(self.abfID+".abf")

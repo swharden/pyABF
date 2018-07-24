@@ -28,7 +28,7 @@ class ABF(ABFcore):
 
         # pre-load the first sweep
         self.setSweep(0)
-        
+
     def __repr__(self):
         return 'ABF(abf="%s", preLoadData=%s)' % (self.abfFilePath, self._preLoadData)
 
@@ -74,7 +74,7 @@ class ABF(ABFcore):
             msg = "Channel %d not available (must be 0 - %d)" % (
                 channel, self.channelCount-1)
             raise ValueError(msg)
-            
+
 
         if not "data" in (dir(self)):
             print("ABF data not preloaded. Loading now...")
@@ -188,6 +188,6 @@ if __name__ == "__main__":
             print(abf.epochsByChannel[channel].text)
             #epochs = abf.epochsByChannel[channel]
             #print(f"{abf.abfID} Ch{channel} {epochs}")
-            
+
 
     print("DONE")
