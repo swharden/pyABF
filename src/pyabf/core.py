@@ -158,9 +158,8 @@ class ABFcore:
             self.abfVersion = list(self.abfVersion.replace(".", ""))
             self.abfVersion = ".".join(self.abfVersion)
         elif self.abfFileFormat == 2:
-            self.abfVersion = self._headerV2.fFileVersionNumber[::-1]
-            self.abfVersion = [str(x) for x in self.abfVersion]
-            self.abfVersion = ".".join(self.abfVersion)
+            fileVersion = self._headerV2.fFileVersionNumber[::-1]
+            self.abfVersion = str(fileVersion[0] + fileVersion[1] / 100)
         else:
             raise NotImplementedError("Invalid ABF file format")
 
