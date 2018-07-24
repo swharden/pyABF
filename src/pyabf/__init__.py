@@ -11,3 +11,4 @@ from pyabf import plot
 from pyabf import calc
 from pyabf import filter
 from pyabf.abf import ABF
+from pyabf.atf_storage import ATFStorage
