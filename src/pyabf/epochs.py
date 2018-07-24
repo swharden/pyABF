@@ -149,7 +149,7 @@ class Epochs:
 
         if self._is_custom_waveform():
             out = "Epochs ignored. DAC controlled by custom waveform:\n"
-            out += self.abf._stringsIndexed.lDACFilePath[0]
+            out += self.abf._stringsIndexed.lDACFilePath[self.channel]
             return out
 
         out = "\n"
