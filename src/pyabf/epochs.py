@@ -146,6 +146,8 @@ class Epochs:
 
         if self.abf.abfFileFormat == 1:
             return "Epoch data from ABF1 files is not available"
+        elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
+            return "Epochs ignored. DAC is turned off."
         elif self._is_custom_waveform():
             out = "Epochs ignored. DAC controlled by custom waveform:\n"
             out += self.abf._stringsIndexed.lDACFilePath[self.channel]
@@ -174,6 +176,9 @@ class Epochs:
         # return an empty waveform for ABFv1 files
         if self.abf.abfFileFormat == 1:
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
+            return sweepC
+        elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
+            sweepC = np.empty([0])
             return sweepC
         elif self._is_custom_waveform():
             warnings.warn("Custom waveforms are unsupported, using NaNs instead " +
