@@ -76,6 +76,7 @@ class ABFcore:
         self._determineAbfFormat()
         self._readHeaders()
         self._formatVersion()
+        self._formatFileGUID()
         self._determineCreationDateTime()
         self._determineDataProperties()
         self._determineDataUnits()
@@ -160,6 +161,26 @@ class ABFcore:
         elif self.abfFileFormat == 2:
             fileVersion = self._headerV2.fFileVersionNumber[::-1]
             self.abfVersion = str(fileVersion[0] + fileVersion[1] / 100)
+        else:
+            raise NotImplementedError("Invalid ABF file format")
+
+    def _formatFileGUID(self):
+        """
+        Format the file GUID for ABF2.
+        """
+        if self.abfFileFormat == 1:
+            self.fileGUID = None
+        elif self.abfFileFormat == 2:
+            guid = self._headerV2.uFileGUID
+            self.fileGUID = (("{%.2X%.2X%.2X%.2X-"
+                              "%.2X%.2X-%.2X%.2X-"
+                              "%.2X%.2X-"
+                              "%.2X%.2X%.2X%.2X%.2X%.2X}") %
+                            (guid[3], guid[2], guid[1], guid[0],
+                             guid[5], guid[4],
+                             guid[7], guid[6],
+                             guid[8], guid[9],
+                             guid[10], guid[11], guid[12], guid[13], guid[14], guid[15]))
         else:
             raise NotImplementedError("Invalid ABF file format")
 
