@@ -232,9 +232,31 @@ class ProtocolSection:
         self.nDigitizerTotalDigitalOuts = readStruct(fb, "h")
         self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")
         self.nDigitizerType = readStruct(fb, "h")
+        self.sDigitizerType = self._mapDigitizerType(self.nDigitizerType)
 
         del self.sUnused # non-ascii characters which crash things
 
+    def _mapDigitizerType(self, num):
+        """
+        Map the digitizer types to human readable names
+        """
+
+        # TODO enhance the names, stimfit does not include human readable names
+        m = { 0 : "Unknown",
+              1 : "Demo",
+              2 : "MiniDigi",
+              3 : "DD132X",
+              4 : "OPUS",
+              5 : "PATCH",
+              6 : "Digidata 1440",
+              7 : "MINIDIGI2",
+              8 : "Digidata 1550" }
+
+        try:
+            return m[num]
+        except KeyError:
+            warnings.warn(f"Requested unknown entry {num}")
+            return m[0]
 
 class ADCSection:
     """
