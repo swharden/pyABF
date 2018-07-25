@@ -178,7 +178,8 @@ class Epochs:
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
         elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
-            sweepC = np.empty([0])
+            #sweepC = np.empty([0])
+            sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
         elif self._is_custom_waveform():
             warnings.warn("Custom waveforms are unsupported, using NaNs instead " +
