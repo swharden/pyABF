@@ -164,7 +164,7 @@ class ProtocolSection:
         self.nOperationMode = readStruct(fb, "h")
         self.fADCSequenceInterval = readStruct(fb, "f")
         self.bEnableFileCompression = readStruct(fb, "b")
-        self.sUnused = readStruct(fb, "3s")
+        self.sUnused = readStruct(fb, "3c")
         self.uFileCompressionRatio = readStruct(fb, "I")
         self.fSynchTimeUnit = readStruct(fb, "f")
         self.fSecondsPerRun = readStruct(fb, "f")
@@ -233,8 +233,6 @@ class ProtocolSection:
         self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")
         self.nDigitizerType = readStruct(fb, "h")
         self.sDigitizerType = self._mapDigitizerType(self.nDigitizerType)
-
-        del self.sUnused # non-ascii characters which crash things
 
     def _mapDigitizerType(self, num):
         """
