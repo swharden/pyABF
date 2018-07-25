@@ -433,7 +433,7 @@ class ABFcore:
             thing = getattr(self, thingName)
             if "method" in str(type(thing)):
                 continue
-            if isinstance(thing, (int, list, float, datetime.datetime, str, np.ndarray, range)):
+            if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray, range)):
                 page.addThing(thingName, thing)
             elif thing is None or thing is False or thing is True:
                 page.addThing(thingName, thing)
