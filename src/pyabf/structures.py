@@ -115,7 +115,7 @@ class HeaderV2:
         self.nCRCEnable = readStruct(fb, "H")
         self.uFileCRC = readStruct(fb, "I")
         self.uFileGUID = readStruct(fb, "16B")
-        self.uCreatorVersion = readStruct(fb, "I")
+        self.uCreatorVersion = readStruct(fb, "4B")
         self.uCreatorNameIndex = readStruct(fb, "I")
         self.uModifierVersion = readStruct(fb, "I")
         self.uModifierNameIndex = readStruct(fb, "I")

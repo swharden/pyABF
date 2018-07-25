@@ -77,6 +77,7 @@ class ABFcore:
         self._readHeaders()
         self._formatVersion()
         self._formatFileGUID()
+        self._formatCreatorVersion()
         self._determineCreationDateTime()
         self._determineDataProperties()
         self._determineDataUnits()
@@ -161,6 +162,22 @@ class ABFcore:
         elif self.abfFileFormat == 2:
             fileVersion = self._headerV2.fFileVersionNumber[::-1]
             self.abfVersion = str(fileVersion[0] + fileVersion[1] / 100)
+        else:
+            raise NotImplementedError("Invalid ABF file format")
+
+    def _formatCreatorVersion(self):
+        """
+        Format the creator version number for ABF2.
+        """
+        if self.abfFileFormat == 1:
+            self.creatorVersion = None
+        elif self.abfFileFormat == 2:
+            version = self._headerV2.uCreatorVersion
+            self.creatorVersion = {}
+            self.creatorVersion['major'] = version[3]
+            self.creatorVersion['minor'] = version[2]
+            self.creatorVersion['bugfix'] = version[1]
+            self.creatorVersion['build'] = version[0]
         else:
             raise NotImplementedError("Invalid ABF file format")
 
