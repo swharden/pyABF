@@ -197,6 +197,9 @@ def go():
         # load the ABF
         abf = pyabf.ABF(fname)
 
+        # indicate which ABF is being challenged
+        #print(abf.abfID)
+
         # create the graphs
         infoPage(abf)
         plotThumbnail(abf)
