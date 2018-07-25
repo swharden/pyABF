@@ -14,7 +14,7 @@ def sweepNumbersByTime(abf, timeSec1, timeSec2):
 
 def averageSweep(abf, sweepNumbers=None, baselineTimeSec1=False, baselineTimeSec2=False, calculateError=False, stdErr=True):
     """
-    Returns the average of the given sweeps. 
+    Returns the average of the given sweeps.
     This returns a whole sweep, not just a single number.
     If you want baseline subtraction, call abf.baseline() before this.
     If calculateError is true, the returned data is [sweepAvg, sweepErr].

@@ -27,7 +27,7 @@ defaultFigsize = (8, 6)
 
 def sweepDataRange(abf, fraction=1, sweepNumber=0, channel=0):
     """
-    Return the magnitude of the range between the min and max points in the 
+    Return the magnitude of the range between the min and max points in the
     sweep. This is useful when determining how much to stack an ABF.
     """
     abf.setSweep(sweepNumber=0, channel=channel)
@@ -62,7 +62,7 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, offsetYunits=
         i2 = int(abf.dataRate*endAtSec)
     else:
         i2 = int(abf.dataRate*abf.sweepLengthSec)
-    
+
 
     if color is None:
         colors = colorsBinned(len(sweepNumbers))
@@ -167,7 +167,7 @@ def scalebar(abf=None, hideTicks=True, hideFrame=True, fontSize=8, scaleXsize=No
     if hideTicks:
         plt.gca().get_yaxis().set_visible(False)
         plt.gca().get_xaxis().set_visible(False)
-    
+
     # hide the square around the image
     if hideFrame:
         plt.gca().spines['top'].set_visible(False)

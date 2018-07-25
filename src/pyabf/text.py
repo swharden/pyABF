@@ -24,12 +24,12 @@ def indexFolder(folder, launch=True):
     for pic in sorted(pics):
         url = os.path.basename(pic)
         html += f"<a href='{url}'><img src='{url}'></a> "
-    
+
     html+="<h1>HTML Files</h1>"
     for pic in sorted(glob.glob(folder+"/*.html")):
         url = os.path.basename(pic)
         html += f"<li><a href='{url}'>{url}</a> "
-    
+
     html += "</body></html>"
     fname = folder+"/index-pics.html"
     with open(fname, 'w') as f:
@@ -115,16 +115,16 @@ class InfoPage:
         for item in self.things:
             name, value = item
             if str(value) == "~SECTION~":
-                html += "<div class='section'>%s</div>" % name
+                html += "\n<div class='section'>%s</div>" % name
             elif str(value) == "~DOCS~":
-                html += "<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
+                html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             elif str(name) == "~CODE~":
                 html+="\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
             else:
                 if value is None:
-                    html += "<div class='item'>%s</div>" % (name)
+                    html += "\n<div class='item'>%s</div>" % (name)
                 else:
-                    html += "<div class='item'>%s = <code>%s</code></div>" % (
+                    html += "\n<div class='item'>%s = <code>%s</code></div>" % (
                         name, value)
         html += "</body></html>"
 

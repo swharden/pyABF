@@ -56,7 +56,7 @@ class Epochs:
     def _fillEpochsFromABFv1(self):
         """
         Do our best to create an epoch from what we know about the ABFv1.
-        Currently this makes it look like a single step epoch over the 
+        Currently this makes it look like a single step epoch over the
         entire sweep.
         """
         self.type.append(1)
@@ -280,7 +280,7 @@ class Epochs:
                 cos = np.cos(vals) * levelDelta/2
                 chunk.fill(levelOff)
                 chunk += cos + levelDelta/2
-                
+
             # fill epoch: biphasic train
             elif self.type[epochNumber] == 7:
                 chunk.fill(levelOff)
