@@ -115,16 +115,16 @@ class InfoPage:
         for item in self.things:
             name, value = item
             if str(value) == "~SECTION~":
-                html += "<div class='section'>%s</div>" % name
+                html += "\n<div class='section'>%s</div>" % name
             elif str(value) == "~DOCS~":
-                html += "<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
+                html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             elif str(name) == "~CODE~":
                 html+="\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
             else:
                 if value is None:
-                    html += "<div class='item'>%s</div>" % (name)
+                    html += "\n<div class='item'>%s</div>" % (name)
                 else:
-                    html += "<div class='item'>%s = <code>%s</code></div>" % (
+                    html += "\n<div class='item'>%s = <code>%s</code></div>" % (
                         name, value)
         html += "</body></html>"
 
