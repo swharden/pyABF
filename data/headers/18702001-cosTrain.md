@@ -207,6 +207,8 @@
 * nTriggerSource = `-3`
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
+* sDigitizerType = `Digidata 1440`
+* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -240,6 +242,7 @@
 * nTelegraphEnable = `[1, 0]`
 * nTelegraphInstrument = `[24, 0]`
 * nTelegraphMode = `[0, 0]`
+* sTelegraphInstrument = `['MultiClamp 700', 'Unknown instrument (manual or user defined telegraph table).']`
 
 ## DACSection
 

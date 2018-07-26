@@ -193,6 +193,8 @@ Epochs ignored. DAC is turned off.
 * nTriggerSource = `-3`
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
+* sDigitizerType = `Digidata 1440`
+* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -226,6 +228,7 @@ Epochs ignored. DAC is turned off.
 * nTelegraphEnable = `[0, 0]`
 * nTelegraphInstrument = `[0, 0]`
 * nTelegraphMode = `[0, 0]`
+* sTelegraphInstrument = `['Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).']`
 
 ## DACSection
 
