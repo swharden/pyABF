@@ -179,6 +179,8 @@ def plotThumbnail(abf):
 
 def go():
 
+    print("Generating data index page",end=" ")
+
     md = "# Sample ABFs\n\n"
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
