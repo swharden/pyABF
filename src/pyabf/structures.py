@@ -164,7 +164,7 @@ class ProtocolSection:
         self.nOperationMode = readStruct(fb, "h")
         self.fADCSequenceInterval = readStruct(fb, "f")
         self.bEnableFileCompression = readStruct(fb, "b")
-        self.sUnused = readStruct(fb, "3s")
+        self.sUnused = readStruct(fb, "3c")
         self.uFileCompressionRatio = readStruct(fb, "I")
         self.fSynchTimeUnit = readStruct(fb, "f")
         self.fSecondsPerRun = readStruct(fb, "f")
@@ -232,9 +232,29 @@ class ProtocolSection:
         self.nDigitizerTotalDigitalOuts = readStruct(fb, "h")
         self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")
         self.nDigitizerType = readStruct(fb, "h")
+        self.sDigitizerType = self._mapDigitizerType(self.nDigitizerType)
 
-        del self.sUnused # non-ascii characters which crash things
+    def _mapDigitizerType(self, num):
+        """
+        Map the digitizer types to human readable names
+        """
 
+        # TODO enhance the names, stimfit does not include human readable names
+        m = { 0 : "Unknown",
+              1 : "Demo",
+              2 : "MiniDigi",
+              3 : "DD132X",
+              4 : "OPUS",
+              5 : "PATCH",
+              6 : "Digidata 1440",
+              7 : "MINIDIGI2",
+              8 : "Digidata 1550" }
+
+        try:
+            return m[num]
+        except KeyError:
+            warnings.warn(f"Requested unknown entry {num}")
+            return m[0]
 
 class ADCSection:
     """
@@ -248,6 +268,7 @@ class ADCSection:
         self.nADCNum = [None]*entryCount
         self.nTelegraphEnable = [None]*entryCount
         self.nTelegraphInstrument = [None]*entryCount
+        self.sTelegraphInstrument = [None]*entryCount
         self.fTelegraphAdditGain = [None]*entryCount
         self.fTelegraphFilter = [None]*entryCount
         self.fTelegraphMembraneCap = [None]*entryCount
@@ -278,6 +299,7 @@ class ADCSection:
             self.nADCNum[i] = readStruct(fb, "h")
             self.nTelegraphEnable[i] = readStruct(fb, "h")
             self.nTelegraphInstrument[i] = readStruct(fb, "h")
+            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(self.nTelegraphInstrument[i])
             self.fTelegraphAdditGain[i] = readStruct(fb, "f")
             self.fTelegraphFilter[i] = readStruct(fb, "f")
             self.fTelegraphMembraneCap[i] = readStruct(fb, "f")
@@ -302,6 +324,47 @@ class ADCSection:
             self.nStatsChannelPolarity[i] = readStruct(fb, "h")
             self.lADCChannelNameIndex[i] = readStruct(fb, "i")
             self.lADCUnitsIndex[i] = readStruct(fb, "i")
+
+
+    def _mapTelegraphInstrumentType(self, num):
+        """
+        Map the  types to human readable names
+        """
+
+        m = { 0  : "Unknown instrument (manual or user defined telegraph table).",
+              1  : "Axopatch-1 with CV-4-1/100",
+              2  : "Axopatch-1 with CV-4-0.1/100",
+              3  : "Axopatch-1B(inv.) CV-4-1/100",
+              4  : "Axopatch-1B(inv) CV-4-0.1/100",
+              5  : "Axopatch 200 with CV 201",
+              6  : "Axopatch 200 with CV 202",
+              7  : "GeneClamp",
+              8  : "Dagan 3900",
+              9  : "Dagan 3900A",
+              10 : "Dagan CA-1  Im=0.1",
+              11 : "Dagan CA-1  Im=1.0",
+              12 : "Dagan CA-1  Im=10",
+              13 : "Warner OC-725",
+              14 : "Warner OC-725",
+              15 : "Axopatch 200B",
+              16 : "Dagan PC-ONE  Im=0.1",
+              17 : "Dagan PC-ONE  Im=1.0",
+              18 : "Dagan PC-ONE  Im=10",
+              19 : "Dagan PC-ONE  Im=100",
+              20 : "Warner BC-525C",
+              21 : "Warner PC-505",
+              22 : "Warner PC-501",
+              23 : "Dagan CA-1  Im=0.05",
+              24 : "MultiClamp 700",
+              25 : "Turbo Tec",
+              26 : "OpusXpress 6000A",
+              27 : "Axoclamp 900" }
+
+        try:
+            return m[num]
+        except KeyError:
+            warnings.warn(f"Requested unknown entry {num}")
+            return m[0]
 
 
 class DACSection:
