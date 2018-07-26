@@ -12,7 +12,7 @@ import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 import importlib.util
-
+import warnings
 
 def runFunctionInFile(filename, functionName="go"):
     """
@@ -32,6 +32,7 @@ def runFunctionInFile(filename, functionName="go"):
 
 if __name__ == "__main__":
 
+    warnings.simplefilter("ignore")
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
     runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
