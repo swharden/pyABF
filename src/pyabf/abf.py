@@ -62,7 +62,6 @@ class ABF(ABFcore):
             sweepNumber: sweep number to load (starting at 0)
             channel: ABF channel (starting at 0)
             absoluteTime: if False, sweepX always starts at 0.
-            baselineTimes: times (in seconds) to baseline subtract to
         """
 
         # basic error checking
