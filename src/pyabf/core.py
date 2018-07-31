@@ -216,8 +216,8 @@ class ABFcore:
             startDate = str(self._headerV2.uFileStartDate)
             startTime = self._headerV2.uFileStartTimeMS / 1000
             startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
-            startTime = datetime.timedelta(seconds=startTime)
-            self.abfDateTime = startDate+startTime
+            timeStamp = startDate + datetime.timedelta(seconds=startTime)
+            self.abfDateTime = timeStamp.isoformat()
         else:
             raise NotImplementedError("Invalid ABF file format")
 
