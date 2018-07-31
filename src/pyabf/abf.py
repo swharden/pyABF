@@ -62,7 +62,6 @@ class ABF(ABFcore):
             sweepNumber: sweep number to load (starting at 0)
             channel: ABF channel (starting at 0)
             absoluteTime: if False, sweepX always starts at 0.
-            baselineTimes: times (in seconds) to baseline subtract to
         """
 
         # basic error checking
@@ -83,19 +82,6 @@ class ABF(ABFcore):
             self._fileClose()
 
         # TODO: prevent re-loading of the same sweep.
-
-        # sweep number error checking
-        while sweepNumber < 0:
-            sweepNumber = self.sweepCount - sweepNumber
-        if sweepNumber >= self.sweepCount:
-            warnings.warn(
-                "Requested sweep is out of bounds. Using last sweep.")
-            sweepNumber = self.sweepCount
-
-        # channel error checking
-        if channel < 0 or channel >= self.channelCount:
-            warnings.warn(
-                "Requested channel is out of bounds. Using first channel.")
 
         # determine data bounds for that sweep
         pointStart = self.sweepPointCount*sweepNumber
@@ -130,9 +116,6 @@ class ABF(ABFcore):
         self.sweepX = np.arange(len(self.sweepY))*self.dataSecPerPoint
         if absoluteTime:
             self.sweepX += sweepNumber * self.sweepLengthSec
-
-        # update epoch time points
-        self._updateTimePoints()
 
         # baseline subtraction
         if self.baselinePoints:
