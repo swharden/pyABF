@@ -84,19 +84,6 @@ class ABF(ABFcore):
 
         # TODO: prevent re-loading of the same sweep.
 
-        # sweep number error checking
-        while sweepNumber < 0:
-            sweepNumber = self.sweepCount - sweepNumber
-        if sweepNumber >= self.sweepCount:
-            warnings.warn(
-                "Requested sweep is out of bounds. Using last sweep.")
-            sweepNumber = self.sweepCount
-
-        # channel error checking
-        if channel < 0 or channel >= self.channelCount:
-            warnings.warn(
-                "Requested channel is out of bounds. Using first channel.")
-
         # determine data bounds for that sweep
         pointStart = self.sweepPointCount*sweepNumber
         pointEnd = pointStart + self.sweepPointCount
