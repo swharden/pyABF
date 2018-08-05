@@ -11,10 +11,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-07-02 09:30:03.526000`
+* abfDateTime = `2018-07-02T09:30:03.526000`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\18702001-biphasicTrain.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\18702001-biphasicTrain.abf`
 * abfID = `18702001-biphasicTrain`
 * abfVersion = `2.06`
 * adcNames = `['IN 0', 'IN 1']`

@@ -11,10 +11,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-07-02 09:29:47.630000`
+* abfDateTime = `2018-07-02T09:29:47.630000`
 * abfFileComment = ``
 * abfFileFormat = `2`
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\18702001-pulseTrain.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\18702001-pulseTrain.abf`
 * abfID = `18702001-pulseTrain`
 * abfVersion = `2.06`
 * adcNames = `['IN 0', 'IN 1']`
