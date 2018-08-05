@@ -32,12 +32,17 @@ class ABF(ABFcore):
     argument to use this feature.
     """
 
-    def __init__(self, abf, preLoadData=True, atfStorage=ATFStorage):
+    def __init__(self, abf, preLoadData=True, atfStorage=None):
 
         # execute core tasks (read header and data)
         self._preLoadData = preLoadData
         self._atfStorage = atfStorage
         self._loadEverything(abf)
+
+        # if atfStorage is used, ensure it's used right
+        if self._atfStorage:
+            assert(isinstance(self._atfStorage, ATFStorage))
+            warnings.warn("ATFStorage integration in ABF files is experimental and syntax may change")
 
         # perform ABF class init tasks
         self.baseline()

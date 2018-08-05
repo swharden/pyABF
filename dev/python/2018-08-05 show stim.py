@@ -1,0 +1,19 @@
+"""
+Code here makes it easy to glance at a header item from every demo ABF file.
+"""
+
+import os
+import sys
+PATH_HERE = os.path.abspath(os.path.dirname(__file__))
+PATH_DATA = os.path.abspath(PATH_HERE+"../../../data/abfs/")
+PATH_SRC = os.path.abspath(PATH_HERE+"../../../src/")
+sys.path.insert(0, PATH_SRC)
+import pyabf
+
+import glob
+
+if __name__ == "__main__":
+    storage = pyabf.ATFStorage("./")
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
+        abf = pyabf.ABF(fname, True, storage)
+        #abf = pyabf.ABF(fname)
