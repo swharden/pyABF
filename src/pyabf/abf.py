@@ -18,6 +18,20 @@ from pyabf.atf_storage import ATFStorage
 
 
 class ABF(ABFcore):
+    """
+    The ABF class provides direct access to contents of ABF files. It can load
+    ABF1 and ABF2 files identically. 
+
+    The default action is to read all the ABF data from disk when the class is
+    instantiated. This behavior is controlled by the preLoadData argument.
+    Disable it to quickly iterate through files to access header contents.
+
+    If you intend to analyze ABF files which used custom stimulus waveforms,
+    and those waveforms are in ATF format, you can use an ATFStorage object
+    to cache these waveforms. Pass the ATFStorage object in as a command line
+    argument to use this feature.
+    """
+
     def __init__(self, abf, preLoadData=True, atfStorage=ATFStorage):
 
         # execute core tasks (read header and data)
