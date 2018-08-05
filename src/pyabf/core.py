@@ -209,8 +209,8 @@ class ABFcore:
         if self.abfFileFormat == 1:
             # use the time the ABF file was created on disk
             self.abfDateTime = round(os.path.getctime(self.abfFilePath))
-            self.abfDateTime = datetime.datetime.fromtimestamp(
-                self.abfDateTime)
+            self.abfDateTime = datetime.datetime.fromtimestamp(self.abfDateTime)
+            self.abfDateTime = self.abfDateTime.isoformat()
         elif self.abfFileFormat == 2:
             # use file creation time stored in ABF header
             startDate = str(self._headerV2.uFileStartDate)
