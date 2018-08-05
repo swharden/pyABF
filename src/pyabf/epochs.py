@@ -6,6 +6,9 @@ analog and digital waveforms to represent command signals.
 import warnings
 import numpy as np
 import copy
+import os
+import sys
+import pyabf.atf_reader as atf
 
 
 class Epochs:
@@ -52,6 +55,7 @@ class Epochs:
         self.pulsePeriod = []
         self.pulseWidth = []
         self.digitalOutputs = []  # TODO: this never gets filled
+        self._custom_waveform = None
 
     def _fillEpochsFromABFv1(self):
         """
@@ -178,14 +182,56 @@ class Epochs:
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
         elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
-            #sweepC = np.empty([0])
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
         elif self._is_custom_waveform():
-            warnings.warn("Custom waveforms are unsupported, using NaNs instead " +
-                          "for channel {} of sweep {}".format(self.channel,
-                          sweepNumber))
-            sweepC = np.full(self.abf.sweepPointCount, np.nan)
+            # - Menu Reference->Acquire Menu->Protocol Editor->Stimulus File in Clampex for further info
+            # - General Reference > Stimulus File Overview
+
+            # - TODO fix that all sweeps from the ATF file have to be selected
+            # - TODO fix that there is only one sweep per signal supported
+
+            if self._custom_waveform == False:
+                sweepC = np.full(self.abf.sweepPointCount, np.nan)
+                return sweepC
+            elif self._custom_waveform == None:
+                filePath = self.abf._stringsIndexed.lDACFilePath[self.channel]
+                try:
+                    self._custom_waveform = self.abf._atfStorage.get(filePath)
+                except:
+                    warnings.warn(f"Custom waveform could not be loaded from file " +
+                                  f'"{filePath}" due to "{sys.exc_info()[1]}" for channel {self.channel} of sweep {sweepNumber}')
+                    self._custom_waveform = False
+                    sweepC = np.full(self.abf.sweepPointCount, np.nan)
+                    return sweepC
+
+            if self._custom_waveform._raw_data.shape[1] < self.abf.sweepCount:
+                # fewer stimulus file sweeps than sweeps acquired
+                # -> repeat the last one
+                sweepC = self._custom_waveform._raw_data[:, -1]
+            elif self._custom_waveform._raw_data.shape[1] > self.abf.sweepCount:
+                # more -> use only the first one
+                sweepC = self._custom_waveform._raw_data[:, 0]
+            else:
+                # matching
+                sweepC = self._custom_waveform._raw_data[:, sweepNumber]
+
+            if sweepC.shape[0] < self.abf.sweepPointCount:
+                # fewer stimulus file samples than samples acquired
+                # -> resize and fill with last value
+                lastValue = sweepC[-1]
+                lastPoint = sweepC.shape[0]
+                sweepC = sweepC.copy()
+                sweepC.resize(self.abf.sweepPointCount)
+                sweepC[lastPoint:] = lastValue
+            elif sweepC.shape[0] > self.abf.sweepPointCount:
+                # more stimulus file samples than samples acquired
+                # -> resize and throw away the rest
+                sweepC = sweepC.copy()
+                sweepC.resize(self.abf.sweepPointCount)
+
+            # TODO
+            # apply gain and offset (units)
             return sweepC
 
         # start by creating the command signal filled with the holding command

@@ -14,13 +14,15 @@ if __name__ == "__main__":
     sys.path.append(os.path.dirname(__file__)+"/../")
 
 from pyabf.core import ABFcore
+from pyabf.atf_storage import ATFStorage
 
 
 class ABF(ABFcore):
-    def __init__(self, abf, preLoadData=True):
+    def __init__(self, abf, preLoadData=True, atfStorage=ATFStorage):
 
         # execute core tasks (read header and data)
         self._preLoadData = preLoadData
+        self._atfStorage = atfStorage
         self._loadEverything(abf)
 
         # perform ABF class init tasks
@@ -30,7 +32,9 @@ class ABF(ABFcore):
         self.setSweep(0)
 
     def __repr__(self):
-        return 'ABF(abf="%s", preLoadData=%s)' % (self.abfFilePath, self._preLoadData)
+        return 'ABF(abf="%s", preLoadData=%s, atfStorage=%s)' % (self.abfFilePath,
+                                                                 self._preLoadData,
+                                                                 self._atfStorage)
 
     def baseline(self, timeSec1=None, timeSec2=None):
         """
