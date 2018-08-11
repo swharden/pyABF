@@ -299,7 +299,6 @@ class ADCSection:
             self.nADCNum[i] = readStruct(fb, "h")
             self.nTelegraphEnable[i] = readStruct(fb, "h")
             self.nTelegraphInstrument[i] = readStruct(fb, "h")
-            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(self.nTelegraphInstrument[i])
             self.fTelegraphAdditGain[i] = readStruct(fb, "f")
             self.fTelegraphFilter[i] = readStruct(fb, "f")
             self.fTelegraphMembraneCap[i] = readStruct(fb, "f")
@@ -324,6 +323,9 @@ class ADCSection:
             self.nStatsChannelPolarity[i] = readStruct(fb, "h")
             self.lADCChannelNameIndex[i] = readStruct(fb, "i")
             self.lADCUnitsIndex[i] = readStruct(fb, "i")
+            
+            # additional useful information
+            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(self.nTelegraphInstrument[i])
 
 
     def _mapTelegraphInstrumentType(self, num):
