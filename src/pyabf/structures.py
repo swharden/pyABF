@@ -41,6 +41,7 @@ class HeaderV1:
     located at specific byte positions from the start of the file.
     All ABF1 header values are read in this single block.
     """
+
     def __init__(self, fb):
         self.fFileSignature = readStruct(fb, "4s", 0)
         self.fFileVersionNumber = readStruct(fb, "f", 4)
@@ -100,26 +101,27 @@ class HeaderV2:
     The first several bytes of an ABF2 file contain variables
     located at specific byte positions from the start of the file.
     """
+
     def __init__(self, fb):
         fb.seek(0)
-        self.fFileSignature = readStruct(fb, "4s")
-        self.fFileVersionNumber = readStruct(fb, "4b")
-        self.uFileInfoSize = readStruct(fb, "I")
-        self.lActualEpisodes = readStruct(fb, "I")
-        self.uFileStartDate = readStruct(fb, "I")
-        self.uFileStartTimeMS = readStruct(fb, "I")
-        self.uStopwatchTime = readStruct(fb, "I")
-        self.nFileType = readStruct(fb, "H")
-        self.nDataFormat = readStruct(fb, "H")
-        self.nSimultaneousScan = readStruct(fb, "H")
-        self.nCRCEnable = readStruct(fb, "H")
-        self.uFileCRC = readStruct(fb, "I")
-        self.uFileGUID = readStruct(fb, "16B")
-        self.uCreatorVersion = readStruct(fb, "4B")
-        self.uCreatorNameIndex = readStruct(fb, "I")
-        self.uModifierVersion = readStruct(fb, "I")
-        self.uModifierNameIndex = readStruct(fb, "I")
-        self.uProtocolPathIndex = readStruct(fb, "I")
+        self.fFileSignature = readStruct(fb, "4s")  # 0
+        self.fFileVersionNumber = readStruct(fb, "4b")  # 4
+        self.uFileInfoSize = readStruct(fb, "I")  # 8
+        self.lActualEpisodes = readStruct(fb, "I")  # 12
+        self.uFileStartDate = readStruct(fb, "I")  # 16
+        self.uFileStartTimeMS = readStruct(fb, "I")  # 20
+        self.uStopwatchTime = readStruct(fb, "I")  # 24
+        self.nFileType = readStruct(fb, "H")  # 28
+        self.nDataFormat = readStruct(fb, "H")  # 30
+        self.nSimultaneousScan = readStruct(fb, "H")  # 32
+        self.nCRCEnable = readStruct(fb, "H")  # 34
+        self.uFileCRC = readStruct(fb, "I")  # 36
+        self.uFileGUID = readStruct(fb, "16B")  # 40
+        self.uCreatorVersion = readStruct(fb, "4B")  # 56
+        self.uCreatorNameIndex = readStruct(fb, "I")  # 60
+        self.uModifierVersion = readStruct(fb, "I")  # 64
+        self.uModifierNameIndex = readStruct(fb, "I")  # 68
+        self.uProtocolPathIndex = readStruct(fb, "I")  # 72
 
 
 class SectionMap:
@@ -131,6 +133,7 @@ class SectionMap:
     not useful for my applications, typically unused, or have an
     unknown memory structure.
     """
+
     def __init__(self, fb):
         self.ProtocolSection = readStruct(fb, "IIl", 76)
         self.ADCSection = readStruct(fb, "IIl", 92)
@@ -158,80 +161,83 @@ class ProtocolSection:
     This is useful for determining things like sample rate and
     channel scaling factors.
     """
+
     def __init__(self, fb, sectionMap):
         seekTo = sectionMap.ProtocolSection[0]*BLOCKSIZE
         fb.seek(seekTo)
-        self.nOperationMode = readStruct(fb, "h")
-        self.fADCSequenceInterval = readStruct(fb, "f")
-        self.bEnableFileCompression = readStruct(fb, "b")
-        self.sUnused = readStruct(fb, "3c")
-        self.uFileCompressionRatio = readStruct(fb, "I")
-        self.fSynchTimeUnit = readStruct(fb, "f")
-        self.fSecondsPerRun = readStruct(fb, "f")
-        self.lNumSamplesPerEpisode = readStruct(fb, "i")
-        self.lPreTriggerSamples = readStruct(fb, "i")
-        self.lEpisodesPerRun = readStruct(fb, "i")
-        self.lRunsPerTrial = readStruct(fb, "i")
-        self.lNumberOfTrials = readStruct(fb, "i")
-        self.nAveragingMode = readStruct(fb, "h")
-        self.nUndoRunCount = readStruct(fb, "h")
-        self.nFirstEpisodeInRun = readStruct(fb, "h")
-        self.fTriggerThreshold = readStruct(fb, "f")
-        self.nTriggerSource = readStruct(fb, "h")
-        self.nTriggerAction = readStruct(fb, "h")
-        self.nTriggerPolarity = readStruct(fb, "h")
-        self.fScopeOutputInterval = readStruct(fb, "f")
-        self.fEpisodeStartToStart = readStruct(fb, "f")
-        self.fRunStartToStart = readStruct(fb, "f")
-        self.lAverageCount = readStruct(fb, "i")
-        self.fTrialStartToStart = readStruct(fb, "f")
-        self.nAutoTriggerStrategy = readStruct(fb, "h")
-        self.fFirstRunDelayS = readStruct(fb, "f")
-        self.nChannelStatsStrategy = readStruct(fb, "h")
-        self.lSamplesPerTrace = readStruct(fb, "i")
-        self.lStartDisplayNum = readStruct(fb, "i")
-        self.lFinishDisplayNum = readStruct(fb, "i")
-        self.nShowPNRawData = readStruct(fb, "h")
-        self.fStatisticsPeriod = readStruct(fb, "f")
-        self.lStatisticsMeasurements = readStruct(fb, "i")
-        self.nStatisticsSaveStrategy = readStruct(fb, "h")
-        self.fADCRange = readStruct(fb, "f")
-        self.fDACRange = readStruct(fb, "f")
-        self.lADCResolution = readStruct(fb, "i")
-        self.lDACResolution = readStruct(fb, "i")
-        self.nExperimentType = readStruct(fb, "h")
-        self.nManualInfoStrategy = readStruct(fb, "h")
-        self.nCommentsEnable = readStruct(fb, "h")
-        self.lFileCommentIndex = readStruct(fb, "i")
-        self.nAutoAnalyseEnable = readStruct(fb, "h")
-        self.nSignalType = readStruct(fb, "h")
-        self.nDigitalEnable = readStruct(fb, "h")
-        self.nActiveDACChannel = readStruct(fb, "h")
-        self.nDigitalHolding = readStruct(fb, "h")
-        self.nDigitalInterEpisode = readStruct(fb, "h")
-        self.nDigitalDACChannel = readStruct(fb, "h")
-        self.nDigitalTrainActiveLogic = readStruct(fb, "h")
-        self.nStatsEnable = readStruct(fb, "h")
-        self.nStatisticsClearStrategy = readStruct(fb, "h")
-        self.nLevelHysteresis = readStruct(fb, "h")
-        self.lTimeHysteresis = readStruct(fb, "i")
-        self.nAllowExternalTags = readStruct(fb, "h")
-        self.nAverageAlgorithm = readStruct(fb, "h")
-        self.fAverageWeighting = readStruct(fb, "f")
-        self.nUndoPromptStrategy = readStruct(fb, "h")
-        self.nTrialTriggerSource = readStruct(fb, "h")
-        self.nStatisticsDisplayStrategy = readStruct(fb, "h")
-        self.nExternalTagType = readStruct(fb, "h")
-        self.nScopeTriggerOut = readStruct(fb, "h")
-        self.nLTPType = readStruct(fb, "h")
-        self.nAlternateDACOutputState = readStruct(fb, "h")
-        self.nAlternateDigitalOutputState = readStruct(fb, "h")
-        self.fCellID = readStruct(fb, "3f")
-        self.nDigitizerADCs = readStruct(fb, "h")
-        self.nDigitizerDACs = readStruct(fb, "h")
-        self.nDigitizerTotalDigitalOuts = readStruct(fb, "h")
-        self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")
-        self.nDigitizerType = readStruct(fb, "h")
+        self.nOperationMode = readStruct(fb, "h")  # 0
+        self.fADCSequenceInterval = readStruct(fb, "f")  # 2
+        self.bEnableFileCompression = readStruct(fb, "b")  # 6
+        self.sUnused = readStruct(fb, "3c")  # 7
+        self.uFileCompressionRatio = readStruct(fb, "I")  # 10
+        self.fSynchTimeUnit = readStruct(fb, "f")  # 14
+        self.fSecondsPerRun = readStruct(fb, "f")  # 18
+        self.lNumSamplesPerEpisode = readStruct(fb, "i")  # 22
+        self.lPreTriggerSamples = readStruct(fb, "i")  # 26
+        self.lEpisodesPerRun = readStruct(fb, "i")  # 30
+        self.lRunsPerTrial = readStruct(fb, "i")  # 34
+        self.lNumberOfTrials = readStruct(fb, "i")  # 38
+        self.nAveragingMode = readStruct(fb, "h")  # 42
+        self.nUndoRunCount = readStruct(fb, "h")  # 44
+        self.nFirstEpisodeInRun = readStruct(fb, "h")  # 46
+        self.fTriggerThreshold = readStruct(fb, "f")  # 48
+        self.nTriggerSource = readStruct(fb, "h")  # 52
+        self.nTriggerAction = readStruct(fb, "h")  # 54
+        self.nTriggerPolarity = readStruct(fb, "h")  # 56
+        self.fScopeOutputInterval = readStruct(fb, "f")  # 58
+        self.fEpisodeStartToStart = readStruct(fb, "f")  # 62
+        self.fRunStartToStart = readStruct(fb, "f")  # 66
+        self.lAverageCount = readStruct(fb, "i")  # 70
+        self.fTrialStartToStart = readStruct(fb, "f")  # 74
+        self.nAutoTriggerStrategy = readStruct(fb, "h")  # 78
+        self.fFirstRunDelayS = readStruct(fb, "f")  # 80
+        self.nChannelStatsStrategy = readStruct(fb, "h")  # 84
+        self.lSamplesPerTrace = readStruct(fb, "i")  # 86
+        self.lStartDisplayNum = readStruct(fb, "i")  # 90
+        self.lFinishDisplayNum = readStruct(fb, "i")  # 94
+        self.nShowPNRawData = readStruct(fb, "h")  # 98
+        self.fStatisticsPeriod = readStruct(fb, "f")  # 100
+        self.lStatisticsMeasurements = readStruct(fb, "i")  # 104
+        self.nStatisticsSaveStrategy = readStruct(fb, "h")  # 108
+        self.fADCRange = readStruct(fb, "f")  # 110
+        self.fDACRange = readStruct(fb, "f")  # 114
+        self.lADCResolution = readStruct(fb, "i")  # 118
+        self.lDACResolution = readStruct(fb, "i")  # 122
+        self.nExperimentType = readStruct(fb, "h")  # 126
+        self.nManualInfoStrategy = readStruct(fb, "h")  # 128
+        self.nCommentsEnable = readStruct(fb, "h")  # 130
+        self.lFileCommentIndex = readStruct(fb, "i")  # 132
+        self.nAutoAnalyseEnable = readStruct(fb, "h")  # 136
+        self.nSignalType = readStruct(fb, "h")  # 138
+        self.nDigitalEnable = readStruct(fb, "h")  # 140
+        self.nActiveDACChannel = readStruct(fb, "h")  # 142
+        self.nDigitalHolding = readStruct(fb, "h")  # 144
+        self.nDigitalInterEpisode = readStruct(fb, "h")  # 146
+        self.nDigitalDACChannel = readStruct(fb, "h")  # 148
+        self.nDigitalTrainActiveLogic = readStruct(fb, "h")  # 150
+        self.nStatsEnable = readStruct(fb, "h")  # 152
+        self.nStatisticsClearStrategy = readStruct(fb, "h")  # 154
+        self.nLevelHysteresis = readStruct(fb, "h")  # 156
+        self.lTimeHysteresis = readStruct(fb, "i")  # 158
+        self.nAllowExternalTags = readStruct(fb, "h")  # 162
+        self.nAverageAlgorithm = readStruct(fb, "h")  # 164
+        self.fAverageWeighting = readStruct(fb, "f")  # 166
+        self.nUndoPromptStrategy = readStruct(fb, "h")  # 170
+        self.nTrialTriggerSource = readStruct(fb, "h")  # 172
+        self.nStatisticsDisplayStrategy = readStruct(fb, "h")  # 174
+        self.nExternalTagType = readStruct(fb, "h")  # 176
+        self.nScopeTriggerOut = readStruct(fb, "h")  # 178
+        self.nLTPType = readStruct(fb, "h")  # 180
+        self.nAlternateDACOutputState = readStruct(fb, "h")  # 182
+        self.nAlternateDigitalOutputState = readStruct(fb, "h")  # 184
+        self.fCellID = readStruct(fb, "3f")  # 186
+        self.nDigitizerADCs = readStruct(fb, "h")  # 198
+        self.nDigitizerDACs = readStruct(fb, "h")  # 200
+        self.nDigitizerTotalDigitalOuts = readStruct(fb, "h")  # 202
+        self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")  # 204
+        self.nDigitizerType = readStruct(fb, "h")  # 206
+
+        # additional useful information
         self.sDigitizerType = self._mapDigitizerType(self.nDigitizerType)
 
     def _mapDigitizerType(self, num):
@@ -240,15 +246,15 @@ class ProtocolSection:
         """
 
         # TODO enhance the names, stimfit does not include human readable names
-        m = { 0 : "Unknown",
-              1 : "Demo",
-              2 : "MiniDigi",
-              3 : "DD132X",
-              4 : "OPUS",
-              5 : "PATCH",
-              6 : "Digidata 1440",
-              7 : "MINIDIGI2",
-              8 : "Digidata 1550" }
+        m = {0: "Unknown",
+             1: "Demo",
+             2: "MiniDigi",
+             3: "DD132X",
+             4: "OPUS",
+             5: "PATCH",
+             6: "Digidata 1440",
+             7: "MINIDIGI2",
+             8: "Digidata 1550"}
 
         try:
             return m[num]
@@ -256,11 +262,13 @@ class ProtocolSection:
             warnings.warn(f"Requested unknown entry {num}")
             return m[0]
 
+
 class ADCSection:
     """
     Information about the ADC (what gets recorded).
     There is 1 item per ADC.
     """
+
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.ADCSection
         byteStart = blockStart*BLOCKSIZE
@@ -296,71 +304,71 @@ class ADCSection:
 
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)
-            self.nADCNum[i] = readStruct(fb, "h")
-            self.nTelegraphEnable[i] = readStruct(fb, "h")
-            self.nTelegraphInstrument[i] = readStruct(fb, "h")
-            self.fTelegraphAdditGain[i] = readStruct(fb, "f")
-            self.fTelegraphFilter[i] = readStruct(fb, "f")
-            self.fTelegraphMembraneCap[i] = readStruct(fb, "f")
-            self.nTelegraphMode[i] = readStruct(fb, "h")
-            self.fTelegraphAccessResistance[i] = readStruct(fb, "f")
-            self.nADCPtoLChannelMap[i] = readStruct(fb, "h")
-            self.nADCSamplingSeq[i] = readStruct(fb, "h")
-            self.fADCProgrammableGain[i] = readStruct(fb, "f")
-            self.fADCDisplayAmplification[i] = readStruct(fb, "f")
-            self.fADCDisplayOffset[i] = readStruct(fb, "f")
-            self.fInstrumentScaleFactor[i] = readStruct(fb, "f")
-            self.fInstrumentOffset[i] = readStruct(fb, "f")
-            self.fSignalGain[i] = readStruct(fb, "f")
-            self.fSignalOffset[i] = readStruct(fb, "f")
-            self.fSignalLowpassFilter[i] = readStruct(fb, "f")
-            self.fSignalHighpassFilter[i] = readStruct(fb, "f")
-            self.nLowpassFilterType[i] = readStruct(fb, "b")
-            self.nHighpassFilterType[i] = readStruct(fb, "b")
-            self.fPostProcessLowpassFilter[i] = readStruct(fb, "f")
-            self.nPostProcessLowpassFilterType[i] = readStruct(fb, "c")
-            self.bEnabledDuringPN[i] = readStruct(fb, "b")
-            self.nStatsChannelPolarity[i] = readStruct(fb, "h")
-            self.lADCChannelNameIndex[i] = readStruct(fb, "i")
-            self.lADCUnitsIndex[i] = readStruct(fb, "i")
-            
-            # additional useful information
-            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(self.nTelegraphInstrument[i])
+            self.nADCNum[i] = readStruct(fb, "h")  # 0
+            self.nTelegraphEnable[i] = readStruct(fb, "h")  # 2
+            self.nTelegraphInstrument[i] = readStruct(fb, "h")  # 4
+            self.fTelegraphAdditGain[i] = readStruct(fb, "f")  # 6
+            self.fTelegraphFilter[i] = readStruct(fb, "f")  # 10
+            self.fTelegraphMembraneCap[i] = readStruct(fb, "f")  # 14
+            self.nTelegraphMode[i] = readStruct(fb, "h")  # 18
+            self.fTelegraphAccessResistance[i] = readStruct(fb, "f")  # 20
+            self.nADCPtoLChannelMap[i] = readStruct(fb, "h")  # 24
+            self.nADCSamplingSeq[i] = readStruct(fb, "h")  # 26
+            self.fADCProgrammableGain[i] = readStruct(fb, "f")  # 28
+            self.fADCDisplayAmplification[i] = readStruct(fb, "f")  # 32
+            self.fADCDisplayOffset[i] = readStruct(fb, "f")  # 36
+            self.fInstrumentScaleFactor[i] = readStruct(fb, "f")  # 40
+            self.fInstrumentOffset[i] = readStruct(fb, "f")  # 44
+            self.fSignalGain[i] = readStruct(fb, "f")  # 48
+            self.fSignalOffset[i] = readStruct(fb, "f")  # 52
+            self.fSignalLowpassFilter[i] = readStruct(fb, "f")  # 56
+            self.fSignalHighpassFilter[i] = readStruct(fb, "f")  # 60
+            self.nLowpassFilterType[i] = readStruct(fb, "b")  # 64
+            self.nHighpassFilterType[i] = readStruct(fb, "b")  # 65
+            self.fPostProcessLowpassFilter[i] = readStruct(fb, "f")  # 66
+            self.nPostProcessLowpassFilterType[i] = readStruct(fb, "c")  # 70
+            self.bEnabledDuringPN[i] = readStruct(fb, "b")  # 71
+            self.nStatsChannelPolarity[i] = readStruct(fb, "h")  # 72
+            self.lADCChannelNameIndex[i] = readStruct(fb, "i")  # 74
+            self.lADCUnitsIndex[i] = readStruct(fb, "i")  # 78
 
+            # additional useful information
+            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(
+                self.nTelegraphInstrument[i])
 
     def _mapTelegraphInstrumentType(self, num):
         """
         Map the  types to human readable names
         """
 
-        m = { 0  : "Unknown instrument (manual or user defined telegraph table).",
-              1  : "Axopatch-1 with CV-4-1/100",
-              2  : "Axopatch-1 with CV-4-0.1/100",
-              3  : "Axopatch-1B(inv.) CV-4-1/100",
-              4  : "Axopatch-1B(inv) CV-4-0.1/100",
-              5  : "Axopatch 200 with CV 201",
-              6  : "Axopatch 200 with CV 202",
-              7  : "GeneClamp",
-              8  : "Dagan 3900",
-              9  : "Dagan 3900A",
-              10 : "Dagan CA-1  Im=0.1",
-              11 : "Dagan CA-1  Im=1.0",
-              12 : "Dagan CA-1  Im=10",
-              13 : "Warner OC-725",
-              14 : "Warner OC-725",
-              15 : "Axopatch 200B",
-              16 : "Dagan PC-ONE  Im=0.1",
-              17 : "Dagan PC-ONE  Im=1.0",
-              18 : "Dagan PC-ONE  Im=10",
-              19 : "Dagan PC-ONE  Im=100",
-              20 : "Warner BC-525C",
-              21 : "Warner PC-505",
-              22 : "Warner PC-501",
-              23 : "Dagan CA-1  Im=0.05",
-              24 : "MultiClamp 700",
-              25 : "Turbo Tec",
-              26 : "OpusXpress 6000A",
-              27 : "Axoclamp 900" }
+        m = {0: "Unknown instrument (manual or user defined telegraph table).",
+             1: "Axopatch-1 with CV-4-1/100",
+             2: "Axopatch-1 with CV-4-0.1/100",
+             3: "Axopatch-1B(inv.) CV-4-1/100",
+             4: "Axopatch-1B(inv) CV-4-0.1/100",
+             5: "Axopatch 200 with CV 201",
+             6: "Axopatch 200 with CV 202",
+             7: "GeneClamp",
+             8: "Dagan 3900",
+             9: "Dagan 3900A",
+             10: "Dagan CA-1  Im=0.1",
+             11: "Dagan CA-1  Im=1.0",
+             12: "Dagan CA-1  Im=10",
+             13: "Warner OC-725",
+             14: "Warner OC-725",
+             15: "Axopatch 200B",
+             16: "Dagan PC-ONE  Im=0.1",
+             17: "Dagan PC-ONE  Im=1.0",
+             18: "Dagan PC-ONE  Im=10",
+             19: "Dagan PC-ONE  Im=100",
+             20: "Warner BC-525C",
+             21: "Warner PC-505",
+             22: "Warner PC-501",
+             23: "Dagan CA-1  Im=0.05",
+             24: "MultiClamp 700",
+             25: "Turbo Tec",
+             26: "OpusXpress 6000A",
+             27: "Axoclamp 900"}
 
         try:
             return m[num]
@@ -374,6 +382,7 @@ class DACSection:
     Information about the DAC (what gets clamped).
     There is 1 item per DAC.
     """
+
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.DACSection
         byteStart = blockStart*BLOCKSIZE
@@ -422,47 +431,47 @@ class DACSection:
 
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)
-            self.nDACNum[i] = readStruct(fb, "h")
-            self.nTelegraphDACScaleFactorEnable[i] = readStruct(fb, "h")
-            self.fInstrumentHoldingLevel[i] = readStruct(fb, "f")
-            self.fDACScaleFactor[i] = readStruct(fb, "f")
-            self.fDACHoldingLevel[i] = readStruct(fb, "f")
-            self.fDACCalibrationFactor[i] = readStruct(fb, "f")
-            self.fDACCalibrationOffset[i] = readStruct(fb, "f")
-            self.lDACChannelNameIndex[i] = readStruct(fb, "i")
-            self.lDACChannelUnitsIndex[i] = readStruct(fb, "i")
-            self.lDACFilePtr[i] = readStruct(fb, "i")
-            self.lDACFileNumEpisodes[i] = readStruct(fb, "i")
-            self.nWaveformEnable[i] = readStruct(fb, "h")
-            self.nWaveformSource[i] = readStruct(fb, "h")
-            self.nInterEpisodeLevel[i] = readStruct(fb, "h")
-            self.fDACFileScale[i] = readStruct(fb, "f")
-            self.fDACFileOffset[i] = readStruct(fb, "f")
-            self.lDACFileEpisodeNum[i] = readStruct(fb, "i")
-            self.nDACFileADCNum[i] = readStruct(fb, "h")
-            self.nConditEnable[i] = readStruct(fb, "h")
-            self.lConditNumPulses[i] = readStruct(fb, "i")
-            self.fBaselineDuration[i] = readStruct(fb, "f")
-            self.fBaselineLevel[i] = readStruct(fb, "f")
-            self.fStepDuration[i] = readStruct(fb, "f")
-            self.fStepLevel[i] = readStruct(fb, "f")
-            self.fPostTrainPeriod[i] = readStruct(fb, "f")
-            self.fPostTrainLevel[i] = readStruct(fb, "f")
-            self.nMembTestEnable[i] = readStruct(fb, "h")
-            self.nLeakSubtractType[i] = readStruct(fb, "h")
-            self.nPNPolarity[i] = readStruct(fb, "h")
-            self.fPNHoldingLevel[i] = readStruct(fb, "f")
-            self.nPNNumADCChannels[i] = readStruct(fb, "h")
-            self.nPNPosition[i] = readStruct(fb, "h")
-            self.nPNNumPulses[i] = readStruct(fb, "h")
-            self.fPNSettlingTime[i] = readStruct(fb, "f")
-            self.fPNInterpulse[i] = readStruct(fb, "f")
-            self.nLTPUsageOfDAC[i] = readStruct(fb, "h")
-            self.nLTPPresynapticPulses[i] = readStruct(fb, "h")
-            self.lDACFilePathIndex[i] = readStruct(fb, "i")
-            self.fMembTestPreSettlingTimeMS[i] = readStruct(fb, "f")
-            self.fMembTestPostSettlingTimeMS[i] = readStruct(fb, "f")
-            self.nLeakSubtractADCIndex[i] = readStruct(fb, "h")
+            self.nDACNum[i] = readStruct(fb, "h")  # 0
+            self.nTelegraphDACScaleFactorEnable[i] = readStruct(fb, "h")  # 2
+            self.fInstrumentHoldingLevel[i] = readStruct(fb, "f")  # 4
+            self.fDACScaleFactor[i] = readStruct(fb, "f")  # 8
+            self.fDACHoldingLevel[i] = readStruct(fb, "f")  # 12
+            self.fDACCalibrationFactor[i] = readStruct(fb, "f")  # 16
+            self.fDACCalibrationOffset[i] = readStruct(fb, "f")  # 20
+            self.lDACChannelNameIndex[i] = readStruct(fb, "i")  # 24
+            self.lDACChannelUnitsIndex[i] = readStruct(fb, "i")  # 28
+            self.lDACFilePtr[i] = readStruct(fb, "i")  # 32
+            self.lDACFileNumEpisodes[i] = readStruct(fb, "i")  # 36
+            self.nWaveformEnable[i] = readStruct(fb, "h")  # 40
+            self.nWaveformSource[i] = readStruct(fb, "h")  # 42
+            self.nInterEpisodeLevel[i] = readStruct(fb, "h")  # 44
+            self.fDACFileScale[i] = readStruct(fb, "f")  # 46
+            self.fDACFileOffset[i] = readStruct(fb, "f")  # 50
+            self.lDACFileEpisodeNum[i] = readStruct(fb, "i")  # 54
+            self.nDACFileADCNum[i] = readStruct(fb, "h")  # 58
+            self.nConditEnable[i] = readStruct(fb, "h")  # 60
+            self.lConditNumPulses[i] = readStruct(fb, "i")  # 62
+            self.fBaselineDuration[i] = readStruct(fb, "f")  # 66
+            self.fBaselineLevel[i] = readStruct(fb, "f")  # 70
+            self.fStepDuration[i] = readStruct(fb, "f")  # 74
+            self.fStepLevel[i] = readStruct(fb, "f")  # 78
+            self.fPostTrainPeriod[i] = readStruct(fb, "f")  # 82
+            self.fPostTrainLevel[i] = readStruct(fb, "f")  # 86
+            self.nMembTestEnable[i] = readStruct(fb, "h")  # 90
+            self.nLeakSubtractType[i] = readStruct(fb, "h")  # 92
+            self.nPNPolarity[i] = readStruct(fb, "h")  # 94
+            self.fPNHoldingLevel[i] = readStruct(fb, "f")  # 96
+            self.nPNNumADCChannels[i] = readStruct(fb, "h")  # 100
+            self.nPNPosition[i] = readStruct(fb, "h")  # 102
+            self.nPNNumPulses[i] = readStruct(fb, "h")  # 104
+            self.fPNSettlingTime[i] = readStruct(fb, "f")  # 106
+            self.fPNInterpulse[i] = readStruct(fb, "f")  # 110
+            self.nLTPUsageOfDAC[i] = readStruct(fb, "h")  # 114
+            self.nLTPPresynapticPulses[i] = readStruct(fb, "h")  # 116
+            self.lDACFilePathIndex[i] = readStruct(fb, "i")  # 118
+            self.fMembTestPreSettlingTimeMS[i] = readStruct(fb, "f")  # 122
+            self.fMembTestPostSettlingTimeMS[i] = readStruct(fb, "f")  # 126
+            self.nLeakSubtractADCIndex[i] = readStruct(fb, "h")  # 130
 
 
 class EpochPerDACSection:
@@ -471,6 +480,7 @@ class EpochPerDACSection:
     the values set when using the epoch the waveform editor. Note that digital
     output signals are not stored here, but are in EpochSection.
     """
+
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochPerDACSection
         byteStart = blockStart*BLOCKSIZE
@@ -487,15 +497,15 @@ class EpochPerDACSection:
 
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)
-            self.nEpochNum[i] = readStruct(fb, "h")
-            self.nDACNum[i] = readStruct(fb, "h")
-            self.nEpochType[i] = readStruct(fb, "h")
-            self.fEpochInitLevel[i] = readStruct(fb, "f")
-            self.fEpochLevelInc[i] = readStruct(fb, "f")
-            self.lEpochInitDuration[i] = readStruct(fb, "i")
-            self.lEpochDurationInc[i] = readStruct(fb, "i")
-            self.lEpochPulsePeriod[i] = readStruct(fb, "i")
-            self.lEpochPulseWidth[i] = readStruct(fb, "i")
+            self.nEpochNum[i] = readStruct(fb, "h")  # 0
+            self.nDACNum[i] = readStruct(fb, "h")  # 2
+            self.nEpochType[i] = readStruct(fb, "h")  # 4
+            self.fEpochInitLevel[i] = readStruct(fb, "f")  # 6
+            self.fEpochLevelInc[i] = readStruct(fb, "f")  # 10
+            self.lEpochInitDuration[i] = readStruct(fb, "i")  # 14
+            self.lEpochDurationInc[i] = readStruct(fb, "i")  # 18
+            self.lEpochPulsePeriod[i] = readStruct(fb, "i")  # 22
+            self.lEpochPulseWidth[i] = readStruct(fb, "i")  # 26
 
 
 class EpochSection:
@@ -506,6 +516,7 @@ class EpochSection:
     8 bits corresponding to 8 outputs (7->0). When working with these bits,
     I convert it to a string like "10011101" for easy eyeballing.
     """
+
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.EpochSection
         byteStart = blockStart*BLOCKSIZE
@@ -515,8 +526,8 @@ class EpochSection:
 
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)
-            self.nEpochNum[i] = readStruct(fb, "h")
-            self.nEpochDigitalOutput[i] = readStruct(fb, "h")
+            self.nEpochNum[i] = readStruct(fb, "h")  # 0
+            self.nEpochDigitalOutput[i] = readStruct(fb, "h")  # 2
 
 
 class TagSection:
