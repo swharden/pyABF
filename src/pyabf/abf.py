@@ -48,7 +48,8 @@ class ABF(ABFcore):
         self.baseline()
 
         # pre-load the first sweep
-        self.setSweep(0)
+        if preLoadData:
+            self.setSweep(0)
 
     def __repr__(self):
         return 'ABF(abf="%s", preLoadData=%s, atfStorage=%s)' % (self.abfFilePath,
