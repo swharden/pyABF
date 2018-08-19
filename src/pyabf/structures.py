@@ -372,7 +372,6 @@ class ADCSection:
         try:
             return m[num]
         except KeyError:
-            warnings.warn(f"Requested unknown entry {num}")
             return m[0]
 
 
