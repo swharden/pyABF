@@ -50,6 +50,8 @@ FIRSTVALUES['18702001-ramp'] = ['-12.20703', '-1.03638']
 FIRSTVALUES['18702001-step'] = ['-10.49805', '-1.03546']
 FIRSTVALUES['18702001-triangleTrain'] = ['-9.88769', '-1.03577']
 FIRSTVALUES['130618-1-12'] = ['-188.33015']
+FIRSTVALUES['18711001'] = ['-66.66565']
+FIRSTVALUES['18713001'] = ['-64.27002']
 
 def go():
     print("Checking first values ", end="")
