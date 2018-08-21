@@ -120,19 +120,6 @@ def plotHeader(abf):
     plt.savefig(fnameOut)
     plt.close()
 
-
-def infoPage(abf):
-    """
-    Create markdown and HTML file containing header details.
-    """
-    page = abf.getInfoPage()
-    headerPath = os.path.abspath(PATH_HERE+"/../data/headers/")
-    with open(headerPath+"/%s.md" % (abf.abfID), 'w') as f:
-        f.write(page.generateMarkdown())
-    with open(headerPath+"/%s.html" % (abf.abfID), 'w') as f:
-        f.write(page.generateHTML())
-
-
 def plotThumbnail(abf):
     """
     Create a graph some the DAC (command) and ADC (measure) data
@@ -190,10 +177,6 @@ def go():
     md += "ABF Information | Header Map | Thumbnails\n"
     md += "---|---|---\n"
 
-    # clear everything that used to be in the headers folder
-    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        os.remove(fname)
-
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
 
         # load the ABF
@@ -203,7 +186,6 @@ def go():
         #print(abf.abfID)
 
         # create the graphs
-        infoPage(abf)
         plotThumbnail(abf)
         plotHeader(abf)
         print(".", end="")
