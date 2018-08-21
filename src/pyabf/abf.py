@@ -17,6 +17,7 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+import pyabf.abfHeader
 from pyabf.abfHeader import HeaderV1
 from pyabf.abfHeader import HeaderV2
 from pyabf.abfHeader import SectionMap
@@ -30,9 +31,6 @@ from pyabf.abfHeader import StringsSection
 from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
 from pyabf.epochs import Epochs
-import pyabf.text
-import pyabf.sweepStats
-
 
 class ABF:
     """
@@ -284,138 +282,16 @@ class ABF:
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
-    def getInfoPage(self):
-        """
-        Return an object to let the user inspect methods and variables
-        of this ABF class as well as the full contents of the ABF header
-        """
-        return pyabf.text.abfInfoPage(self)
+    # These additional tools are useful to extend the features of the ABF class
 
-    def sweepD(self, digitalOutputNumber=0):
-        """
-        Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
-        Digital outputs start at 0 and are usually 0-7. Returned waveform will be
-        scaled from 0 to 1, although in reality they are 0V and 5V.
-        """
-        return pyabf.epochs.sweepD(self, digitalOutputNumber)
+    from pyabf.text import abfInfoPage as getInfoPage
+    from pyabf.epochs import sweepD
 
-    def setSweep(self, sweepNumber, channel=0, absoluteTime=False):
-        """
-        Args:
-            sweepNumber: sweep number to load (starting at 0)
-            channel: ABF channel (starting at 0)
-            absoluteTime: if False, sweepX always starts at 0.
-        """
+    from pyabf.sweep import setSweep
+    from pyabf.sweep import sweepC
+    from pyabf.sweep import sweepBaseline
 
-        # basic error checking
-        if not sweepNumber in self.sweepList:
-            msg = "Sweep %d not available (must be 0 - %d)" % (
-                sweepNumber, self.sweepCount-1)
-            raise ValueError(msg)
-        if not channel in self.channelList:
-            msg = "Channel %d not available (must be 0 - %d)" % (
-                channel, self.channelCount-1)
-            raise ValueError(msg)
-
-        if not "data" in (dir(self)):
-            print("ABF data not preloaded. Loading now...")
-            self._fileOpen()
-            self._loadAndScaleData()
-            self._fileClose()
-
-        # TODO: prevent re-loading of the same sweep.
-
-        # determine data bounds for that sweep
-        pointStart = self.sweepPointCount*sweepNumber
-        pointEnd = pointStart + self.sweepPointCount
-
-        # start updating class-level variables
-
-        # sweep information
-        self.sweepNumber = sweepNumber
-        self.sweepChannel = channel
-        self.sweepUnitsY = self.adcUnits[channel]
-        self.sweepUnitsC = self.dacUnits[channel]
-        self.sweepUnitsX = "sec"
-
-        # standard labels
-        self.sweepLabelY = "{} ({})".format(
-            self.adcNames[channel], self.adcUnits[channel])
-        self.sweepLabelC = "{} ({})".format(
-            self.dacNames[channel], self.dacUnits[channel])
-        self.sweepLabelX = "time (seconds)"
-
-        # use fancy labels for known units
-        if self.sweepUnitsY == "pA":
-            self.sweepLabelY = "Clamp Current (pA)"
-            self.sweepLabelC = "Membrane Potential (mV)"
-        elif self.sweepUnitsY == "mV":
-            self.sweepLabelY = "Membrane Potential (mV)"
-            self.sweepLabelC = "Applied Current (pA)"
-
-        # load the actual sweep data
-        self.sweepY = self.data[channel, pointStart:pointEnd]
-        self.sweepX = np.arange(len(self.sweepY))*self.dataSecPerPoint
-        if absoluteTime:
-            self.sweepX += sweepNumber * self.sweepLengthSec
-
-        # default case is disabled
-        if not "baselinePoints" in vars():
-            self._sweepBaselinePoints = False
-
-        # if baseline subtraction is used, apply it
-        if self._sweepBaselinePoints:
-            baseline = np.average(
-                self.sweepY[int(self._sweepBaselinePoints[0]):int(self._sweepBaselinePoints[1])])
-            self.sweepY = self.sweepY-baseline
-            self.sweepLabelY = "Δ " + self.sweepLabelY
-
-        # make sure sweepPointCount is always accurate
-        assert (self.sweepPointCount == len(self.sweepY))
-
-    @property
-    def sweepC(self):
-        """Generate the sweep command waveform."""
-        # TODO: support custom stimulus waveforms
-        sweepEpochs = self.epochsByChannel[self.sweepChannel]
-        return sweepEpochs.stimulusWaveform(self.sweepNumber)
-
-    def sweepBaseline(self, timeSec1=None, timeSec2=None):
-        """
-        Call this to define a baseline region (in seconds). All subsequent
-        data obtained from setSweep will be automatically baseline-subtracted
-        to this region. Call this without arguments to reset baseline.
-        """
-        if timeSec1 or timeSec2:
-            if not timeSec1:
-                timeSec1 = 0
-            if not timeSec2:
-                timeSec2 = abf.sweepLengthSec
-            blPoint1 = timeSec1*self.dataRate
-            blPoint2 = timeSec2*self.dataRate
-            if blPoint1 < 0:
-                blPoint1 = 0
-            if blPoint2 >= len(self.sweepY):
-                blPoint2 = len(self.sweepY)
-            self._sweepBaselineTimes = [timeSec1, timeSec2]
-            self._sweepBaselinePoints = [blPoint1, blPoint2]
-        else:
-            self._sweepBaselineTimes = False
-            self._sweepBaselinePoints = False
-        return (self._sweepBaselineTimes)
-
-    def measureAverage(self, timeSec1, timeSec2):
-        """Return the average value between the two times in the sweep."""
-        return pyabf.sweepStats.average(self, timeSec1, timeSec2)
-
-    def measureArea(self, timeSec1, timeSec2):
-        """Return the area between the two times in the sweep."""
-        return pyabf.sweepStats.area(self, timeSec1, timeSec2)
-
-    def measureStdev(self, timeSec1, timeSec2):
-        """Return the area between the two times in the sweep."""
-        return pyabf.sweepStats.stdev(self, timeSec1, timeSec2)
-
-    def measureStdErr(self, timeSec1, timeSec2):
-        """Return the area between the two times in the sweep."""
-        return pyabf.sweepStats.stdErr(self, timeSec1, timeSec2)
+    from pyabf.sweep import averageWithinSweep as measureAverage
+    from pyabf.sweep import areaWithinSweep as measureArea
+    from pyabf.sweep import stdevWithinSweep as measureStdev
+    from pyabf.sweep import stdErrWithinSweep as measureStdErr
