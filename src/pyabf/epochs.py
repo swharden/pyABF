@@ -10,6 +10,64 @@ import os
 import sys
 import pyabf.atf_reader as atf
 
+def sweepD(abf, digitalOutputNumber=0):
+    """
+    Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
+    Digital outputs start at 0 and are usually 0-7. Returned waveform will be
+    scaled from 0 to 1, although in reality they are 0V and 5V.
+    """
+    if abf.abfVersion["major"] == 1:
+        log.warn("Digital outputs of ABF1 files not supported.")
+        return False
+    states = digitalWaveformEpochs(abf)[digitalOutputNumber]
+    sweepD = np.full(abf.sweepPointCount, 0)
+    pts = epochPoints(abf)
+    for epoch in range(len(states)):
+        sweepD[pts[epoch]:pts[epoch+1]] = states[epoch]
+    return sweepD
+
+def epochPoints(abf):
+    """Return a list of time points where each epoch starts and ends."""
+    if abf.abfVersion["major"] == 1:
+        return []
+    position = int(abf.sweepPointCount/64)
+    epochPoints = [position]
+    for epochNumber, epochType in enumerate(abf._epochPerDacSection.nEpochType):
+        pointCount = abf._epochPerDacSection.lEpochInitDuration[epochNumber]
+        epochPoints.append(position + pointCount)
+        position += pointCount
+    return epochPoints
+
+def epochValues(abf):
+    """Return a list of epoch values by sweep by epoch."""
+    if abf.abfVersion["major"] == 1:
+        return [[]]
+    epochList = range(len(abf._epochPerDacSection.nEpochType))
+    vals = np.empty((abf.sweepCount, len(epochList)))
+    for epoch in epochList:
+        for sweep in abf.sweepList:
+            dacHere = abf._epochPerDacSection.fEpochInitLevel[epoch]
+            dacDelta = abf._epochPerDacSection.fEpochLevelInc[epoch] * sweep
+            vals[sweep, epoch] = dacHere+dacDelta
+    return vals
+
+def digitalWaveformEpochs(abf):
+    """
+    Return a 2d array indicating the high/low state (1 or 0) of each digital
+    output (rows) for each epoch (columns).
+    """
+    if abf.abfVersion["major"] == 1:
+        return None
+    numOutputs = abf._protocolSection.nDigitizerTotalDigitalOuts
+    byteStatesByEpoch = abf._epochSection.nEpochDigitalOutput
+    numEpochs = len(byteStatesByEpoch)
+    statesAll = np.full((numOutputs, numEpochs), 0)
+    for epochNumber in range(numEpochs):
+        byteState = bin(byteStatesByEpoch[epochNumber])[2:]
+        byteState = "0"*(numOutputs-len(byteState))+byteState
+        byteState = [int(x) for x in list(byteState)]
+        statesAll[:, epochNumber] = byteState[::-1]
+    return statesAll
 
 class Epochs:
     def __init__(self, abf, channel):

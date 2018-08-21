@@ -39,7 +39,7 @@ def clearOldFiles():
 if __name__ == "__main__":
 
     # clear everything that used to be in the headers folder
-    #clearOldFiles()
+    clearOldFiles()
     
     # test header parsing and value reading
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
@@ -47,6 +47,6 @@ if __name__ == "__main__":
 
     # tests involving plotting of signal data
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
-    #runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
+    runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")

@@ -66,10 +66,14 @@ class ABF:
         if not self.abfVersion["major"] in [1, 2]:
             raise NotImplementedError("Invalid ABF file format")
 
-        # populate class variables by reading the header
-        self._readHeaders()
-        self._createUsefulVariables()
-        self._updateEpochInfo()
+        # read the ABF header and bring its contents to the local namespace
+        if self.abfVersion["major"] == 1:
+            self._readHeadersV1()
+        elif self.abfVersion["major"] == 2:
+            self._readHeadersV2()
+
+        # create more local variables based on the header data
+        self._makeAdditionalVariables()
 
         # optionally load data from disk
         if self._preLoadData:
@@ -113,149 +117,158 @@ class ABF:
         self._fb.close()
         self._dataLoadTimeMs = (self._fileCloseTime-self._fileOpenTime)*1000
 
-    def _readHeaders(self):
-        """Read all header sections into memory."""
-        if self.abfVersion["major"] == 1:
-            self._headerV1 = HeaderV1(self._fb)
-        elif self.abfVersion["major"] == 2:
-            self._headerV2 = HeaderV2(self._fb)
-            self._sectionMap = SectionMap(self._fb)
-            self._protocolSection = ProtocolSection(self._fb, self._sectionMap)
-            self._adcSection = ADCSection(self._fb, self._sectionMap)
-            self._dacSection = DACSection(self._fb, self._sectionMap)
-            self._epochPerDacSection = EpochPerDACSection(
-                self._fb, self._sectionMap)
-            self._epochSection = EpochSection(self._fb, self._sectionMap)
-            self._tagSection = TagSection(self._fb, self._sectionMap)
-            self._stringsSection = StringsSection(self._fb, self._sectionMap)
-            self._stringsIndexed = StringsIndexed(
-                self._headerV2, self._protocolSection, self._adcSection,
-                self._dacSection, self._stringsSection)
+    def _readHeadersV1(self):
+        """Populate class variables from the ABF1 header."""
+        assert self.abfVersion["major"] == 1
 
-    def _createUsefulVariables(self):
-        """Copy version-specific values into the primary namespace."""
+        # read the headers out of the file
+        self._headerV1 = HeaderV1(self._fb)
 
-        if self.abfVersion["major"] == 1:
+        # create useful variables at the class level
+        self.abfVersion = self._headerV1.abfVersionDict
+        self.abfVersionString = self._headerV1.abfVersionString
+        self.fileGUID = None
+        self.creatorVersion = self._headerV1.creatorVersionDict
+        self.abfDateTime = self._headerV1.abfDateTime
+        self.holdingCommand = self._headerV1.fEpochInitLevel
+        self.protocolPath = self._headerV1.sProtocolPath
+        self.abfFileComment = ""
+        self.tagComments = []
+        self.tagTimesSec = []
 
-            # useful variables
-            self.abfVersion = self._headerV1.abfVersionDict
-            self.abfVersionString = self._headerV1.abfVersionString
-            self.fileGUID = None
-            self.creatorVersion = self._headerV1.creatorVersionDict
-            self.abfDateTime = self._headerV1.abfDateTime
-            self.holdingCommand = self._headerV1.fEpochInitLevel
-            self.protocolPath = self._headerV1.sProtocolPath
-            self.abfFileComment = ""
-            self.tagComments = []
-            self.tagTimesSec = []
+        # data info
+        self._nDataFormat = self._headerV1.nDataFormat
+        self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
+        self.dataByteStart += self._headerV1.nNumPointsIgnored
+        self.dataPointCount = self._headerV1.lActualAcqLength
+        self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
+        self.channelCount = self._headerV1.nADCNumChannels
+        self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
+        self.dataSecPerPoint = 1 / self.dataRate
+        self.sweepCount = self._headerV1.lActualEpisodes
 
-            # data bounds
-            self._nDataFormat = self._headerV1.nDataFormat
-            self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
-            self.dataByteStart += self._headerV1.nNumPointsIgnored
-            self.dataPointCount = self._headerV1.lActualAcqLength
-            self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
-            self.channelCount = self._headerV1.nADCNumChannels
-            self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
-            self.dataSecPerPoint = 1 / self.dataRate
-            self.sweepCount = self._headerV1.lActualEpisodes
+        # channel names
+        self.adcUnits = self._headerV1.sADCUnits[:self.channelCount]
+        self.adcNames = self._headerV1.sADCChannelName[:self.channelCount]
+        self.dacUnits = ["?" for x in self.adcUnits]
+        self.dacNames = ["?" for x in self.adcUnits]
 
-            # channel names
-            self.adcUnits = self._headerV1.sADCUnits[:self.channelCount]
-            self.adcNames = self._headerV1.sADCChannelName[:self.channelCount]
-            self.dacUnits = ["?" for x in self.adcUnits]
-            self.dacNames = ["?" for x in self.adcUnits]
+        # data scaling
+        self._dataGain = [1]*self.channelCount
+        self._dataOffset = [0]*self.channelCount
+        for i in range(self.channelCount):
+            self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
+            self._dataGain[i] /= self._headerV1.fSignalGain[i]
+            self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
+            if self._headerV1.nTelegraphEnable[i] == 1:
+                self._dataGain[i] /= self._headerV1.fTelegraphAdditGain[i]
+            self._dataGain[i] *= self._headerV1.fADCRange
+            self._dataGain[i] /= self._headerV1.lADCResolution
+            self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
+            self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
 
-            # data scaling
-            self._dataGain = [1]*self.channelCount
-            self._dataOffset = [0]*self.channelCount
-            for i in range(self.channelCount):
-                self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
-                self._dataGain[i] /= self._headerV1.fSignalGain[i]
-                self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
-                if self._headerV1.nTelegraphEnable[i] == 1:
-                    self._dataGain[i] /= self._headerV1.fTelegraphAdditGain[i]
-                self._dataGain[i] *= self._headerV1.fADCRange
-                self._dataGain[i] /= self._headerV1.lADCResolution
-                self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
-                self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
+    def _readHeadersV2(self):
+        """Populate class variables from the ABF2 header."""
 
-        elif self.abfVersion["major"] == 2:
+        assert self.abfVersion["major"] == 2
 
-            # useful variables
-            self.abfVersion = self._headerV2.abfVersionDict
-            self.abfVersionString = self._headerV2.abfVersionString
-            self.fileGUID = self._headerV2.sFileGUID
-            self.creatorVersion = self._headerV2.creatorVersionDict
-            self.abfDateTime = self._headerV2.abfDateTime
-            self.holdingCommand = self._dacSection.fDACHoldingLevel
-            self.protocolPath = self._stringsIndexed.uProtocolPath
-            self.abfFileComment = self._stringsIndexed.lFileComment
-            self.tagComments = self._tagSection.sComment
-            _tagMult = self._protocolSection.fSynchTimeUnit/1e6
-            self.tagTimesSec = self._tagSection.lTagTime
-            self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
+        # read the headers out of the file
+        self._headerV2 = HeaderV2(self._fb)
+        self._sectionMap = SectionMap(self._fb)
+        self._protocolSection = ProtocolSection(self._fb, self._sectionMap)
+        self._adcSection = ADCSection(self._fb, self._sectionMap)
+        self._dacSection = DACSection(self._fb, self._sectionMap)
+        self._epochPerDacSection = EpochPerDACSection(
+            self._fb, self._sectionMap)
+        self._epochSection = EpochSection(self._fb, self._sectionMap)
+        self._tagSection = TagSection(self._fb, self._sectionMap)
+        self._stringsSection = StringsSection(self._fb, self._sectionMap)
+        self._stringsIndexed = StringsIndexed(
+            self._headerV2, self._protocolSection, self._adcSection,
+            self._dacSection, self._stringsSection)
 
-            # data bounds
-            self._nDataFormat = self._headerV2.nDataFormat
-            self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
-            self.dataPointCount = self._sectionMap.DataSection[2]
-            self.dataPointByteSize = self._sectionMap.DataSection[1]
-            self.channelCount = self._sectionMap.ADCSection[2]
-            self.dataRate = self._protocolSection.fADCSequenceInterval
-            self.dataRate = int(1e6 / self.dataRate)
-            self.dataSecPerPoint = 1 / self.dataRate
-            self.sweepCount = self._headerV2.lActualEpisodes
+        # create useful variables at the class level
+        self.abfVersion = self._headerV2.abfVersionDict
+        self.abfVersionString = self._headerV2.abfVersionString
+        self.fileGUID = self._headerV2.sFileGUID
+        self.creatorVersion = self._headerV2.creatorVersionDict
+        self.abfDateTime = self._headerV2.abfDateTime
+        self.holdingCommand = self._dacSection.fDACHoldingLevel
+        self.protocolPath = self._stringsIndexed.uProtocolPath
+        self.abfFileComment = self._stringsIndexed.lFileComment
+        self.tagComments = self._tagSection.sComment
+        _tagMult = self._protocolSection.fSynchTimeUnit/1e6
+        self.tagTimesSec = self._tagSection.lTagTime
+        self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
-            # channel names
-            self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
-            self.adcNames = self._stringsIndexed.lADCChannelName[:self.channelCount]
-            self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.channelCount]
-            self.dacNames = self._stringsIndexed.lDACChannelName[:self.channelCount]
+        # data info
+        self._nDataFormat = self._headerV2.nDataFormat
+        self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
+        self.dataPointCount = self._sectionMap.DataSection[2]
+        self.dataPointByteSize = self._sectionMap.DataSection[1]
+        self.channelCount = self._sectionMap.ADCSection[2]
+        self.dataRate = self._protocolSection.fADCSequenceInterval
+        self.dataRate = int(1e6 / self.dataRate)
+        self.dataSecPerPoint = 1 / self.dataRate
+        self.sweepCount = self._headerV2.lActualEpisodes
 
-            # data scaling
-            self._dataGain = [1]*self.channelCount
-            self._dataOffset = [0]*self.channelCount
-            for i in range(self.channelCount):
-                self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
-                self._dataGain[i] /= self._adcSection.fSignalGain[i]
-                self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
-                if self._adcSection.nTelegraphEnable[i] == 1:
-                    self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
-                self._dataGain[i] *= self._protocolSection.fADCRange
-                self._dataGain[i] /= self._protocolSection.lADCResolution
-                self._dataOffset[i] += self._adcSection.fInstrumentOffset[i]
-                self._dataOffset[i] -= self._adcSection.fSignalOffset[i]
+        # channel names
+        self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
+        self.adcNames = self._stringsIndexed.lADCChannelName[:self.channelCount]
+        self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.channelCount]
+        self.dacNames = self._stringsIndexed.lDACChannelName[:self.channelCount]
 
-        # create or touch-up version-nonspecific variables
+        # data scaling
+        self._dataGain = [1]*self.channelCount
+        self._dataOffset = [0]*self.channelCount
+        for i in range(self.channelCount):
+            self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
+            self._dataGain[i] /= self._adcSection.fSignalGain[i]
+            self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
+            if self._adcSection.nTelegraphEnable[i] == 1:
+                self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
+            self._dataGain[i] *= self._protocolSection.fADCRange
+            self._dataGain[i] /= self._protocolSection.lADCResolution
+            self._dataOffset[i] += self._adcSection.fInstrumentOffset[i]
+            self._dataOffset[i] -= self._adcSection.fSignalOffset[i]
+
+    def _makeAdditionalVariables(self):
+        """create or touch-up version-nonspecific variables."""
+
         if self.sweepCount == 0:  # gap free
             self.sweepCount = 1
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
         self.sweepLengthSec = self.sweepPointCount / self.dataRate
+
         self.protocol = os.path.basename(self.protocolPath)
         self.protocol = self.protocol.replace(".pro", "")
-        if len(self.protocol)==0 or ord(self.protocol[0])==127:
+        if len(self.protocol) == 0 or ord(self.protocol[0]) == 127:
             self.protocol = "None"
+
         self.tagTimesMin = [x/60 for x in self.tagTimesSec]
         self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
         self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
 
-    def _loadAndScaleData(self):
-        """Load data from the ABF file and scale it by its scaleFactor."""
+        self.epochsByChannel = []
+        for channel in self.channelList:
+            self.epochsByChannel.append(Epochs(self, channel))
 
-        # determine the data type        
-        if self._nDataFormat==0:
-            dtype = np.int16
-        elif self._nDataFormat==1:
-            dtype = np.float32
+        if self._nDataFormat == 0:
+            self._dtype = np.int16
+        elif self._nDataFormat == 1:
+            self._dtype = np.float32
         else:
             raise NotImplementedError("unknown data format")
 
+    def _loadAndScaleData(self):
+        """Load data from the ABF file and scale it by its scaleFactor."""
+
         # read the data from the ABF file
         self._fb.seek(self.dataByteStart)
-        raw = np.fromfile(self._fb, dtype=dtype, count=self.dataPointCount)
+        raw = np.fromfile(self._fb, dtype=self._dtype,
+                          count=self.dataPointCount)
         nRows = self.channelCount
         nCols = int(self.dataPointCount/self.channelCount)
         raw = np.reshape(raw, (nCols, nRows))
@@ -266,7 +279,7 @@ class ABF:
         self.data = raw.astype(np.float32)
 
         # if the data was originally an int, it must be scaled
-        if dtype == np.int16:
+        if self._dtype == np.int16:
             for i in range(self.channelCount):
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
@@ -278,80 +291,13 @@ class ABF:
         """
         return pyabf.text.abfInfoPage(self)
 
-    ### TODO: CLEAN THIS UP
-
-    def _updateEpochInfo(self):
-        self._updateEpochTimePoints()
-        self._updateEpochDacValues()
-        self._updateEpochDigitalOutputs()
-        self._updateEpochObjects()
-
-    def _updateEpochTimePoints(self):
-        """
-        Update the list of time points where each epoch starts and ends.
-        """
-        if self.abfVersion["major"] == 1:
-            self.epochPoints = []
-            return
-
-        position = int(self.sweepPointCount/64)
-        self.epochPoints = [position]
-        for epochNumber, epochType in enumerate(self._epochPerDacSection.nEpochType):
-            pointCount = self._epochPerDacSection.lEpochInitDuration[epochNumber]
-            self.epochPoints.append(position + pointCount)
-            position += pointCount
-
-    def _updateEpochDacValues(self, epochNumber=0):
-        if self.abfVersion["major"] == 1:
-            self.epochValues = [[]]
-            return
-        epochList = range(len(self._epochPerDacSection.nEpochType))
-        self.epochValues = np.empty((self.sweepCount, len(epochList)))
-        for epoch in epochList:
-            for sweep in self.sweepList:
-                dacHere = self._epochPerDacSection.fEpochInitLevel[epoch]
-                dacDelta = self._epochPerDacSection.fEpochLevelInc[epoch] * sweep
-                self.epochValues[sweep, epoch] = dacHere+dacDelta
-
-    def _updateEpochDigitalOutputs(self):
-        """
-        Create a 2d array indicating the high/low state (1 or 0) of each digital
-        output (rows) for each epoch (columns).
-        """
-        if self.abfVersion["major"] == 1:
-            self.digitalWaveformEpochs = None
-            return
-        numOutputs = self._protocolSection.nDigitizerTotalDigitalOuts
-        byteStatesByEpoch = self._epochSection.nEpochDigitalOutput
-        numEpochs = len(byteStatesByEpoch)
-        statesAll = np.full((numOutputs, numEpochs), 0)
-        for epochNumber in range(numEpochs):
-            byteState = bin(byteStatesByEpoch[epochNumber])[2:]
-            byteState = "0"*(numOutputs-len(byteState))+byteState
-            byteState = [int(x) for x in list(byteState)]
-            statesAll[:, epochNumber] = byteState[::-1]
-        self.digitalWaveformEpochs = statesAll
-
-    def _updateEpochObjects(self):
-        self.epochsByChannel = []
-        for channel in self.channelList:
-            self.epochsByChannel.append(Epochs(self, channel))
-
     def sweepD(self, digitalOutputNumber=0):
         """
         Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
         Digital outputs start at 0 and are usually 0-7. Returned waveform will be
         scaled from 0 to 1, although in reality they are 0V and 5V.
         """
-        if self.abfVersion["major"] == 1:
-            log.warn("Digital outputs of ABF1 files not supported.")
-            return False
-        states = self.digitalWaveformEpochs[digitalOutputNumber]
-        sweepD = np.full(self.sweepPointCount, 0)
-        for epoch in range(len(states)):
-            sweepD[self.epochPoints[epoch]:
-                   self.epochPoints[epoch+1]] = states[epoch]
-        return sweepD
+        return pyabf.epochs.sweepD(self, digitalOutputNumber)
 
     def setSweep(self, sweepNumber, channel=0, absoluteTime=False):
         """
@@ -430,7 +376,7 @@ class ABF:
     @property
     def sweepC(self):
         """Generate the sweep command waveform."""
-        #TODO: support custom stimulus waveforms
+        # TODO: support custom stimulus waveforms
         sweepEpochs = self.epochsByChannel[self.sweepChannel]
         return sweepEpochs.stimulusWaveform(self.sweepNumber)
 

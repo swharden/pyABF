@@ -32,9 +32,6 @@
 * dataPointCount = `3220568`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* digitalWaveformEpochs = `[[1 1 1]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]]`
-* epochPoints = `[967, 20967, 40967, 60967]`
-* epochValues = `[[-100. -100. -100.]  [-100.  -80. -100.]  [-100.  -60. -100.]  [-100.  -40. -100.]  [-100.  -20. -100.]  [-100.    0. -100.]  [-100.   20. -100.]  [-100.   40. -100.]  [-100.   60. -100.]  [-100.   80. -100.]  [-100.  100. -100.]  [-100.  120. -100.]  [-100.  140. -100.]]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
 * fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
