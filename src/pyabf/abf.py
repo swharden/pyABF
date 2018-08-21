@@ -292,7 +292,7 @@ class ABF:
     from pyabf.sweep import sweepC
     from pyabf.sweep import sweepBaseline
     from pyabf.sweep import sweepMeasureAverage as sweepAvg
-    from pyabf.sweep import sweepMeasureArea as sweepMeasureArea
+    from pyabf.sweep import sweepMeasureArea as sweepArea
     from pyabf.sweep import sweepMeasureStdev as sweepStdev
     from pyabf.sweep import sweepMeasureMax as sweepMax
     from pyabf.sweep import sweepMeasureMin as sweepMin

@@ -19,12 +19,12 @@ def _timesToPoints(abf, timeSec1=None, timeSec2=None):
     Given two times in seconds return two points in index values.
     """
     if timeSec1:
-        p1 = int(timeSec1*abf.dataRate/abf.channelCount)
+        p1 = int(timeSec1*abf.dataRate)
     else:
         p1 = 0
 
     if timeSec2:
-        p2 = int(timeSec2*abf.dataRate/abf.channelCount)
+        p2 = int(timeSec2*abf.dataRate)
     else:
         p2 = abf.sweepPointCount
 

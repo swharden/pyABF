@@ -542,7 +542,7 @@ class Uses:
         sweep).
 
         Currents are the average value of each sweep between the 0.5 and 1 sec
-        mark. Notice our use of the `pyabf.calc` module to get the average
+        mark. Notice our use of the additional module to get the average
         value between two marks for every sweep. Clamp values are obtained
         from `abf.epochValues`, a 2d array of DAC command values at each
         epoch (columns) arranged by sweep (rows).
@@ -550,12 +550,12 @@ class Uses:
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
-        currents = pyabf.calc.averageValue(abf, .5, 1)
+        currentsAv, currentsErr = pyabf.sweep.rangeAverage(abf, .5, 1)
         voltages = pyabf.epochs.epochValues(abf)
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')
-        plt.plot(voltages, currents, '.-', ms=15)
+        plt.plot(voltages, currentsAv, '.-', ms=15)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelC)
         plt.title(f"I/V Relationship of {abf.abfID}")
@@ -569,7 +569,7 @@ class Uses:
         Sometimes you want to analyze a sweep which is the average of several
         sweeps. Often this is used in conjunction with baseline subtraction.
 
-        This can be done using the `pyabf.calc.averageSweep()` function.
+        This can be done using the sweep range average function.
         Although here it's given without arguments, it can take a list of
         specific sweep numbers.
         """
@@ -588,8 +588,8 @@ class Uses:
             plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
 
         # calculate and plot the average of all sweeps        
-        sweepAvg = pyabf.calc.averageSweep(abf)
-        plt.plot(abf.sweepX, sweepAvg, color='C1', lw=2)
+        traceAv, traceStdev = pyabf.sweep.averageTrace(abf)
+        plt.plot(abf.sweepX, traceAv, color='C1', lw=2)
 
         # decorate the plot and zoom in on the interesting area
         plt.title(f"Average of {abf.sweepCount} sweeps")

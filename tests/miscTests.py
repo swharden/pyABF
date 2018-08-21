@@ -7,7 +7,7 @@ PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_SRC = os.path.abspath(PATH_PROJECT+"/src/")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
 import logging
-logging.basicConfig(level=logging.WARN)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 sys.path.insert(0, PATH_SRC)
 import pyabf
@@ -29,22 +29,17 @@ def closeEnough(val1,val2,percentErrorAllowed=0.1):
 def test_sweepStats_measureAverage(abf): 
     """Verified using statistics tab in ClampFit."""
     m1, m2 = 1, 2   
-    assert closeEnough(abf.measureAverage(m1, m2), -52.2538)
+    assert closeEnough(abf.sweepAvg(m1, m2), -52.2538)
     
 def test_sweepStats_measureStdev(abf): 
     """Verified using statistics tab in ClampFit."""
     m1, m2 = 1, 2   
-    assert closeEnough(abf.measureStdev(m1, m2), 0.559542)
-    
-def test_sweepStats_measureStdErr(abf): 
-    """Verified using statistics tab in ClampFit."""
-    m1, m2 = 1, 2   
-    assert closeEnough(abf.measureStdErr(m1, m2), 0.005595)
+    assert closeEnough(abf.sweepStdev(m1, m2), 0.559542)
     
 def test_sweepStats_measureArea(abf): 
     """Verified using statistics tab in ClampFit."""
     m1, m2 = 1, 2   
-    assert closeEnough(abf.measureArea(m1, m2), -52259.2)
+    assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
 
 def go():
     print("Testing statistics module ", end="")

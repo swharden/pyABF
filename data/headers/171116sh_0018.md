@@ -3,13 +3,14 @@
 ## ABF Class Methods
 
 * abf.getInfoPage()
-* abf.measureArea()
-* abf.measureAverage()
-* abf.measureStdErr()
-* abf.measureStdev()
 * abf.setSweep()
+* abf.sweepArea()
+* abf.sweepAvg()
 * abf.sweepBaseline()
 * abf.sweepD()
+* abf.sweepMax()
+* abf.sweepMin()
+* abf.sweepStdev()
 
 ## ABF Class Variables
 
