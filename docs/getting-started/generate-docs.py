@@ -21,6 +21,10 @@ import numpy as np
 import glob
 import inspect
 
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
+
 class NoStdStreams(object):
     def __init__(self, stdout = None):
         self.devnull = open(os.devnull,'w')
@@ -673,6 +677,7 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
         #print(f"executing {functionName}()")
         func = getattr(uses, functionName)
         with NoStdStreams(): # silence print statements
+            log.debug("Running %s"%functionName)
             func()
         print(".", end="")
         sys.stdout.flush()
