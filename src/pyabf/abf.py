@@ -42,6 +42,9 @@ class ABF:
     quickly iterate through many ABF files to access header contents. The
     same thing is true with the loadStimulus argument and the stimulus waveform 
     file.
+
+    Although you can access all data with abf.data, you can also call
+    abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
     def __init__(self, abf, loadData=True, loadStimulus=False):
@@ -282,15 +285,12 @@ class ABF:
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
-    # These additional tools are useful to extend the features of the ABF class
-
+    # These additional tools are useful add-ons to the ABF class:
     from pyabf.text import abfInfoPage as getInfoPage
     from pyabf.epochs import sweepD
-
     from pyabf.sweep import setSweep
     from pyabf.sweep import sweepC
     from pyabf.sweep import sweepBaseline
-
     from pyabf.sweep import averageWithinSweep as measureAverage
     from pyabf.sweep import areaWithinSweep as measureArea
     from pyabf.sweep import stdevWithinSweep as measureStdev
