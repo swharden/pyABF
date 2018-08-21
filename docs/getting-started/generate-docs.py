@@ -465,12 +465,12 @@ class Uses:
         plt.figure(figsize=self.figsize)
 
         # enable baseline subtraction and plot a demo sweep
-        abf.baseline(2.1, 2.15)
+        abf.sweepBaseline(2.1, 2.15)
         abf.setSweep(3)
         plt.plot(abf.sweepX, abf.sweepY, label="subtracted")
 
         # disable baseline subtraction and plot a demo sweep
-        abf.baseline()
+        abf.sweepBaseline()
         abf.setSweep(3)
         plt.plot(abf.sweepX, abf.sweepY, label="original")
 
@@ -569,7 +569,7 @@ class Uses:
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
-        abf.baseline(1.10, 1.16)
+        abf.sweepBaseline(1.10, 1.16)
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')

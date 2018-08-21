@@ -2,12 +2,14 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
+* abf.measureArea()
+* abf.measureAverage()
+* abf.measureStdErr()
+* abf.measureStdev()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -19,11 +21,8 @@
 * abfVersion = `2.06`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['pA', 'A']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
-* creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[-11.71874905 -10.13183498  -9.03320217 ...,  -8.42285061  -8.05663967    -9.2773428 ]  [ -1.03607178  -1.03515625  -1.03546143 ...,  -1.03515625  -1.03515625    -1.03485107]]`
@@ -40,6 +39,7 @@
 * holdingCommand = `[-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
+* sCreatorVersion = `10.7.0.3`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `3`

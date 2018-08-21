@@ -45,7 +45,7 @@ if __name__ == "__main__":
     abfFiles = sorted(glob.glob(abf_file_folder+"/*.abf"))
 
     for fname in abfFiles:
-        abf = pyabf.ABF(fname, preLoadData=False)
+        abf = pyabf.ABF(fname, loadData=False)
 
         # check if DAC and ADC units are the same
         if abf.adcUnits[0] == abf.dacUnits[0]:

@@ -2,12 +2,14 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
+* abf.measureArea()
+* abf.measureAverage()
+* abf.measureStdErr()
+* abf.measureStdev()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -19,11 +21,8 @@
 * abfVersion = `2.06`
 * adcNames = `['IN 0']`
 * adcUnits = `['pA']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
-* creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
 * data = `[[-140.13670349 -140.2587738  -140.2587738  ..., -139.2822113  -140.99119568   -141.60154724]]`
@@ -40,6 +39,7 @@
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
+* sCreatorVersion = `10.7.0.3`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `20`

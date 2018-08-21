@@ -2,12 +2,14 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
+* abf.measureArea()
+* abf.measureAverage()
+* abf.measureStdErr()
+* abf.measureStdev()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -19,11 +21,8 @@
 * abfVersion = `2.0`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['pA', 'pA']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
-* creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 0, 'build': 2}`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[-25.87890434 -27.09960747 -26.73339653 ..., -22.09472466 -21.48437309   -22.58300591]  [-31.49413872 -33.3251915  -32.71483994 ..., -31.37206841 -31.49413872   -31.49413872]]`
@@ -40,6 +39,7 @@
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
+* sCreatorVersion = `10.3.0.2`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `13`

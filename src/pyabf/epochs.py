@@ -199,8 +199,9 @@ class Epochs:
                 try:
                     self._custom_waveform = self.abf._atfStorage.get(filePath)
                 except:
-                    warnings.warn(f"Custom waveform could not be loaded from file " +
-                                  f'"{filePath}" due to "{sys.exc_info()[1]}" for channel {self.channel} of sweep {sweepNumber}')
+                    # noisy!
+                    #warnings.warn(f"Custom waveform could not be loaded from file " +
+                                  #f'"{filePath}" due to "{sys.exc_info()[1]}" for channel {self.channel} of sweep {sweepNumber}')
                     self._custom_waveform = False
                     sweepC = np.full(self.abf.sweepPointCount, np.nan)
                     return sweepC

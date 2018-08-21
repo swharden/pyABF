@@ -2,12 +2,14 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
+* abf.measureArea()
+* abf.measureAverage()
+* abf.measureStdErr()
+* abf.measureStdev()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -19,11 +21,8 @@
 * abfVersion = `2.06`
 * adcNames = `['IN 0']`
 * adcUnits = `['mV']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
-* creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['pA']`
 * data = `[[-47.08862305 -47.1496582  -47.11914062 ..., -62.37792969 -62.40844727   -62.37792969]]`
@@ -40,6 +39,7 @@
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
+* sCreatorVersion = `10.7.0.3`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `16`

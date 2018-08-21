@@ -2,12 +2,14 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
+* abf.measureArea()
+* abf.measureAverage()
+* abf.measureStdErr()
+* abf.measureStdev()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
 
 ## ABF Class Variables
 
@@ -19,11 +21,8 @@
 * abfVersion = `2.0`
 * adcNames = `['IN 2', 'IN 3']`
 * adcUnits = `['dB', 'mV']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
-* creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598    0.01098633]  [ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459    0.10375977]]`
@@ -40,6 +39,7 @@
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
+* sCreatorVersion = `10.3.2.1`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `1`

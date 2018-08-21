@@ -50,9 +50,12 @@ def averageValue(abf, timeSec1, timeSec2, sweepNumbers=None, channel=0, calcErro
 
     for sweepNumber in sweepNumbers:
         abf.setSweep(sweepNumber=sweepNumber, channel=channel)
-        avs[sweepNumber] = abf.sweepAverage(timeSec1, timeSec2)
+        avs[sweepNumber] = abf.measureAverage(timeSec1, timeSec2)
         if calcError:
-            ers[sweepNumber] = abf.sweepError(timeSec1, timeSec2, stdErr)
+            if stdErr:
+                ers[sweepNumber] = abf.measureStdErr(timeSec1, timeSec2, stdErr)
+            else:
+                ers[sweepNumber] = abf.measureStdev(timeSec1, timeSec2, stdErr)
     if calcError and stdErr:
         ers = ers / np.sqrt(len(sweepNumbers))
 

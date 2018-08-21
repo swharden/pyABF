@@ -1,8 +1,6 @@
 """
-This file contains the core ABF handling class and supporting functions.
-All code in this script should identically support ABF1 and ABF2 files.
-
-Nothing the user will interact with directly is in this file.
+Code here provides direct access to the header and signal data of ABF files.
+Efforts are invested to ensure ABF1 and ABF2 files are supported identically.
 """
 
 import os
@@ -10,7 +8,7 @@ import glob
 import time
 import datetime
 import numpy as np
-import warnings
+import warnings  # TODO: stop using this entirely
 
 from pyabf.structures import HeaderV1
 from pyabf.structures import HeaderV2
@@ -25,54 +23,33 @@ from pyabf.structures import StringsSection
 from pyabf.structures import StringsIndexed
 from pyabf.structures import BLOCKSIZE
 from pyabf.epochs import Epochs
-import pyabf.text
 
-from pyabf.atf_storage import ATFStorage
+import pyabf.text
+import pyabf.sweepStats
+
 
 class ABF:
     """
-    The ABFcore class provides direct access to contents of ABF files.
-    This class provides a common framework to access header and data values
-    from ABF1 and ABF2 files.
-
-    The input ABF could be a path to an ABF file or another ABFcore class.
-
-    If preLoadData is enabled, all data in the ABF is read from disk and
-    scaled at instantiation. In practice this is almost always the fastest way
-    to work with ABFs (modern computers can easily float the data in memory).
-    However, it can be disabled for projects which only read ABF headers.
-
-    Immediately after instantiating, it is expected you will call the
-    _loadEverything function.
-
-    ---
-
-    The ABF class provides direct access to contents of ABF files. It can load
-    ABF1 and ABF2 files identically. 
+    The ABF class provides direct access to the header and signal data of ABF
+    files. It can load ABF1 and ABF2 files identically.
 
     The default action is to read all the ABF data from disk when the class is
-    instantiated. This behavior is controlled by the preLoadData argument.
-    Disable it to quickly iterate through files to access header contents.
-
-    If you intend to analyze ABF files which used custom stimulus waveforms,
-    and those waveforms are in ATF format, you can use an ATFStorage object
-    to cache these waveforms. Pass the ATFStorage object in as a command line
-    argument to use this feature.
-
+    instantiated. When disabled (with an argument) to save speed, one can 
+    quickly iterate through many ABF files to access header contents. The
+    same thing is true with the loadStimulus argument and the stimulus waveform 
+    file.
     """
 
-    def __init__(self, abf, preLoadData=True, atfStorage=None):
-        self._preLoadData = preLoadData
-        self._atfStorage = atfStorage
+    def __init__(self, abf, loadData=True, loadStimulus=False):
+        self._preLoadData = loadData
+        self._preloadStimulus = loadStimulus
         self._loadEverything(abf)
 
-        if self._atfStorage:
-            assert(isinstance(self._atfStorage, ATFStorage))
-            warnings.warn("ATFStorage integration in ABF files is experimental and syntax may change")
-            
-        if preLoadData:
-            self.baseline()
+        if self._preLoadData:
             self.setSweep(0)
+
+        if self._preloadStimulus:
+            raise NotImplementedError()
 
     def __str__(self):
         txt = f"ABF file ({self.abfID}.abf)"
@@ -87,11 +64,12 @@ class ABF:
         return txt
 
     def __repr__(self):
-        return 'ABFcore(abf="%s", preLoadData=%s)' % (self.abfFilePath, self._preLoadData)
+        return 'ABFcore(abf="%s", loadData=%s, loadStimulus=%s)' % \
+            (self.abfFilePath, self._preLoadData, self._preloadStimulus)
 
     def _loadEverything(self, abf):
         """
-        This used to be the __init__ of the ABF class.
+        Read header and data from ABF file.
         """
         self.abfFilePath = os.path.abspath(abf)
         if not os.path.exists(self.abfFilePath):
@@ -195,14 +173,11 @@ class ABF:
         Format the creator version number for ABF2.
         """
         if self.abfFileFormat == 1:
-            self.creatorVersion = None
+            self.sCreatorVersion = "0.0.0.0"
         elif self.abfFileFormat == 2:
             version = self._headerV2.uCreatorVersion
-            self.creatorVersion = {}
-            self.creatorVersion['major'] = version[3]
-            self.creatorVersion['minor'] = version[2]
-            self.creatorVersion['bugfix'] = version[1]
-            self.creatorVersion['build'] = version[0]
+            version = [str(x) for x in version[::-1]]
+            self.sCreatorVersion = ".".join(version)
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -218,11 +193,11 @@ class ABF:
                               "%.2X%.2X-%.2X%.2X-"
                               "%.2X%.2X-"
                               "%.2X%.2X%.2X%.2X%.2X%.2X}") %
-                            (guid[3], guid[2], guid[1], guid[0],
-                             guid[5], guid[4],
-                             guid[7], guid[6],
-                             guid[8], guid[9],
-                             guid[10], guid[11], guid[12], guid[13], guid[14], guid[15]))
+                             (guid[3], guid[2], guid[1], guid[0],
+                              guid[5], guid[4],
+                              guid[7], guid[6],
+                              guid[8], guid[9],
+                              guid[10], guid[11], guid[12], guid[13], guid[14], guid[15]))
         else:
             raise NotImplementedError("Invalid ABF file format")
 
@@ -234,7 +209,8 @@ class ABF:
         if self.abfFileFormat == 1:
             # use the time the ABF file was created on disk
             self.abfDateTime = round(os.path.getctime(self.abfFilePath))
-            self.abfDateTime = datetime.datetime.fromtimestamp(self.abfDateTime)
+            self.abfDateTime = datetime.datetime.fromtimestamp(
+                self.abfDateTime)
             self.abfDateTime = self.abfDateTime.isoformat()
         elif self.abfFileFormat == 2:
             # use file creation time stored in ABF header
@@ -318,7 +294,7 @@ class ABF:
                 self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
                 self._dataGain[i] /= self._headerV1.fSignalGain[i]
                 self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
-                if self._headerV1.nTelegraphEnable[i]==1:
+                if self._headerV1.nTelegraphEnable[i] == 1:
                     self._dataGain[i] /= self._headerV1.fTelegraphAdditGain[i]
                 self._dataGain[i] *= self._headerV1.fADCRange
                 self._dataGain[i] /= self._headerV1.lADCResolution
@@ -330,7 +306,7 @@ class ABF:
                 self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
                 self._dataGain[i] /= self._adcSection.fSignalGain[i]
                 self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
-                if self._adcSection.nTelegraphEnable[i]==1:
+                if self._adcSection.nTelegraphEnable[i] == 1:
                     self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
                 self._dataGain[i] *= self._protocolSection.fADCRange
                 self._dataGain[i] /= self._protocolSection.lADCResolution
@@ -608,7 +584,6 @@ class ABF:
                 channel, self.channelCount-1)
             raise ValueError(msg)
 
-
         if not "data" in (dir(self)):
             print("ABF data not preloaded. Loading now...")
             self._fileOpen()
@@ -651,13 +626,17 @@ class ABF:
         if absoluteTime:
             self.sweepX += sweepNumber * self.sweepLengthSec
 
-        # baseline subtraction
-        if self.baselinePoints:
+        # default case is disabled
+        if not "baselinePoints" in vars():
+            self._sweepBaselinePoints = False
+
+        # if baseline subtraction is used, apply it
+        if self._sweepBaselinePoints:
             baseline = np.average(
-                self.sweepY[int(self.baselinePoints[0]):int(self.baselinePoints[1])])
+                self.sweepY[int(self._sweepBaselinePoints[0]):int(self._sweepBaselinePoints[1])])
             self.sweepY = self.sweepY-baseline
             self.sweepLabelY = "Δ " + self.sweepLabelY
-            
+
         # make sure sweepPointCount is always accurate
         assert (self.sweepPointCount == len(self.sweepY))
 
@@ -666,16 +645,14 @@ class ABF:
         """
         Generate the sweep command waveform only when requested.
         """
-        #return self._stimulusWaveform(sweepNumber=self.sweepNumber,channel=self.sweepChannel)
         sweepEpochs = self.epochsByChannel[self.sweepChannel]
         return sweepEpochs.stimulusWaveform(self.sweepNumber)
-        
-    def baseline(self, timeSec1=None, timeSec2=None):
+
+    def sweepBaseline(self, timeSec1=None, timeSec2=None):
         """
         Call this to define a baseline region (in seconds). All subsequent
         data obtained from setSweep will be automatically baseline-subtracted
-        to this region. This also affects downstream methods for data analysis.
-        Call this without arguments to reset baseline.
+        to this region. Call this without arguments to reset baseline.
         """
         if timeSec1 or timeSec2:
             if not timeSec1:
@@ -688,28 +665,25 @@ class ABF:
                 blPoint1 = 0
             if blPoint2 >= len(self.sweepY):
                 blPoint2 = len(self.sweepY)
-            self.baselineTimes = [timeSec1, timeSec2]
-            self.baselinePoints = [blPoint1, blPoint2]
+            self._sweepBaselineTimes = [timeSec1, timeSec2]
+            self._sweepBaselinePoints = [blPoint1, blPoint2]
         else:
-            self.baselineTimes = False
-            self.baselinePoints = False
+            self._sweepBaselineTimes = False
+            self._sweepBaselinePoints = False
+        return (self._sweepBaselineTimes)
 
-    def sweepAverage(self, timeSec1, timeSec2):
-        """
-        Return the average value between two times of the current sweep.
-        """
-        point1 = int(timeSec1*self.dataRate)
-        point2 = int(timeSec2*self.dataRate)
-        return np.average(self.sweepY[point1:point2])
+    def measureAverage(self, timeSec1, timeSec2):
+        """Return the average value between the two times in the sweep."""
+        return pyabf.sweepStats.average(self, timeSec1, timeSec2)
 
-    def sweepError(self, timeSec1, timeSec2, stdErr=True):
-        """
-        Return the standard error or standard deviation of the current sweep
-        between the given times.
-        """
-        point1 = int(timeSec1*self.dataRate)
-        point2 = int(timeSec2*self.dataRate)
-        er = np.std(self.sweepY[point1:point2])
-        if stdErr:
-            er = er / np.sqrt(point2-point1)
-        return er
+    def measureArea(self, timeSec1, timeSec2):
+        """Return the area between the two times in the sweep."""
+        return pyabf.sweepStats.area(self, timeSec1, timeSec2)
+
+    def measureStdev(self, timeSec1, timeSec2):
+        """Return the area between the two times in the sweep."""
+        return pyabf.sweepStats.stdev(self, timeSec1, timeSec2)
+
+    def measureStdErr(self, timeSec1, timeSec2):
+        """Return the area between the two times in the sweep."""
+        return pyabf.sweepStats.stdErr(self, timeSec1, timeSec2)
