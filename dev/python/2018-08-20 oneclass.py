@@ -14,5 +14,5 @@ import glob
 
 if __name__ == "__main__":
     abf = pyabf.ABF(PATH_DATA+"/18711001.abf")
-    print(abf.abfID)
-    print(abf.measureAverage(1, 2))
+    print(pyabf.sweep.rangeMax(abf))
+    print(pyabf.sweep.rangeMin(abf))

@@ -3,15 +3,6 @@ Code here performs calculations on data from ABF objects.
 """
 import numpy as np
 
-
-def sweepNumbersByTime(abf, timeSec1, timeSec2):
-    """
-    Returns a list of sweeps containing data between the two times.
-    """
-    raise NotImplementedError
-    return [1, 2, 3]
-
-
 def averageSweep(abf, sweepNumbers=None, baselineTimeSec1=False, baselineTimeSec2=False, calculateError=False, stdErr=True):
     """
     Returns the average of the given sweeps.
