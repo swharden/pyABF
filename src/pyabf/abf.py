@@ -235,7 +235,7 @@ class ABF:
         self.sweepLengthSec = self.sweepPointCount / self.dataRate
         self.protocol = os.path.basename(self.protocolPath)
         self.protocol = self.protocol.replace(".pro", "")
-        if not len(self.protocol):
+        if len(self.protocol)==0 or ord(self.protocol[0])==127:
             self.protocol = "None"
         self.tagTimesMin = [x/60 for x in self.tagTimesSec]
         self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
