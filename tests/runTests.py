@@ -31,19 +31,22 @@ def runFunctionInFile(filename, functionName="go"):
     else:
         getattr(theModule, functionName)()
 
+def clearOldFiles():
+    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
+        os.remove(fname)
+
 
 if __name__ == "__main__":
 
     # clear everything that used to be in the headers folder
-    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        os.remove(fname)
-
+    #clearOldFiles()
+    
     # test header parsing and value reading
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/data/generate-header-pages.py")
 
     # tests involving plotting of signal data
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
-    runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
+    #runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")

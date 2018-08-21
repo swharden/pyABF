@@ -193,7 +193,7 @@ def go():
 
         # update main readme
         md += f"**{abf.abfID}.abf**<br />"
-        md += f"ABF Version: {abf.abfVersion}<br />"
+        md += f"ABF Version: {abf.abfVersionString}<br />"
         md += "Channels: %d (%s)<br />"%(abf.channelCount, ", ".join(abf.adcUnits))
         md += f"Sweeps: {abf.sweepCount}<br />"
         md += f"Protocol: _{abf.protocol}_"
