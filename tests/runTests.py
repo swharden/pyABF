@@ -41,11 +41,12 @@ if __name__ == "__main__":
     # clear everything that used to be in the headers folder
     clearOldFiles()
     
-    # test header parsing and value reading
+    # test which don't require plotting
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/data/generate-header-pages.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/miscTests.py")
 
-    # tests involving plotting of signal data
+    # tests requiring plotting with matplotlib
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
     runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 

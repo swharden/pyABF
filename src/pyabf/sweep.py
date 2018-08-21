@@ -139,10 +139,12 @@ def averageWithinSweep(abf, timeSec1, timeSec2):
 
 def areaWithinSweep(abf, timeSec1, timeSec2):
     """
-    Return the area between the two times in the sweep.
+    Return the area between the two times in the sweep. (in units * ms)
     """
     p1, p2 = _timesToPoints(abf, timeSec1, timeSec2)
     area = np.sum(abf.sweepY[p1:p2])
+    area /= abf.dataRate
+    area *= 1000.0
     return area
 
 
