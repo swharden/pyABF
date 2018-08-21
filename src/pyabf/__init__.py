@@ -8,6 +8,7 @@ from ._version import versionAtLeast
 from ._version import info
 from ._version import help
 from pyabf import plot
+from pyabf import stats
 from pyabf import filter
 from pyabf.abf import ABF
 from pyabf.atf_storage import ATFStorage

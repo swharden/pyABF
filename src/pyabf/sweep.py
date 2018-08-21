@@ -14,6 +14,7 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+
 def _timesToPoints(abf, timeSec1=None, timeSec2=None):
     """
     Given two times in seconds return two points in index values.
@@ -34,6 +35,7 @@ def _timesToPoints(abf, timeSec1=None, timeSec2=None):
         log.critical("timeSec2 is outside the valid range for a sweep")
 
     return [p1, p2]
+
 
 def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
     """
@@ -142,7 +144,8 @@ def sweepBaseline(abf, timeSec1=None, timeSec2=None):
         abf._sweepBaselinePoints = False
     return (abf._sweepBaselineTimes)
 
-def averageTrace(abf, sweepNumbers=[], channel=0, timeSec1=None, timeSec2=None):
+
+def averageTrace(abf, sweepNumbers=[], channel=0, timeSec1=None, timeSec2=None, errorToo=False, stdErr=False):
     """
     Returns [AVG, STDEV] of the average signal from the given sweeps.
     If no sweeps are given, all sweeps are used.
@@ -157,53 +160,14 @@ def averageTrace(abf, sweepNumbers=[], channel=0, timeSec1=None, timeSec2=None):
         abf.setSweep(sweep, channel)
         sweepAvg[sweep] = abf.sweepY[p1:p2]
     sweepAvg = np.average(sweepAvg, 0)
-    sweepStd = np.std(sweepAvg, 0)
-    return [sweepAvg, sweepStd]
+    if errorToo is False:
+        return sweepAvg
+    else:
+        sweepErr = np.std(sweepAvg, 0)
+        if stdErr:
+            sweepErr = sweepErr / np.sqrt(len(sweepNumbers))
+        return [sweepAvg, sweepErr]
 
-
-def rangeAverage(abf, timeSec1=None, timeSec2=None, sweepNumbers=[], channel=0):
-    """
-    Returns [[AVGS], [STDS]] between two time points for the given sweeps.
-    If no sweeps are given, all sweeps are used.
-    """
-    if not isinstance(sweepNumbers, list) or len(sweepNumbers) == 0:
-        sweepNumbers = abf.sweepList
-
-    avs = np.full(len(sweepNumbers), np.nan)
-    std = np.full(len(sweepNumbers), np.nan)
-
-    for sweepNumber in sweepNumbers:
-        abf.setSweep(sweepNumber=sweepNumber, channel=channel)
-        avs[sweepNumber] = abf.sweepAvg(timeSec1, timeSec2)
-        std[sweepNumber] = abf.sweepStdev(timeSec1, timeSec2)
-
-    return [avs, std]
-
-def rangeMax(abf, timeSec1=None, timeSec2=None, sweepNumbers=[], channel=0):
-    """
-    Returns [PEAKS] between two time points for the given sweeps.
-    If no sweeps are given, all sweeps are used.
-    """
-    if not isinstance(sweepNumbers, list) or len(sweepNumbers) == 0:
-        sweepNumbers = abf.sweepList
-    peaks = np.full(len(sweepNumbers), np.nan)
-    for sweepNumber in sweepNumbers:
-        abf.setSweep(sweepNumber=sweepNumber, channel=channel)
-        peaks[sweepNumber] = abf.sweepMax(timeSec1, timeSec2)
-    return peaks
-
-def rangeMin(abf, timeSec1=None, timeSec2=None, sweepNumbers=[], channel=0):
-    """
-    Returns [ANTIPEAKS] between two time points for the given sweeps.
-    If no sweeps are given, all sweeps are used.
-    """
-    if not isinstance(sweepNumbers, list) or len(sweepNumbers) == 0:
-        sweepNumbers = abf.sweepList
-    peaks = np.full(len(sweepNumbers), np.nan)
-    for sweepNumber in sweepNumbers:
-        abf.setSweep(sweepNumber=sweepNumber, channel=channel)
-        peaks[sweepNumber] = abf.sweepMin(timeSec1, timeSec2)
-    return peaks
 
 def sweepMeasureAverage(abf, timeSec1, timeSec2):
     """
@@ -232,14 +196,16 @@ def sweepMeasureStdev(abf, timeSec1, timeSec2):
     p1, p2 = _timesToPoints(abf, timeSec1, timeSec2)
     stdev = np.std(abf.sweepY[p1:p2])
     return stdev
-    
+
+
 def sweepMeasureMax(abf, timeSec1, timeSec2):
     """
     Return the peak value between the two times in the sweep.
     """
     p1, p2 = _timesToPoints(abf, timeSec1, timeSec2)
     return np.max(abf.sweepY[p1:p2])
-    
+
+
 def sweepMeasureMin(abf, timeSec1, timeSec2):
     """
     Return the anti-peak value between the two times in the sweep.

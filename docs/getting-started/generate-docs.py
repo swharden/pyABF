@@ -550,7 +550,7 @@ class Uses:
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
-        currentsAv, currentsErr = pyabf.sweep.rangeAverage(abf, .5, 1)
+        currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
         voltages = pyabf.epochs.epochValues(abf)
 
         plt.figure(figsize=self.figsize)
@@ -588,8 +588,8 @@ class Uses:
             plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
 
         # calculate and plot the average of all sweeps        
-        traceAv, traceStdev = pyabf.sweep.averageTrace(abf)
-        plt.plot(abf.sweepX, traceAv, color='C1', lw=2)
+        avgSweep = pyabf.sweep.averageTrace(abf)
+        plt.plot(abf.sweepX, avgSweep, color='C1', lw=2)
 
         # decorate the plot and zoom in on the interesting area
         plt.title(f"Average of {abf.sweepCount} sweeps")
