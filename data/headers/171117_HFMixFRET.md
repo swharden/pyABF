@@ -15,14 +15,15 @@
 
 * abfDateTime = `2017-11-17T12:54:26.816000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
-* abfVersion = `2.0`
+* abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`
 * adcUnits = `['uA', 'mV', 'V', 'V']`
 * channelCount = `4`
 * channelList = `[0, 1, 2, 3]`
+* creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 1, 'build': 5}`
 * dacNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
 * dacUnits = `['mV', 'mV', 'AO #', '6     A']`
 * data = `[[ -4.39453125e-01  -4.45556641e-01  -4.51660156e-01 ...,  -3.96728516e-01    -3.84521484e-01  -3.78417969e-01]  [ -9.48791504e+01  -9.51232910e+01  -9.49707031e+01 ...,  -9.50012207e+01    -9.48791504e+01  -9.50317383e+01]  [  6.98852539e-02   7.04956055e-02   6.98852539e-02 ...,   7.01904297e-02     7.01904297e-02   6.98852539e-02]  [  7.08007812e-02   7.08007812e-02   7.11059570e-02 ...,   7.11059570e-02     7.08007812e-02   7.04956055e-02]]`
@@ -35,11 +36,10 @@
 * epochPoints = `[967, 20967, 40967, 60967]`
 * epochValues = `[[-100. -100. -100.]  [-100.  -80. -100.]  [-100.  -60. -100.]  [-100.  -40. -100.]  [-100.  -20. -100.]  [-100.    0. -100.]  [-100.   20. -100.]  [-100.   40. -100.]  [-100.   60. -100.]  [-100.   80. -100.]  [-100.  100. -100.]  [-100.  120. -100.]  [-100.  140. -100.]]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
-* fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B058D}`
+* fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
-* sCreatorVersion = `10.3.1.5`
 * sweepC = `[-100. -100. -100. ..., -100. -100. -100.]`
 * sweepChannel = `0`
 * sweepCount = `13`
@@ -99,6 +99,13 @@ Epochs ignored. DAC is turned off.
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2017-11-17T12:54:26.816000`
+* abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.0`
+* abfVersionString = `2.0.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 3, 'bugfix': 1, 'build': 5}`
+* creatorVersionFloat = `10.315`
+* creatorVersionString = `10.3.1.5`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 0, 2]`
 * lActualEpisodes = `13`
@@ -106,6 +113,7 @@ Epochs ignored. DAC is turned off.
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[5, 1, 3, 10]`
 * uFileCRC = `0`

@@ -15,14 +15,15 @@
 
 * abfDateTime = `2017-10-05T14:39:52.817000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
 * abfID = `17o05024_vc_steps`
-* abfVersion = `2.06`
+* abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.6.0.0`
 * adcNames = `['IN 0']`
 * adcUnits = `['pA']`
 * channelCount = `1`
 * channelList = `[0]`
+* creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
 * data = `[[-21.36230278 -21.24023247 -21.24023247 ..., -20.75195122 -20.14159966   -19.40917778]]`
@@ -35,11 +36,10 @@
 * epochPoints = `[1093, 11093, 21093, 31093, 41093, 51093, 61093]`
 * epochValues = `[[ -70. -110.  -70.  -50. -110.  -50.]  [ -70. -100.  -70.  -50. -100.  -50.]  [ -70.  -90.  -70.  -50.  -90.  -50.]  [ -70.  -80.  -70.  -50.  -80.  -50.]  [ -70.  -70.  -70.  -50.  -70.  -50.]  [ -70.  -60.  -70.  -50.  -60.  -50.]  [ -70.  -50.  -70.  -50.  -50.  -50.]]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0)]`
-* fileGUID = `{D64FE94D-B19E-47AB-9E5C-95AA55A98EF7}`
+* fileGUID = `{D64FE94D-B19E-47AB-9E5C-95AA55A9F7F7}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
-* sCreatorVersion = `10.7.0.3`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `7`
@@ -78,6 +78,13 @@
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2017-10-05T14:39:52.817000`
+* abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.6`
+* abfVersionString = `2.6.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionFloat = `10.703`
+* creatorVersionString = `10.7.0.3`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 6, 2]`
 * lActualEpisodes = `7`
@@ -85,6 +92,7 @@
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{D64FE94D-B19E-47AB-9E5C-95AA55A9F7F7}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[3, 0, 7, 10]`
 * uFileCRC = `0`

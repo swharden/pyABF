@@ -14,6 +14,7 @@ PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
 import importlib.util
 import warnings
+import glob
 
 def runFunctionInFile(filename, functionName="go"):
     """
@@ -34,8 +35,8 @@ def runFunctionInFile(filename, functionName="go"):
 if __name__ == "__main__":
 
     # clear everything that used to be in the headers folder
-    #for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        #os.remove(fname)
+    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
+        os.remove(fname)
 
     # test header parsing and value reading
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
@@ -43,6 +44,6 @@ if __name__ == "__main__":
 
     # tests involving plotting of signal data
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
-    #runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
+    runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")

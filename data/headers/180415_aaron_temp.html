@@ -11,14 +11,15 @@
 <div class='section'>ABF Class Variables</div>
 <div class='item'>abfDateTime = <code>2018-03-13T14:45:56.159000</code></div>
 <div class='item'>abfFileComment = <code></code></div>
-<div class='item'>abfFileFormat = <code>2</code></div>
 <div class='item'>abfFilePath = <code>c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf</code></div>
 <div class='item'>abfID = <code>180415_aaron_temp</code></div>
-<div class='item'>abfVersion = <code>2.03</code></div>
+<div class='item'>abfVersion = <code>{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionString = <code>2.3.0.0</code></div>
 <div class='item'>adcNames = <code>['IN 0', 'IN 1']</code></div>
 <div class='item'>adcUnits = <code>['V', 'deg C']</code></div>
 <div class='item'>channelCount = <code>2</code></div>
 <div class='item'>channelList = <code>[0, 1]</code></div>
+<div class='item'>creatorVersion = <code>{'major': 10, 'minor': 4, 'bugfix': 0, 'build': 36}</code></div>
 <div class='item'>dacNames = <code>['OUT 0', 'Cmd 1']</code></div>
 <div class='item'>dacUnits = <code>['V', 'mV']</code></div>
 <div class='item'>data = <code>[[ -0.35186768  -0.35095215  -0.35308838 ...,  -0.35888672  -0.36010742
@@ -34,11 +35,10 @@
 <div class='item'>epochPoints = <code>[1562]</code></div>
 <div class='item'>epochValues = <code>[]</code></div>
 <div class='item'>epochsByChannel = <code>[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]</code></div>
-<div class='item'>fileGUID = <code>{40392588-482D-4FB4-AEE0-820FF5221D88}</code></div>
+<div class='item'>fileGUID = <code>{40392588-482D-4FB4-AEE0-820FF5228888}</code></div>
 <div class='item'>holdingCommand = <code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></div>
 <div class='item'>protocol = <code>PacemakerTempTest</code></div>
 <div class='item'>protocolPath = <code>D:\Axon DATA\EXPT test\PacemakerTempTest.pro</code></div>
-<div class='item'>sCreatorVersion = <code>10.4.0.36</code></div>
 <div class='item'>sweepC = <code>[ nan  nan  nan ...,  nan  nan  nan]</code></div>
 <div class='item'>sweepChannel = <code>0</code></div>
 <div class='item'>sweepCount = <code>1</code></div>
@@ -72,6 +72,13 @@ Epochs ignored. DAC is turned off.
 
 <div class='section'>ABF2 Header</div>
 <div class='docs'>The first several bytes of an ABF2 file contain variables<br>    located at specific byte positions from the start of the file.</div>
+<div class='item'>abfDateTime = <code>2018-03-13T14:45:56.159000</code></div>
+<div class='item'>abfVersionDict = <code>{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionFloat = <code>2.3</code></div>
+<div class='item'>abfVersionString = <code>2.3.0.0</code></div>
+<div class='item'>creatorVersionDict = <code>{'major': 10, 'minor': 4, 'bugfix': 0, 'build': 36}</code></div>
+<div class='item'>creatorVersionFloat = <code>104.036</code></div>
+<div class='item'>creatorVersionString = <code>10.4.0.36</code></div>
 <div class='item'>fFileSignature = <code>ABF2</code></div>
 <div class='item'>fFileVersionNumber = <code>[0, 0, 3, 2]</code></div>
 <div class='item'>lActualEpisodes = <code>1</code></div>
@@ -79,6 +86,7 @@ Epochs ignored. DAC is turned off.
 <div class='item'>nDataFormat = <code>0</code></div>
 <div class='item'>nFileType = <code>1</code></div>
 <div class='item'>nSimultaneousScan = <code>1</code></div>
+<div class='item'>sFileGUID = <code>{40392588-482D-4FB4-AEE0-820FF5228888}</code></div>
 <div class='item'>uCreatorNameIndex = <code>1</code></div>
 <div class='item'>uCreatorVersion = <code>[36, 0, 4, 10]</code></div>
 <div class='item'>uFileCRC = <code>0</code></div>

@@ -22,9 +22,9 @@ class Epochs:
 
         self._initEpochVars()
 
-        if abf.abfFileFormat == 1:
+        if abf.abfVersion["major"] == 1:
             self._fillEpochsFromABFv1()
-        elif abf.abfFileFormat == 2:
+        elif abf.abfVersion["major"] == 2:
             self._fillEpochsFromABFv2()
         else:
             raise NotImplemented("unsupported ABF file format")
@@ -72,12 +72,11 @@ class Epochs:
         self.pulseWidth.append(0)
         self.digitalOutputs.append(0)
 
-    def _is_custom_waveform(self):
+    def _dac_uses_custom_waveform(self):
         """
         Return True if the epoch is defined by a custom waveform in different
         file, False for regular epochs.
         """
-
         return self.abf._dacSection.nWaveformSource[self.channel] == 2
 
     def _fillEpochsFromABFv2(self):
@@ -148,11 +147,11 @@ class Epochs:
         this when poking through the file properties dialog
         """
 
-        if self.abf.abfFileFormat == 1:
+        if self.abf.abfVersion["major"] == 1:
             return "Epoch data from ABF1 files is not available"
         elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
             return "Epochs ignored. DAC is turned off."
-        elif self._is_custom_waveform():
+        elif self._dac_uses_custom_waveform():
             out = "Epochs ignored. DAC controlled by custom waveform:\n"
             out += self.abf._stringsIndexed.lDACFilePath[self.channel]
             return out
@@ -178,13 +177,13 @@ class Epochs:
         """
 
         # return an empty waveform for ABFv1 files
-        if self.abf.abfFileFormat == 1:
+        if self.abf.abfVersion["major"] == 1:
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
         elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
             sweepC = np.full(self.abf.sweepPointCount, np.nan)
             return sweepC
-        elif self._is_custom_waveform():
+        elif self._dac_uses_custom_waveform():
             # - Menu Reference->Acquire Menu->Protocol Editor->Stimulus File in Clampex for further info
             # - General Reference > Stimulus File Overview
 
@@ -240,9 +239,9 @@ class Epochs:
                          self.abf.holdingCommand[self.channel])
 
         # determine if we return to holding between epochs
-        if self.abf.abfFileFormat == 1:
+        if self.abf.abfVersion["major"] == 1:
             returnToHolding = False
-        elif self.abf.abfFileFormat == 2:
+        elif self.abf.abfVersion["major"] == 2:
             if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
                 returnToHolding = True
             else:

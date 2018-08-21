@@ -15,14 +15,15 @@
 
 * abfDateTime = `2018-03-13T14:45:56.159000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
-* abfVersion = `2.03`
+* abfVersion = `{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.3.0.0`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['V', 'deg C']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creatorVersion = `{'major': 10, 'minor': 4, 'bugfix': 0, 'build': 36}`
 * dacNames = `['OUT 0', 'Cmd 1']`
 * dacUnits = `['V', 'mV']`
 * data = `[[ -0.35186768  -0.35095215  -0.35308838 ...,  -0.35888672  -0.36010742    -0.35919189]  [ 25.02338791  25.02643967  25.02643967 ...,  25.02033615  25.02033615    25.01423264]]`
@@ -35,11 +36,10 @@
 * epochPoints = `[1562]`
 * epochValues = `[]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* fileGUID = `{40392588-482D-4FB4-AEE0-820FF5221D88}`
+* fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
-* sCreatorVersion = `10.4.0.36`
 * sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
@@ -78,6 +78,13 @@ Epochs ignored. DAC is turned off.
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2018-03-13T14:45:56.159000`
+* abfVersionDict = `{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.3`
+* abfVersionString = `2.3.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 4, 'bugfix': 0, 'build': 36}`
+* creatorVersionFloat = `104.036`
+* creatorVersionString = `10.4.0.36`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 3, 2]`
 * lActualEpisodes = `1`
@@ -85,6 +92,7 @@ Epochs ignored. DAC is turned off.
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[36, 0, 4, 10]`
 * uFileCRC = `0`

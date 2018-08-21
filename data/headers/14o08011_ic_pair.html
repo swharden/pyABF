@@ -11,14 +11,15 @@
 <div class='section'>ABF Class Variables</div>
 <div class='item'>abfDateTime = <code>2014-10-08T16:43:18.203000</code></div>
 <div class='item'>abfFileComment = <code>SWH[loose60]</code></div>
-<div class='item'>abfFileFormat = <code>2</code></div>
 <div class='item'>abfFilePath = <code>c:\Users\scott\Documents\GitHub\pyABF\data\abfs\14o08011_ic_pair.abf</code></div>
 <div class='item'>abfID = <code>14o08011_ic_pair</code></div>
-<div class='item'>abfVersion = <code>2.0</code></div>
+<div class='item'>abfVersion = <code>{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionString = <code>2.0.0.0</code></div>
 <div class='item'>adcNames = <code>['IN 0', 'IN 1']</code></div>
 <div class='item'>adcUnits = <code>['mV', 'mV']</code></div>
 <div class='item'>channelCount = <code>2</code></div>
 <div class='item'>channelList = <code>[0, 1]</code></div>
+<div class='item'>creatorVersion = <code>{'major': 10, 'minor': 3, 'bugfix': 0, 'build': 2}</code></div>
 <div class='item'>dacNames = <code>['Cmd 0', 'Cmd 1']</code></div>
 <div class='item'>dacUnits = <code>['pA', 'pA']</code></div>
 <div class='item'>data = <code>[[-65.52124023 -65.52124023 -65.52124023 ..., -60.15014648 -60.15014648
@@ -34,11 +35,10 @@
 <div class='item'>epochPoints = <code>[9375]</code></div>
 <div class='item'>epochValues = <code>[]</code></div>
 <div class='item'>epochsByChannel = <code>[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]</code></div>
-<div class='item'>fileGUID = <code>{51FA9285-FBA0-4AB6-AFAC-F99493DABB8A}</code></div>
+<div class='item'>fileGUID = <code>{51FA9285-FBA0-4AB6-AFAC-F99493DA8A8A}</code></div>
 <div class='item'>holdingCommand = <code>[0.0, -80.0, 0.0, 0.0]</code></div>
 <div class='item'>protocol = <code>pair-loose-60</code></div>
 <div class='item'>protocolPath = <code>X:\Protocols\Scott\SWHlab\paired\pair-loose-60.pro</code></div>
-<div class='item'>sCreatorVersion = <code>10.3.0.2</code></div>
 <div class='item'>sweepC = <code>[ 0.  0.  0. ...,  0.  0.  0.]</code></div>
 <div class='item'>sweepChannel = <code>0</code></div>
 <div class='item'>sweepCount = <code>3</code></div>
@@ -79,6 +79,13 @@ Epochs ignored. DAC is turned off.
 
 <div class='section'>ABF2 Header</div>
 <div class='docs'>The first several bytes of an ABF2 file contain variables<br>    located at specific byte positions from the start of the file.</div>
+<div class='item'>abfDateTime = <code>2014-10-08T16:43:18.203000</code></div>
+<div class='item'>abfVersionDict = <code>{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionFloat = <code>2.0</code></div>
+<div class='item'>abfVersionString = <code>2.0.0.0</code></div>
+<div class='item'>creatorVersionDict = <code>{'major': 10, 'minor': 3, 'bugfix': 0, 'build': 2}</code></div>
+<div class='item'>creatorVersionFloat = <code>10.302</code></div>
+<div class='item'>creatorVersionString = <code>10.3.0.2</code></div>
 <div class='item'>fFileSignature = <code>ABF2</code></div>
 <div class='item'>fFileVersionNumber = <code>[0, 0, 0, 2]</code></div>
 <div class='item'>lActualEpisodes = <code>3</code></div>
@@ -86,6 +93,7 @@ Epochs ignored. DAC is turned off.
 <div class='item'>nDataFormat = <code>0</code></div>
 <div class='item'>nFileType = <code>1</code></div>
 <div class='item'>nSimultaneousScan = <code>1</code></div>
+<div class='item'>sFileGUID = <code>{51FA9285-FBA0-4AB6-AFAC-F99493DA8A8A}</code></div>
 <div class='item'>uCreatorNameIndex = <code>1</code></div>
 <div class='item'>uCreatorVersion = <code>[2, 0, 3, 10]</code></div>
 <div class='item'>uFileCRC = <code>0</code></div>

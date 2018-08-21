@@ -15,14 +15,15 @@
 
 * abfDateTime = `2014-10-16T10:01:35.078000`
 * abfFileComment = `SWH[MTIV]`
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
 * abfID = `14o16001_vc_pair_step`
-* abfVersion = `2.0`
+* abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.0.0.0`
 * adcNames = `['IN 0', 'IN 1']`
 * adcUnits = `['pA', 'pA']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 0, 'build': 2}`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[-25.87890434 -27.09960747 -26.73339653 ..., -22.09472466 -21.48437309   -22.58300591]  [-31.49413872 -33.3251915  -32.71483994 ..., -31.37206841 -31.49413872   -31.49413872]]`
@@ -35,11 +36,10 @@
 * epochPoints = `[625, 2625, 4625, 9625, 14625, 19625, 24625, 29625, 34625, 36625, 38625, 43625, 48625, 53625, 58625, 63625, 68625]`
 * epochValues = `[[ -70.  -80.  -70. -110.  -70.  -50. -110.  -50.  -70.  -80.  -70. -110.    -70.  -50. -110.  -50.]  [ -70.  -80.  -70. -105.  -70.  -50. -105.  -50.  -70.  -80.  -70. -105.    -70.  -50. -105.  -50.]  [ -70.  -80.  -70. -100.  -70.  -50. -100.  -50.  -70.  -80.  -70. -100.    -70.  -50. -100.  -50.]  [ -70.  -80.  -70.  -95.  -70.  -50.  -95.  -50.  -70.  -80.  -70.  -95.    -70.  -50.  -95.  -50.]  [ -70.  -80.  -70.  -90.  -70.  -50.  -90.  -50.  -70.  -80.  -70.  -90.    -70.  -50.  -90.  -50.]  [ -70.  -80.  -70.  -85.  -70.  -50.  -85.  -50.  -70.  -80.  -70.  -85.    -70.  -50.  -85.  -50.]  [ -70.  -80.  -70.  -80.  -70.  -50.  -80.  -50.  -70.  -80.  -70.  -80.    -70.  -50.  -80.  -50.]  [ -70.  -80.  -70.  -75.  -70.  -50.  -75.  -50.  -70.  -80.  -70.  -75.    -70.  -50.  -75.  -50.]  [ -70.  -80.  -70.  -70.  -70.  -50.  -70.  -50.  -70.  -80.  -70.  -70.    -70.  -50.  -70.  -50.]  [ -70.  -80.  -70.  -65.  -70.  -50.  -65.  -50.  -70.  -80.  -70.  -65.    -70.  -50.  -65.  -50.]  [ -70.  -80.  -70.  -60.  -70.  -50.  -60.  -50.  -70.  -80.  -70.  -60.    -70.  -50.  -60.  -50.]  [ -70.  -80.  -70.  -55.  -70.  -50.  -55.  -50.  -70.  -80.  -70.  -55.    -70.  -50.  -55.  -50.]  [ -70.  -80.  -70.  -50.  -70.  -50.  -50.  -50.  -70.  -80.  -70.  -50.    -70.  -50.  -50.  -50.]]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* fileGUID = `{7468FC35-C797-4101-8212-7E5BF83B3FF9}`
+* fileGUID = `{7468FC35-C797-4101-8212-7E5BF83BF9F9}`
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
-* sCreatorVersion = `10.3.0.2`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `13`
@@ -92,6 +92,13 @@
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2014-10-16T10:01:35.078000`
+* abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.0`
+* abfVersionString = `2.0.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 3, 'bugfix': 0, 'build': 2}`
+* creatorVersionFloat = `10.302`
+* creatorVersionString = `10.3.0.2`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 0, 2]`
 * lActualEpisodes = `13`
@@ -99,6 +106,7 @@
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{7468FC35-C797-4101-8212-7E5BF83BF9F9}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[2, 0, 3, 10]`
 * uFileCRC = `0`

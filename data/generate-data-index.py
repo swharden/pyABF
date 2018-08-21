@@ -43,7 +43,7 @@ def plotHeader(abf):
     byteMap = {}
     byteMap["file"] = [0, abf._fileSize-1]
 
-    if abf.abfFileFormat == 1:
+    if abf.abfVersion["major"] == 1:
         byteMap["ABFheaderV1"] = [0, 4898+684]  # start byte and size
         byteMap["DataSection"] = [abf.dataByteStart,
                                   abf.dataPointByteSize*abf.dataPointCount]

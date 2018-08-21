@@ -15,14 +15,15 @@
 
 * abfDateTime = `2016-12-22T14:39:47.945000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
-* abfVersion = `2.0`
+* abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.0.0.0`
 * adcNames = `['IN 2', 'IN 3']`
 * adcUnits = `['dB', 'mV']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598    0.01098633]  [ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459    0.10375977]]`
@@ -35,11 +36,10 @@
 * epochPoints = `[7546]`
 * epochValues = `[]`
 * epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9DD734}`
+* fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
-* sCreatorVersion = `10.3.2.1`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `1`
@@ -85,6 +85,13 @@ Epochs ignored. DAC is turned off.
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2016-12-22T14:39:47.945000`
+* abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.0`
+* abfVersionString = `2.0.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
+* creatorVersionFloat = `10.321`
+* creatorVersionString = `10.3.2.1`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 0, 2]`
 * lActualEpisodes = `0`
@@ -92,6 +99,7 @@ Epochs ignored. DAC is turned off.
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `0`
+* sFileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[1, 2, 3, 10]`
 * uFileCRC = `0`
