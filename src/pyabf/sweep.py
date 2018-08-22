@@ -113,12 +113,34 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
     # make sure sweepPointCount is always accurate
     assert (abf.sweepPointCount == len(abf.sweepY))
 
-
 @property
 def sweepC(abf):
     """Generate the sweep command waveform."""
-    stimulus = abf.stimulusByChannel[abf.sweepChannel]
-    return stimulus.stimulusWaveform(abf.sweepNumber)
+    if hasattr(abf, "_sweepC") and isinstance(abf._sweepC, np.ndarray):
+        # someone set a custom waveform, so always return it
+        return abf._sweepC
+    else:
+        # auto-generate (or auto-load) the waveform using the stimulus module
+        stimulus = abf.stimulusByChannel[abf.sweepChannel]
+        return stimulus.stimulusWaveform(abf.sweepNumber)
+
+@sweepC.setter
+def sweepC(abf, sweepData=None):
+    """
+    Manually define sweepC so the given sweepData will always be returned as
+    sweepC and the stimulus waveform will no longer be automatically generated
+    or loaded from file. Undo this by deleting "abf._sweepC".
+    """
+    if sweepData is None:
+        del abf._sweepC
+        return
+    if not len(sweepData):
+        raise ValueError("an array must be given when setting sweepC")
+    sweepData = np.array(sweepData)
+    if not sweepData.shape == abf.sweepY.shape:
+        raise ValueError("sweepC.shape must match sweepY.shape")
+    abf._sweepC = sweepData
+
 
 
 def sweepBaseline(abf, timeSec1=None, timeSec2=None):
