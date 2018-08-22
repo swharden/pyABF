@@ -400,8 +400,8 @@ plt.xlabel(abf.sweepLabelX)
 plt.title("Shaded Digital Output #4")
 plt.axis([1.10, 1.25, -150, 50])
 
-digitalWaveforms = pyabf.epochs.digitalWaveformEpochs(abf)
-epochPoints = pyabf.epochs.epochPoints(abf)
+digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
+epochPoints = pyabf.stimulus.epochPoints(abf)
 digitalOutputChannel = 4
 outputStateByEpoch = digitalWaveforms[digitalOutputChannel]
 for epochNumber, outputState in enumerate(outputStateByEpoch):
@@ -596,7 +596,7 @@ epoch (columns) arranged by sweep (rows).
 import pyabf
 abf = pyabf.ABF("171116sh_0013.abf")
 currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
-voltages = pyabf.epochs.epochValues(abf)
+voltages = pyabf.stimulus.epochValues(abf)
 
 plt.figure(figsize=(8, 5))
 plt.grid(alpha=.5, ls='--')

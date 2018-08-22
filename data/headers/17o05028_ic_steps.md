@@ -33,11 +33,11 @@
 * dataPointCount = `960000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * fileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AE3E3}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `16`

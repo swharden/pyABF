@@ -33,11 +33,11 @@
 * dataPointCount = `1040000`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
 * fileGUID = `{7468FC35-C797-4101-8212-7E5BF83BF9F9}`
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `13`

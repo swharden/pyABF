@@ -33,11 +33,11 @@
 * dataPointCount = `200000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * fileGUID = `{0F7B8F44-BAF3-495F-9477-03B4FF3BCECE}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `20`

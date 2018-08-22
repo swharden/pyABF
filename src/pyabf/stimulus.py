@@ -1,6 +1,13 @@
 """
-Code here relates to reading epoch information from ABF files and synthesizing
-analog and digital waveforms to represent command signals.
+Code here relates to the creation of stimulus waveforms. Usually this is 
+accomplished by synthesizing a waveform by reading the epoch table. This
+includes the synthesis of digital output channel waveforms.
+
+Some ABFs use a custom stimulus waveform. Code here also allows for the reading 
+of these waveforms from ABF and ATF files.
+
+The Stimulus class is instantitated (once per channel) in the ABF class, and
+users are encouraged to interact with those objects direclty.
 """
 
 import warnings
@@ -77,7 +84,7 @@ def digitalWaveformEpochs(abf):
     return statesAll
 
 
-class Epochs:
+class Stimulus:
     def __init__(self, abf, channel):
         """
         handles epoch values for a single sweep/channel

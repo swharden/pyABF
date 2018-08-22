@@ -33,11 +33,11 @@
 * dataPointCount = `490000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * fileGUID = `{D64FE94D-B19E-47AB-9E5C-95AA55A9F7F7}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `7`

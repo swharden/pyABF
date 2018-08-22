@@ -186,7 +186,7 @@ def abfInfoPage(abf):
 
     for channel in abf.channelList:
         page.addSection("Epochs for Channel %d" % channel)
-        text = abf.epochsByChannel[channel].text
+        text = abf.stimulusByChannel[channel].text
         page.addThing("~CODE~", text)
 
     # add all ABF header information (different in ABF1 vs ABF2)

@@ -33,11 +33,11 @@
 * dataPointCount = `200000`
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
-* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
 * fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
 * sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
 * sweepChannel = `0`
 * sweepCount = `1`

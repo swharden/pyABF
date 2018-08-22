@@ -29,7 +29,7 @@ from pyabf.abfHeader import TagSection
 from pyabf.abfHeader import StringsSection
 from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
-from pyabf.epochs import Epochs
+from pyabf.stimulus import Stimulus
 
 class ABF:
     """
@@ -38,19 +38,16 @@ class ABF:
 
     The default action is to read all the ABF data from disk when the class is
     instantiated. When disabled (with an argument) to save speed, one can 
-    quickly iterate through many ABF files to access header contents. The
-    same thing is true with the loadStimulus argument and the stimulus waveform 
-    file.
+    quickly iterate through many ABF files to access header contents. 
 
     Although you can access all data with abf.data, you can also call
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
-    def __init__(self, abf, loadData=True, loadStimulus=False):
+    def __init__(self, abf, loadData=True):
 
         # assign arguments to the class
         self._preLoadData = loadData
-        self._preloadStimulus = loadStimulus
 
         # clean-up file paths and filenames, then open the file
         self.abfFilePath = os.path.abspath(abf)
@@ -83,10 +80,6 @@ class ABF:
         # we are done with the ABF file, so close it
         self._fileClose()
 
-        # populate self.sweepC with data loaded from stimulus file?
-        if self._preloadStimulus:
-            raise NotImplementedError()
-
     def __str__(self):
         txt = f"ABF file ({self.abfID}.abf)"
         txt += f" with {self.channelCount} channel"
@@ -100,8 +93,8 @@ class ABF:
         return txt
 
     def __repr__(self):
-        return 'ABFcore(abf="%s", loadData=%s, loadStimulus=%s)' % \
-            (self.abfFilePath, self._preLoadData, self._preloadStimulus)
+        return 'ABFcore(abf="%s", loadData=%s)' % \
+            (self.abfFilePath, self._preLoadData)
 
     def _fileOpen(self):
         """Open the ABF file in rb mode."""
@@ -255,10 +248,10 @@ class ABF:
         self.tagTimesMin = [x/60 for x in self.tagTimesSec]
         self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
 
-        # create epoch objects
-        self.epochsByChannel = []
+        # create objects for each channel stimulus
+        self.stimulusByChannel = []
         for channel in self.channelList:
-            self.epochsByChannel.append(Epochs(self, channel))
+            self.stimulusByChannel.append(Stimulus(self, channel))
 
         # note if data is float or int
         if self._nDataFormat == 0:
@@ -293,7 +286,7 @@ class ABF:
     # These additional tools are useful add-ons to the ABF class. To add new
     # functionality to the ABF class, make a module and import it like this:
     from pyabf.text import abfInfoPage as getInfoPage
-    from pyabf.epochs import sweepD
+    from pyabf.stimulus import sweepD
     from pyabf.sweep import setSweep
     from pyabf.sweep import sweepC
     from pyabf.sweep import sweepBaseline

@@ -117,9 +117,8 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
 @property
 def sweepC(abf):
     """Generate the sweep command waveform."""
-    # TODO: support custom stimulus waveforms
-    sweepEpochs = abf.epochsByChannel[abf.sweepChannel]
-    return sweepEpochs.stimulusWaveform(abf.sweepNumber)
+    stimulus = abf.stimulusByChannel[abf.sweepChannel]
+    return stimulus.stimulusWaveform(abf.sweepNumber)
 
 
 def sweepBaseline(abf, timeSec1=None, timeSec2=None):

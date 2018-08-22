@@ -33,11 +33,11 @@
 * dataPointCount = `100000`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
 * protocol = `(untitled)`
 * protocolPath = `(untitled)`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `1`

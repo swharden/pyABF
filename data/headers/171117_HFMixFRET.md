@@ -33,11 +33,11 @@
 * dataPointCount = `3220568`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
 * fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
 * sweepC = `[-100. -100. -100. ..., -100. -100. -100.]`
 * sweepChannel = `0`
 * sweepCount = `13`
