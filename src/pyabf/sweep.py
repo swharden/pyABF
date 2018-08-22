@@ -98,11 +98,13 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
         abf.sweepX += sweepNumber * abf.sweepLengthSec
 
     # default case is disabled
-    if not "baselinePoints" in vars():
+    if not hasattr(abf, '_sweepBaselinePoints'):
+        log.debug("setSweep doesn't see baselinePoints, making False")
         abf._sweepBaselinePoints = False
 
     # if baseline subtraction is used, apply it
     if abf._sweepBaselinePoints:
+        log.debug("setSweep is applying baseline subtraction")
         baseline = np.average(
             abf.sweepY[int(abf._sweepBaselinePoints[0]):int(abf._sweepBaselinePoints[1])])
         abf.sweepY = abf.sweepY-baseline
