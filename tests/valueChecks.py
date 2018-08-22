@@ -53,6 +53,7 @@ FIRSTVALUES['130618-1-12'] = ['-188.33015']
 FIRSTVALUES['18711001'] = ['-66.66565']
 FIRSTVALUES['18713001'] = ['-64.27002']
 FIRSTVALUES['sine sweep magnitude 20'] = ['0.00000']
+FIRSTVALUES['171116sh_0015-ATFwaveform'] = ['-119.38476']
 
 def go():
     print("Checking first values ", end="")
@@ -76,7 +77,8 @@ def go():
             valuesNeedUpdating = True
             print("FIRSTVALUES['%s'] = %s" % (abf.abfID, firstValues))
     if valuesNeedUpdating:
-        raise ValueError("UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
+        print()
+        print("UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
     print(" OK")
 
 
