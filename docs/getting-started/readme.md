@@ -653,3 +653,39 @@ plt.show()
 **Output:**
 
 ![source/demo_16_average_sweep.jpg](source/demo_16_average_sweep.jpg)
+
+## Plotting Data from ATF Files
+
+Although most of the effort in this project has gone into the ABF class,
+there also exists an ATF class with much of the similar functionality.
+This class can read Axon Text Format (ATF) files and has a setSweep()
+with nearly identical sentax to the ABF class. 
+
+Extra attention was invested into supporting muli-channel ATF data.
+Note that this example plots only channel 2 from a multi-channel ATF 
+file.
+
+**Code:**
+
+```python
+import pyabf
+atf = pyabf.ATF("18702001-step.atf") # not ABF!
+
+fig = plt.figure(figsize=(8, 5))
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
+
+for channel, ax in enumerate([ax1, ax2]):
+    ax.set_title(f"{atf.atfID} channel {channel}")
+    ax.set_xlabel(atf.sweepLabelX)
+    ax.set_ylabel(atf.sweepLabelY)
+    for sweepNumber in atf.sweepList:
+        atf.setSweep(sweepNumber, channel)
+        ax.plot(atf.sweepX, atf.sweepY)
+
+plt.show()
+```
+
+**Output:**
+
+![source/demo_17_atf_plotting.jpg](source/demo_17_atf_plotting.jpg)

@@ -2,8 +2,10 @@
 This file contains code to plot ABF data using matplotlib.
 
 Users are typically encouraged to write their own plotting functions, but
-I have added common tasks here for my own convenience. It is mostly for testing
-and it is not actively developed.
+I have added common tasks here to serve as a reference and potentially even
+inspiration (for those who have not used matplotlib before).
+
+Code in this module is mostly for testing and it is not actively developed.
 """
 
 import os
@@ -37,10 +39,8 @@ def sweepDataRange(abf, fraction=1, sweepNumber=0, channel=0):
 
 def colorsBinned(bins, colormap="winter", reverse=False):
     """
-    I like using these colormaps:
-
-        Winter, Dark2
-
+    Return a list of colors spanning the range of the given colormap.
+    I like using these colormaps: Winter, Dark2
     """
     colormap = plt.get_cmap(colormap)
     colors = []
@@ -52,6 +52,11 @@ def colorsBinned(bins, colormap="winter", reverse=False):
 
 
 def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, offsetYunits=0, channel=0, axis=None, color=None, alpha=.5, startAtSec=0, endAtSec=False, title=None):
+    """
+    This is a flexible sweep plotting function. Although it has many potential 
+    uses, developers will most likely want to write their own plotting functions
+    to suit their specific applications.
+    """
     if sweepNumbers is None:
         sweepNumbers = abf.sweepList
     sweepNumbers = list(sweepNumbers)
@@ -88,16 +93,6 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, offsetYunits=
         axis.set_title(f"{abf.abfID} (Ch{channel+1})")
     elif title is False:
         pass # no title
-
-
-def _demo_01_offests():
-    for fname in sorted(glob.glob(PATH_DATA+"/*.abf"))[5:8]:
-        abf = pyabf.ABF(fname)
-        sweeps(abf, offsetXsec=abf.sweepLengthSec/20,
-               offsetYunits=sweepDataRange(abf, .05))
-        scalebar(abf)
-    plt.show()
-
 
 def scalebar(abf=None, hideTicks=True, hideFrame=True, fontSize=8, scaleXsize=None, scaleYsize=None, scaleXunits="", scaleYunits="", lineWidth=2):
     """
@@ -183,13 +178,31 @@ def scalebar(abf=None, hideTicks=True, hideFrame=True, fontSize=8, scaleXsize=No
              ha='left', va='center', fontsize=fontSize)
 
 
+def _demo_01_offests():
+    """
+    Demonstrate how to use sweepDataRange to estimate excellent offsets
+    for pretty graphing of ABFs with wildly different scales.
+    """
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf"))[5:8]:
+        abf = pyabf.ABF(fname)
+        sweeps(abf, offsetXsec=abf.sweepLengthSec/20,
+               offsetYunits=sweepDataRange(abf, .05))
+        scalebar(abf)
+    plt.show()
 
-if __name__ == "__main__":
-
+def _demo_02_scalebar():
+    """
+    Demonstrate how to create an L-shaped scalebar.
+    """
     abf = pyabf.ABF(PATH_DATA+"/17o05026_vc_stim.abf")
     sweeps(abf, offsetXsec=.05, offsetYunits=15, startAtSec=3, endAtSec=3.5)
     scalebar(abf)
     plt.tight_layout()
     plt.show()
+
+
+if __name__ == "__main__":
+    _demo_01_offests()
+    _demo_02_scalebar()
 
     print("DONE")

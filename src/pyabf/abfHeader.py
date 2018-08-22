@@ -1,5 +1,13 @@
 """
 Code here relates to extraction of values from ABF1 and ABF2 file headers.
+A purist interested in replicating (or porting) core functionality of ABF
+reading code may desire to start here. Only standard libraries are used.
+Variable names were chosen to be consistent with common names found in header
+files released with the official SDK.
+
+Code here is limited to the looking-up of data from the ABF header and its
+gentle messaging to improve readability. Code related to analysis or dividing
+data into sweeps does not belong in this file. 
 """
 
 import io

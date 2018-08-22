@@ -2,10 +2,9 @@
 Code here provides direct access to the header and signal data of ABF files.
 Efforts are invested to ensure ABF1 and ABF2 files are supported identically.
 
-Design goals:
-    Keep the ABF class tight.
-    Source-out code for analysis.
-    Put as much ABF header code in the structures module as possible.
+This file is LIMITED TO THE MANAGEMENT OF HEADER AND DATA information.
+Analysis routines are not written in the ABF class itself. If useful, they
+are to be written in another file and imported as necessary.
 """
 
 import os
@@ -117,6 +116,7 @@ class ABF:
         self._fileCloseTime = time.perf_counter()
         self._fb.close()
         self._dataLoadTimeMs = (self._fileCloseTime-self._fileOpenTime)*1000
+        log.debug("ABF file was open for %.02f ms" % self._dataLoadTimeMs)
 
     def _readHeadersV1(self):
         """Populate class variables from the ABF1 header."""
@@ -236,26 +236,31 @@ class ABF:
     def _makeAdditionalVariables(self):
         """create or touch-up version-nonspecific variables."""
 
+        # sweep information
         if self.sweepCount == 0:  # gap free
             self.sweepCount = 1
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
         self.sweepLengthSec = self.sweepPointCount / self.dataRate
+        self.channelList = list(range(self.channelCount))
+        self.sweepList = list(range(self.sweepCount))
 
+        # protocol file
         self.protocol = os.path.basename(self.protocolPath)
         self.protocol = self.protocol.replace(".pro", "")
         if len(self.protocol) == 0 or ord(self.protocol[0]) == 127:
             self.protocol = "None"
 
+        # tag details
         self.tagTimesMin = [x/60 for x in self.tagTimesSec]
         self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
-        self.channelList = list(range(self.channelCount))
-        self.sweepList = list(range(self.sweepCount))
 
+        # create epoch objects
         self.epochsByChannel = []
         for channel in self.channelList:
             self.epochsByChannel.append(Epochs(self, channel))
 
+        # note if data is float or int
         if self._nDataFormat == 0:
             self._dtype = np.int16
         elif self._nDataFormat == 1:
@@ -285,7 +290,8 @@ class ABF:
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
-    # These additional tools are useful add-ons to the ABF class:
+    # These additional tools are useful add-ons to the ABF class. To add new
+    # functionality to the ABF class, make a module and import it like this:
     from pyabf.text import abfInfoPage as getInfoPage
     from pyabf.epochs import sweepD
     from pyabf.sweep import setSweep

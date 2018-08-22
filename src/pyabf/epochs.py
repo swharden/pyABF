@@ -8,7 +8,6 @@ import numpy as np
 import copy
 import os
 import sys
-import pyabf.atf_reader as atf
 
 def sweepD(abf, digitalOutputNumber=0):
     """

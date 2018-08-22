@@ -599,6 +599,38 @@ class Uses:
 
         self.saveAndClose()
 
+    def demo_17_atf_plotting(self):
+        """
+        ## Plotting Data from ATF Files
+
+        Although most of the effort in this project has gone into the ABF class,
+        there also exists an ATF class with much of the similar functionality.
+        This class can read Axon Text Format (ATF) files and has a setSweep()
+        with nearly identical sentax to the ABF class. 
+        
+        Extra attention was invested into supporting muli-channel ATF data.
+        Note that this example plots only channel 2 from a multi-channel ATF 
+        file.
+        """
+
+        import pyabf
+        atf = pyabf.ATF("data/abfs/18702001-step.atf") # not ABF!
+        
+        fig = plt.figure(figsize=self.figsize)
+        ax1 = fig.add_subplot(121)
+        ax2 = fig.add_subplot(122)
+        
+        for channel, ax in enumerate([ax1, ax2]):
+            ax.set_title(f"{atf.atfID} channel {channel}")
+            ax.set_xlabel(atf.sweepLabelX)
+            ax.set_ylabel(atf.sweepLabelY)
+            for sweepNumber in atf.sweepList:
+                atf.setSweep(sweepNumber, channel)
+                ax.plot(atf.sweepX, atf.sweepY)
+
+        self.saveAndClose()
+            
+    plt.show()
 
 def cleanDocstrings(s):
     s = s.strip()
