@@ -62,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C
                      Type   Step   Step   Step
          First Level (mV)   -100   -100   -100
@@ -76,21 +77,21 @@
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## ABF2 Header

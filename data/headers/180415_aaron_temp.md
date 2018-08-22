@@ -62,14 +62,14 @@
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## ABF2 Header

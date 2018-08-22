@@ -85,6 +85,8 @@ class InfoPage:
             elif str(value) == "~DOCS~":
                 out += "> %s \n\n" % (name.strip().replace("\n", " "))
             elif str(name) == "~CODE~":
+                if value is None:
+                    value=""
                 out+="\n```\n"+value.strip("\n")+"\n```\n"
             else:
                 if value is None:
@@ -120,6 +122,8 @@ class InfoPage:
             elif str(value) == "~DOCS~":
                 html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             elif str(name) == "~CODE~":
+                if value is None:
+                    value=""
                 html+="\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
             else:
                 if value is None:

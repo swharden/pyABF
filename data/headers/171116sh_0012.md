@@ -62,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C      D      E      F
                      Type   Step   Step   Step   Step   Step   Step
          First Level (mV)    -70   -110    -70    -50   -110    -50

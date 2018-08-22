@@ -38,7 +38,7 @@
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
-* sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
+* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -62,21 +62,14 @@
 
 
 ```
-                Ch0 EPOCH
-                     Type
-         First Level (mV)
-         Delta Level (mV)
- First Duration (samples)
- Delta Duration (samples)
-   Train Period (samples)
-    Pulse Width (samples)
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## ABF2 Header

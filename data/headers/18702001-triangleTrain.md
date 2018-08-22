@@ -62,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C      D
                      Type   Step   Step   Ramp   Ramp
          First Level (mV)    -80    -70    -80    -70
@@ -76,6 +77,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch1 EPOCH      A      B      C
                      Type   Step   Step    Tri
          First Level (mV)    -20    -10     25
