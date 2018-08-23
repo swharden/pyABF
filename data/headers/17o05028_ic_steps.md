@@ -2,25 +2,26 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepArea()
+* abf.sweepAvg()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
+* abf.sweepMax()
+* abf.sweepMin()
+* abf.sweepStdev()
 
 ## ABF Class Variables
 
 * abfDateTime = `2017-10-05T14:42:46.899000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
 * abfID = `17o05028_ic_steps`
-* abfVersion = `2.06`
+* abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.6.0.0`
 * adcNames = `['IN 0']`
 * adcUnits = `['mV']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
 * creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
@@ -32,14 +33,11 @@
 * dataPointCount = `960000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* digitalWaveformEpochs = `[[0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]  [0 0 0 0 0]]`
-* epochPoints = `[937, 2937, 12937, 22937, 32937, 42937]`
-* epochValues = `[[   0.  -50.    0.  -50.  -50.]  [   0.  -40.    0.  -50.  -40.]  [   0.  -30.    0.  -50.  -30.]  [   0.  -20.    0.  -50.  -20.]  [   0.  -10.    0.  -50.  -10.]  [   0.    0.    0.  -50.    0.]  [   0.   10.    0.  -50.   10.]  [   0.   20.    0.  -50.   20.]  [   0.   30.    0.  -50.   30.]  [   0.   40.    0.  -50.   40.]  [   0.   50.    0.  -50.   50.]  [   0.   60.    0.  -50.   60.]  [   0.   70.    0.  -50.   70.]  [   0.   80.    0.  -50.   80.]  [   0.   90.    0.  -50.   90.]  [   0.  100.    0.  -50.  100.]]`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
-* fileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AAAE3}`
+* fileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AE3E3}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
 * sweepChannel = `0`
 * sweepCount = `16`
@@ -64,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C      D      E
                      Type   Step   Step   Step   Step   Step
          First Level (pA)      0    -50      0    -50    -50
@@ -78,6 +77,13 @@
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2017-10-05T14:42:46.899000`
+* abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.6`
+* abfVersionString = `2.6.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionFloat = `10.703`
+* creatorVersionString = `10.7.0.3`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 6, 2]`
 * lActualEpisodes = `16`
@@ -85,6 +91,7 @@
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AE3E3}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[3, 0, 7, 10]`
 * uFileCRC = `0`

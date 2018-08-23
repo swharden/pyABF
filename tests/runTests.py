@@ -11,8 +11,10 @@ import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
+PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
 import importlib.util
 import warnings
+import glob
 
 def runFunctionInFile(filename, functionName="go"):
     """
@@ -29,11 +31,22 @@ def runFunctionInFile(filename, functionName="go"):
     else:
         getattr(theModule, functionName)()
 
+def clearOldFiles():
+    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
+        os.remove(fname)
+
 
 if __name__ == "__main__":
 
-    warnings.simplefilter("ignore")
+    # clear everything that used to be in the headers folder
+    clearOldFiles()
+    
+    # test which don't require plotting
     runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
+    runFunctionInFile(PATH_PROJECT+"/data/generate-header-pages.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/miscTests.py")
+
+    # tests requiring plotting with matplotlib
     runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
     runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
 

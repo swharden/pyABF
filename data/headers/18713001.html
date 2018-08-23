@@ -1,22 +1,23 @@
 <html><head><style>body {font-family: sans-serif;}code {background-color: #F2F2F2; padding: 2px;}.item {margin-left: 2em; margin-top: .5em;}.section {font-size: 150%; font-weight: bold; margin-top: 2em; }.docs {font-style: italic; font-family: serif;}</style><title>18713001.abf</title></head><body><h1>18713001.abf</h1>
 <div class='section'>ABF Class Methods</div>
-<div class='item'>abf.baseline()</div>
 <div class='item'>abf.getInfoPage()</div>
 <div class='item'>abf.setSweep()</div>
-<div class='item'>abf.sweepAverage()</div>
+<div class='item'>abf.sweepArea()</div>
+<div class='item'>abf.sweepAvg()</div>
+<div class='item'>abf.sweepBaseline()</div>
 <div class='item'>abf.sweepD()</div>
-<div class='item'>abf.sweepError()</div>
+<div class='item'>abf.sweepMax()</div>
+<div class='item'>abf.sweepMin()</div>
+<div class='item'>abf.sweepStdev()</div>
 <div class='section'>ABF Class Variables</div>
 <div class='item'>abfDateTime = <code>2018-07-13T15:11:44.841000</code></div>
 <div class='item'>abfFileComment = <code></code></div>
-<div class='item'>abfFileFormat = <code>2</code></div>
 <div class='item'>abfFilePath = <code>c:\Users\scott\Documents\GitHub\pyABF\data\abfs\18713001.abf</code></div>
 <div class='item'>abfID = <code>18713001</code></div>
-<div class='item'>abfVersion = <code>2.06</code></div>
+<div class='item'>abfVersion = <code>{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionString = <code>2.6.0.0</code></div>
 <div class='item'>adcNames = <code>['IN 0']</code></div>
 <div class='item'>adcUnits = <code>['mV']</code></div>
-<div class='item'>baselinePoints = <code>False</code></div>
-<div class='item'>baselineTimes = <code>False</code></div>
 <div class='item'>channelCount = <code>1</code></div>
 <div class='item'>channelList = <code>[0]</code></div>
 <div class='item'>creatorVersion = <code>{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}</code></div>
@@ -29,58 +30,11 @@
 <div class='item'>dataPointCount = <code>900000</code></div>
 <div class='item'>dataRate = <code>20000</code></div>
 <div class='item'>dataSecPerPoint = <code>5e-05</code></div>
-<div class='item'>digitalWaveformEpochs = <code>[[1 0 0]
- [1 0 0]
- [1 0 0]
- [1 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]
- [0 0 0]]</code></div>
-<div class='item'>epochPoints = <code>[468, 6468, 16468, 26468]</code></div>
-<div class='item'>epochValues = <code>[[-100.    0.    0.]
- [-100.    0.   10.]
- [-100.    0.   20.]
- [-100.    0.   30.]
- [-100.    0.   40.]
- [-100.    0.   50.]
- [-100.    0.   60.]
- [-100.    0.   70.]
- [-100.    0.   80.]
- [-100.    0.   90.]
- [-100.    0.  100.]
- [-100.    0.  110.]
- [-100.    0.  120.]
- [-100.    0.  130.]
- [-100.    0.  140.]
- [-100.    0.  150.]
- [-100.    0.  160.]
- [-100.    0.  170.]
- [-100.    0.  180.]
- [-100.    0.  190.]
- [-100.    0.  200.]
- [-100.    0.  210.]
- [-100.    0.  220.]
- [-100.    0.  230.]
- [-100.    0.  240.]
- [-100.    0.  250.]
- [-100.    0.  260.]
- [-100.    0.  270.]
- [-100.    0.  280.]
- [-100.    0.  290.]]</code></div>
-<div class='item'>epochsByChannel = <code>[ChannelEpochs(ABF, 0)]</code></div>
-<div class='item'>fileGUID = <code>{1EA30A6A-3D32-4F02-BC1A-6829F1494859}</code></div>
+<div class='item'>fileGUID = <code>{1EA30A6A-3D32-4F02-BC1A-6829F1495959}</code></div>
 <div class='item'>holdingCommand = <code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></div>
 <div class='item'>protocol = <code>FICurve_Hyperpolarizing_KL</code></div>
 <div class='item'>protocolPath = <code>C:\Users\patch\Documents\Molecular Devices\pCLAMP\Params\FICurve_Hyperpolarizing_KL.pro</code></div>
+<div class='item'>stimulusByChannel = <code>[ChannelEpochs(ABF, 0)]</code></div>
 <div class='item'>sweepC = <code>[ 0.  0.  0. ...,  0.  0.  0.]</code></div>
 <div class='item'>sweepChannel = <code>0</code></div>
 <div class='item'>sweepCount = <code>30</code></div>
@@ -104,6 +58,7 @@
 <div class='item'>tagTimesSec = <code>[]</code></div>
 <div class='section'>Epochs for Channel 0</div>
 <pre>
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C
                      Type   Step   Step   Step
          First Level (pA)   -100      0      0
@@ -116,6 +71,13 @@
 
 <div class='section'>ABF2 Header</div>
 <div class='docs'>The first several bytes of an ABF2 file contain variables<br>    located at specific byte positions from the start of the file.</div>
+<div class='item'>abfDateTime = <code>2018-07-13T15:11:44.841000</code></div>
+<div class='item'>abfVersionDict = <code>{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionFloat = <code>2.6</code></div>
+<div class='item'>abfVersionString = <code>2.6.0.0</code></div>
+<div class='item'>creatorVersionDict = <code>{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}</code></div>
+<div class='item'>creatorVersionFloat = <code>10.703</code></div>
+<div class='item'>creatorVersionString = <code>10.7.0.3</code></div>
 <div class='item'>fFileSignature = <code>ABF2</code></div>
 <div class='item'>fFileVersionNumber = <code>[0, 0, 6, 2]</code></div>
 <div class='item'>lActualEpisodes = <code>30</code></div>
@@ -123,6 +85,7 @@
 <div class='item'>nDataFormat = <code>0</code></div>
 <div class='item'>nFileType = <code>1</code></div>
 <div class='item'>nSimultaneousScan = <code>1</code></div>
+<div class='item'>sFileGUID = <code>{1EA30A6A-3D32-4F02-BC1A-6829F1495959}</code></div>
 <div class='item'>uCreatorNameIndex = <code>1</code></div>
 <div class='item'>uCreatorVersion = <code>[3, 0, 7, 10]</code></div>
 <div class='item'>uFileCRC = <code>0</code></div>

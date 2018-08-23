@@ -14,6 +14,10 @@ sys.path.insert(0, PATH_SRC)  # for importing
 sys.path.append("../src/")  # for your IDE
 import pyabf
 
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
+
 import datetime
 import numpy as np
 import matplotlib.patches as patches
@@ -43,7 +47,7 @@ def plotHeader(abf):
     byteMap = {}
     byteMap["file"] = [0, abf._fileSize-1]
 
-    if abf.abfFileFormat == 1:
+    if abf.abfVersion["major"] == 1:
         byteMap["ABFheaderV1"] = [0, 4898+684]  # start byte and size
         byteMap["DataSection"] = [abf.dataByteStart,
                                   abf.dataPointByteSize*abf.dataPointCount]
@@ -69,12 +73,13 @@ def plotHeader(abf):
 
     # LEFT SUBPLOT
 
-    for subplot in [121, 122]:
-        plt.subplot(subplot)
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
 
-        #plt.gca().patch.set_alpha(0)
-        plt.gca().patch.set_facecolor('w')
-        plt.gca().patch.set_facecolor('w')
+    for ax in [ax1, ax2]:
+
+        ax.patch.set_facecolor('w')
+        ax.patch.set_facecolor('w')
 
         for i, part in enumerate(byteMap.keys()):
             firstByte, byteCount = byteMap[part]
@@ -88,49 +93,32 @@ def plotHeader(abf):
                 rect = patches.Rectangle((firstByte, 0), byteCount, 1,
                                          linewidth=0, facecolor=color,
                                          alpha=1, label=part)
-            plt.gca().add_patch(rect)
+            ax.add_patch(rect)
 
         # hide the box on the edges
-        plt.gca().spines['top'].set_visible(False)
-        plt.gca().spines['right'].set_visible(False)
-        plt.gca().spines['bottom'].set_visible(False)
-        plt.gca().spines['left'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         plt.text(0, -.25, "  "+abf.abfID, ha='left', va='center')
         plt.xlabel("Byte Position")
         plt.margins(.1, .1)
-        plt.gca().get_yaxis().set_visible(False)  # hide Y axis
+        ax.get_yaxis().set_visible(False)  # hide Y axis
         plt.tight_layout()
-        if subplot == 121:
-            plt.title("ABF Byte Map for "+abf.abfID+".abf")
-        else:
-            plt.legend(loc='upper right', fontsize=8,
-                       shadow=True, framealpha=1)
+        ax1.set_title("ABF Byte Map for "+abf.abfID+".abf")
+        ax2.legend(loc='upper right', fontsize=8, shadow=True, framealpha=1)
 
-    plt.subplot(121)
-    plt.axis([-100, abf.dataByteStart+1500, -.5, 1])
+    ax1.axis([-100, abf.dataByteStart+1500, -.5, 1])
 
-    plt.subplot(122)
     x1 = abf.dataByteStart + abf.dataPointCount*2
     x2 = abf._fileSize
-    plt.axis([x1-1500, x2+1500, -.5, 1])
+    ax2.axis([x1-1500, x2+1500, -.5, 1])
 
     fnameOut = os.path.dirname(os.path.dirname(abf.abfFilePath))
     fnameOut += "/headers/"+abf.abfID+"_map.png"
     plt.savefig(fnameOut)
     plt.close()
-
-
-def infoPage(abf):
-    """
-    Create markdown and HTML file containing header details.
-    """
-    page = abf.getInfoPage()
-    headerPath = os.path.abspath(PATH_HERE+"/../data/headers/")
-    with open(headerPath+"/%s.md" % (abf.abfID), 'w') as f:
-        f.write(page.generateMarkdown())
-    with open(headerPath+"/%s.html" % (abf.abfID), 'w') as f:
-        f.write(page.generateHTML())
 
 
 def plotThumbnail(abf):
@@ -140,8 +128,8 @@ def plotThumbnail(abf):
     # create figure and subplots
     fig = plt.figure(figsize=(8, 6))
     fig.patch.set_alpha(0)  # transparent background
-    ax1 = plt.subplot(211)
-    ax2 = plt.subplot(212)
+    ax1 = fig.add_subplot(211)
+    ax2 = fig.add_subplot(212)
     ax1.patch.set_facecolor('w')
     ax2.patch.set_facecolor('w')
     ax1.set_xmargin(0)
@@ -179,7 +167,7 @@ def plotThumbnail(abf):
 
 def go():
 
-    print("Generating data index page",end=" ")
+    print("Generating data index page", end=" ")
 
     md = "# Sample ABFs\n\n"
     md += "This is a small collection of various ABFs I practice developing with. "
@@ -190,20 +178,15 @@ def go():
     md += "ABF Information | Header Map | Thumbnails\n"
     md += "---|---|---\n"
 
-    # clear everything that used to be in the headers folder
-    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        os.remove(fname)
-
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
 
         # load the ABF
         abf = pyabf.ABF(fname)
 
         # indicate which ABF is being challenged
-        #print(abf.abfID)
+        log.debug("creating thumbnail for %s" % abf.abfID)
 
         # create the graphs
-        infoPage(abf)
         plotThumbnail(abf)
         plotHeader(abf)
         print(".", end="")
@@ -211,13 +194,15 @@ def go():
 
         # update main readme
         md += f"**{abf.abfID}.abf**<br />"
-        md += f"ABF Version: {abf.abfVersion}<br />"
-        md += "Channels: %d (%s)<br />"%(abf.channelCount, ", ".join(abf.adcUnits))
+        md += f"ABF Version: {abf.abfVersionString}<br />"
+        md += "Channels: %d (%s)<br />" % (abf.channelCount,
+                                           ", ".join(abf.adcUnits))
         md += f"Sweeps: {abf.sweepCount}<br />"
         md += f"Protocol: _{abf.protocol}_"
         md += " | "
-        md += "![headers/%s_map.png](headers/%s_map.png)<br />" % (abf.abfID, abf.abfID)
-        md += "[view entire header](headers/%s.md)"%(abf.abfID)
+        md += "![headers/%s_map.png](headers/%s_map.png)<br />" % (
+            abf.abfID, abf.abfID)
+        md += "[view entire header](headers/%s.md)" % (abf.abfID)
         md += " | "
         md += "![headers/%s.png](headers/%s.png)" % (abf.abfID, abf.abfID)
         md += "\n"
@@ -225,8 +210,9 @@ def go():
     # write main readme
     with open(PATH_HERE+"/../data/readme.md", 'w') as f:
         f.write(md)
-    
+
     print(" OK")
+
 
 if __name__ == "__main__":
     go()

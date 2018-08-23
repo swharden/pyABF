@@ -2,25 +2,26 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepArea()
+* abf.sweepAvg()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
+* abf.sweepMax()
+* abf.sweepMin()
+* abf.sweepStdev()
 
 ## ABF Class Variables
 
 * abfDateTime = `2017-11-17T12:54:26.816000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
-* abfVersion = `2.0`
+* abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.0.0.0`
 * adcNames = `['Current', 'Voltage', 'YFP', 'CFP']`
 * adcUnits = `['uA', 'mV', 'V', 'V']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `4`
 * channelList = `[0, 1, 2, 3]`
 * creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 1, 'build': 5}`
@@ -32,14 +33,11 @@
 * dataPointCount = `3220568`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* digitalWaveformEpochs = `[[1 1 1]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]  [0 0 0]]`
-* epochPoints = `[967, 20967, 40967, 60967]`
-* epochValues = `[[-100. -100. -100.]  [-100.  -80. -100.]  [-100.  -60. -100.]  [-100.  -40. -100.]  [-100.  -20. -100.]  [-100.    0. -100.]  [-100.   20. -100.]  [-100.   40. -100.]  [-100.   60. -100.]  [-100.   80. -100.]  [-100.  100. -100.]  [-100.  120. -100.]  [-100.  140. -100.]]`
-* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
-* fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B058D}`
+* fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
 * sweepC = `[-100. -100. -100. ..., -100. -100. -100.]`
 * sweepChannel = `0`
 * sweepCount = `13`
@@ -64,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C
                      Type   Step   Step   Step
          First Level (mV)   -100   -100   -100
@@ -78,27 +77,34 @@
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2017-11-17T12:54:26.816000`
+* abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.0`
+* abfVersionString = `2.0.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 3, 'bugfix': 1, 'build': 5}`
+* creatorVersionFloat = `10.315`
+* creatorVersionString = `10.3.1.5`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 0, 2]`
 * lActualEpisodes = `13`
@@ -106,6 +112,7 @@ Epochs ignored. DAC is turned off.
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[5, 1, 3, 10]`
 * uFileCRC = `0`

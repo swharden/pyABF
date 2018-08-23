@@ -2,25 +2,26 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepArea()
+* abf.sweepAvg()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
+* abf.sweepMax()
+* abf.sweepMin()
+* abf.sweepStdev()
 
 ## ABF Class Variables
 
 * abfDateTime = `2016-12-22T14:39:47.945000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
-* abfVersion = `2.0`
+* abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.0.0.0`
 * adcNames = `['IN 2', 'IN 3']`
 * adcUnits = `['dB', 'mV']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `2`
 * channelList = `[0, 1]`
 * creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
@@ -32,15 +33,12 @@
 * dataPointCount = `966000`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* digitalWaveformEpochs = `[]`
-* epochPoints = `[7546]`
-* epochValues = `[]`
-* epochsByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9DD734}`
+* fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
-* sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
+* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -64,27 +62,27 @@
 
 
 ```
-                Ch0 EPOCH
-                     Type
-         First Level (mV)
-         Delta Level (mV)
- First Duration (samples)
- Delta Duration (samples)
-   Train Period (samples)
-    Pulse Width (samples)
+DAC waveform is not enabled.
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-Epochs ignored. DAC is turned off.
+DAC waveform is not enabled.
 ```
 
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2016-12-22T14:39:47.945000`
+* abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.0`
+* abfVersionString = `2.0.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
+* creatorVersionFloat = `10.321`
+* creatorVersionString = `10.3.2.1`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 0, 2]`
 * lActualEpisodes = `0`
@@ -92,6 +90,7 @@ Epochs ignored. DAC is turned off.
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `0`
+* sFileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[1, 2, 3, 10]`
 * uFileCRC = `0`

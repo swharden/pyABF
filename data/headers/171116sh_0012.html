@@ -1,22 +1,23 @@
 <html><head><style>body {font-family: sans-serif;}code {background-color: #F2F2F2; padding: 2px;}.item {margin-left: 2em; margin-top: .5em;}.section {font-size: 150%; font-weight: bold; margin-top: 2em; }.docs {font-style: italic; font-family: serif;}</style><title>171116sh_0012.abf</title></head><body><h1>171116sh_0012.abf</h1>
 <div class='section'>ABF Class Methods</div>
-<div class='item'>abf.baseline()</div>
 <div class='item'>abf.getInfoPage()</div>
 <div class='item'>abf.setSweep()</div>
-<div class='item'>abf.sweepAverage()</div>
+<div class='item'>abf.sweepArea()</div>
+<div class='item'>abf.sweepAvg()</div>
+<div class='item'>abf.sweepBaseline()</div>
 <div class='item'>abf.sweepD()</div>
-<div class='item'>abf.sweepError()</div>
+<div class='item'>abf.sweepMax()</div>
+<div class='item'>abf.sweepMin()</div>
+<div class='item'>abf.sweepStdev()</div>
 <div class='section'>ABF Class Variables</div>
 <div class='item'>abfDateTime = <code>2017-11-16T14:05:01.627000</code></div>
 <div class='item'>abfFileComment = <code></code></div>
-<div class='item'>abfFileFormat = <code>2</code></div>
 <div class='item'>abfFilePath = <code>c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171116sh_0012.abf</code></div>
 <div class='item'>abfID = <code>171116sh_0012</code></div>
-<div class='item'>abfVersion = <code>2.06</code></div>
+<div class='item'>abfVersion = <code>{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionString = <code>2.6.0.0</code></div>
 <div class='item'>adcNames = <code>['IN 0']</code></div>
 <div class='item'>adcUnits = <code>['pA']</code></div>
-<div class='item'>baselinePoints = <code>False</code></div>
-<div class='item'>baselineTimes = <code>False</code></div>
 <div class='item'>channelCount = <code>1</code></div>
 <div class='item'>channelList = <code>[0]</code></div>
 <div class='item'>creatorVersion = <code>{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}</code></div>
@@ -29,35 +30,11 @@
 <div class='item'>dataPointCount = <code>490000</code></div>
 <div class='item'>dataRate = <code>20000</code></div>
 <div class='item'>dataSecPerPoint = <code>5e-05</code></div>
-<div class='item'>digitalWaveformEpochs = <code>[[0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]
- [0 0 0 0 0 0]]</code></div>
-<div class='item'>epochPoints = <code>[1093, 11093, 21093, 31093, 41093, 51093, 61093]</code></div>
-<div class='item'>epochValues = <code>[[ -70. -110.  -70.  -50. -110.  -50.]
- [ -70. -100.  -70.  -50. -100.  -50.]
- [ -70.  -90.  -70.  -50.  -90.  -50.]
- [ -70.  -80.  -70.  -50.  -80.  -50.]
- [ -70.  -70.  -70.  -50.  -70.  -50.]
- [ -70.  -60.  -70.  -50.  -60.  -50.]
- [ -70.  -50.  -70.  -50.  -50.  -50.]]</code></div>
-<div class='item'>epochsByChannel = <code>[ChannelEpochs(ABF, 0)]</code></div>
-<div class='item'>fileGUID = <code>{D64FE94D-B19E-47AB-9E5C-95AA55A98EF7}</code></div>
+<div class='item'>fileGUID = <code>{D64FE94D-B19E-47AB-9E5C-95AA55A9F7F7}</code></div>
 <div class='item'>holdingCommand = <code>[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></div>
 <div class='item'>protocol = <code>0202 IV dual</code></div>
 <div class='item'>protocolPath = <code>L:\Protocols\permanent\0202 IV dual.pro</code></div>
+<div class='item'>stimulusByChannel = <code>[ChannelEpochs(ABF, 0)]</code></div>
 <div class='item'>sweepC = <code>[-70. -70. -70. ..., -70. -70. -70.]</code></div>
 <div class='item'>sweepChannel = <code>0</code></div>
 <div class='item'>sweepCount = <code>7</code></div>
@@ -81,6 +58,7 @@
 <div class='item'>tagTimesSec = <code>[]</code></div>
 <div class='section'>Epochs for Channel 0</div>
 <pre>
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B      C      D      E      F
                      Type   Step   Step   Step   Step   Step   Step
          First Level (mV)    -70   -110    -70    -50   -110    -50
@@ -93,6 +71,13 @@
 
 <div class='section'>ABF2 Header</div>
 <div class='docs'>The first several bytes of an ABF2 file contain variables<br>    located at specific byte positions from the start of the file.</div>
+<div class='item'>abfDateTime = <code>2017-11-16T14:05:01.627000</code></div>
+<div class='item'>abfVersionDict = <code>{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}</code></div>
+<div class='item'>abfVersionFloat = <code>2.6</code></div>
+<div class='item'>abfVersionString = <code>2.6.0.0</code></div>
+<div class='item'>creatorVersionDict = <code>{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}</code></div>
+<div class='item'>creatorVersionFloat = <code>10.703</code></div>
+<div class='item'>creatorVersionString = <code>10.7.0.3</code></div>
 <div class='item'>fFileSignature = <code>ABF2</code></div>
 <div class='item'>fFileVersionNumber = <code>[0, 0, 6, 2]</code></div>
 <div class='item'>lActualEpisodes = <code>7</code></div>
@@ -100,6 +85,7 @@
 <div class='item'>nDataFormat = <code>0</code></div>
 <div class='item'>nFileType = <code>1</code></div>
 <div class='item'>nSimultaneousScan = <code>1</code></div>
+<div class='item'>sFileGUID = <code>{D64FE94D-B19E-47AB-9E5C-95AA55A9F7F7}</code></div>
 <div class='item'>uCreatorNameIndex = <code>1</code></div>
 <div class='item'>uCreatorVersion = <code>[3, 0, 7, 10]</code></div>
 <div class='item'>uFileCRC = <code>0</code></div>

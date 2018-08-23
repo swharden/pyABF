@@ -36,7 +36,7 @@ if __name__ == "__main__":
         print(abf.abfID)
 
         # define a baseline
-        abf.baseline(1, 2)
+        abf.sweepBaseline(1, 2)
 
         # define two marker regions
         m1a, m1b = 0.09, 0.12

@@ -1,16 +1,92 @@
 """
-Code here relates to extraction of header values from ABF1 and ABF2 file headers.
+Code here relates to extraction of values from ABF1 and ABF2 file headers.
+A purist interested in replicating (or porting) core functionality of ABF
+reading code may desire to start here. Only standard libraries are used.
+Variable names were chosen to be consistent with common names found in header
+files released with the official SDK.
+
+Code here is limited to the looking-up of data from the ABF header and its
+gentle messaging to improve readability. Code related to analysis or dividing
+data into sweeps does not belong in this file. 
 """
 
 import io
+import os
 import struct
+import logging
+import datetime
+logging.basicConfig(level=logging.DEBUG)
+log = logging.getLogger(__name__)
 
 BLOCKSIZE = 512
+
+DIGITIZERS = {
+    0: "Unknown",
+    1: "Demo",
+    2: "MiniDigi",
+    3: "DD132X",
+    4: "OPUS",
+    5: "PATCH",
+    6: "Digidata 1440",
+    7: "MINIDIGI2",
+    8: "Digidata 1550"
+}
+
+TELEGRAPHS = {
+    0: "Unknown instrument (manual or user defined telegraph table).",
+    1: "Axopatch-1 with CV-4-1/100",
+    2: "Axopatch-1 with CV-4-0.1/100",
+    3: "Axopatch-1B(inv.) CV-4-1/100",
+    4: "Axopatch-1B(inv) CV-4-0.1/100",
+    5: "Axopatch 200 with CV 201",
+    6: "Axopatch 200 with CV 202",
+    7: "GeneClamp",
+    8: "Dagan 3900",
+    9: "Dagan 3900A",
+    10: "Dagan CA-1  Im=0.1",
+    11: "Dagan CA-1  Im=1.0",
+    12: "Dagan CA-1  Im=10",
+    13: "Warner OC-725",
+    14: "Warner OC-725",
+    15: "Axopatch 200B",
+    16: "Dagan PC-ONE  Im=0.1",
+    17: "Dagan PC-ONE  Im=1.0",
+    18: "Dagan PC-ONE  Im=10",
+    19: "Dagan PC-ONE  Im=100",
+    20: "Warner BC-525C",
+    21: "Warner PC-505",
+    22: "Warner PC-501",
+    23: "Dagan CA-1  Im=0.05",
+    24: "MultiClamp 700",
+    25: "Turbo Tec",
+    26: "OpusXpress 6000A",
+    27: "Axoclamp 900"
+}
+
+def abfFileFormat(fb):
+    """
+    This function returns 1 or 2 if the ABF file is v1 or v2.    
+    This function returns False if the file is not an ABF file.
+
+    The first few characters of an ABF file tell you its format.
+    Storage of this variable is superior to reading the ABF header because
+    the file format is required before a version can even be extracted.
+    """
+    fb.seek(0)
+    code = fb.read(4)
+    code = code.decode("ascii", errors='ignore')
+    if code == "ABF ":
+        return 1
+    elif code == "ABF2":
+        return 2
+    else:
+        return False
 
 
 def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     """
     Return a structured value in an ABF file as a Python object.
+    If cleanStrings is enabled, ascii-safe strings are returned.
     """
 
     if not isinstance(fb, io.BufferedReader):
@@ -95,6 +171,31 @@ class HeaderV1:
         self.fTelegraphAdditGain = readStruct(fb, "16f", 4576)
         self.sProtocolPath = readStruct(fb, "384s", 4898)
 
+        # format version number
+        versionParts = list(str(int(self.fFileVersionNumber*1000)))
+        versionPartsInt = [int(x) for x in versionParts]
+        self.abfVersionString = ".".join(versionParts)
+        self.abfVersionFloat = int("".join(versionParts))/1000.0
+        self.abfVersionDict = {}
+        self.abfVersionDict["major"] = versionPartsInt[0]
+        self.abfVersionDict["minor"] = versionPartsInt[1]
+        self.abfVersionDict["bugfix"] = versionPartsInt[2]
+        self.abfVersionDict["build"] = versionPartsInt[3]
+
+        # format creator version
+        self.creatorVersionDict = {}
+        self.creatorVersionDict["major"] = 0
+        self.creatorVersionDict["minor"] = 0
+        self.creatorVersionDict["bugfix"] = 0
+        self.creatorVersionDict["build"] = 0
+
+        # format creation date based on when file was created
+        abfFilePath = fb.name
+        self.abfDateTime = round(os.path.getctime(abfFilePath))
+        self.abfDateTime = datetime.datetime.fromtimestamp(
+            self.abfDateTime)
+        self.abfDateTime = self.abfDateTime.isoformat()
+
 
 class HeaderV2:
     """
@@ -122,6 +223,43 @@ class HeaderV2:
         self.uModifierVersion = readStruct(fb, "I")  # 64
         self.uModifierNameIndex = readStruct(fb, "I")  # 68
         self.uProtocolPathIndex = readStruct(fb, "I")  # 72
+
+        # format version number
+        versionPartsInt = self.fFileVersionNumber[::-1]
+        versionParts = [str(x) for x in versionPartsInt]
+        self.abfVersionString = ".".join(versionParts)
+        self.abfVersionFloat = int("".join(versionParts))/1000.0
+        self.abfVersionDict = {}
+        self.abfVersionDict["major"] = versionPartsInt[0]
+        self.abfVersionDict["minor"] = versionPartsInt[1]
+        self.abfVersionDict["bugfix"] = versionPartsInt[2]
+        self.abfVersionDict["build"] = versionPartsInt[3]
+
+        # format creator version
+        versionPartsInt = self.uCreatorVersion[::-1]
+        versionParts = [str(x) for x in versionPartsInt]
+        self.creatorVersionString = ".".join(versionParts)
+        self.creatorVersionFloat = int("".join(versionParts))/1000.0
+        self.creatorVersionDict = {}
+        self.creatorVersionDict["major"] = versionPartsInt[0]
+        self.creatorVersionDict["minor"] = versionPartsInt[1]
+        self.creatorVersionDict["bugfix"] = versionPartsInt[2]
+        self.creatorVersionDict["build"] = versionPartsInt[3]
+
+        # format GUID
+        guid = []
+        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 15, 15]:
+            guid.append("%.2X" % (self.uFileGUID[i]))
+        for i in [4, 7, 10, 13]:
+            guid.insert(i, "-")
+        self.sFileGUID = "{%s}" % ("".join(guid))
+
+        # format creation date from values found in the header
+        startDate = str(self.uFileStartDate)
+        startTime = self.uFileStartTimeMS / 1000
+        startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+        timeStamp = startDate + datetime.timedelta(seconds=startTime)
+        self.abfDateTime = timeStamp.isoformat()
 
 
 class SectionMap:
@@ -238,28 +376,12 @@ class ProtocolSection:
         self.nDigitizerType = readStruct(fb, "h")  # 206
 
         # additional useful information
-        self.sDigitizerType = self._mapDigitizerType(self.nDigitizerType)
+        if self.nDigitizerType in DIGITIZERS.keys():
+            self.sDigitizerType = DIGITIZERS[self.nDigitizerType]
+        else:
+            log.debug("nDigitizerType not in list of digitizers")
+            self.sDigitizerType = DIGITIZERS[0]
 
-    def _mapDigitizerType(self, num):
-        """
-        Map the digitizer types to human readable names
-        """
-
-        # TODO enhance the names, stimfit does not include human readable names
-        m = {0: "Unknown",
-             1: "Demo",
-             2: "MiniDigi",
-             3: "DD132X",
-             4: "OPUS",
-             5: "PATCH",
-             6: "Digidata 1440",
-             7: "MINIDIGI2",
-             8: "Digidata 1550"}
-
-        try:
-            return m[num]
-        except KeyError:
-            return m[0]
 
 
 class ADCSection:
@@ -330,50 +452,14 @@ class ADCSection:
             self.nStatsChannelPolarity[i] = readStruct(fb, "h")  # 72
             self.lADCChannelNameIndex[i] = readStruct(fb, "i")  # 74
             self.lADCUnitsIndex[i] = readStruct(fb, "i")  # 78
-
-            # additional useful information
-            self.sTelegraphInstrument[i] = self._mapTelegraphInstrumentType(
-                self.nTelegraphInstrument[i])
-
-    def _mapTelegraphInstrumentType(self, num):
-        """
-        Map the  types to human readable names
-        """
-
-        m = {0: "Unknown instrument (manual or user defined telegraph table).",
-             1: "Axopatch-1 with CV-4-1/100",
-             2: "Axopatch-1 with CV-4-0.1/100",
-             3: "Axopatch-1B(inv.) CV-4-1/100",
-             4: "Axopatch-1B(inv) CV-4-0.1/100",
-             5: "Axopatch 200 with CV 201",
-             6: "Axopatch 200 with CV 202",
-             7: "GeneClamp",
-             8: "Dagan 3900",
-             9: "Dagan 3900A",
-             10: "Dagan CA-1  Im=0.1",
-             11: "Dagan CA-1  Im=1.0",
-             12: "Dagan CA-1  Im=10",
-             13: "Warner OC-725",
-             14: "Warner OC-725",
-             15: "Axopatch 200B",
-             16: "Dagan PC-ONE  Im=0.1",
-             17: "Dagan PC-ONE  Im=1.0",
-             18: "Dagan PC-ONE  Im=10",
-             19: "Dagan PC-ONE  Im=100",
-             20: "Warner BC-525C",
-             21: "Warner PC-505",
-             22: "Warner PC-501",
-             23: "Dagan CA-1  Im=0.05",
-             24: "MultiClamp 700",
-             25: "Turbo Tec",
-             26: "OpusXpress 6000A",
-             27: "Axoclamp 900"}
-
-        try:
-            return m[num]
-        except KeyError:
-            return m[0]
-
+            
+            # useful information
+            nTelegraphInstrument = self.nTelegraphInstrument[i]
+            if nTelegraphInstrument in TELEGRAPHS.keys():
+                self.sTelegraphInstrument[i] = TELEGRAPHS[nTelegraphInstrument]
+            else:
+                log.debug("nTelegraphInstrument not in list of telegraphs")
+                self.sTelegraphInstrument[i] = TELEGRAPHS[0]
 
 class DACSection:
     """

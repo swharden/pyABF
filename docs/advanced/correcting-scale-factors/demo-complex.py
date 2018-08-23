@@ -97,7 +97,7 @@ if __name__ == "__main__":
         msg = f"Analyzing ({abfNumber}/{len(abfFiles)})"
         print(f"{msg} {os.path.basename(fname)}", end=" ... ")
 
-        abf = pyabf.ABF(fname, preLoadData=False)
+        abf = pyabf.ABF(fname, loadData=False)
 
         # ensure units arent the same
         if abf.adcUnits[0] == abf.dacUnits[0]:

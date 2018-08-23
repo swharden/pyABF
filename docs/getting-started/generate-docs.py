@@ -21,6 +21,10 @@ import numpy as np
 import glob
 import inspect
 
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
+
 class NoStdStreams(object):
     def __init__(self, stdout = None):
         self.devnull = open(os.devnull,'w')
@@ -376,11 +380,14 @@ class Uses:
         plt.title("Shaded Digital Output #4")
         plt.axis([1.10, 1.25, -150, 50])
 
-        outputStateByEpoch = abf.digitalWaveformEpochs[4]  # digital output 4
+        digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
+        epochPoints = pyabf.stimulus.epochPoints(abf)
+        digitalOutputChannel = 4
+        outputStateByEpoch = digitalWaveforms[digitalOutputChannel]
         for epochNumber, outputState in enumerate(outputStateByEpoch):
             if outputState == 1:
-                t1 = abf.epochPoints[epochNumber]*abf.dataSecPerPoint
-                t2 = abf.epochPoints[epochNumber+1]*abf.dataSecPerPoint
+                t1 = epochPoints[epochNumber]*abf.dataSecPerPoint
+                t2 = epochPoints[epochNumber+1]*abf.dataSecPerPoint
                 plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
 
         self.saveAndClose()
@@ -465,12 +472,12 @@ class Uses:
         plt.figure(figsize=self.figsize)
 
         # enable baseline subtraction and plot a demo sweep
-        abf.baseline(2.1, 2.15)
+        abf.sweepBaseline(2.1, 2.15)
         abf.setSweep(3)
         plt.plot(abf.sweepX, abf.sweepY, label="subtracted")
 
         # disable baseline subtraction and plot a demo sweep
-        abf.baseline()
+        abf.sweepBaseline()
         abf.setSweep(3)
         plt.plot(abf.sweepX, abf.sweepY, label="original")
 
@@ -535,7 +542,7 @@ class Uses:
         sweep).
 
         Currents are the average value of each sweep between the 0.5 and 1 sec
-        mark. Notice our use of the `pyabf.calc` module to get the average
+        mark. Notice our use of the additional module to get the average
         value between two marks for every sweep. Clamp values are obtained
         from `abf.epochValues`, a 2d array of DAC command values at each
         epoch (columns) arranged by sweep (rows).
@@ -543,12 +550,12 @@ class Uses:
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
-        currents = pyabf.calc.averageValue(abf, .5, 1)
-        voltages = abf.epochValues
+        currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
+        voltages = pyabf.stimulus.epochValues(abf)
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')
-        plt.plot(voltages, currents, '.-', ms=15)
+        plt.plot(voltages, currentsAv, '.-', ms=15)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelC)
         plt.title(f"I/V Relationship of {abf.abfID}")
@@ -562,14 +569,14 @@ class Uses:
         Sometimes you want to analyze a sweep which is the average of several
         sweeps. Often this is used in conjunction with baseline subtraction.
 
-        This can be done using the `pyabf.calc.averageSweep()` function.
+        This can be done using the sweep range average function.
         Although here it's given without arguments, it can take a list of
         specific sweep numbers.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
-        abf.baseline(1.10, 1.16)
+        abf.sweepBaseline(1.10, 1.16)
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')
@@ -581,8 +588,8 @@ class Uses:
             plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
 
         # calculate and plot the average of all sweeps        
-        sweepAvg = pyabf.calc.averageSweep(abf)
-        plt.plot(abf.sweepX, sweepAvg, color='C1', lw=2)
+        avgSweep = pyabf.sweep.averageTrace(abf)
+        plt.plot(abf.sweepX, avgSweep, color='C1', lw=2)
 
         # decorate the plot and zoom in on the interesting area
         plt.title(f"Average of {abf.sweepCount} sweeps")
@@ -592,6 +599,38 @@ class Uses:
 
         self.saveAndClose()
 
+    def demo_17_atf_plotting(self):
+        """
+        ## Plotting Data from ATF Files
+
+        Although most of the effort in this project has gone into the ABF class,
+        there also exists an ATF class with much of the similar functionality.
+        This class can read Axon Text Format (ATF) files and has a setSweep()
+        with nearly identical sentax to the ABF class. 
+        
+        Extra attention was invested into supporting muli-channel ATF data.
+        Note that this example plots only channel 2 from a multi-channel ATF 
+        file.
+        """
+
+        import pyabf
+        atf = pyabf.ATF("data/abfs/18702001-step.atf") # not ABF!
+        
+        fig = plt.figure(figsize=self.figsize)
+        ax1 = fig.add_subplot(121)
+        ax2 = fig.add_subplot(122)
+        
+        for channel, ax in enumerate([ax1, ax2]):
+            ax.set_title(f"{atf.atfID} channel {channel}")
+            ax.set_xlabel(atf.sweepLabelX)
+            ax.set_ylabel(atf.sweepLabelY)
+            for sweepNumber in atf.sweepList:
+                atf.setSweep(sweepNumber, channel)
+                ax.plot(atf.sweepX, atf.sweepY)
+
+        self.saveAndClose()
+            
+    plt.show()
 
 def cleanDocstrings(s):
     s = s.strip()
@@ -670,6 +709,7 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
         #print(f"executing {functionName}()")
         func = getattr(uses, functionName)
         with NoStdStreams(): # silence print statements
+            log.debug("Running %s"%functionName)
             func()
         print(".", end="")
         sys.stdout.flush()

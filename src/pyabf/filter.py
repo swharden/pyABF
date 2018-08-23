@@ -1,5 +1,6 @@
 """
-Code here relates to filering ABF data.
+Code here relates to low-pass filering of ABF data.
+
 """
 import os
 import sys
@@ -7,13 +8,8 @@ import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 
-if __name__ == "__main__":
-    warnings.warn("DO NOT RUN THIS FILE DIRECTLY!")
-    sys.path.append(os.path.dirname(__file__)+"/../")
-import pyabf
 
-
-def kernelGaussian(size=100, sigma=None):
+def _kernelGaussian(size=100, sigma=None):
     """
     Return a 1d array shaped like a Gaussian curve with area of 1.
     Optionally provide a sigma (the larger, the wider the curve).
@@ -26,7 +22,7 @@ def kernelGaussian(size=100, sigma=None):
     return points
 
 
-def convolve(data, kernel):
+def _convolve(data, kernel):
     """
     Convolve the data with the kernel. The edges of the returned data (half the
     size of the kernel) will be nan. If you want a different convolution method,
@@ -59,18 +55,18 @@ def gaussian(abf, sigmaMs=5, channel=0):
     Set sigmaMs to 0 or False to remove the filter.
     """
 
-    if not sigmaMs:
+    if sigmaMs:
+        pointsPerMs = abf.dataRate/1000.0
+        kernel = _kernelGaussian(int(pointsPerMs*sigmaMs*7))
+        abf.data[channel] = _convolve(abf.data[channel], kernel)
+    else:
         remove(abf)
-        return
-
-    pointsPerMs = abf.dataRate/1000.0
-    kernel = kernelGaussian(int(pointsPerMs*sigmaMs*7))
-    abf.data[channel] = convolve(abf.data[channel], kernel)
 
 
-if __name__ == "__main__":
-    print("DEVELOPER TESTING ONLY")
-
+def _test_01_different_sigmas():
+    """
+    Show how the same ephys trace looks when filtered with different sigmas.
+    """
     PATH_HERE = os.path.abspath(os.path.dirname(__file__))
     PATH_DATA = os.path.abspath(PATH_HERE+"/../../data/abfs/")
     abf = pyabf.ABF(PATH_DATA+"/17o05026_vc_stim.abf")
@@ -88,3 +84,10 @@ if __name__ == "__main__":
     plt.axis([8.20, 8.30, -45, -5])
     plt.legend()
     plt.show()
+
+
+if __name__ == "__main__":
+    print("DEVELOPER TESTING ONLY")
+    sys.path.append(os.path.dirname(__file__)+"/../")
+    import pyabf
+    _test_01_different_sigmas()

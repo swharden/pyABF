@@ -2,25 +2,26 @@
 
 ## ABF Class Methods
 
-* abf.baseline()
 * abf.getInfoPage()
 * abf.setSweep()
-* abf.sweepAverage()
+* abf.sweepArea()
+* abf.sweepAvg()
+* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepError()
+* abf.sweepMax()
+* abf.sweepMin()
+* abf.sweepStdev()
 
 ## ABF Class Variables
 
 * abfDateTime = `2017-11-27T08:17:59.810000`
 * abfFileComment = ``
-* abfFileFormat = `2`
 * abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
 * abfID = `model_vc_ramp`
-* abfVersion = `2.06`
+* abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.6.0.0`
 * adcNames = `['IN 0']`
 * adcUnits = `['pA']`
-* baselinePoints = `False`
-* baselineTimes = `False`
 * channelCount = `1`
 * channelList = `[0]`
 * creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
@@ -32,14 +33,11 @@
 * dataPointCount = `120000`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* digitalWaveformEpochs = `[[0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]  [0 0]]`
-* epochPoints = `[37, 1037, 2037]`
-* epochValues = `[[-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]  [-80. -70.]]`
-* epochsByChannel = `[ChannelEpochs(ABF, 0)]`
-* fileGUID = `{3529074B-C6D9-4B5E-AB13-C9A9B4F09065}`
+* fileGUID = `{3529074B-C6D9-4B5E-AB13-C9A9B4F06565}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
+* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `50`
@@ -64,6 +62,7 @@
 
 
 ```
+DAC waveform is controlled by epoch table:
                 Ch0 EPOCH      A      B
                      Type   Ramp   Ramp
          First Level (mV)    -80    -70
@@ -78,6 +77,13 @@
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
+* abfDateTime = `2017-11-27T08:17:59.810000`
+* abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.6`
+* abfVersionString = `2.6.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionFloat = `10.703`
+* creatorVersionString = `10.7.0.3`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 6, 2]`
 * lActualEpisodes = `50`
@@ -85,6 +91,7 @@
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
+* sFileGUID = `{3529074B-C6D9-4B5E-AB13-C9A9B4F06565}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[3, 0, 7, 10]`
 * uFileCRC = `0`

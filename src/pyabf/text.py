@@ -7,7 +7,8 @@ import webbrowser
 import time
 import glob
 import os
-
+import datetime
+import numpy as np
 
 def indexFolder(folder, launch=True):
     html = "<html><head><style>"
@@ -84,6 +85,8 @@ class InfoPage:
             elif str(value) == "~DOCS~":
                 out += "> %s \n\n" % (name.strip().replace("\n", " "))
             elif str(name) == "~CODE~":
+                if value is None:
+                    value=""
                 out+="\n```\n"+value.strip("\n")+"\n```\n"
             else:
                 if value is None:
@@ -119,6 +122,8 @@ class InfoPage:
             elif str(value) == "~DOCS~":
                 html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             elif str(name) == "~CODE~":
+                if value is None:
+                    value=""
                 html+="\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
             else:
                 if value is None:
@@ -146,6 +151,71 @@ class InfoPage:
             time.sleep(1)
             f.close()
 
+
+def abfInfoPage(abf):
+    """
+    Return an object to let the user inspect methods and variables
+    of this ABF class as well as the full contents of the ABF header
+    """
+    page = InfoPage(abf.abfID+".abf")
+
+    # add info about this ABF instance
+
+    page.addSection("ABF Class Methods")
+    for thingName in sorted(dir(abf)):
+        if thingName.startswith("_"):
+            continue
+        thing = getattr(abf, thingName)
+        if "method" in str(type(thing)):
+            page.addThing("abf.%s()" % (thingName))
+
+    page.addSection("ABF Class Variables")
+    for thingName in sorted(dir(abf)):
+        if thingName.startswith("_"):
+            continue
+        thing = getattr(abf, thingName)
+        if "method" in str(type(thing)):
+            continue
+        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray, range)):
+            page.addThing(thingName, thing)
+        elif thing is None or thing is False or thing is True:
+            page.addThing(thingName, thing)
+        else:
+            print("Unsure how to generate info for:",
+                    thingName, type(thing))
+
+    for channel in abf.channelList:
+        page.addSection("Epochs for Channel %d" % channel)
+        text = abf.stimulusByChannel[channel].text
+        page.addThing("~CODE~", text)
+
+    # add all ABF header information (different in ABF1 vs ABF2)
+
+    headerParts = []
+    if abf.abfVersion["major"] == 1:
+        headerParts.append(["ABF1 Header", abf._headerV1])
+    elif abf.abfVersion["major"] == 2:
+        headerParts.append(["ABF2 Header", abf._headerV2])
+        headerParts.append(["SectionMap", abf._sectionMap])
+        headerParts.append(["ProtocolSection", abf._protocolSection])
+        headerParts.append(["ADCSection", abf._adcSection])
+        headerParts.append(["DACSection", abf._dacSection])
+        headerParts.append(
+            ["EpochPerDACSection", abf._epochPerDacSection])
+        headerParts.append(["EpochSection", abf._epochSection])
+        headerParts.append(["TagSection", abf._tagSection])
+        headerParts.append(["StringsSection", abf._stringsSection])
+        headerParts.append(["StringsIndexed", abf._stringsIndexed])
+    for headerItem in headerParts:
+        thingTitle, thingItself = headerItem
+        page.addSection(thingTitle)
+        page.addDocs(thingItself.__doc__)
+        for subItemName in sorted(dir(thingItself)):
+            if subItemName.startswith("_"):
+                continue
+            page.addThing(subItemName, getattr(thingItself, subItemName))
+
+    return page
 
 if __name__ == "__main__":
 

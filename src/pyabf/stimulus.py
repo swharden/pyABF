@@ -1,6 +1,13 @@
 """
-Code here relates to reading epoch information from ABF files and synthesizing
-analog and digital waveforms to represent command signals.
+Code here relates to the creation of stimulus waveforms. Usually this is 
+accomplished by synthesizing a waveform by reading the epoch table. This
+includes the synthesis of digital output channel waveforms.
+
+Some ABFs use a custom stimulus waveform. Code here also allows for the reading 
+of these waveforms from ABF and ATF files.
+
+The Stimulus class is instantitated (once per channel) in the ABF class, and
+users are encouraged to interact with those objects direclty.
 """
 
 import warnings
@@ -8,10 +15,76 @@ import numpy as np
 import copy
 import os
 import sys
-import pyabf.atf_reader as atf
+import pyabf
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
 
 
-class Epochs:
+def sweepD(abf, digitalOutputNumber=0):
+    """
+    Return a sweep waveform (similar to abf.sweepC) of a digital output channel.
+    Digital outputs start at 0 and are usually 0-7. Returned waveform will be
+    scaled from 0 to 1, although in reality they are 0V and 5V.
+    """
+    if abf.abfVersion["major"] == 1:
+        log.warn("Digital outputs of ABF1 files not supported.")
+        return False
+    states = digitalWaveformEpochs(abf)[digitalOutputNumber]
+    sweepD = np.full(abf.sweepPointCount, 0)
+    pts = epochPoints(abf)
+    for epoch in range(len(states)):
+        sweepD[pts[epoch]:pts[epoch+1]] = states[epoch]
+    return sweepD
+
+
+def epochPoints(abf):
+    """Return a list of time points where each epoch starts and ends."""
+    if abf.abfVersion["major"] == 1:
+        return []
+    position = int(abf.sweepPointCount/64)
+    epochPoints = [position]
+    for epochNumber, epochType in enumerate(abf._epochPerDacSection.nEpochType):
+        pointCount = abf._epochPerDacSection.lEpochInitDuration[epochNumber]
+        epochPoints.append(position + pointCount)
+        position += pointCount
+    return epochPoints
+
+
+def epochValues(abf):
+    """Return a list of epoch values by sweep by epoch."""
+    if abf.abfVersion["major"] == 1:
+        return [[]]
+    epochList = range(len(abf._epochPerDacSection.nEpochType))
+    vals = np.empty((abf.sweepCount, len(epochList)))
+    for epoch in epochList:
+        for sweep in abf.sweepList:
+            dacHere = abf._epochPerDacSection.fEpochInitLevel[epoch]
+            dacDelta = abf._epochPerDacSection.fEpochLevelInc[epoch] * sweep
+            vals[sweep, epoch] = dacHere+dacDelta
+    return vals
+
+
+def digitalWaveformEpochs(abf):
+    """
+    Return a 2d array indicating the high/low state (1 or 0) of each digital
+    output (rows) for each epoch (columns).
+    """
+    if abf.abfVersion["major"] == 1:
+        return None
+    numOutputs = abf._protocolSection.nDigitizerTotalDigitalOuts
+    byteStatesByEpoch = abf._epochSection.nEpochDigitalOutput
+    numEpochs = len(byteStatesByEpoch)
+    statesAll = np.full((numOutputs, numEpochs), 0)
+    for epochNumber in range(numEpochs):
+        byteState = bin(byteStatesByEpoch[epochNumber])[2:]
+        byteState = "0"*(numOutputs-len(byteState))+byteState
+        byteState = [int(x) for x in list(byteState)]
+        statesAll[:, epochNumber] = byteState[::-1]
+    return statesAll
+
+
+class Stimulus:
     def __init__(self, abf, channel):
         """
         handles epoch values for a single sweep/channel
@@ -22,9 +95,9 @@ class Epochs:
 
         self._initEpochVars()
 
-        if abf.abfFileFormat == 1:
+        if abf.abfVersion["major"] == 1:
             self._fillEpochsFromABFv1()
-        elif abf.abfFileFormat == 2:
+        elif abf.abfVersion["major"] == 2:
             self._fillEpochsFromABFv2()
         else:
             raise NotImplemented("unsupported ABF file format")
@@ -55,7 +128,6 @@ class Epochs:
         self.pulsePeriod = []
         self.pulseWidth = []
         self.digitalOutputs = []  # TODO: this never gets filled
-        self._custom_waveform = None
 
     def _fillEpochsFromABFv1(self):
         """
@@ -71,14 +143,6 @@ class Epochs:
         self.pulsePeriod.append(0)
         self.pulseWidth.append(0)
         self.digitalOutputs.append(0)
-
-    def _is_custom_waveform(self):
-        """
-        Return True if the epoch is defined by a custom waveform in different
-        file, False for regular epochs.
-        """
-
-        return self.abf._dacSection.nWaveformSource[self.channel] == 2
 
     def _fillEpochsFromABFv2(self):
         """
@@ -148,26 +212,70 @@ class Epochs:
         this when poking through the file properties dialog
         """
 
-        if self.abf.abfFileFormat == 1:
-            return "Epoch data from ABF1 files is not available"
-        elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
-            return "Epochs ignored. DAC is turned off."
-        elif self._is_custom_waveform():
-            out = "Epochs ignored. DAC controlled by custom waveform:\n"
+        if self.abf.abfVersion["major"] == 1:
+            return "DAC data from ABF1 files is not available."
+        elif self.abf.abfVersion["major"] == 2:
+            nWaveformEnable = self.abf._dacSection.nWaveformEnable[self.channel]
+            nWaveformSource = self.abf._dacSection.nWaveformSource[self.channel]
+
+        if nWaveformEnable == 0:
+            return "DAC waveform is not enabled."
+
+        if nWaveformSource == 0:
+            return "DAC waveform is not enabled."
+        elif nWaveformSource == 1:
+            out = "DAC waveform is controlled by epoch table:\n"
+            out += self._txtFmt("Ch%d EPOCH" % self.channel, self.label)
+            out += self._txtFmt("Type", self.type)
+            out += self._txtFmt(f"First Level ({self.dacUnits})", self.level)
+            out += self._txtFmt(f"Delta Level ({self.dacUnits})",
+                                self.levelDelta)
+            out += self._txtFmt("First Duration (samples)", self.duration)
+            out += self._txtFmt("Delta Duration (samples)", self.durationDelta)
+            out += self._txtFmt("Train Period (samples)", self.pulsePeriod)
+            out += self._txtFmt("Pulse Width (samples)", self.pulseWidth)
+            out += "\n"
+            return out
+        elif nWaveformSource == 2:
+            out = "DAC waveform is controlled by custom file:\n"
             out += self.abf._stringsIndexed.lDACFilePath[self.channel]
             return out
+        else:
+            log.warn("unknown nWaveformSource: %s" % nWaveformSource)
 
-        out = "\n"
-        out += self._txtFmt("Ch%d EPOCH" % self.channel, self.label)
-        out += self._txtFmt("Type", self.type)
-        out += self._txtFmt(f"First Level ({self.dacUnits})", self.level)
-        out += self._txtFmt(f"Delta Level ({self.dacUnits})", self.levelDelta)
-        out += self._txtFmt("First Duration (samples)", self.duration)
-        out += self._txtFmt("Delta Duration (samples)", self.durationDelta)
-        out += self._txtFmt("Train Period (samples)", self.pulsePeriod)
-        out += self._txtFmt("Pulse Width (samples)", self.pulseWidth)
-        out += "\n"
-        return out
+    def stimulusWaveformFromFile(self):
+        """
+        Attempt to find the file associated with this ABF channel stimulus
+        waveform, read that waveform (whether ABF or ATF), and return its
+        waveform. If the file can't be found, return False.
+        """
+
+        # try to find the stimulus file in the obvious places
+        stimFname = self.abf._stringsIndexed.lDACFilePath[self.channel]
+        stimBN = os.path.basename(stimFname)
+        abfFolder = os.path.dirname(self.abf.abfFilePath)
+        if os.path.exists(stimFname):
+            log.debug("stimulus file found where expected")
+            stimFname = os.path.abspath(stimFname)
+        elif os.path.exists(os.path.join(abfFolder, stimBN)):
+            log.debug("stimulus file found next to ABF")
+            stimFname = os.path.join(abfFolder, stimBN)
+        else:
+            log.debug("stimulus file never found: %s"%stimBN)
+            return False
+
+        # read the ABF or ATF stimulus file
+        if stimFname.upper().endswith(".ABF"):
+            log.debug("stimulus file is an ABF")
+            abf = pyabf.ABF(stimFname)
+            #TODO: data requires custom stimulus scaling!
+            return abf.sweepY
+        elif stimFname.upper().endswith(".ATF"):
+            log.debug("stimulus file is an ATF")
+            atf = pyabf.ATF(stimFname)
+            #TODO: data requires custom stimulus scaling!
+            return atf.sweepY
+
 
     def stimulusWaveform(self, sweepNumber=0):
         """
@@ -177,71 +285,49 @@ class Epochs:
         be given as an argument.
         """
 
-        # return an empty waveform for ABFv1 files
-        if self.abf.abfFileFormat == 1:
-            sweepC = np.full(self.abf.sweepPointCount, np.nan)
-            return sweepC
-        elif self.abf._dacSection.nWaveformEnable[self.channel] == 0:
-            sweepC = np.full(self.abf.sweepPointCount, np.nan)
-            return sweepC
-        elif self._is_custom_waveform():
-            # - Menu Reference->Acquire Menu->Protocol Editor->Stimulus File in Clampex for further info
-            # - General Reference > Stimulus File Overview
 
-            # - TODO fix that all sweeps from the ATF file have to be selected
-            # - TODO fix that there is only one sweep per signal supported
+        # no synthesis if ABF1 file
+        if self.abf.abfVersion["major"] == 1:
+            log.debug("DAC data from ABF1 files is not available")
+            return np.full(self.abf.sweepPointCount, np.nan)
+        elif self.abf.abfVersion["major"] == 2:
+            nWaveformEnable = self.abf._dacSection.nWaveformEnable[self.channel]
+            nWaveformSource = self.abf._dacSection.nWaveformSource[self.channel]
 
-            if self._custom_waveform == False:
-                sweepC = np.full(self.abf.sweepPointCount, np.nan)
-                return sweepC
-            elif self._custom_waveform == None:
-                filePath = self.abf._stringsIndexed.lDACFilePath[self.channel]
-                try:
-                    self._custom_waveform = self.abf._atfStorage.get(filePath)
-                except:
-                    warnings.warn(f"Custom waveform could not be loaded from file " +
-                                  f'"{filePath}" due to "{sys.exc_info()[1]}" for channel {self.channel} of sweep {sweepNumber}')
-                    self._custom_waveform = False
-                    sweepC = np.full(self.abf.sweepPointCount, np.nan)
-                    return sweepC
+        # no synthesis if waveform is not enabled
+        if nWaveformEnable == 0 or nWaveformSource == 0:
+            log.debug("DAC waveform is not enabled")
+            return np.full(self.abf.sweepPointCount, np.nan)
 
-            if self._custom_waveform._raw_data.shape[1] < self.abf.sweepCount:
-                # fewer stimulus file sweeps than sweeps acquired
-                # -> repeat the last one
-                sweepC = self._custom_waveform._raw_data[:, -1]
-            elif self._custom_waveform._raw_data.shape[1] > self.abf.sweepCount:
-                # more -> use only the first one
-                sweepC = self._custom_waveform._raw_data[:, 0]
+        if nWaveformSource == 0:
+            return np.full(self.abf.sweepPointCount, np.nan)
+        elif nWaveformSource == 1:
+            return self.stimulusWaveformFromEpochTable(sweepNumber)
+        elif nWaveformSource == 2:
+            log.debug("DAC waveform is controlled by custom file")
+            stimulusFromFile = self.stimulusWaveformFromFile()
+            if stimulusFromFile is False:
+                return np.full(self.abf.sweepPointCount, np.nan)
             else:
-                # matching
-                sweepC = self._custom_waveform._raw_data[:, sweepNumber]
+                return stimulusFromFile
+                
+        else:
+            log.warn("unknown nWaveformSource: %s" % nWaveformSource)
 
-            if sweepC.shape[0] < self.abf.sweepPointCount:
-                # fewer stimulus file samples than samples acquired
-                # -> resize and fill with last value
-                lastValue = sweepC[-1]
-                lastPoint = sweepC.shape[0]
-                sweepC = sweepC.copy()
-                sweepC.resize(self.abf.sweepPointCount)
-                sweepC[lastPoint:] = lastValue
-            elif sweepC.shape[0] > self.abf.sweepPointCount:
-                # more stimulus file samples than samples acquired
-                # -> resize and throw away the rest
-                sweepC = sweepC.copy()
-                sweepC.resize(self.abf.sweepPointCount)
-
-            # TODO
-            # apply gain and offset (units)
-            return sweepC
+    def stimulusWaveformFromEpochTable(self, sweepNumber):
+        """
+        Return sweepC (same size as sweepY) of the command signal synthesized
+        from the epoch table.
+        """
 
         # start by creating the command signal filled with the holding command
         sweepC = np.full(self.abf.sweepPointCount,
                          self.abf.holdingCommand[self.channel])
 
         # determine if we return to holding between epochs
-        if self.abf.abfFileFormat == 1:
+        if self.abf.abfVersion["major"] == 1:
             returnToHolding = False
-        elif self.abf.abfFileFormat == 2:
+        elif self.abf.abfVersion["major"] == 2:
             if self.abf._dacSection.nInterEpisodeLevel[self.channel]:
                 returnToHolding = True
             else:
