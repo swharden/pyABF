@@ -13,10 +13,10 @@ pip install --upgrade pyabf
 ```python
 import pyabf
 abf = pyabf.ABF("demo.abf")
-abf.setSweep(3) # sweeps start at 0
-print(abf.sweepY) # sweep data (ADC)
-print(abf.sweepC) # sweep command (DAC)
-print(abf.sweepX) # sweep times (seconds)
+abf.setSweep(3)
+print(abf.sweepY) # displays sweep data (ADC)
+print(abf.sweepX) # displays sweep times (seconds)
+print(abf.sweepC) # displays command waveform (DAC)
 ```
 
 ## Documenation
