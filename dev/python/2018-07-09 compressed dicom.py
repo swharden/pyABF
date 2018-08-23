@@ -60,25 +60,26 @@ from PIL import Image
 from PIL.TiffTags import TAGS
 
 if __name__ == "__main__":
-    # commands = []
-    # fldr = R"C:\Users\swharden\Documents\important\CTs\DICOM"
-    # fnames = sorted(glob.glob(fldr+R"/*.dcm"))
-    # fnames = [x for x in fnames if not ".raw." in x]
-    # for i,fname in enumerate(fnames):
-    #     print(fname)
-    #     method2(fname, fname+".raw.dcm")
-
-    fldr = R"C:\Users\swharden\Documents\important\CTs\RAW"
+  
+    # filenames come out right if you use the imaging software to export an image sequence.
+    fldr = R"C:\Users\swharden\Documents\important\CTs\2018-08-16 pet CT\1.3.12.2.1107.5.1.4.60012.30000018081613365058600005183"
     fnames = sorted(glob.glob(fldr+R"/*.dcm"))
+    fnames = [x for x in fnames if not ".raw." in x]
     for i,fname in enumerate(fnames):
-      dataset = pydicom.dcmread(fname)
-      s = str(dataset).split("\n")
-      s = [x.strip() for x in s]
-      s = [x for x in s if "Instance Number" in x][0]
-      s = int(s.split('"')[1])
-      s = "%05d.dcm"%(s)
-      fname2 = os.path.join(fldr,s)
-      print(fname, fname2)
-      if True:
-        os.rename(fname,fname2)
+        print(fname)
+        method2(fname, fname+".raw.dcm")
+
+    # fldr = R"C:\Users\swharden\Documents\important\CTs\2018-08-16 pet CT\1.3.12.2.1107.5.1.4.60012.30000018081613365058600005183"
+    # fnames = sorted(glob.glob(fldr+R"/*.dcm"))
+    # for i,fname in enumerate(fnames):
+    #   dataset = pydicom.dcmread(fname)
+    #   s = str(dataset).split("\n")
+    #   s = [x.strip() for x in s]
+    #   s = [x for x in s if "Instance Number" in x][0]
+    #   s = int(s.split('"')[1])
+    #   s = "%05d.dcm"%(s)
+    #   fname2 = os.path.join(fldr,s)
+    #   print(fname, fname2)
+    #   if True:
+    #     os.rename(fname,fname2)
         
