@@ -193,6 +193,7 @@ def go():
         sys.stdout.flush()
 
         # update main readme
+        abfIDsafe = abf.abfID.replace(" ","%20")
         md += f"**{abf.abfID}.abf**<br />"
         md += f"ABF Version: {abf.abfVersionString}<br />"
         md += "Channels: %d (%s)<br />" % (abf.channelCount,
@@ -201,10 +202,10 @@ def go():
         md += f"Protocol: _{abf.protocol}_"
         md += " | "
         md += "![headers/%s_map.png](headers/%s_map.png)<br />" % (
-            abf.abfID, abf.abfID)
-        md += "[view entire header](headers/%s.md)" % (abf.abfID)
+            abfIDsafe, abfIDsafe)
+        md += "[view entire header](headers/%s.md)" % (abfIDsafe)
         md += " | "
-        md += "![headers/%s.png](headers/%s.png)" % (abf.abfID, abf.abfID)
+        md += "![headers/%s.png](headers/%s.png)" % (abfIDsafe, abfIDsafe)
         md += "\n"
 
     # write main readme
