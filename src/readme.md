@@ -1,23 +1,4 @@
 # pyABF source code
-
-README.rst is the index page for pypi: https://pypi.org/project/pyabf/
-
-## Installation
-
-```bash
-pip install --upgrade pyabf
-```
-
-## Quickstart
-```python
-import pyabf
-abf = pyabf.ABF("demo.abf")
-abf.setSweep(3) # sweeps start at 0
-print(abf.sweepY) # sweep data (ADC)
-print(abf.sweepC) # sweep command (DAC)
-print(abf.sweepX) # sweep times (seconds)
-```
-
-## Documenation
-* [Getting started with pyABF](../docs/getting-started)
-* [Additional documentation](../docs/)
+* Installation instructions are on the [pyABF front page](https://github.com/swharden/pyABF)
+* [README.rst](README.rst) controls the content of the [PyPi/pyABF index page](https://pypi.org/project/pyabf/)
+* Updating PyPi is achieved using [/dev/scripts/PYPI_UPLOAD.bat](/dev/scripts/PYPI_UPLOAD.bat)
