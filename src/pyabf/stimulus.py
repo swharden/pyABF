@@ -10,7 +10,6 @@ The Stimulus class is instantitated (once per channel) in the ABF class, and
 users are encouraged to interact with those objects direclty.
 """
 
-import warnings
 import numpy as np
 import copy
 import os
@@ -438,7 +437,7 @@ class Stimulus:
                 # unsupported epoch
                 msg = f"unknown sweep type: {self.type[epochNumber]}"
                 msg += " (treating as a step)"
-                warnings.warn(msg)
+                log.warn(msg)
                 chunk.fill(sweepLevel)
 
             # modify this chunk based on the type of waveform

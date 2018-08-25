@@ -4,10 +4,12 @@ Code here relates to low-pass filering of ABF data.
 """
 import os
 import sys
-import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
 
 def _kernelGaussian(size=100, sigma=None):
     """

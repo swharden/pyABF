@@ -11,13 +11,16 @@ Code in this module is mostly for testing and it is not actively developed.
 import os
 import sys
 import glob
-import warnings
+
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 if __name__ == "__main__":
-    warnings.warn("DO NOT RUN THIS FILE DIRECTLY!")
+    log.warn("DO NOT RUN THIS FILE DIRECTLY!")
     sys.path.append(os.path.dirname(__file__)+"/../")
     PATH_HERE = os.path.abspath(os.path.dirname(__file__))
     PATH_DATA = os.path.abspath(PATH_HERE+"/../../data/abfs/")

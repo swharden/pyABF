@@ -15,7 +15,7 @@ import os
 import struct
 import logging
 import datetime
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
 BLOCKSIZE = 512
