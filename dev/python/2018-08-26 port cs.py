@@ -55,7 +55,7 @@ if __name__=="__main__":
             line=line.replace("self.","new unsigned char[] ")
         else:
             line=line.replace("self.","var ")
-        out+=line+"\n"
+        out+=line.strip()+";\n"
     with open(PATH_HERE+"/2018-08-26 port cs.cs",'w') as f:
         f.write(out)
     print("DONE")
