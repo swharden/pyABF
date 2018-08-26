@@ -26,33 +26,33 @@ if __name__=="__main__":
         if '"f"' in line:
             line=line.replace("self.","float ")
         if 'f"' in line:
-            line=line.replace("self.","new float[] ")
+            line=line.replace("self.","float[] ")
         elif '"h"' in line:
             line=line.replace("self.","short ")
         elif 'h"' in line:
-            line=line.replace("self.","new short[] ")
+            line=line.replace("self.","short[] ")
         elif '"H"' in line:
             line=line.replace("self.","unsigned short ")
         elif '"i"' in line:
             line=line.replace("self.","int ")
         elif 'i"' in line:
-            line=line.replace("self.","new int[] ")
+            line=line.replace("self.","int[] ")
         elif '"I"' in line:
             line=line.replace("self.","unsigned int ")
         elif '"b"' in line:
             line=line.replace("self.","signed char ")
         elif 'b"' in line:
-            line=line.replace("self.","new signed char[] ")
+            line=line.replace("self.","signed char[] ")
         elif '"c"' in line:
             line=line.replace("self.","char ")
         elif 'c"' in line:
-            line=line.replace("self.","new char[] ")
+            line=line.replace("self.","char[] ")
         elif 's"' in line:
-            line=line.replace("self.","new string[] ")
+            line=line.replace("self.","string[] ")
         elif '"IIl"' in line:
-            line=line.replace("self.","new Object[] ")
+            line=line.replace("self.","Object[] ")
         elif 'B"' in line:
-            line=line.replace("self.","new unsigned char[] ")
+            line=line.replace("self.","unsigned char[] ")
         else:
             line=line.replace("self.","var ")
         out+=line.strip()+";\n"
