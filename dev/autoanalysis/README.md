@@ -1,0 +1,3 @@
+# ABF Auto-Analysis
+
+ClampFit supports the use of protocol files. Using the Protocol Editor you can design an electrophysiology stimulation waveform, and save these settings as a .pro file. **Once a pCLAMP protocol file is made, every ABF file recording using that protocol can be analyzed identically.** It is this phenomenon that underlies the fully automatic analysis of ABF files. Code here attempts to automate this process to a lever which requires no human input. As ABF files are recorded they can be analyzed automatically to produce graphs which are saved as images within seconds of the ABF being saved.

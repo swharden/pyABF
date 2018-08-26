@@ -54,7 +54,9 @@ def colorsBinned(bins, colormap="winter", reverse=False):
     return colors
 
 
-def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, offsetYunits=0, channel=0, axis=None, color=None, alpha=.5, startAtSec=0, endAtSec=False, title=None):
+def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, 
+            offsetYunits=0, channel=0, axis=None, color=None, alpha=.5, 
+            startAtSec=0, endAtSec=False, title=None, linewidth=1):
     """
     This is a flexible sweep plotting function. Although it has many potential 
     uses, developers will most likely want to write their own plotting functions
@@ -88,7 +90,8 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, offsetYunits=
             abf.sweepX[i1:i2]+offsetXsec*sweepNumber,
             abf.sweepY[i1:i2]+offsetYunits*sweepNumber,
             color=colors[sweepNumber],
-            alpha=alpha)
+            alpha=alpha,
+            linewidth=linewidth)
         axis.set_ylabel(abf.sweepLabelY)
         axis.set_xlabel(abf.sweepLabelX)
 
