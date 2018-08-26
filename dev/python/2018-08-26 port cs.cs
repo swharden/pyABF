@@ -1,5 +1,5 @@
 
-#HeaderV1
+//HeaderV1
 var fFileSignature = readStruct(fb, "4s", 0)
 float fFileVersionNumber = readStruct(fb, "f", 4)
 short nOperationMode = readStruct(fb, "h", 8)
@@ -52,7 +52,7 @@ var nTelegraphEnable = readStruct(fb, "16h", 4512)
 var fTelegraphAdditGain = readStruct(fb, "16f", 4576)
 var sProtocolPath = readStruct(fb, "384s", 4898)
 
-#HeaderV2
+//HeaderV2
 var fFileSignature = readStruct(fb, "4s")  
 var fFileVersionNumber = readStruct(fb, "4b")  
 unsigned int uFileInfoSize = readStruct(fb, "I")  
@@ -72,7 +72,7 @@ unsigned int uModifierVersion = readStruct(fb, "I")
 unsigned int uModifierNameIndex = readStruct(fb, "I")  
 unsigned int uProtocolPathIndex = readStruct(fb, "I")  
 
-#SectionMap
+//SectionMap
 var ProtocolSection = readStruct(fb, "IIl", 76)
 var ADCSection = readStruct(fb, "IIl", 92)
 var DACSection = readStruct(fb, "IIl", 108)
@@ -92,7 +92,7 @@ var SynchArraySection = readStruct(fb, "IIl", 316)
 var AnnotationSection = readStruct(fb, "IIl", 332)
 var StatsSection = readStruct(fb, "IIl", 348)
 
-#ProtocolSection
+//ProtocolSection
 short nOperationMode = readStruct(fb, "h")  
 float fADCSequenceInterval = readStruct(fb, "f")  
 signed char bEnableFileCompression = readStruct(fb, "b")  
@@ -165,7 +165,7 @@ short nDigitizerTotalDigitalOuts = readStruct(fb, "h")
 short nDigitizerSynchDigitalOuts = readStruct(fb, "h")  
 short nDigitizerType = readStruct(fb, "h")  
 
-#ADCSection
+//ADCSection
 short nADCNum[i] = readStruct(fb, "h")  
 short nTelegraphEnable[i] = readStruct(fb, "h")  
 short nTelegraphInstrument[i] = readStruct(fb, "h")  
@@ -194,7 +194,7 @@ short nStatsChannelPolarity[i] = readStruct(fb, "h")
 int lADCChannelNameIndex[i] = readStruct(fb, "i")  
 int lADCUnitsIndex[i] = readStruct(fb, "i")  
 
-#DACSection
+//DACSection
 short nDACNum[i] = readStruct(fb, "h")  
 short nTelegraphDACScaleFactorEnable[i] = readStruct(fb, "h")  
 float fInstrumentHoldingLevel[i] = readStruct(fb, "f")  
@@ -237,7 +237,7 @@ float fMembTestPreSettlingTimeMS[i] = readStruct(fb, "f")
 float fMembTestPostSettlingTimeMS[i] = readStruct(fb, "f")  
 short nLeakSubtractADCIndex[i] = readStruct(fb, "h")  
 
-#EpochPerDACSection
+//EpochPerDACSection
 short nEpochNum[i] = readStruct(fb, "h")  
 short nDACNum[i] = readStruct(fb, "h")  
 short nEpochType[i] = readStruct(fb, "h")  
@@ -248,17 +248,17 @@ int lEpochDurationInc[i] = readStruct(fb, "i")
 int lEpochPulsePeriod[i] = readStruct(fb, "i")  
 int lEpochPulseWidth[i] = readStruct(fb, "i")  
 
-#EpochSection
+//EpochSection
 short nEpochNum[i] = readStruct(fb, "h")  
 short nEpochDigitalOutput[i] = readStruct(fb, "h")  
 
-#TagSection
+//TagSection
 int lTagTime[i] = readStruct(fb, "i")
 var sComment[i] = readStruct(fb, "56s")
 short nTagType[i] = readStruct(fb, "h")
 short nVoiceTagNumberorAnnotationIndex[i] = readStruct(fb, "h")
 
-#StringsSection
+//StringsSection
 var strings[i] = readStruct(fb, structFormat, cleanStrings=False)
 
-#StringsIndexed
+//StringsIndexed

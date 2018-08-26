@@ -15,7 +15,7 @@ if __name__=="__main__":
         line=line.strip()
         if line.startswith("class"):
             line=line.replace("class ","").replace(":","").strip()
-            out+="\n#"+line+"\n"
+            out+="\n//"+line+"\n"
         if not line.startswith("self."):
             continue
         if not "readStruct(" in line:
