@@ -61,15 +61,22 @@ def lineParts(line):
         plural="s"
         plural2="[]"
     newline=f'{varName} = FileRead{funcs[cTypeCode]}{plural}("{varName}", bytePos, {varCount});'
-    if not "[" in varName:
-        newline=f"{cInit}{plural2} {newline}"
+    #if not "[" in varName:
+        #newline=f"{cInit}{plural2} {newline}" # COMMENT OUT
     origVars = line.split("(")[1].split(")")[0].split(",")
     if len(origVars)==3:
         newline = newline.replace("bytePos", origVars[-1].strip())
     else:
         newline = newline.replace("bytePos", "-1")
     newline = newline + " //" + line.split('"')[1]
-    #print(newline)
+    return newline # returns assignments
+
+    # code here creates the declaration statements
+    newline = newline.split("=")[0].strip()
+    if not " " in newline:
+        return
+    newline = "public "+newline+";"
+    print(newline)
     return newline
 
 if __name__=="__main__":
