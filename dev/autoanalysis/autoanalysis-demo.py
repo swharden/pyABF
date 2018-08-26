@@ -12,10 +12,12 @@ import pyabf
 import glob
 import autoabf
 
+#pyabf.abf.log.setLevel(logging.DEBUG)
+
 if __name__=="__main__":
-    aq = autoabf.ABFwatcher(PATH_DATA)
-    aq.addWatchedFolder(R"X:/some/crazy/path/")
+    aq = autoabf.ABFwatcher()
+    #aq.addWatchedFolder(R"X:/some/crazy/path/")
     aq.addWatchedFolder(R"C:\Users\scott\Documents\important\abfs")
-    aq.addWatchedFolder(R"Y:/some/crazy/path/")
+    #aq.addWatchedFolder(R"Y:/some/crazy/path/")
     aq.rescan()
     print("DONE")

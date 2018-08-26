@@ -6,6 +6,10 @@ continuously, show sweeps stacked, show sweeps overlayed, etc) and can be used
 for almost any protocol (or ABFs with unknown protocol).
 
 Some analysis routines are specific for specific protocols.
+
+These routines are highly specific to the nature of the scientific work I do,
+and this document may not be useful to others beyond an example of how to use
+pyABF to set-up an automatic analysis pipeline for electrophysiology data.
 """
 
 import os
@@ -18,12 +22,14 @@ log = logging.getLogger(__name__)
 log.debug(f"autoabf imported")
 log.setLevel(level=logging.WARN)
 
+# default size of the images being made
 FIGSIZE = (8, 6)
-DATAFOLDER = "autoanalysis"
+
+# automatically generated figures are saved in this subfolder
+DATAFOLDER = "swhlab"
+
 
 # Little operations to apply on graphs
-
-
 def shadeDigitalOutput(abf, digitalOutputChannel=4):
     """In sweep view, shade the epoch number."""
     digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
@@ -66,19 +72,23 @@ def plotFigNew(abf):
     return
 
 
-def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True, unknown=False, title=None):
+def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
+                unknown=False, title=None, labelAxes=True):
     """save a figure"""
     assert isinstance(abf, pyabf.ABF)
 
-        
-    # applt title only to single-subplot figures
-    if len(plt.gcf().axes)==1:
+    # apply title only to single-subplot figures
+    if len(plt.gcf().axes) == 1:
         if title:
             plt.title(title)
         elif title is None:
             plt.title(f"{abf.abfID} (Ch1)")
         elif title is False:
             plt.title(None)
+
+    if labelAxes:
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
 
     # apply a grid to all subplots
     if grid:
@@ -110,7 +120,7 @@ def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True, unknown=False
     if not os.path.exists(os.path.dirname(pathOut)):
         log.info(f"creating {os.path.dirname(pathOut)}")
         os.mkdir(os.path.dirname(pathOut))
-    log.info(f"saving {fnOut}")
+    log.debug(f"saving {fnOut}")
     plt.savefig(pathOut)
     if closeToo:
         plt.close()
@@ -285,7 +295,7 @@ def protocol_0501(abf):
     abf.sweepY *= np.nan
     abf.sweepY[p1:p2] = avg
     plt.plot(abf.sweepX, abf.sweepY)
-    plotFigSave(abf, tag="opto-avg")
+    plotFigSave(abf, tag="opto-avg", labelAxes=True)
 
     # make stacked graph
     plotFigNew(abf)
@@ -298,7 +308,5 @@ def protocol_0501(abf):
             vertOffset *= 1.2
         plt.plot(abf.sweepX[p1:p2], abf.sweepY[p1:p2] +
                  vertOffset*sweep, color='b', alpha=.7)
-    plt.ylabel(abf.sweepLabelY)
-    plt.xlabel(abf.sweepLabelX)
-    plotFigSave(abf, tag="opto-stacked")
+    plotFigSave(abf, tag="opto-stacked", labelAxes=True)
     return
