@@ -26,8 +26,7 @@ log.setLevel(level=logging.WARN)
 FIGSIZE = (8, 6)
 
 # automatically generated figures are saved in this subfolder
-DATAFOLDER = "swhlab"
-
+from abfnav import DATAFOLDER
 
 # Little operations to apply on graphs
 def shadeDigitalOutput(abf, digitalOutputChannel=4):
