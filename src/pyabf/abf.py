@@ -295,3 +295,19 @@ class ABF:
     from pyabf.sweep import sweepMeasureStdev as sweepStdev
     from pyabf.sweep import sweepMeasureMax as sweepMax
     from pyabf.sweep import sweepMeasureMin as sweepMin
+
+    def _ide_helper(self):
+        """
+        Add things here to help auto-complete IDEs aware of things added by
+        external modules. This function should never actually get called.
+        """
+        self.sweepNumber = -1
+        self.sweepChannel = -1
+        self.sweepUnitsX = ""
+        self.sweepUnitsY = ""
+        self.sweepUnitsC = ""
+        self.sweepLabelX = ""
+        self.sweepLabelY = ""
+        self.sweepLabelC = ""
+        self.sweepX = []
+        self.sweepY = []
