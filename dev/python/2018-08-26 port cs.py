@@ -13,8 +13,9 @@ if __name__=="__main__":
         raw=f.read().split("\n")
     for line in raw:
         line=line.strip()
-        if line.startswith("def"):
-            out+="\n"
+        if line.startswith("class"):
+            line=line.replace("class ","").replace(":","").strip()
+            out+="\n#"+line+"\n"
         if not line.startswith("self."):
             continue
         if not "readStruct(" in line:
