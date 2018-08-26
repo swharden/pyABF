@@ -7,6 +7,66 @@ import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_SRC = os.path.abspath(PATH_HERE+"../../../src/")
 
+types = {
+    "s":"string",
+    "c":"char",
+    "b":"char",
+    "B":"uchar",
+    "h":"short",
+    "H":"ushort",
+    "i":"int",
+    "I":"uint",
+    "l":"long",
+    "L":"ulong",
+    "f":"float",
+    "d":"double"
+    }
+
+funcs = {
+    "s":"String",
+    "c":"Char",
+    "b":"SignedChar",
+    "B":"UnsignedChar",
+    "h":"Short",
+    "H":"UnsignedShort",
+    "i":"Int",
+    "I":"UnsignedInt",
+    "l":"Long",
+    "L":"UnsignedLong",
+    "f":"Float",
+    "d":"Double"
+    }
+
+def lineParts(line):
+    line=line.replace("'",'"').strip()
+    if not '"' in line:
+        return
+    if line.count("=")!=1:
+        return
+    cTypeCode = line.split('"')[1]
+    if cTypeCode == "IIl":
+        # skip the second two
+        cTypeCode = "I"
+        line=line.replace("Section","Section_byteStart")
+    varCount=1
+    if len(cTypeCode)>1:
+        cTypeCode=list(cTypeCode)
+        varCount=int("".join(cTypeCode[:-1]))
+        cTypeCode=cTypeCode[-1]
+    cInit = types[cTypeCode]
+    varName = line.split("=")[0].strip().split(" ")[-1].replace("self.",'')
+    newline=f'{varName} = FileRead{funcs[cTypeCode]}("{varName}", bytePos, {varCount});'
+    if not "[" in varName:
+        newline=f"{cInit} {newline}"
+    origVars = line.split("(")[1].split(")")[0].split(",")
+    if len(origVars)==3:
+        newline = newline.replace("bytePos", origVars[-1].strip())
+    else:
+        newline = newline.replace("bytePos", "-1")
+    newline = newline + " //" + line.split('"')[1]
+    #print(newline)
+    return newline
+
 if __name__=="__main__":
     out=""
     with open(PATH_SRC+"/pyabf/abfHeader.py") as f:
@@ -22,40 +82,9 @@ if __name__=="__main__":
             continue
         if "#" in line:
             line=line.split("#")[0]
-        line=line.replace("'",'"')
-        if '"f"' in line:
-            line=line.replace("self.","float ")
-        if 'f"' in line:
-            line=line.replace("self.","float[] ")
-        elif '"h"' in line:
-            line=line.replace("self.","short ")
-        elif 'h"' in line:
-            line=line.replace("self.","short[] ")
-        elif '"H"' in line:
-            line=line.replace("self.","unsigned short ")
-        elif '"i"' in line:
-            line=line.replace("self.","int ")
-        elif 'i"' in line:
-            line=line.replace("self.","int[] ")
-        elif '"I"' in line:
-            line=line.replace("self.","unsigned int ")
-        elif '"b"' in line:
-            line=line.replace("self.","signed char ")
-        elif 'b"' in line:
-            line=line.replace("self.","signed char[] ")
-        elif '"c"' in line:
-            line=line.replace("self.","char ")
-        elif 'c"' in line:
-            line=line.replace("self.","char[] ")
-        elif 's"' in line:
-            line=line.replace("self.","string ")
-        elif '"IIl"' in line:
-            line=line.replace("self.","Object[] ")
-        elif 'B"' in line:
-            line=line.replace("self.","unsigned char[] ")
-        else:
-            line=line.replace("self.","var ")
-        out+=line.strip()+";\n"
+        line = lineParts(line)
+        if line:
+            out+=line.strip()+";\n"
     with open(PATH_HERE+"/2018-08-26 port cs.cs",'w') as f:
         f.write(out)
     print("DONE")
