@@ -25,16 +25,34 @@ if __name__=="__main__":
         line=line.replace("'",'"')
         if '"f"' in line:
             line=line.replace("self.","float ")
+        if 'f"' in line:
+            line=line.replace("self.","new float[] ")
         elif '"h"' in line:
             line=line.replace("self.","short ")
+        elif 'h"' in line:
+            line=line.replace("self.","new short[] ")
+        elif '"H"' in line:
+            line=line.replace("self.","unsigned short ")
         elif '"i"' in line:
             line=line.replace("self.","int ")
+        elif 'i"' in line:
+            line=line.replace("self.","new int[] ")
         elif '"I"' in line:
             line=line.replace("self.","unsigned int ")
         elif '"b"' in line:
             line=line.replace("self.","signed char ")
+        elif 'b"' in line:
+            line=line.replace("self.","new signed char[] ")
         elif '"c"' in line:
             line=line.replace("self.","char ")
+        elif 'c"' in line:
+            line=line.replace("self.","new char[] ")
+        elif 's"' in line:
+            line=line.replace("self.","new string[] ")
+        elif '"IIl"' in line:
+            line=line.replace("self.","new Object[] ")
+        elif 'B"' in line:
+            line=line.replace("self.","new unsigned char[] ")
         else:
             line=line.replace("self.","var ")
         out+=line+"\n"
