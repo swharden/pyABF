@@ -55,7 +55,10 @@ def lineParts(line):
         cTypeCode=cTypeCode[-1]
     cInit = types[cTypeCode]
     varName = line.split("=")[0].strip().split(" ")[-1].replace("self.",'')
-    newline=f'{varName} = FileRead{funcs[cTypeCode]}("{varName}", bytePos, {varCount});'
+    plural = ""
+    if not cTypeCode=="s" and varCount>1:
+        plural="s"
+    newline=f'{varName} = FileRead{funcs[cTypeCode]}{plural}("{varName}", bytePos, {varCount});'
     if not "[" in varName:
         newline=f"{cInit} {newline}"
     origVars = line.split("(")[1].split(")")[0].split(",")
