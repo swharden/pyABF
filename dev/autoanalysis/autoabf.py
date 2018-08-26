@@ -59,7 +59,7 @@ def autoAnalyzeAbf(abf, reanalyze=True):
         functionName = "protocol_"+abf.protocol.split(" ")[0]
         if not functionName in dir(analysisByProtocol):
             functionName = None
-        if not hasattr(analysisByProtocol, functionName):
+        if functionName and not hasattr(analysisByProtocol, functionName):
             functionName = None
 
     # if a properly formatted protoocl was found, run its analysis
@@ -75,6 +75,7 @@ def autoAnalyzeAbf(abf, reanalyze=True):
 
 if __name__ == "__main__":
     demoAbfFilePath = R"C:\Users\scott\Documents\important\abfs\17713014.abf"
+    demoAbfFolder = os.path.dirname(demoAbfFilePath)
     #autoAnalyzeAbf(demoAbfFilePath)
-    autoAnalyzeFolder(os.path.dirname(demoAbfFilePath))
+    autoAnalyzeFolder(R"C:\abfs")
     print("DONE")
