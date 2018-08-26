@@ -48,7 +48,7 @@ if __name__=="__main__":
         elif 'c"' in line:
             line=line.replace("self.","char[] ")
         elif 's"' in line:
-            line=line.replace("self.","string[] ")
+            line=line.replace("self.","string ")
         elif '"IIl"' in line:
             line=line.replace("self.","Object[] ")
         elif 'B"' in line:

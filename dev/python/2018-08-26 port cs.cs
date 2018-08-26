@@ -1,6 +1,6 @@
 
 //HeaderV1
-string[] fFileSignature = readStruct(fb, "4s", 0);
+string fFileSignature = readStruct(fb, "4s", 0);
 float fFileVersionNumber = readStruct(fb, "f", 4);
 short nOperationMode = readStruct(fb, "h", 8);
 int lActualAcqLength = readStruct(fb, "i", 10);
@@ -24,8 +24,8 @@ int lADCResolution = readStruct(fb, "i", 252);
 short nFileStartMillisecs = readStruct(fb, "h", 366);
 short[] nADCPtoLChannelMap = readStruct(fb, "16h", 378);
 short[] nADCSamplingSeq = readStruct(fb, "16h", 410);
-string[] sADCChannelName = readStruct(fb, "10s"*16, 442);
-string[] sADCUnits = readStruct(fb, "8s"*16, 602);
+string sADCChannelName = readStruct(fb, "10s"*16, 442);
+string sADCUnits = readStruct(fb, "8s"*16, 602);
 float[] fADCProgrammableGain = readStruct(fb, "16f", 730);
 float[] fInstrumentScaleFactor = readStruct(fb, "16f", 922);
 float[] fInstrumentOffset = readStruct(fb, "16f", 986);
@@ -50,10 +50,10 @@ int[] lEpochInitDuration = readStruct(fb, "20i", 2508);
 int[] lEpochDurationInc = readStruct(fb, "20i", 2588);
 short[] nTelegraphEnable = readStruct(fb, "16h", 4512);
 float[] fTelegraphAdditGain = readStruct(fb, "16f", 4576);
-string[] sProtocolPath = readStruct(fb, "384s", 4898);
+string sProtocolPath = readStruct(fb, "384s", 4898);
 
 //HeaderV2
-string[] fFileSignature = readStruct(fb, "4s");
+string fFileSignature = readStruct(fb, "4s");
 signed char[] fFileVersionNumber = readStruct(fb, "4b");
 unsigned int uFileInfoSize = readStruct(fb, "I");
 unsigned int lActualEpisodes = readStruct(fb, "I");
@@ -254,7 +254,7 @@ short nEpochDigitalOutput[i] = readStruct(fb, "h");
 
 //TagSection
 int lTagTime[i] = readStruct(fb, "i");
-string[] sComment[i] = readStruct(fb, "56s");
+string sComment[i] = readStruct(fb, "56s");
 short nTagType[i] = readStruct(fb, "h");
 short nVoiceTagNumberorAnnotationIndex[i] = readStruct(fb, "h");
 
