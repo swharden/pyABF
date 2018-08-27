@@ -54,7 +54,7 @@ public string sProtocolPath;
 
 //HeaderV2
 public string fFileSignature;
-public char[] fFileVersionNumber;
+public byte[] fFileVersionNumber;
 public uint uFileInfoSize;
 public uint lActualEpisodes;
 public uint uFileStartDate;
@@ -65,8 +65,8 @@ public ushort nDataFormat;
 public ushort nSimultaneousScan;
 public ushort nCRCEnable;
 public uint uFileCRC;
-public char[] uFileGUID;
-public char[] uCreatorVersion;
+public byte[] uFileGUID;
+public byte[] uCreatorVersion;
 public uint uCreatorNameIndex;
 public uint uModifierVersion;
 public uint uModifierNameIndex;
@@ -96,7 +96,7 @@ public uint StatsSection_byteStart;
 public short nOperationMode;
 public float fADCSequenceInterval;
 public char bEnableFileCompression;
-public char[] sUnused;
+public byte[] sUnused;
 public uint uFileCompressionRatio;
 public float fSynchTimeUnit;
 public float fSecondsPerRun;
