@@ -346,6 +346,46 @@ def generic_paired_pulse(abf, p1sec1, p1sec2, p2sec1, p2sec2):
 
     return
 
+def generic_memtest_ramp(abf):
+    """analyzes the ramp part of a sweep to calculate Cm"""
+
+    plotFigNew(abf)
+
+    # plot the memtest
+    ax1 = plt.gcf().add_subplot(121)
+    pyabf.plot.sweeps(abf, axis=ax1)
+    ax1.set_title("All Sweeps (overlay)")
+
+    # plot the ramp
+    ax2 = plt.gcf().add_subplot(222)
+    ax2.set_title("Cm Ramp (phase)")
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber)
+        cmInfo = pyabf.memtest._cm_ramp_points_and_voltages(abf)
+        if not cmInfo:
+            continue
+        rampPoints, rampVoltages = cmInfo
+        rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
+        color = plt.get_cmap("winter")(sweepNumber/abf.sweepCount)
+        trace1 = rampData[:int(len(rampData)/2)][::-1]
+        trace2 = rampData[int(len(rampData)/2):]
+        ax2.plot(trace1, color=color, alpha=.2)
+        ax2.plot(trace2, color=color, alpha=.2)
+    ax2.set_ylabel("current (pA)")
+    ax2.set_xlabel("data point (index)")
+
+    # plot the cms
+    cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+    cmAvg = np.mean(cms)
+    cmErr = np.std(cms)
+    ax4 = plt.gcf().add_subplot(224)
+    ax4.set_title("Cm = %.02f +/- %.02f pF" % (cmAvg, cmErr))
+    ax4.set_ylabel("capacitance (pA)")
+    ax4.set_xlabel("sweep number")
+    ax4.plot(cms, '.', ms=10, alpha=.8)
+    ax4.axhline(cmAvg, color='r', ls='--', lw=2, alpha=.5)
+    plotFigSave(abf, tag="memtest", labelAxes=False)
+
 # Code defines which routines or generic graphs to use for each protocol
 
 
@@ -459,42 +499,7 @@ def protocol_0201(abf):
     assert isinstance(abf, pyabf.ABF)
 
     if 2 in abf._epochPerDacSection.nEpochType:
-        plotFigNew(abf)
-
-        # plot the memtest
-        ax1 = plt.gcf().add_subplot(121)
-        pyabf.plot.sweeps(abf, axis=ax1)
-        ax1.set_title("MemTest (with ramp)")
-
-        # plot the ramp
-        ax2 = plt.gcf().add_subplot(222)
-        ax2.set_title("Cm Ramp (phase)")
-        for sweepNumber in abf.sweepList:
-            abf.setSweep(sweepNumber)
-            cmInfo = pyabf.memtest._cm_ramp_points_and_voltages(abf)
-            if not cmInfo:
-                continue
-            rampPoints, rampVoltages = cmInfo
-            rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
-            color = plt.get_cmap("winter")(sweepNumber/abf.sweepCount)
-            trace1 = rampData[:int(len(rampData)/2)][::-1]
-            trace2 = rampData[int(len(rampData)/2):]
-            ax2.plot(trace1, color=color, alpha=.2)
-            ax2.plot(trace2, color=color, alpha=.2)
-        ax2.set_ylabel("current (pA)")
-        ax2.set_xlabel("data point (index)")
-
-        # plot the cms
-        cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
-        cmAvg = np.mean(cms)
-        cmErr = np.std(cms)
-        ax4 = plt.gcf().add_subplot(224)
-        ax4.set_title("Cm = %.02f +/- %.02f pF" % (cmAvg, cmErr))
-        ax4.set_ylabel("capacitance (pA)")
-        ax4.set_xlabel("sweep number")
-        ax4.plot(cms, '.', ms=10, alpha=.8)
-        ax4.axhline(cmAvg, color='r', ls='--', lw=2, alpha=.5)
-        plotFigSave(abf, tag="memtest", labelAxes=False)
+        generic_memtest_ramp(abf)
     else:
         # there is no ramp
         plotFigNew(abf)
@@ -522,7 +527,8 @@ def protocol_0203(abf):
 def protocol_0204(abf):
     """0204 Cm ramp.pro"""
     assert isinstance(abf, pyabf.ABF)
-    generic_overlay(abf, alpha=.5)
+    #generic_overlay(abf, alpha=.5)
+    generic_memtest_ramp(abf)
     return
 
 
@@ -532,7 +538,7 @@ def protocol_0221(abf):
     generic_overlay(abf)
     return
 
-def protoco2_0222(abf):
+def protocol_0222(abf):
     """0222 VC sine sweep 70 +- 5 mV.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_overlay(abf)
