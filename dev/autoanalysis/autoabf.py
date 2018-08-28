@@ -22,11 +22,11 @@ analysisByProtocol.log.setLevel(level=logging.DEBUG)
 
 import abfnav
 
-def autoAnalyzeFolder(abfFolder):
+def autoAnalyzeFolder(abfFolder, reanalyze=False):
     assert os.path.isdir(abfFolder)
     log.info(f"auto-analyzing folder: {abfFolder}")
     for abfFile in glob.glob(abfFolder+"/*.abf"):
-        autoAnalyzeAbf(abfFile)
+        autoAnalyzeAbf(abfFile, reanalyze)
 
 def autoAnalyzeAbf(abf, reanalyze=True):
     """
@@ -38,9 +38,16 @@ def autoAnalyzeAbf(abf, reanalyze=True):
 
     # error checking
     if isinstance(abf, str):
-        abf = pyabf.ABF(abf)
+        abf = pyabf.ABF(abf, False)
     assert isinstance(abf, pyabf.ABF)
     log.info(f"Auto-analyzing {abf.abfID}.abf")
+
+    # only analyze certain ABFs?
+    selective_analysis=False
+    #selective_analysis=True
+    if selective_analysis and not "0912" in abf.protocol:
+        log.debug("ALREADY ANALYZED")
+        return
 
     # determine if old files exist
     matchingFiles = abfnav.dataFilesForAbf(abf.abfFilePath)
@@ -50,6 +57,8 @@ def autoAnalyzeAbf(abf, reanalyze=True):
             return
     else:
         for fname in matchingFiles:
+            if ".tif" in fname.lower():
+                continue
             log.debug(f"deleting {fname}")
             os.remove(fname)
         
@@ -74,8 +83,11 @@ def autoAnalyzeAbf(abf, reanalyze=True):
 
 
 if __name__ == "__main__":
-    demoAbfFilePath = R"C:\Users\scott\Documents\important\abfs\17713014.abf"
-    demoAbfFolder = os.path.dirname(demoAbfFilePath)
-    #autoAnalyzeAbf(demoAbfFilePath)
-    autoAnalyzeFolder(R"C:\abfs")
+    #autoAnalyzeAbf(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim\18620043.abf", True)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim", True)
     print("DONE")
+
+    # TODO: memtest - show Rm, Cm, etc
+    # TODO: cm ramp
+    # TODO: 1st AP shape
+    # TODO: AP counting by sweep
