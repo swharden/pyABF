@@ -40,7 +40,7 @@ def sweepDataRange(abf, fraction=1, sweepNumber=0, channel=0):
     return firstSweepRange*fraction
 
 
-def colorsBinned(bins, colormap="winter", reverse=False):
+def colorsBinned(bins, colormap="Dark2", reverse=False):
     """
     Return a list of colors spanning the range of the given colormap.
     I like using these colormaps: Winter, Dark2
@@ -67,14 +67,15 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0,
     sweepNumbers = list(sweepNumbers)
     assert len(sweepNumbers) > 0
 
+    if not startAtSec:
+        startAtSec=0
     i1 = int(abf.dataRate*startAtSec)
     if endAtSec:
         i2 = int(abf.dataRate*endAtSec)
     else:
         i2 = int(abf.dataRate*abf.sweepLengthSec)
 
-
-    if color is None:
+    if color is None and len(sweepNumbers)>1:
         colors = colorsBinned(len(sweepNumbers))
     else:
         colors = [color]*abf.sweepCount
