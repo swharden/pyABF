@@ -18,12 +18,14 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+
 def cm_ramp_summary(abf):
     """return average Cm as a string like '34.56 +/- 3.21 pF'"""
     cms = cm_ramp_valuesBySweep(abf)
     mean = np.mean(cms)
     stdev = np.std(cms)
-    return "%.02f +/- %.02f pF"%(mean,stdev)
+    return "%.02f +/- %.02f pF" % (mean, stdev)
+
 
 def cm_ramp_valuesBySweep(abf):
     """
@@ -35,9 +37,10 @@ def cm_ramp_valuesBySweep(abf):
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber)
         cms[sweepNumber] = _cm_ramp_fromThisSweep(abf)
-    log.info(f"%s as a capacitance of %.02f +/- %.02f pF" %
+    log.info(f"%s has a capacitance of %.02f +/- %.02f pF" %
              (abf.abfID, np.mean(cms), np.std(cms)))
     return cms
+
 
 def _cm_ramp_points_and_voltages(abf):
     """
@@ -85,7 +88,8 @@ def _cm_ramp_points_and_voltages(abf):
                   epochPoints[epochNumber+2]]
     log.debug(f"ramp epochs start at (points): {rampPoints}")
 
-    return [rampPoints,rampVoltages]
+    return [rampPoints, rampVoltages]
+
 
 def _cm_ramp_fromThisSweep(abf):
     """
@@ -103,7 +107,7 @@ def _cm_ramp_fromThisSweep(abf):
     if not cmInfo:
         log.debug("ABF file has improper Cm ramp")
         return
-    rampPoints,rampVoltages=cmInfo
+    rampPoints, rampVoltages = cmInfo
     deltaVoltage = rampVoltages[1]-rampVoltages[0]
     rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
     cm = _cm_ramp_calculate(rampData, abf.dataRate, deltaVoltage)
