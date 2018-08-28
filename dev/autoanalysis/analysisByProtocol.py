@@ -532,6 +532,11 @@ def protocol_0221(abf):
     generic_overlay(abf)
     return
 
+def protoco2_0222(abf):
+    """0222 VC sine sweep 70 +- 5 mV.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay(abf)
+    return
 
 def protocol_0401(abf):
     """0401 VC 2s MT-70.pro"""
