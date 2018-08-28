@@ -285,8 +285,9 @@ def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
         sweepErr = pyabf.stats.rangeStdev(
             abf, timeSec1, timeSec2, channel=channel)
         if len(sweepTimes) > 20:
-            ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=.7)
-            ax.plot(sweepTimes, sweepAvgs, "-",color='k')
+            ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=.3)
+            ax.plot(sweepTimes, sweepAvgs, ".-",color='C0')
+            ax.margins(0,.1)
         else:
             ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=1,
                         ms=10, marker='.', ls='-', capsize=5)
