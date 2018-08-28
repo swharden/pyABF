@@ -358,7 +358,8 @@ def protocol_0111(abf):
     for sweep in abf.sweepList:
         abf.setSweep(sweep)
         apPoints = pyabf.ap.ap_points_currentSweep(abf)
-        apPoints = [x for x in apPoints if x>ptToPlot] # ignore APs close to the start of the sweep
+        # ignore APs close to the start of the sweep
+        apPoints = [x for x in apPoints if x > ptToPlot]
         if len(apPoints):
             pt1 = int(apPoints[0]-ptToPlot/2)
             segY = abf.sweepY[pt1:pt1+ptToPlot]
@@ -375,36 +376,38 @@ def protocol_0111(abf):
     plotFigNew(abf)
 
     # plot the first AP (mV)
-    ax1 = plt.gcf().add_subplot(2,2,1)
-    pyabf.plot.sweeps(abf,continuous=True, axis=ax1, linewidth=1, color='C0', alpha=1)
+    ax1 = plt.gcf().add_subplot(2, 2, 1)
+    pyabf.plot.sweeps(abf, continuous=True, axis=ax1,
+                      linewidth=1, color='C0', alpha=1)
     zoomSec = .25
     ax1.set_title("First AP: Voltage")
-    ax1.axis([timeAPsec-zoomSec,timeAPsec+zoomSec,None,None])
+    ax1.axis([timeAPsec-zoomSec, timeAPsec+zoomSec, None, None])
 
     # plot the first AP (V/sec)
-    ax2 = plt.gcf().add_subplot(2,2,2)
+    ax2 = plt.gcf().add_subplot(2, 2, 2)
     ax2.set_title("First AP: Velocity")
     ax2.set_ylabel("Velocity (mV/ms)")
     ax2.set_xlabel("time (ms)")
-    ax2.axhline(-100,color='k',ls=':',lw=2,alpha=.2)
-    ax2.plot(segX,segYd, color='r')
-    ax2.margins(0,.05)
+    ax2.axhline(-100, color='k', ls=':', lw=2, alpha=.2)
+    ax2.plot(segX, segYd, color='r')
+    ax2.margins(0, .05)
 
     # plot the whole ABF
-    ax3 = plt.gcf().add_subplot(2,2,3)
-    pyabf.plot.sweeps(abf,continuous=True, axis=ax3, linewidth=1, color='C0', alpha=1)
+    ax3 = plt.gcf().add_subplot(2, 2, 3)
+    pyabf.plot.sweeps(abf, continuous=True, axis=ax3,
+                      linewidth=1, color='C0', alpha=1)
     zoomSec = .25
     ax3.set_title("Full Signal")
-    ax3.margins(0,.05)
+    ax3.margins(0, .05)
 
     # plot the first AP (V/sec)
-    ax4 = plt.gcf().add_subplot(2,2,4)
+    ax4 = plt.gcf().add_subplot(2, 2, 4)
     ax4.set_title("First AP: Phase Plot")
     ax4.set_xlabel("Membrane Potential (mV)")
     ax4.set_ylabel("Velocity (mV/ms)")
-    ax4.plot(segY,segYd,'.-',color='C1')
-    ax4.margins(.1,.1)
-    ax4.axis([ax1.axis()[2],ax1.axis()[3],ax2.axis()[2],ax2.axis()[3]])
+    ax4.plot(segY, segYd, '.-', color='C1')
+    ax4.margins(.1, .1)
+    ax4.axis([ax1.axis()[2], ax1.axis()[3], ax2.axis()[2], ax2.axis()[3]])
     plotFigSave(abf, tag=f"rampAP", labelAxes=False)
 
 
@@ -439,7 +442,51 @@ def protocol_0121(abf):
 def protocol_0201(abf):
     """0201 memtest.pro"""
     assert isinstance(abf, pyabf.ABF)
-    generic_overlay(abf, alpha=.5)
+
+    if 2 in abf._epochPerDacSection.nEpochType:
+        plotFigNew(abf)
+
+        # plot the memtest
+        ax1 = plt.gcf().add_subplot(121)
+        pyabf.plot.sweeps(abf, axis=ax1)
+        ax1.set_title("MemTest (with ramp)")
+
+        # plot the ramp
+        ax2 = plt.gcf().add_subplot(222)
+        ax2.set_title("Cm Ramp (phase)")
+        for sweepNumber in abf.sweepList:
+            abf.setSweep(sweepNumber)
+            cmInfo = pyabf.memtest._cm_ramp_points_and_voltages(abf)
+            if not cmInfo:
+                continue
+            rampPoints, rampVoltages = cmInfo
+            rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
+            color = plt.get_cmap("winter")(sweepNumber/abf.sweepCount)
+            trace1 = rampData[:int(len(rampData)/2)][::-1]
+            trace2 = rampData[int(len(rampData)/2):]
+            ax2.plot(trace1, color=color, alpha=.2)
+            ax2.plot(trace2, color=color, alpha=.2)
+        ax2.set_ylabel("current (pA)")
+        ax2.set_xlabel("data point (index)")
+
+        # plot the cms
+        cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+        cmAvg = np.mean(cms)
+        cmErr = np.std(cms)
+        ax4 = plt.gcf().add_subplot(224)
+        ax4.set_title("Cm = %.02f +/- %.02f pF" % (cmAvg, cmErr))
+        ax4.set_ylabel("capacitance (pA)")
+        ax4.set_xlabel("sweep number")
+        ax4.plot(cms, '.', ms=10, alpha=.8)
+        ax4.axhline(cmAvg, color='r', ls='--', lw=2, alpha=.5)
+        plotFigSave(abf, tag="memtest", labelAxes=False)
+    else:
+        # there is no ramp
+        plotFigNew(abf)
+        ax1 = plt.gcf().add_subplot(111)
+        pyabf.plot.sweeps(abf, axis=ax1)
+        ax1.set_title("MemTest (without ramp)")
+        plotFigSave(abf, tag="memtest")
     return
 
 

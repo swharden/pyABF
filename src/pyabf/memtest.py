@@ -39,20 +39,12 @@ def cm_ramp_valuesBySweep(abf):
              (abf.abfID, np.mean(cms), np.std(cms)))
     return cms
 
-
-def _cm_ramp_fromThisSweep(abf):
+def _cm_ramp_points_and_voltages(abf):
     """
-    Calculate capacitance from a voltage clamp ramp.
-
-    In theory any channel, any ramp, and even changing ramps will work.
-
-    This expects a downward ramp followed by an upward ramp, each with the same
-    duration and magnitude. This ramp can be anywhere in the sweep, and does
-    not have to be the first epoch.
+    Return [rampPoints,rampVoltages] is the sweep contains a ramp
+    suitable for capacitance calculation.
     """
     assert isinstance(abf, pyabf.ABF)
-
-    log.debug(f"calculating Cm from ramp on {abf.abfID}.abf")
 
     if abf.sweepUnitsY != "pA":
         log.critical("must be in voltage clamp configuration")
@@ -79,8 +71,6 @@ def _cm_ramp_fromThisSweep(abf):
     if epochNumber > 0:
         rampVoltages[0] = epochValues[epochNumber-1]
     log.debug(f"ramp voltages (mV): {rampVoltages}")
-    deltaVoltage = rampVoltages[1]-rampVoltages[0]
-    log.debug(f"delta voltage (mV): {deltaVoltage}")
     if rampVoltages[0] != rampVoltages[2]:
         log.critical("ramp must deviate then return to the same voltage")
         return
@@ -95,11 +85,30 @@ def _cm_ramp_fromThisSweep(abf):
                   epochPoints[epochNumber+2]]
     log.debug(f"ramp epochs start at (points): {rampPoints}")
 
-    # isolate the useful data and perform the calculation
+    return [rampPoints,rampVoltages]
+
+def _cm_ramp_fromThisSweep(abf):
+    """
+    Calculate capacitance from a voltage clamp ramp.
+
+    In theory any channel, any ramp, and even changing ramps will work.
+
+    This expects a downward ramp followed by an upward ramp, each with the same
+    duration and magnitude. This ramp can be anywhere in the sweep, and does
+    not have to be the first epoch.
+    """
+    assert isinstance(abf, pyabf.ABF)
+    log.debug(f"calculating Cm from ramp on {abf.abfID}.abf")
+    cmInfo = _cm_ramp_points_and_voltages(abf)
+    if not cmInfo:
+        log.debug("ABF file has improper Cm ramp")
+        return
+    rampPoints,rampVoltages=cmInfo
+    deltaVoltage = rampVoltages[1]-rampVoltages[0]
     rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
     cm = _cm_ramp_calculate(rampData, abf.dataRate, deltaVoltage)
-    log.debug(f"Cm detected as: {cm} pF")
-
+    cmAvg = np.mean(cm)
+    log.debug(f"Avareage Cm detected as: {cmAvg} pF")
     return cm
 
 
