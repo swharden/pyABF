@@ -16,7 +16,7 @@
 
 * abfDateTime = `2018-03-13T14:45:56.159000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
 * abfVersion = `{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.3.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `200000`
+* dataPointsPerMs = `100`
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
 * fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`

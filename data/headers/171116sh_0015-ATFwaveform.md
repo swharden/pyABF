@@ -16,7 +16,7 @@
 
 * abfDateTime = `2017-11-16T14:06:28.730000`
 * abfFileComment = `SWHLab5[0102]`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171116sh_0015-ATFwaveform.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\171116sh_0015-ATFwaveform.abf`
 * abfID = `171116sh_0015-ATFwaveform`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `300000`
+* dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `{6820CD72-752A-410F-8E09-121CF9BAFAFA}`

@@ -16,7 +16,7 @@
 
 * abfDateTime = `2017-11-17T12:54:26.816000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `3220568`
+* dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`

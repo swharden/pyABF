@@ -16,7 +16,7 @@
 
 * abfDateTime = `2017-10-05T14:42:46.899000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
 * abfID = `17o05028_ic_steps`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `960000`
+* dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AE3E3}`

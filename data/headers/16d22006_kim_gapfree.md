@@ -16,7 +16,7 @@
 
 * abfDateTime = `2016-12-22T14:39:47.945000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `4608`
 * dataPointByteSize = `2`
 * dataPointCount = `966000`
+* dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`

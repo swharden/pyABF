@@ -16,7 +16,7 @@
 
 * abfDateTime = `2017-11-27T08:17:59.810000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
 * abfID = `model_vc_ramp`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `120000`
+* dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `{3529074B-C6D9-4B5E-AB13-C9A9B4F06565}`

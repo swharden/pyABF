@@ -16,7 +16,7 @@
 
 * abfDateTime = `2013-12-17T15:27:56.218000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\sine sweep magnitude 20.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\sine sweep magnitude 20.abf`
 * abfID = `sine sweep magnitude 20`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `3584`
 * dataPointByteSize = `4`
 * dataPointCount = `100000`
+* dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`

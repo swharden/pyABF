@@ -16,7 +16,7 @@
 
 * abfDateTime = `2014-10-16T10:01:35.078000`
 * abfFileComment = `SWH[MTIV]`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
+* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
 * abfID = `14o16001_vc_pair_step`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -31,6 +31,7 @@
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `1040000`
+* dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `{7468FC35-C797-4101-8212-7E5BF83BF9F9}`
