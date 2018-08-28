@@ -125,9 +125,9 @@ def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
     for ax in plt.gcf().axes:
         if not "sec" in ax.get_xlabel():
             continue
-        if ax.get_xticks()[-1]<120:
+        if ax.get_xticks()[-1] < 120:
             continue
-        xticks = ["%.02f"%(x/60) for x in ax.get_xticks()]
+        xticks = ["%.02f" % (x/60) for x in ax.get_xticks()]
         ax.set_xticklabels(xticks)
         ax.set_xlabel("time (minutes)")
 
@@ -254,7 +254,7 @@ def generic_continuous(abf, unknown=False, alpha=1):
                           channel=channel, color='b', alpha=alpha,
                           linewidth=.5)
         ax.set_title(f"{abf.abfID} (Ch{channel+1}) Continuous Signal")
-        addComments(abf)        
+        addComments(abf)
     plotFigSave(abf, tag="generic-continuous", unknown=unknown)
     return
 
@@ -284,8 +284,12 @@ def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
             abf, timeSec1, timeSec2, channel=channel)
         sweepErr = pyabf.stats.rangeStdev(
             abf, timeSec1, timeSec2, channel=channel)
-        ax.errorbar(sweepTimes, sweepAvgs, sweepErr,
-                    ms=10, marker='.', ls='-', capsize=5)
+        if len(sweepTimes) > 50:
+            ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=.7)
+            ax.plot(sweepTimes, sweepAvgs, "-",color='k')
+        else:
+            ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=1,
+                        ms=10, marker='.', ls='-', capsize=5)
         timeNote = "%.02f - %.02f sec" % (_secLookUp(abf, timeSec1, timeSec2))
         ax.set_title(f"{abf.abfID} (Ch{channel+1}) [{timeNote}]")
         addComments(abf)
