@@ -56,7 +56,8 @@ def gaussian(abf, sigmaMs=5, channel=0):
 
     Set sigmaMs to 0 or False to remove the filter.
     """
-
+    if not "data" in dir(abf):
+        abf.setSweep(0)
     if sigmaMs:
         pointsPerMs = abf.dataRate/1000.0
         kernel = _kernelGaussian(int(pointsPerMs*sigmaMs*7))
