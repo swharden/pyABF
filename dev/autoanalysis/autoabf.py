@@ -83,11 +83,9 @@ def autoAnalyzeAbf(abf, reanalyze=True):
 
 
 if __name__ == "__main__":
-    #autoAnalyzeAbf(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim\18620043.abf", True)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim", True)
+    autoAnalyzeAbf(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-22 acsf pyr\18622003.abf", True)
+    #autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim", True)
     print("DONE")
 
     # TODO: memtest - show Rm, Cm, etc
     # TODO: cm ramp
-    # TODO: 1st AP shape
-    # TODO: AP counting by sweep

@@ -183,6 +183,7 @@ def generic_ap_steps(abf):
     axGain.set_title(f"AP Gain Curve")
     axGain.set_ylabel("AP Frequency (Hz)")
     axGain.set_xlabel("Applied Current (pA)")
+    axGain.axhline(40, color='r', alpha=.2, ls='--', lw=2)
     plotFigSave(abf, tag="generic-overlay", labelAxes=False)
 
 
