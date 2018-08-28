@@ -6,11 +6,14 @@ PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_SRC = os.path.abspath(PATH_PROJECT+"/src/")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
+sys.path.insert(0, PATH_SRC)
+import pyabf
+import numpy as np
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
-sys.path.insert(0, PATH_SRC)
-import pyabf
+
 
 def closeEnough(val1,val2,percentErrorAllowed=0.1):
     """
@@ -40,6 +43,16 @@ def test_sweepStats_measureArea(abf):
     """Verified using statistics tab in ClampFit."""
     m1, m2 = 1, 2   
     assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
+
+def test_cm_ramp_withmemtest(abf):
+    abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
+    cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+    assert closeEnough(np.mean(cms), 170.899298429)
+
+def test_cm_ramp_isolated(abf):
+    abf = pyabf.ABF(PATH_DATA+"/model_vc_ramp.abf")
+    cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+    assert closeEnough(np.mean(cms), 30.8847047329)
 
 def go():
     print("Testing statistics module ", end="")
