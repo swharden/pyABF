@@ -410,7 +410,7 @@ def protocol_0111(abf):
 def protocol_0112(abf):
     """0112 steps dual -50 to 150 step 10.pro"""
     assert isinstance(abf, pyabf.ABF)
-    generic_overlay(abf)
+    generic_ap_steps(abf)
     return
 
 
@@ -424,7 +424,7 @@ def protocol_0113(abf):
 def protocol_0114(abf):
     """0114 steps dual -100 to 2000 step 100.pro"""
     assert isinstance(abf, pyabf.ABF)
-    generic_overlay(abf)
+    generic_ap_steps(abf)
     return
 
 
