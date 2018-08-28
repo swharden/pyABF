@@ -54,6 +54,7 @@ FIRSTVALUES['18711001'] = ['-66.66565']
 FIRSTVALUES['18713001'] = ['-64.27002']
 FIRSTVALUES['sine sweep magnitude 20'] = ['0.00000']
 FIRSTVALUES['171116sh_0015-ATFwaveform'] = ['-119.38476']
+FIRSTVALUES['2018_08_23_0009'] = ['-138.42772']
 
 def go():
     print("Checking first values ", end="")
