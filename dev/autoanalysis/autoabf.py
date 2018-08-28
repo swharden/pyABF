@@ -83,7 +83,13 @@ def autoAnalyzeAbf(abf, reanalyze=True):
 
 
 if __name__ == "__main__":
-    autoAnalyzeAbf(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-22 acsf pyr\18622003.abf", True)
+
+    # analyze a specific file
+    #abfFileCmRamp = PATH_DATA+"/171116sh_0014.abf"
+    abfFileSpecificPath = R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-01-25 sine pyr oxt\2018_01_25_0079.abf"
+    autoAnalyzeAbf(abfFileSpecificPath, True)
+
+    # analyze a specific folder
     #autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-06-20 FSI minstim", True)
     print("DONE")
 
