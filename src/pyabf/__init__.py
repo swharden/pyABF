@@ -15,3 +15,4 @@ from pyabf.atf import ATF
 from pyabf import stats
 from pyabf import filter
 from pyabf import plot
+import pyabf.ap
