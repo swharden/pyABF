@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     # analyze a specific file
     #abfFileCmRamp = PATH_DATA+"/171116sh_0014.abf"
-    abfFileSpecificPath = R"X:\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_07_30_DIC1_0000.abf"
+    abfFileSpecificPath = R"X:\Data\F344\Aging BLA\basal excitability round3\abfs-EIR\20180612_DIC2_0003.abf"
     autoAnalyzeAbf(abfFileSpecificPath, True)
 
     # analyze a specific folder

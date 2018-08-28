@@ -121,6 +121,16 @@ def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
     if tight:
         plt.tight_layout()
 
+    # convert horizontal units to minutes
+    for ax in plt.gcf().axes:
+        if not "sec" in ax.get_xlabel():
+            continue
+        if ax.get_xticks()[-1]<120:
+            continue
+        xticks = ["%.02f"%(x/60) for x in ax.get_xticks()]
+        ax.set_xticklabels(xticks)
+        ax.set_xlabel("time (minutes)")
+
     # add text to the lower corner
     plt.gcf().text(0.005, 0.005, f"{abf.abfID}\n{abf.protocol}",
                    transform=plt.gca().transAxes, fontsize=10,
@@ -244,7 +254,7 @@ def generic_continuous(abf, unknown=False, alpha=1):
                           channel=channel, color='b', alpha=alpha,
                           linewidth=.5)
         ax.set_title(f"{abf.abfID} (Ch{channel+1}) Continuous Signal")
-        addComments(abf)
+        addComments(abf)        
     plotFigSave(abf, tag="generic-continuous", unknown=unknown)
     return
 
