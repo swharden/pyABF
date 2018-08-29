@@ -1,19 +1,24 @@
 """
-This file contains functions to demonstrate core functionality of the pyABF module.
+This file contains functions to demonstrate core functionality of the pyABF
+module. Functions prefaced with "demo_" may be run automatically to generate the
+quickstart guide. In this case their docstrings will be included in the 
+quickstart readme (markdown-formatted) and their code will be added to the 
+readme along with any images saved with the same filename as the function.
 
-Functions prefaced with "demo_" may be run automatically to generate the quickstart guide.
-In this case their docstrings will be included in the quickstart readme (markdown-formatted)
-and their code will be added to the readme along with any images saved with the same filename
-as the function.
-
-This documentation generator doubles as a test suite, as a variety of ABF loading and plotting
-functions are executed while the documentation and supportive graphs are regnerated.
+This documentation generator doubles as a test suite, as a variety of ABF 
+loading and plotting functions are executed while the documentation and 
+supportive graphs are regnerated.
 """
 
 import os
 import sys
-sys.path.insert(0, "src/")  # for importing
-sys.path.append("../../src/")  # for your IDE
+PATH_HERE = os.path.abspath(os.path.dirname(__file__))
+PATH_PROJECT = os.path.abspath(PATH_HERE+"/../../")
+PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
+sys.path.insert(0, PATH_PROJECT+"/src/")
+import pyabf
+import glob
+import numpy as np
 
 import matplotlib.pyplot as plt
 plt.style.use('bmh')
@@ -25,14 +30,15 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+
 class NoStdStreams(object):
-    def __init__(self, stdout = None):
-        self.devnull = open(os.devnull,'w')
+    def __init__(self, stdout=None):
+        self.devnull = open(os.devnull, 'w')
         self._stdout = stdout or self.devnull or sys.stdout
 
     def __enter__(self):
         self.old_stdout = sys.stdout
-        self.old_stdout.flush() 
+        self.old_stdout.flush()
         sys.stdout = self._stdout
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -40,16 +46,18 @@ class NoStdStreams(object):
         sys.stdout = self.old_stdout
         self.devnull.close()
 
+
 class Uses:
     def __init__(self):
         self.figsize = (8, 5)
         self.dpi = 75
 
     def saveAndClose(self):
-        callingFunctionName = inspect.stack()[1][3]
-        outputFolder = os.path.dirname(__file__)+"/source/"
-        outputFile = os.path.abspath(outputFolder+callingFunctionName+".jpg")
-        plt.savefig(outputFile, dpi=self.dpi)
+        func = inspect.stack()[1][3]
+        fname = f"{PATH_PROJECT}/docs/getting-started/source/{func}.jpg"
+        fname = os.path.abspath(fname)
+        log.debug(f"saving figure: {fname}")
+        plt.savefig(fname, dpi=self.dpi)
         plt.close()
 
     def demo_00a_load_abf(self):
@@ -587,7 +595,7 @@ class Uses:
             abf.setSweep(sweep)
             plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
 
-        # calculate and plot the average of all sweeps        
+        # calculate and plot the average of all sweeps
         avgSweep = pyabf.sweep.averageTrace(abf)
         plt.plot(abf.sweepX, avgSweep, color='C1', lw=2)
 
@@ -607,19 +615,19 @@ class Uses:
         there also exists an ATF class with much of the similar functionality.
         This class can read Axon Text Format (ATF) files and has a setSweep()
         with nearly identical sentax to the ABF class. 
-        
+
         Extra attention was invested into supporting muli-channel ATF data.
         Note that this example plots only channel 2 from a multi-channel ATF 
         file.
         """
 
         import pyabf
-        atf = pyabf.ATF("data/abfs/18702001-step.atf") # not ABF!
-        
+        atf = pyabf.ATF("data/abfs/18702001-step.atf")  # not ABF!
+
         fig = plt.figure(figsize=self.figsize)
         ax1 = fig.add_subplot(121)
         ax2 = fig.add_subplot(122)
-        
+
         for channel, ax in enumerate([ax1, ax2]):
             ax.set_title(f"{atf.atfID} channel {channel}")
             ax.set_xlabel(atf.sweepLabelX)
@@ -629,8 +637,9 @@ class Uses:
                 ax.plot(atf.sweepX, atf.sweepY)
 
         self.saveAndClose()
-            
+
     plt.show()
+
 
 def cleanDocstrings(s):
     s = s.strip()
@@ -665,7 +674,7 @@ way to get started with pyABF, as every core function is demonstrated in this
 document.
 
 The generation of this guide is fully automated 
-(by [generate-docs.py](generate-docs.py)) so this page doubles as a test suite.
+(by [quickStart.py](/tests/tests/quickStart.py)) so this page doubles as a test suite.
 All ABFs used in these examples are provided in  [the data folder](/data/), so
 you can replicate them yourself.
 
@@ -708,8 +717,8 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
         # run the function
         #print(f"executing {functionName}()")
         func = getattr(uses, functionName)
-        with NoStdStreams(): # silence print statements
-            log.debug("Running %s"%functionName)
+        with NoStdStreams():  # silence print statements
+            log.debug("Running %s" % functionName)
             func()
         print(".", end="")
         sys.stdout.flush()
@@ -730,9 +739,11 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
             md += f"\n\n**Output:**\n\n![source/{imgName}](source/{imgName})"
 
     # save the markdown page
+    fname = os.path.abspath(f"{PATH_PROJECT}/docs/getting-started/readme.md")
+    log.debug(f"saving markdown file: {fname}")
     with open(os.path.dirname(__file__)+"/readme.md", 'w') as f:
         f.write(md)
-        
+
     print(" OK")
 
 

@@ -1,13 +1,16 @@
-
+"""
+Test misc things like epoch generation, statistics, membrane tests, etc.
+Tests here focus mostly on challenging add-on modules.
+"""
 
 import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
-PATH_SRC = os.path.abspath(PATH_PROJECT+"/src/")
+PATH_PROJECT = os.path.abspath(PATH_HERE+"/../../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
-sys.path.insert(0, PATH_SRC)
+sys.path.insert(0, PATH_PROJECT+"/src/")
 import pyabf
+import glob
 import numpy as np
 
 import logging
@@ -83,7 +86,7 @@ def test_memtest_step_isolated(abf):
 
 
 def go():
-    print("Testing statistics module ", end="")
+    print("Testing add-on modules", end=" ")
 
     fname = os.path.abspath(PATH_DATA+"/14o08011_ic_pair.abf")
     abf = pyabf.ABF(fname)

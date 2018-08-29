@@ -1,25 +1,25 @@
 """
 This code reads every ABF in the data folder and updates its header information.
 This script outputs HTML files, markdown files, and generates the readme.md in
-the root folder of the data directory. It also generates thumbnails for each ABF.
+the root folder of the data directory. It also generates thumbnails for each ABF
 """
 
 # import the pyabf module from this development folder
 import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_SRC = os.path.abspath(PATH_HERE+"/../src/")
-PATH_DATA = os.path.abspath(PATH_HERE+"/../data/abfs/")
-sys.path.insert(0, PATH_SRC)  # for importing
-sys.path.append("../src/")  # for your IDE
+PATH_PROJECT = os.path.abspath(PATH_HERE+"/../../")
+PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
+sys.path.insert(0, PATH_PROJECT+"/src/")
 import pyabf
+import glob
+import numpy as np
 
 import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
 import datetime
-import numpy as np
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 plt.style.use('bmh')  # alternative color scheme
@@ -115,9 +115,10 @@ def plotHeader(abf):
     x2 = abf._fileSize
     ax2.axis([x1-1500, x2+1500, -.5, 1])
 
-    fnameOut = os.path.dirname(os.path.dirname(abf.abfFilePath))
-    fnameOut += "/headers/"+abf.abfID+"_map.png"
-    plt.savefig(fnameOut)
+    #fnameOut = os.path.dirname(os.path.dirname(abf.abfFilePath))
+    #fnameOut += "/headers/"+abf.abfID+"_map.png"
+    # plt.savefig(fnameOut)
+    fig.savefig(f"{PATH_PROJECT}/data/headers/{abf.abfID}_map.png")
     plt.close()
 
 
@@ -161,19 +162,28 @@ def plotThumbnail(abf):
     ax2.set_ylabel(abf.sweepLabelC)
     ax2.set_xlabel(abf.sweepLabelX)
     fig.tight_layout()
-    fig.savefig(PATH_HERE+"/../data/headers/%s.png" % abf.abfID)
+    #fig.savefig(PATH_PROJECT+"/data/headers/%s.png" % abf.abfID)
+    fig.savefig(f"{PATH_PROJECT}/data/headers/{abf.abfID}.png")
     plt.close()
+
+
+def deleteImages():
+    """Delete all markdown and HTML files from the data folder."""
+    for fname in glob.glob(f"{PATH_PROJECT}/data/headers/*.png"):
+        log.debug(f"Deleting {fname}")
+        os.remove(fname)
 
 
 def go():
 
-    print("Generating data index page", end=" ")
+    print("Generating data thumbnails", end=" ")
+    deleteImages()
 
     md = "# Sample ABFs\n\n"
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
     md += "of ABF file, email it to me and I will include it here. Note that this page "
-    md += "is generated automatically by [generate-data-index.py](generate-data-index.py).\n\n"
+    md += "is generated automatically by [dataThumbnails.py](/tests/tests/dataThumbnails.py).\n\n"
 
     md += "ABF Information | Header Map | Thumbnails\n"
     md += "---|---|---\n"
@@ -193,7 +203,7 @@ def go():
         sys.stdout.flush()
 
         # update main readme
-        abfIDsafe = abf.abfID.replace(" ","%20")
+        abfIDsafe = abf.abfID.replace(" ", "%20")
         md += f"**{abf.abfID}.abf**<br />"
         md += f"ABF Version: {abf.abfVersionString}<br />"
         md += "Channels: %d (%s)<br />" % (abf.channelCount,
@@ -209,7 +219,7 @@ def go():
         md += "\n"
 
     # write main readme
-    with open(PATH_HERE+"/../data/readme.md", 'w') as f:
+    with open(PATH_PROJECT+"/data/readme.md", 'w') as f:
         f.write(md)
 
     print(" OK")

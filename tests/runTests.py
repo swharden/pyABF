@@ -1,10 +1,17 @@
 """
-This file is a temporary stand-in for a more rigorous test suite.
-When run, it re-genereates the index pages (readme.md) and graphs for
-the data folder and the getting started guide.
+Code here manages various tests which challenge the pyabf package.
 
-If a code change does not effect the output at all, no changes will be
-recognized in the output content (text or graphics).
+This script fully regenerates all the data header pages, data thumbnails,
+and quickstart documentation. Therefore, any code change which affects any 
+header values or impacts graphing in any way will be detected immediately (as
+git saying that a bunch of files have been changed).
+
+Execution of this script deletes a lot of markdown files and graphs, then 
+regenerates them right away. If code changes did not impact functionality,
+the the regenerated content will be identical to the original and git won't
+identify any changes. This is a sign that the code changes were invisible.
+
+This script should be run before publishing a release.
 """
 
 import os
@@ -31,23 +38,17 @@ def runFunctionInFile(filename, functionName="go"):
     else:
         getattr(theModule, functionName)()
 
-def clearOldFiles():
-    for fname in glob.glob(PATH_DATA.replace("abfs", "headers")+'/*.*'):
-        os.remove(fname)
 
 
 if __name__ == "__main__":
-
-    # clear everything that used to be in the headers folder
-    clearOldFiles()
     
     # test which don't require plotting
-    runFunctionInFile(PATH_PROJECT+"/tests/valueChecks.py")
-    runFunctionInFile(PATH_PROJECT+"/data/generate-header-pages.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/miscTests.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
 
     # tests requiring plotting with matplotlib
-    runFunctionInFile(PATH_PROJECT+"/data/generate-data-index.py")
-    runFunctionInFile(PATH_PROJECT+"/docs/getting-started/generate-docs.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")

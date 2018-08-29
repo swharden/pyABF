@@ -10,12 +10,15 @@ this script will let you know about it.
 import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_SRC = os.path.abspath(PATH_HERE+"/../src/")
-PATH_DATA = os.path.abspath(PATH_HERE+"/../data/abfs/")
-sys.path.insert(0, PATH_SRC)  # for importing
-sys.path.append("../src/")  # for your IDE
+PATH_PROJECT = os.path.abspath(PATH_HERE+"/../../")
+PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
+sys.path.insert(0, PATH_PROJECT+"/src/")
 import pyabf
 import glob
+
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
 
 FIRSTVALUES = {}
 FIRSTVALUES['05210017_vc_abf1'] = ['-136.29149', '11625.36621']
