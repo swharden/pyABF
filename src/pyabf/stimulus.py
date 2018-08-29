@@ -27,7 +27,7 @@ def sweepD(abf, digitalOutputNumber=0):
     scaled from 0 to 1, although in reality they are 0V and 5V.
     """
     if abf.abfVersion["major"] == 1:
-        log.warn("Digital outputs of ABF1 files not supported.")
+        log.debug("ABF1 don't support digital outputs.")
         return False
     states = digitalWaveformEpochs(abf)[digitalOutputNumber]
     sweepD = np.full(abf.sweepPointCount, 0)
