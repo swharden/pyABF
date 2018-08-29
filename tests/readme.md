@@ -1,10 +1,5 @@
-# Automated Tests
+# Automated Testing
 
-Currently I'm testing pyABF by running [runTests.py](runTests.py) which 
-regenerates the content (readme.md and all graphics) of the following pages:
+Execution of [runTests.py](runTests.py) does a lot of things, including deleting and re-generating all [demo ABF header pages and thumbnails](/data/) and fully re-generating the [getting started guide](/docs/getting-started). If a core code change produces no change in the output text or figures (recognized by git), the code change was effectively invisible.
 
-* [ABF data index](/data)
-* [getting started guide](/docs/getting-started)
-
-If a code change produces no change in the output text or figures (recognized
-bit git), the code change was effectively invisible.
+Execution of [runTests.py](runTests.py) is recommended before issuing releases.
