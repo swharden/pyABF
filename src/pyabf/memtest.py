@@ -110,6 +110,7 @@ def _cm_ramp_fromThisSweep(abf):
     rampPoints, rampVoltages = cmInfo
     deltaVoltage = rampVoltages[1]-rampVoltages[0]
     rampData = abf.sweepY[rampPoints[0]:rampPoints[2]]
+    rampData = np.array(rampData)
     cm = _cm_ramp_calculate(rampData, abf.dataRate, deltaVoltage)
     cmAvg = np.mean(cm)
     log.debug(f"Avareage Cm detected as: {cmAvg} pF")
@@ -203,9 +204,9 @@ def step_summary(abf):
     Ihs, Rms, Ras, Cms = step_valuesBySweep(abf)
     out = ""
     out += "Ih = %.02f +/- %.02f pA\n" % (np.mean(Ihs), np.std(Ihs))
-    out += "Rm = %.02f +/- %.02f pA\n" % (np.mean(Rms), np.std(Rms))
-    out += "Ra = %.02f +/- %.02f pA\n" % (np.mean(Ras), np.std(Ras))
-    out += "Cm = %.02f +/- %.02f pA" % (np.mean(Cms), np.std(Cms))
+    out += "Rm = %.02f +/- %.02f MOhm\n" % (np.mean(Rms), np.std(Rms))
+    out += "Ra = %.02f +/- %.02f MOhm\n" % (np.mean(Ras), np.std(Ras))
+    out += "Cm = %.02f +/- %.02f pF" % (np.mean(Cms), np.std(Cms))
     return out
 
 
@@ -241,6 +242,7 @@ def _step_fromThisSweep(abf):
         return np.nan
     stepPoints, stepVoltages = stepInfo
     trace = abf.sweepY[stepPoints[0]:stepPoints[2]]
+    trace = np.array(trace)
     traceStepPoint = stepPoints[1]-stepPoints[0]
     dV = stepVoltages[1]-stepVoltages[0]
     Ih, Rm, Ra, Cm = _step_calculate(abf, trace, traceStepPoint, dV=dV)
