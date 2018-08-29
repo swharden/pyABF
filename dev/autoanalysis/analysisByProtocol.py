@@ -286,8 +286,8 @@ def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
             abf, timeSec1, timeSec2, channel=channel)
         if len(sweepTimes) > 20:
             ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=.3)
-            ax.plot(sweepTimes, sweepAvgs, ".-",color='C0')
-            ax.margins(0,.1)
+            ax.plot(sweepTimes, sweepAvgs, ".-", color='C0')
+            ax.margins(0, .1)
         else:
             ax.errorbar(sweepTimes, sweepAvgs, sweepErr, alpha=1,
                         ms=10, marker='.', ls='-', capsize=5)
@@ -346,7 +346,8 @@ def generic_paired_pulse(abf, p1sec1, p1sec2, p2sec1, p2sec2):
 
     return
 
-def generic_memtest_ramp(abf):
+
+def generic_memtest_ramp(abf, msg=False):
     """analyzes the ramp part of a sweep to calculate Cm"""
 
     plotFigNew(abf)
@@ -355,6 +356,12 @@ def generic_memtest_ramp(abf):
     ax1 = plt.gcf().add_subplot(121)
     pyabf.plot.sweeps(abf, axis=ax1)
     ax1.set_title("All Sweeps (overlay)")
+    if msg:
+        bbox = dict(facecolor='white', edgecolor='black',
+                    boxstyle='round,pad=.4')
+        ax1.text(0.96, 0.96, msg, verticalalignment='top',
+                    horizontalalignment='right', fontsize=12, bbox=bbox,
+                    transform=plt.gca().transAxes, family='monospace')
 
     # plot the ramp
     ax2 = plt.gcf().add_subplot(222)
@@ -384,6 +391,7 @@ def generic_memtest_ramp(abf):
     ax4.set_xlabel("sweep number")
     ax4.plot(cms, '.', ms=10, alpha=.8)
     ax4.axhline(cmAvg, color='r', ls='--', lw=2, alpha=.5)
+
     plotFigSave(abf, tag="memtest", labelAxes=False)
 
 # Code defines which routines or generic graphs to use for each protocol
@@ -497,15 +505,22 @@ def protocol_0121(abf):
 def protocol_0201(abf):
     """0201 memtest.pro"""
     assert isinstance(abf, pyabf.ABF)
-
+    msg = pyabf.memtest.step_summary(abf)
     if 2 in abf._epochPerDacSection.nEpochType:
-        generic_memtest_ramp(abf)
+        # there is a ramp and a step
+        generic_memtest_ramp(abf, msg)
     else:
         # there is no ramp
         plotFigNew(abf)
         ax1 = plt.gcf().add_subplot(111)
         pyabf.plot.sweeps(abf, axis=ax1)
         ax1.set_title("MemTest (without ramp)")
+        bbox = dict(facecolor='white', edgecolor='black',
+                    boxstyle='round,pad=.4')
+        ax1.text(0.96, 0.96, msg, verticalalignment='top',
+                 horizontalalignment='right',
+                 transform=plt.gca().transAxes, fontsize=16,
+                 bbox=bbox, family='monospace')
         plotFigSave(abf, tag="memtest")
     return
 
@@ -538,11 +553,13 @@ def protocol_0221(abf):
     generic_overlay(abf)
     return
 
+
 def protocol_0222(abf):
     """0222 VC sine sweep 70 +- 5 mV.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_overlay(abf)
     return
+
 
 def protocol_0401(abf):
     """0401 VC 2s MT-70.pro"""
