@@ -194,7 +194,7 @@ class HeaderV1:
         self.abfDateTime = round(os.path.getctime(abfFilePath))
         self.abfDateTime = datetime.datetime.fromtimestamp(
             self.abfDateTime)
-        self.abfDateTime = self.abfDateTime.isoformat()
+        self.abfDateTimeString = self.abfDateTime.isoformat()
 
 
 class HeaderV2:
@@ -259,7 +259,8 @@ class HeaderV2:
         startTime = self.uFileStartTimeMS / 1000
         startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
-        self.abfDateTime = timeStamp.isoformat()
+        self.abfDateTime = timeStamp
+        self.abfDateTimeString = timeStamp.isoformat()
 
 
 class SectionMap:

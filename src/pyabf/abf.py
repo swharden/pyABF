@@ -124,6 +124,7 @@ class ABF:
         self.fileGUID = None
         self.creatorVersion = self._headerV1.creatorVersionDict
         self.abfDateTime = self._headerV1.abfDateTime
+        self.abfDateTimeString = self._headerV1.abfDateTimeString
         self.holdingCommand = self._headerV1.fEpochInitLevel
         self.protocolPath = self._headerV1.sProtocolPath
         self.abfFileComment = ""
@@ -188,6 +189,7 @@ class ABF:
         self.fileGUID = self._headerV2.sFileGUID
         self.creatorVersion = self._headerV2.creatorVersionDict
         self.abfDateTime = self._headerV2.abfDateTime
+        self.abfDateTimeString = self._headerV2.abfDateTimeString
         self.holdingCommand = self._dacSection.fDACHoldingLevel
         self.protocolPath = self._stringsIndexed.uProtocolPath
         self.abfFileComment = self._stringsIndexed.lFileComment

@@ -14,9 +14,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2017-11-17T12:54:26.816000`
+* abfDateTime = `2017-11-17 12:54:26.816000`
+* abfDateTimeString = `2017-11-17T12:54:26.816000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -99,7 +100,8 @@ DAC waveform is not enabled.
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
-* abfDateTime = `2017-11-17T12:54:26.816000`
+* abfDateTime = `2017-11-17 12:54:26.816000`
+* abfDateTimeString = `2017-11-17T12:54:26.816000`
 * abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.0`
 * abfVersionString = `2.0.0.0`

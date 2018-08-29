@@ -14,9 +14,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2013-12-17T15:27:56.218000`
+* abfDateTime = `2013-12-17 15:27:56.218000`
+* abfDateTimeString = `2013-12-17T15:27:56.218000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\sine sweep magnitude 20.abf`
+* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\sine sweep magnitude 20.abf`
 * abfID = `sine sweep magnitude 20`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -78,7 +79,8 @@ DAC waveform is controlled by epoch table:
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
-* abfDateTime = `2013-12-17T15:27:56.218000`
+* abfDateTime = `2013-12-17 15:27:56.218000`
+* abfDateTimeString = `2013-12-17T15:27:56.218000`
 * abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.0`
 * abfVersionString = `2.0.0.0`
