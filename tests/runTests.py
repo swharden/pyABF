@@ -43,6 +43,7 @@ def runFunctionInFile(filename, functionName="go"):
 if __name__ == "__main__":
     
     # test which don't require plotting
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
