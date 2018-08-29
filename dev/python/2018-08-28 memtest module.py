@@ -20,4 +20,7 @@ if __name__=="__main__":
     abf=pyabf.ABF(modelRamp)
     print(pyabf.memtest.cm_ramp_summary(abf))
 
+    abf=pyabf.ABF(modelStep)
+    print(pyabf.memtest.step_summary(abf))
+
     print("DONE")
