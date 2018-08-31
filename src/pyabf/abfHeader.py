@@ -188,6 +188,7 @@ class HeaderV1:
         self.creatorVersionDict["minor"] = 0
         self.creatorVersionDict["bugfix"] = 0
         self.creatorVersionDict["build"] = 0
+        self.creatorVersionString = '0.0.0.0'
 
         # format creation date based on when file was created
         abfFilePath = fb.name

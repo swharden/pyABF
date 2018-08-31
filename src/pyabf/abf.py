@@ -123,6 +123,7 @@ class ABF:
         self.abfVersionString = self._headerV1.abfVersionString
         self.fileGUID = None
         self.creatorVersion = self._headerV1.creatorVersionDict
+        self.creatorVersionString = self._headerV1.creatorVersionString
         self.abfDateTime = self._headerV1.abfDateTime
         self.abfDateTimeString = self._headerV1.abfDateTimeString
         self.holdingCommand = self._headerV1.fEpochInitLevel
@@ -188,6 +189,7 @@ class ABF:
         self.abfVersionString = self._headerV2.abfVersionString
         self.fileGUID = self._headerV2.sFileGUID
         self.creatorVersion = self._headerV2.creatorVersionDict
+        self.creatorVersionString = self._headerV2.creatorVersionString
         self.abfDateTime = self._headerV2.abfDateTime
         self.abfDateTimeString = self._headerV2.abfDateTimeString
         self.holdingCommand = self._dacSection.fDACHoldingLevel
