@@ -3,20 +3,6 @@ Code here helps lock-in certain API functions.
 
 Once functionality is added here, extreme efforts are taken never to remove
 support for these functions.
-
-
-##############################
-Remove items here when they've been added to a test
-
-    
-    holdingCommand = [0.0, -80.0, 0.0, 0.0]
-    protocol = pair-loose-60
-    protocolPath = X:\Protocols\Scott\SWHlab\paired\pair-loose-60.pro
-    stimulusByChannel = [ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]
-    sweepCount = 3
-    sweepLengthSec = 60.0
-    sweepList = [0, 1, 2]
-    sweepPointCount = 600000
 """
 
 import os
@@ -70,7 +56,7 @@ def test_ABF_core_objects(abf):
 
     #### MAY CHANGE:
     _These components may change in the future._
-    
+
     * holdingCommand - a list of holding values (one per DAC)
     * stimulusByChannel - special class to work with epoch and custom stimuli
 
