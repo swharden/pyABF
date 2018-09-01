@@ -728,7 +728,8 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
 
         # show the image if it exists
         imgName = functionName+".jpg"
-        if os.path.exists(os.path.dirname(__file__)+"/source/"+imgName):
+        imgPath = f"{PATH_PROJECT}/docs/getting-started/source/{imgName}"
+        if os.path.exists(imgPath):
             md += f"\n\n**Output:**\n\n![source/{imgName}](source/{imgName})"
 
     # save the markdown page

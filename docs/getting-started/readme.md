@@ -79,6 +79,10 @@ plt.plot(abf.sweepX, abf.sweepY, lw=.5)
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_02a_plot_matplotlib_sweep.jpg](source/demo_02a_plot_matplotlib_sweep.jpg)
+
 ## Decorate Plots with ABF Information
 
 Plot every 5th sweep and decorate the plot nicely.
@@ -104,6 +108,10 @@ plt.title(abf.abfID)
 plt.tight_layout()
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_03a_decorate_matplotlib_plot.jpg](source/demo_03a_decorate_matplotlib_plot.jpg)
 
 ## Plot Multi-Channel ABFs
 
@@ -136,6 +144,10 @@ fig.subplots_adjust(hspace=.4)  # add more space between the subplots
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_04a_plotting_multiple_channels.jpg](source/demo_04a_plotting_multiple_channels.jpg)
+
 ## Plot the Stimulus Waveform
 
 Episodic ABF files can have complex protocols designed with the waveform
@@ -166,6 +178,10 @@ fig.subplots_adjust(hspace=.4)  # add more space between the subplots
 
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_05a_plotting_command_waveform.jpg](source/demo_05a_plotting_command_waveform.jpg)
 
 ## Zooming Gracefully
 
@@ -199,6 +215,10 @@ ax1.axes.set_xlim(0.1, 0.4)  # zoom between 100 and 200 ms
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_06a_linking_subplots_and_zooming.jpg](source/demo_06a_linking_subplots_and_zooming.jpg)
+
 ## Stacking Sweeps
 
 I often like to view sweeps stacked one on top of another. In ClampFit
@@ -227,6 +247,10 @@ plt.tight_layout()
 
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_07a_stacked_sweeps.jpg](source/demo_07a_stacked_sweeps.jpg)
 
 ## XY Offset and Custom Colormap
 
@@ -267,6 +291,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_08a_xy_offset.jpg](source/demo_08a_xy_offset.jpg)
+
 ## Advanced Plotting with the `pyabf.plot` Module
 
 pyabf has a plot module which has been designed to simplify the act
@@ -297,6 +325,10 @@ plt.gca().patch.set_alpha(0)
 plt.tight_layout()
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_08b_using_plot_module.jpg](source/demo_08b_using_plot_module.jpg)
 
 ## Accessing Digital Outputs
 
@@ -340,6 +372,10 @@ ax2.axes.set_ylim(-150, 50)
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_09a_digital_outputs.jpg](source/demo_09a_digital_outputs.jpg)
+
 ## Shading Epochs
 
 In this ABF digital output 4 is high during epoch C. Let's highlight
@@ -370,6 +406,10 @@ plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_10a_digital_output_shading.jpg](source/demo_10a_digital_output_shading.jpg)
+
 ## Working with Gap-Free Files
 
 The pyABF project considers everything like it's an episodic ABF.
@@ -397,6 +437,10 @@ plt.xlabel(abf.sweepLabelX)
 plt.title("Example Gap Free File")
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_11a_gap_free.jpg](source/demo_11a_gap_free.jpg)
 
 ## Accessing Comments (Tags) in ABF Files
 
@@ -432,6 +476,10 @@ plt.legend()
 plt.title("ABF File Comments (Tags)")
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_12a_tags.jpg](source/demo_12a_tags.jpg)
 
 ## Baseline Subtraction
 
@@ -470,6 +518,10 @@ plt.legend()
 plt.axis([2, 2.5, -50, 20])
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_13a_baseline.jpg](source/demo_13a_baseline.jpg)
 
 ## Gaussian Filter (Lowpass Filter / Data Smoothing)
 
@@ -515,6 +567,10 @@ plt.legend()
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_14a_gaussian_filter.jpg](source/demo_14a_gaussian_filter.jpg)
+
 ## Create an I/V Curve
 
 This example analyzes 171116sh_0013.abf (a voltage clamp ABF which 
@@ -544,6 +600,10 @@ plt.title(f"I/V Relationship of {abf.abfID}")
 
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_15a_IV_curve.jpg](source/demo_15a_IV_curve.jpg)
 
 ## Averaging Sweeps
 
@@ -583,6 +643,10 @@ plt.axis([1.10, 1.25, -110, 20])
 plt.show()
 ```
 
+**Output:**
+
+![source/demo_16_average_sweep.jpg](source/demo_16_average_sweep.jpg)
+
 ## Plotting Data from ATF Files
 
 Although most of the effort in this project has gone into the ABF class,
@@ -614,3 +678,7 @@ for channel, ax in enumerate([ax1, ax2]):
 
 plt.show()
 ```
+
+**Output:**
+
+![source/demo_17_atf_plotting.jpg](source/demo_17_atf_plotting.jpg)
