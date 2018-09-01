@@ -31,6 +31,8 @@ _Extreme efforts are taken to prevent modification of these components._
 * dataPointsPerMs - rate / 1000
 * dataRate - data points per second
 * dataSecPerPoint - inverse of rate
+* epochPoints - a list of time points (indexes) where epochs start/stop
+* epochValues - a list of values for each epoch (including pre/post values)
 * fileGUID - globally unique file identifier (string formatted)
 * protocol - the filename (basename) of the protocol file without extension
 * protocolPath - full path to the protocol file

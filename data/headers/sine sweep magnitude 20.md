@@ -26,6 +26,7 @@
 * channelCount = `1`
 * channelList = `[0]`
 * creatorVersion = `{'major': 10, 'minor': 2, 'bugfix': 0, 'build': 14}`
+* creatorVersionString = `10.2.0.14`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
 * data = `[[  0.00000000e+00   1.99999999e-06   7.99999998e-06 ...,   1.58338699e+01     1.60741196e+01   1.63102531e+01]]`
@@ -35,6 +36,8 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
+* epochPoints = `[0, 1562, 100000]`
+* epochValues = `[None, None, None]`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
 * protocol = `(untitled)`

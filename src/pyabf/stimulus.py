@@ -453,3 +453,50 @@ class Stimulus:
             #sweepC += sweepLevelLast
 
         return sweepC
+
+def _epochThings(abf):
+    """
+    return [epoch points, values, and digital outputs] for the current sweep and 
+    channel.
+    """
+    assert isinstance(abf, pyabf.ABF)
+    if abf.abfVersion["major"]==1:
+        return [[],[]]
+    else:
+        points = pyabf.stimulus.epochPoints(abf)
+        values = list(pyabf.stimulus.epochValues(abf)[abf.sweepNumber])
+
+        # add an extra point for the beginning of the sweep
+        points = [0]+points
+        values = [abf.sweepC[0]]+values
+
+        # add extra points for the end of the sweep
+        points.append(abf.sweepPointCount)
+        while (len(values)<len(points)):
+            values.append(abf.sweepC[-1])
+
+        return [points, values]
+
+@property
+def epochPoints2(abf):
+    """Return just the index points for the given sweep/channel epochs."""
+    assert isinstance(abf, pyabf.ABF)
+    if abf.abfVersion["major"]==1:
+        return []
+    points = epochPoints(abf)
+    points = [0] + points + [abf.sweepPointCount]
+    return points
+
+@property
+def epochValues2(abf):
+    """Return just the values for the given sweep/channel epoch."""
+    assert isinstance(abf, pyabf.ABF)
+    if abf.abfVersion["major"]==1:
+        return []
+    values = list(epochValues(abf)[abf.sweepNumber])
+    #TODO: determine if the pre-epoch value is a holdover from the last sweep
+    preEpochValue = abf.holdingCommand[abf.sweepChannel]
+    #TODO: determine if the post-epoch value returns to holding or is sustained
+    postEpochValue = abf.holdingCommand[abf.sweepChannel]
+    values = [preEpochValue] + [preEpochValue] + values + [postEpochValue]
+    return values

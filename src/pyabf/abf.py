@@ -293,6 +293,8 @@ class ABF:
     # functionality to the ABF class, make a module and import it like this:
     from pyabf.text import abfInfoPage as getInfoPage
     from pyabf.stimulus import sweepD
+    from pyabf.stimulus import epochValues2 as epochValues
+    from pyabf.stimulus import epochPoints2 as epochPoints
     from pyabf.sweep import setSweep
     from pyabf.sweep import sweepC
     from pyabf.sweep import sweepBaseline

@@ -26,6 +26,7 @@
 * channelCount = `2`
 * channelList = `[0, 1]`
 * creatorVersion = `{'major': 10, 'minor': 4, 'bugfix': 0, 'build': 36}`
+* creatorVersionString = `10.4.0.36`
 * dacNames = `['OUT 0', 'Cmd 1']`
 * dacUnits = `['V', 'mV']`
 * data = `[[ -0.35186768  -0.35095215  -0.35308838 ...,  -0.35888672  -0.36010742    -0.35919189]  [ 25.02338791  25.02643967  25.02643967 ...,  25.02033615  25.02033615    25.01423264]]`
@@ -35,6 +36,8 @@
 * dataPointsPerMs = `100`
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
+* epochPoints = `[0, 1562, 100000]`
+* epochValues = `[None, None, None]`
 * fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`

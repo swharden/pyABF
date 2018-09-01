@@ -26,6 +26,7 @@
 * channelCount = `2`
 * channelList = `[0, 1]`
 * creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
 * data = `[[-11.71874905 -10.13183498  -9.03320217 ...,  -8.42285061  -8.05663967    -9.2773428 ]  [ -1.03607178  -1.03515625  -1.03546143 ...,  -1.03515625  -1.03515625    -1.03485107]]`
@@ -35,6 +36,8 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
+* epochPoints = `[0, 312, 4312, 8312, 9312, 10312, 11312, 15312, 25312, 20000]`
+* epochValues = `[None, None, -80.0, -70.0, -80.0, -70.0, -20.0, -10.0, 25.0, None]`
 * fileGUID = `{452C5D61-DBF2-4EC4-B403-D74EBE8F5D5D}`
 * holdingCommand = `[-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`

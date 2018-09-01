@@ -56,6 +56,8 @@ def test_ABF_core_objects(abf):
     * dataPointsPerMs - rate / 1000
     * dataRate - data points per second
     * dataSecPerPoint - inverse of rate
+    * epochPoints - a list of time points (indexes) where epochs start/stop
+    * epochValues - a list of values for each epoch (including pre/post values)
     * fileGUID - globally unique file identifier (string formatted)
     * protocol - the filename (basename) of the protocol file without extension
     * protocolPath - full path to the protocol file
@@ -141,6 +143,15 @@ def test_ABF_core_objects(abf):
         assert isinstance(value, float)
     dot()
 
+    log.debug("stimulus waveform things")
+    # TODO: rename to abf.adcHolding?
+    assert (isinstance(abf.epochPoints, list))
+    for value in abf.epochPoints:
+        assert isinstance(value, int)
+    assert (isinstance(abf.epochValues, list))
+    for value in abf.epochValues:
+        assert isinstance(value, float)
+    dot()
 
 def test_data_access(abf):
     """
@@ -313,7 +324,7 @@ def go():
 
     log.debug("Testing calls work best on specific ABFs")
     specialTest_comments(PATH_DATA+"/16d05007_vc_tags.abf")
-
+    generateMarkdown()
     print(" OK")
 
 
@@ -339,6 +350,5 @@ def generateMarkdown():
 
 if __name__ == "__main__":
     # log.setLevel(logging.DEBUG)
-    # go()
-    generateMarkdown()
+    go()
     print("DONE")
