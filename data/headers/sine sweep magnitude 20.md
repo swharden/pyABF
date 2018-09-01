@@ -37,7 +37,7 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * epochPoints = `[0, 1562, 100000]`
-* epochValues = `[None, None, None]`
+* epochValues = `[-70.0, -70.0, -70.0]`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
 * protocol = `(untitled)`

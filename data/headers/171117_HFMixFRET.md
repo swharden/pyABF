@@ -37,7 +37,7 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * epochPoints = `[0, 967, 20967, 40967, 60967, 61934]`
-* epochValues = `[None, None, -100.0, -100.0, -100.0, None]`
+* epochValues = `[-100.0, -100.0, -100.0, -100.0, -100.0, -100.0]`
 * fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`

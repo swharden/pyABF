@@ -37,7 +37,7 @@
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
 * epochPoints = `[0, 1562, 100000]`
-* epochValues = `[None, None, None]`
+* epochValues = `[0.0, 0.0, 0.0]`
 * fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`

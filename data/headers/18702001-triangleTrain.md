@@ -37,7 +37,7 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * epochPoints = `[0, 312, 4312, 8312, 9312, 10312, 11312, 15312, 25312, 20000]`
-* epochValues = `[None, None, -80.0, -70.0, -80.0, -70.0, -20.0, -10.0, 25.0, None]`
+* epochValues = `[-70.0, -70.0, -80.0, -70.0, -80.0, -70.0, -20.0, -10.0, 25.0, -70.0]`
 * fileGUID = `{452C5D61-DBF2-4EC4-B403-D74EBE8F5D5D}`
 * holdingCommand = `[-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0201 memtest`
