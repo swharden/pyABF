@@ -734,7 +734,7 @@ and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery
     # save the markdown page
     fname = os.path.abspath(f"{PATH_PROJECT}/docs/getting-started/readme.md")
     log.debug(f"saving markdown file: {fname}")
-    with open(os.path.dirname(__file__)+"/readme.md", 'w') as f:
+    with open(fname, 'w') as f:
         f.write(md)
 
     print(" OK")
