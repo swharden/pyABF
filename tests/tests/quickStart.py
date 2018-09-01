@@ -366,14 +366,13 @@ class Uses:
 
     def demo_10a_digital_output_shading(self):
         """
-        ## Shading Digital Outputs
+        ## Shading Epochs
 
-        Drawing digital outputs on the same graph as the data is a bit more
-        subtle because it requires you to know the times digital outputs
-        switch state (rather than the instantaneous state of the output at every
-        point in time).
+        In this ABF digital output 4 is high during epoch C. Let's highlight
+        this by plotting sweeps and shading that epoch.
 
-        Notice how much easier life gets when we don't deal with subplots.
+        `print(abf.epochPoints)` yields `[0, 3125, 7125, 23125, 23145, 200000]`
+        and I know the epoch I'm interested in is bound by index 3 and 4.
         """
 
         import pyabf
@@ -382,21 +381,15 @@ class Uses:
         plt.figure(figsize=self.figsize)
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
-            plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
+            plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.5, lw=.5)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
-        plt.title("Shaded Digital Output #4")
+        plt.title("Shade a Specific Epoch")
         plt.axis([1.10, 1.25, -150, 50])
 
-        digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
-        epochPoints = pyabf.stimulus.epochPoints(abf)
-        digitalOutputChannel = 4
-        outputStateByEpoch = digitalWaveforms[digitalOutputChannel]
-        for epochNumber, outputState in enumerate(outputStateByEpoch):
-            if outputState == 1:
-                t1 = epochPoints[epochNumber]*abf.dataSecPerPoint
-                t2 = epochPoints[epochNumber+1]*abf.dataSecPerPoint
-                plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
+        t1 = abf.sweepX[abf.epochPoints[3]]
+        t2 = abf.sweepX[abf.epochPoints[4]]
+        plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
 
         self.saveAndClose()
 
