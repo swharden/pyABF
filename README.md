@@ -1,6 +1,6 @@
 # The pyABF Project
 
-**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Just glance over the code examples and graphs on the [getting started with pyABF](/docs/getting-started) page and you're good to go!
+**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Just glance over the code examples and graphs on the [getting started with pyABF](/docs/getting-started) page and you're good to go! Note that [vsABF](https://github.com/swharden/vsABF) is an actively-developed sister project which brings the pyABF API to Visual Studio.
 
 ![](/docs/graphics/2017-11-06-aps.png)
 
