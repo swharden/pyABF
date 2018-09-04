@@ -239,7 +239,7 @@ def _step_fromThisSweep(abf):
     stepInfo = _step_points_and_voltages(abf)
     if not stepInfo:
         log.warn(f"{abf.abfID} sweep {abf.sweepNumber} couldnt be measured")
-        return np.nan
+        return [np.nan]*4
     stepPoints, stepVoltages = stepInfo
     trace = abf.sweepY[stepPoints[0]:stepPoints[2]]
     trace = np.array(trace)
