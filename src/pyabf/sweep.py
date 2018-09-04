@@ -56,7 +56,7 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
         raise ValueError(msg)
 
     if not "data" in (dir(abf)):
-        print("ABF data not preloaded. Loading now...")
+        log.debug("ABF data not preloaded. Loading now...")
         abf._fileOpen()
         abf._loadAndScaleData()
         abf._fileClose()
@@ -149,6 +149,8 @@ def sweepBaseline(abf, timeSec1=None, timeSec2=None):
     data obtained from setSweep will be automatically baseline-subtracted
     to this region. Call this without arguments to reset baseline.
     """
+    if not "sweepY" in dir(abf):
+        abf.setSweep(0)
     if timeSec1 or timeSec2:
         if not timeSec1:
             timeSec1 = 0
