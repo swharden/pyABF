@@ -138,7 +138,10 @@ def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
                    color=protocolColor)
 
     abfDir = os.path.dirname(abf.abfFilePath)
-    fnOut = abf.abfID+"_"+tag+".png"
+    if unknown:
+        fnOut = abf.abfID+"_UNKNOWN_"+tag+".png"
+    else:
+        fnOut = abf.abfID+"_"+tag+".png"
     pathOut = os.path.join(abfDir, DATAFOLDER, fnOut)
     if not os.path.exists(os.path.dirname(pathOut)):
         log.info(f"creating {os.path.dirname(pathOut)}")
@@ -241,6 +244,24 @@ def generic_overlay(abf, color=None, unknown=False, alpha=None):
                           channel=channel, alpha=alpha)
         ax.set_title(f"{abf.abfID} (Ch{channel+1}) Sweep Overlay")
     plotFigSave(abf, tag="generic-overlay", unknown=unknown)
+    return
+
+
+def generic_overlay_average(abf, baselineSec1=None, baselineSec2=None):
+    """plot every sweep semi-transparent on top of the next and show the average of all."""
+    assert isinstance(abf, pyabf.ABF)
+    if baselineSec2:
+        abf.sweepBaseline(baselineSec1, baselineSec2)
+    plotFigNew(abf)
+    for channel in abf.channelList:
+        ax = plt.gcf().add_subplot(abf.channelCount, 1, channel+1)
+        if baselineSec2:
+            ax.axhline(0, color='k', ls=':')
+        pyabf.plot.sweeps(abf, axis=ax, color='C0', channel=channel, alpha=.2)
+        ax.set_title(f"{abf.abfID} (Ch{channel+1}) Sweep Overlay")
+    averageSweep = pyabf.sweep.averageTrace(abf, channel)
+    ax.plot(abf.sweepX, averageSweep, color='k')
+    plotFigSave(abf, tag="generic-overlay")
     return
 
 
@@ -360,8 +381,8 @@ def generic_memtest_ramp(abf, msg=False):
         bbox = dict(facecolor='white', edgecolor='black',
                     boxstyle='round,pad=.4')
         ax1.text(0.96, 0.96, msg, verticalalignment='top',
-                    horizontalalignment='right', fontsize=12, bbox=bbox,
-                    transform=plt.gca().transAxes, family='monospace')
+                 horizontalalignment='right', fontsize=12, bbox=bbox,
+                 transform=plt.gca().transAxes, family='monospace')
 
     # plot the ramp
     ax2 = plt.gcf().add_subplot(222)
@@ -393,6 +414,27 @@ def generic_memtest_ramp(abf, msg=False):
     ax4.axhline(cmAvg, color='r', ls='--', lw=2, alpha=.5)
 
     plotFigSave(abf, tag="memtest", labelAxes=False)
+
+
+def generic_ap_freqPerSweep(abf):
+    """
+    Create a plot showing the AP frequency by sweep.
+    """
+    assert isinstance(abf, pyabf.ABF)
+    apsPerSweep = [0]*abf.sweepCount
+    sweepTimesSec = np.arange(abf.sweepCount)*abf.sweepLengthSec
+    for sweep in abf.sweepList:
+        abf.setSweep(sweep)
+        sweepApPoints = pyabf.ap.ap_points_currentSweep(abf)
+        apsPerSweep[sweep] = len(sweepApPoints)
+
+    plotFigNew(abf)
+    plt.grid(alpha=.5,ls='--')
+    plt.plot(sweepTimesSec, apsPerSweep, '.-', ms=10)
+    plt.ylabel("Sweep AP Count")
+    plt.xlabel("Experiment Time (seconds)")
+    addComments(abf)
+    plotFigSave(abf, tag="apFreqBySweep", labelAxes=False)
 
 # Code defines which routines or generic graphs to use for each protocol
 
@@ -472,6 +514,20 @@ def protocol_0111(abf):
     ax4.margins(.1, .1)
     ax4.axis([ax1.axis()[2], ax1.axis()[3], ax2.axis()[2], ax2.axis()[3]])
     plotFigSave(abf, tag=f"rampAP", labelAxes=False)
+
+
+def protocol_0101(abf):
+    """0112 0101 tau -10pA"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay_average(abf, baselineSec1=0, baselineSec2=0.1)
+    return
+
+
+def protocol_0102(abf):
+    """0102 IC sine sweep.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay(abf)
+    return
 
 
 def protocol_0112(abf):
@@ -561,6 +617,20 @@ def protocol_0222(abf):
     return
 
 
+def protocol_0301(abf):
+    """0301 ic gap free.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
+    return
+
+
+def protocol_0302(abf):
+    """0302 IC 10s IC ramp drug.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_ap_freqPerSweep(abf)
+    return
+
+
 def protocol_0401(abf):
     """0401 VC 2s MT-70.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -571,6 +641,14 @@ def protocol_0401(abf):
 
 def protocol_0402(abf):
     """0402 VC 2s MT-50.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
+    generic_average_over_time(abf, timeSec1=1)
+    return
+
+
+def protocol_0403(abf):
+    """0402 VC 2s MT-70.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1)
