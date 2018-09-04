@@ -57,6 +57,9 @@ def ap_points_currentSweep(abf, dVthresholdPos=15, betweenSec1=None, betweenSec2
     return crossings
 
 def ap_freq_per_sweep(abf, singleEpoch=False):
+    """
+    Return [apFreqInBin, apFreqFirst] lists by sweep.
+    """
     assert isinstance(abf, pyabf.ABF)
 
     if singleEpoch:
