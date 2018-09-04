@@ -236,18 +236,23 @@ def step_valuesBySweep(abf):
 def _step_fromThisSweep(abf):
     """returns [Ih, Rm, Ra, Cm]"""
     assert isinstance(abf, pyabf.ABF)
+    memTestFailResult = [np.nan]*4
     stepInfo = _step_points_and_voltages(abf)
     if not stepInfo:
-        log.warn(f"{abf.abfID} sweep {abf.sweepNumber} couldnt be measured")
-        return [np.nan]*4
+        log.warn(f"{abf.abfID} sweep {abf.sweepNumber} couldnt be measured (odd sweep info)")
+        return memTestFailResult
     stepPoints, stepVoltages = stepInfo
     trace = abf.sweepY[stepPoints[0]:stepPoints[2]]
     trace = np.array(trace)
     traceStepPoint = stepPoints[1]-stepPoints[0]
     dV = stepVoltages[1]-stepVoltages[0]
-    Ih, Rm, Ra, Cm = _step_calculate(abf, trace, traceStepPoint, dV=dV)
-    log.info(f"Ih: {Ih}, Rm: {Rm}, Ra: {Ra}, Cm: {Cm}")
-    return [Ih, Rm, Ra, Cm]
+    try:
+        Ih, Rm, Ra, Cm = _step_calculate(abf, trace, traceStepPoint, dV=dV)
+        log.info(f"Ih: {Ih}, Rm: {Rm}, Ra: {Ra}, Cm: {Cm}")
+        return [Ih, Rm, Ra, Cm]
+    except:
+        log.warn(f"{abf.abfID} sweep {abf.sweepNumber} couldnt be measured (exception in memtest)")
+        return memTestFailResult
 
 
 def _step_calculate(abf, trace, traceStepPoint, dV=-10, stepAvgLastFrac=.2,
