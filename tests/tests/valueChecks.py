@@ -60,6 +60,13 @@ FIRSTVALUES['171116sh_0015-ATFwaveform'] = ['-119.38476']
 FIRSTVALUES['2018_08_23_0009'] = ['-138.42772']
 FIRSTVALUES['18807005'] = ['506.59180']
 FIRSTVALUES['18808025'] = ['-14.77051']
+FIRSTVALUES['File_axon_2'] = ['-55.28870']
+FIRSTVALUES['File_axon_3'] = ['-15.50000', '-22000.00000']
+FIRSTVALUES['File_axon_4'] = ['-0.00610']
+FIRSTVALUES['File_axon_5'] = ['-71.05103']
+FIRSTVALUES['File_axon_6'] = ['-56.47583', '-0.03357']
+FIRSTVALUES['File_axon_7'] = ['-1.48067']
+FIRSTVALUES['File_axon_1'] = ['2.18811']
 
 def go():
     print("Checking first values ", end="")
