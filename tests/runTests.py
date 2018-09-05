@@ -42,14 +42,14 @@ def runFunctionInFile(filename, functionName="go"):
 
 if __name__ == "__main__":
     
-    # test which don't require plotting
+    # quick tests which can be run routinely
     runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
-
-    # tests requiring plotting with matplotlib
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
+
+    # slow tests which may desire to be hand-run
+    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
