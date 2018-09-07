@@ -1,6 +1,9 @@
 Thumbs.db
 *humbs.db
 
+# VS code settings
+.vscode/
+
 # custom temporary output folders
 _output/
 _temp/
