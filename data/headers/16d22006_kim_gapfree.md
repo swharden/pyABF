@@ -17,7 +17,7 @@
 * abfDateTime = `2016-12-22 14:39:47.945000`
 * abfDateTimeString = `2016-12-22T14:39:47.945000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\16d22006_kim_gapfree.abf`
+* abfFilePath = `C:/some/path/to/16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.3.2.1`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598    0.01098633]  [ 0.13641357  0.14404297  0.15106201 ...,  0.10375977  0.10345459    0.10375977]]`
+* data = `[[0.0101 0.0125 0.0134 ... 0.0113 0.0104 0.011 ]  [0.1364 0.144  0.1511 ... 0.1038 0.1035 0.1038]]`
 * dataByteStart = `4608`
 * dataPointByteSize = `2`
 * dataPointCount = `966000`
@@ -43,7 +43,7 @@
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `dB`
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   4.82997000e+01    4.82998000e+01   4.82999000e+01]`
-* sweepY = `[ 0.0100708   0.01251221  0.01342773 ...,  0.0112915   0.01037598   0.01098633]`
+* sweepX = `[ 0.      0.0001  0.0002 ... 48.2997 48.2998 48.2999]`
+* sweepY = `[0.0101 0.0125 0.0134 ... 0.0113 0.0104 0.011 ]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

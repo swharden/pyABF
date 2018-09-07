@@ -17,7 +17,7 @@
 * abfDateTime = `2017-11-16 14:06:28.730000`
 * abfDateTimeString = `2017-11-16T14:06:28.730000`
 * abfFileComment = `SWHLab5[0102]`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171116sh_0015-ATFwaveform.abf`
+* abfFilePath = `C:/some/path/to/171116sh_0015-ATFwaveform.abf`
 * abfID = `171116sh_0015-ATFwaveform`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-119.384758   -118.16405487 -117.06542206 ..., -101.806633   -104.85839081   -103.27147675]]`
+* data = `[[-119.3848 -118.1641 -117.0654 ... -101.8066 -104.8584 -103.2715]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `300000`
@@ -43,7 +43,7 @@
 * protocol = `0221 VC sine sweep 70 +- 5 mV`
 * protocolPath = `L:\Protocols\permanent\0221 VC sine sweep 70 +- 5 mV.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[  0.00000000e+00   1.99999999e-06   7.99999998e-06 ...,   1.58339005e+01    1.60741005e+01   1.63103008e+01]`
+* sweepC = `[ 0.      0.      0.     ... 15.8339 16.0741 16.3103]`
 * sweepChannel = `0`
 * sweepCount = `3`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   9.99970000e+00    9.99980000e+00   9.99990000e+00]`
-* sweepY = `[-119.384758   -118.16405487 -117.06542206 ..., -104.85839081 -107.78807831  -107.78807831]`
+* sweepX = `[0.     0.0001 0.0002 ... 9.9997 9.9998 9.9999]`
+* sweepY = `[-119.3848 -118.1641 -117.0654 ... -104.8584 -107.7881 -107.7881]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

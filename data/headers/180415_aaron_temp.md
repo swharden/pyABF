@@ -17,7 +17,7 @@
 * abfDateTime = `2018-03-13 14:45:56.159000`
 * abfDateTimeString = `2018-03-13T14:45:56.159000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\180415_aaron_temp.abf`
+* abfFilePath = `C:/some/path/to/180415_aaron_temp.abf`
 * abfID = `180415_aaron_temp`
 * abfVersion = `{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.3.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.4.0.36`
 * dacNames = `['OUT 0', 'Cmd 1']`
 * dacUnits = `['V', 'mV']`
-* data = `[[ -0.35186768  -0.35095215  -0.35308838 ...,  -0.35888672  -0.36010742    -0.35919189]  [ 25.02338791  25.02643967  25.02643967 ...,  25.02033615  25.02033615    25.01423264]]`
+* data = `[[-0.3519 -0.351  -0.3531 ... -0.3589 -0.3601 -0.3592]  [25.0234 25.0264 25.0264 ... 25.0203 25.0203 25.0142]]`
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `200000`
@@ -43,7 +43,7 @@
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `OUT 0 (V)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `V`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `V`
-* sweepX = `[  0.00000000e+00   1.00000000e-05   2.00000000e-05 ...,   9.99970000e-01    9.99980000e-01   9.99990000e-01]`
-* sweepY = `[-0.35186768 -0.35095215 -0.35308838 ..., -0.35888672 -0.36010742  -0.35919189]`
+* sweepX = `[0. 0. 0. ... 1. 1. 1.]`
+* sweepY = `[-0.3519 -0.351  -0.3531 ... -0.3589 -0.3601 -0.3592]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

@@ -50,6 +50,6 @@ if __name__ == "__main__":
     runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
 
     # slow tests which may desire to be hand-run
-    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")

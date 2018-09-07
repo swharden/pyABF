@@ -14,10 +14,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 17:24:00`
-* abfDateTimeString = `2018-09-06T17:24:00`
+* abfDateTime = `2018-09-06 21:42:12`
+* abfDateTimeString = `2018-09-06T21:42:12`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\swharden\Documents\GitHub\pyABF\data\abfs\abf1_with_tags.abf`
+* abfFilePath = `C:/some/path/to/abf1_with_tags.abf`
 * abfID = `abf1_with_tags`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['?']`
 * dacUnits = `['?']`
-* data = `[[-34.54589462 -34.36278915 -34.91210556 ..., -82.33641815 -81.2988205   -80.74950409]]`
+* data = `[[-34.5459 -34.3628 -34.9121 ... -82.3364 -81.2988 -80.7495]]`
 * dataByteStart = `8192`
 * dataPointByteSize = `2`
 * dataPointCount = `18000000`
@@ -43,7 +43,7 @@
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `8721`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,12 +56,12 @@
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   1.03000000e-01    1.03050000e-01   1.03100000e-01]`
-* sweepY = `[-34.54589462 -34.36278915 -34.91210556 ..., -37.84179306 -38.57421494  -38.94042587]`
-* tagComments = `[]`
-* tagSweeps = `[]`
-* tagTimesMin = `[]`
-* tagTimesSec = `[]`
+* sweepX = `[0.     0.0001 0.0001 ... 0.103  0.1031 0.1031]`
+* sweepY = `[-34.5459 -34.3628 -34.9121 ... -37.8418 -38.5742 -38.9404]`
+* tagComments = `['APV+CGP+DNQX+ON@6']`
+* tagSweeps = `[3634.997576345129]`
+* tagTimesMin = `[6.249166666666667]`
+* tagTimesSec = `[374.95000000000005]`
 
 ## Epochs for Channel 0
 
@@ -74,8 +74,8 @@ DAC data from ABF1 files is not available.
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 17:24:00`
-* abfDateTimeString = `2018-09-06T17:24:00`
+* abfDateTime = `2018-09-06 21:42:12`
+* abfDateTimeString = `2018-09-06T21:42:12`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
@@ -112,6 +112,7 @@ DAC data from ABF1 files is not available.
 * lSynchArrayPtr = `0`
 * lSynchArraySize = `0`
 * lTagSectionPtr = `70329`
+* lTagTime = `[7499000]`
 * nADCNumChannels = `1`
 * nADCPtoLChannelMap = `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]`
 * nADCSamplingSeq = `[0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]`
@@ -126,9 +127,11 @@ DAC data from ABF1 files is not available.
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
 * nOperationMode = `3`
+* nTagType = `[1]`
 * nTelegraphEnable = `[1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nWaveformEnable = `[1, 0]`
 * nWaveformSource = `[1, 1]`
 * sADCChannelName = `['IN 0', 'ADC1', 'ADC2', 'ADC3', 'ADC4', 'ADC5', 'ADC6', 'ADC7', 'ADC8', 'ADC9', 'ADC10', 'ADC11', 'ADC12', 'ADC13', 'ADC14', 'ADC15']`
 * sADCUnits = `['pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
+* sComment = `['APV+CGP+DNQX+ON@6']`
 * sProtocolPath = `X:\Protocols\DP\15minGapfree.pro`

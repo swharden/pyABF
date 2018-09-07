@@ -17,7 +17,7 @@
 * abfDateTime = `2008-04-28 14:47:33.262000`
 * abfDateTimeString = `2008-04-28T14:47:33.262000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\File_axon_1.abf`
+* abfFilePath = `C:/some/path/to/File_axon_1.abf`
 * abfID = `File_axon_1`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.0.0.61`
 * dacNames = `['Iimp RK01']`
 * dacUnits = `['nA']`
-* data = `[[ 2.18811035  2.19726562  2.21252441 ...,  1.33056641  1.3458252    1.3671875 ]]`
+* data = `[[2.1881 2.1973 2.2125 ... 1.3306 1.3458 1.3672]]`
 * dataByteStart = `4608`
 * dataPointByteSize = `2`
 * dataPointCount = `1912832`
@@ -43,7 +43,7 @@
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `nA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   1.91282900e+02    1.91283000e+02   1.91283100e+02]`
-* sweepY = `[ 2.18811035  2.19726562  2.21252441 ...,  1.33056641  1.3458252   1.3671875 ]`
+* sweepX = `[  0.       0.0001   0.0002 ... 191.2829 191.283  191.2831]`
+* sweepY = `[2.1881 2.1973 2.2125 ... 1.3306 1.3458 1.3672]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

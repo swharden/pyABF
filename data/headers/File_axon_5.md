@@ -17,7 +17,7 @@
 * abfDateTime = `2007-02-09 12:54:55.828000`
 * abfDateTimeString = `2007-02-09T12:54:55.828000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\File_axon_5.abf`
+* abfFilePath = `C:/some/path/to/File_axon_5.abf`
 * abfID = `File_axon_5`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.1.0.7`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['pA']`
-* data = `[[-71.05102539 -71.05712891 -71.05102539 ..., -74.9206543  -74.92675781   -74.93286133]]`
+* data = `[[-71.051  -71.0571 -71.051  ... -74.9207 -74.9268 -74.9329]]`
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `180000`
@@ -43,7 +43,7 @@
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
+* sweepC = `[0. 0. 0. ... 0. 0. 0.]`
 * sweepChannel = `0`
 * sweepCount = `9`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   9.99850000e-01    9.99900000e-01   9.99950000e-01]`
-* sweepY = `[-71.05102539 -71.05712891 -71.05102539 ..., -70.17211914 -70.17211914  -70.19042969]`
+* sweepX = `[0.     0.0001 0.0001 ... 0.9999 0.9999 1.    ]`
+* sweepY = `[-71.051  -71.0571 -71.051  ... -70.1721 -70.1721 -70.1904]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

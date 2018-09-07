@@ -17,7 +17,7 @@
 * abfDateTime = `2017-11-17 12:54:26.816000`
 * abfDateTimeString = `2017-11-17T12:54:26.816000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\171117_HFMixFRET.abf`
+* abfFilePath = `C:/some/path/to/171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.3.1.5`
 * dacNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
 * dacUnits = `['mV', 'mV', 'AO #', '6     A']`
-* data = `[[ -4.39453125e-01  -4.45556641e-01  -4.51660156e-01 ...,  -3.96728516e-01    -3.84521484e-01  -3.78417969e-01]  [ -9.48791504e+01  -9.51232910e+01  -9.49707031e+01 ...,  -9.50012207e+01    -9.48791504e+01  -9.50317383e+01]  [  6.98852539e-02   7.04956055e-02   6.98852539e-02 ...,   7.01904297e-02     7.01904297e-02   6.98852539e-02]  [  7.08007812e-02   7.08007812e-02   7.11059570e-02 ...,   7.11059570e-02     7.08007812e-02   7.04956055e-02]]`
+* data = `[[ -0.4395  -0.4456  -0.4517 ...  -0.3967  -0.3845  -0.3784]  [-94.8792 -95.1233 -94.9707 ... -95.0012 -94.8792 -95.0317]  [  0.0699   0.0705   0.0699 ...   0.0702   0.0702   0.0699]  [  0.0708   0.0708   0.0711 ...   0.0711   0.0708   0.0705]]`
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `3220568`
@@ -43,7 +43,7 @@
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
-* sweepC = `[-100. -100. -100. ..., -100. -100. -100.]`
+* sweepC = `[-100. -100. -100. ... -100. -100. -100.]`
 * sweepChannel = `0`
 * sweepCount = `13`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `uA`
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   6.19310000e+00    6.19320000e+00   6.19330000e+00]`
-* sweepY = `[-0.43945312 -0.44555664 -0.45166016 ..., -0.44555664 -0.44555664  -0.45166016]`
+* sweepX = `[0.     0.0001 0.0002 ... 6.1931 6.1932 6.1933]`
+* sweepY = `[-0.4395 -0.4456 -0.4517 ... -0.4456 -0.4456 -0.4517]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

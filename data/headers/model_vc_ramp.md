@@ -17,7 +17,7 @@
 * abfDateTime = `2017-11-27 08:17:59.810000`
 * abfDateTimeString = `2017-11-27T08:17:59.810000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_ramp.abf`
+* abfFilePath = `C:/some/path/to/model_vc_ramp.abf`
 * abfID = `model_vc_ramp`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-138.42771912 -139.03807068 -140.2587738  ..., -137.81736755   -136.84080505 -136.23045349]]`
+* data = `[[-138.4277 -139.0381 -140.2588 ... -137.8174 -136.8408 -136.2305]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `120000`
@@ -43,7 +43,7 @@
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `50`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   1.19850000e-01    1.19900000e-01   1.19950000e-01]`
-* sweepY = `[-138.42771912 -139.03807068 -140.2587738  ..., -138.42771912 -137.20701599  -136.10838318]`
+* sweepX = `[0.     0.0001 0.0001 ... 0.1199 0.1199 0.12  ]`
+* sweepY = `[-138.4277 -139.0381 -140.2588 ... -138.4277 -137.207  -136.1084]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

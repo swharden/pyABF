@@ -17,7 +17,7 @@
 * abfDateTime = `2018-07-02 09:30:20.076000`
 * abfDateTimeString = `2018-07-02T09:30:20.076000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\18702001-triangleTrain.abf`
+* abfFilePath = `C:/some/path/to/18702001-triangleTrain.abf`
 * abfID = `18702001-triangleTrain`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[ -9.88769436  -9.03320217  -8.78906155 ..., -11.35253811 -12.08495998   -13.06152248]  [ -1.0357666   -1.03546143  -1.03607178 ...,  -1.0357666   -1.03546143    -1.03637695]]`
+* data = `[[ -9.8877  -9.0332  -8.7891 ... -11.3525 -12.085  -13.0615]  [ -1.0358  -1.0355  -1.0361 ...  -1.0358  -1.0355  -1.0364]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `120000`
@@ -43,7 +43,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `3`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   9.99850000e-01    9.99900000e-01   9.99950000e-01]`
-* sweepY = `[ -9.88769436  -9.03320217  -8.78906155 ..., -13.42773342 -13.06152248  -12.69531155]`
+* sweepX = `[0.     0.0001 0.0001 ... 0.9999 0.9999 1.    ]`
+* sweepY = `[ -9.8877  -9.0332  -8.7891 ... -13.4277 -13.0615 -12.6953]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

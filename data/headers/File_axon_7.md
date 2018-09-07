@@ -17,7 +17,7 @@
 * abfDateTime = `2016-08-02 21:39:10.343000`
 * abfDateTimeString = `2016-08-02T21:39:10.343000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\File_axon_7.abf`
+* abfFilePath = `C:/some/path/to/File_axon_7.abf`
 * abfID = `File_axon_7`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-1.48067451 -0.80928785 -0.13111944 ..., -1.18699741 -1.01261115   -0.69290316]]`
+* data = `[[-1.4807 -0.8093 -0.1311 ... -1.187  -1.0126 -0.6929]]`
 * dataByteStart = `4608`
 * dataPointByteSize = `4`
 * dataPointCount = `19380`
@@ -43,7 +43,7 @@
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `12`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   2.48138958e-03   4.96277916e-03 ...,   4.00000000e+00    4.00248139e+00   4.00496278e+00]`
-* sweepY = `[-1.48067451 -0.80928785 -0.13111944 ...,  0.60808408  0.20118308   0.1265845 ]`
+* sweepX = `[0.     0.0025 0.005  ... 4.     4.0025 4.005 ]`
+* sweepY = `[-1.4807 -0.8093 -0.1311 ...  0.6081  0.2012  0.1266]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

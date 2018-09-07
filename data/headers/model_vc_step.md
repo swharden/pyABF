@@ -17,7 +17,7 @@
 * abfDateTime = `2017-11-27 08:17:49.408000`
 * abfDateTimeString = `2017-11-27T08:17:49.408000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\model_vc_step.abf`
+* abfFilePath = `C:/some/path/to/model_vc_step.abf`
 * abfID = `model_vc_step`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-140.13670349 -140.2587738  -140.2587738  ..., -139.2822113  -140.99119568   -141.60154724]]`
+* data = `[[-140.1367 -140.2588 -140.2588 ... -139.2822 -140.9912 -141.6015]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `200000`
@@ -43,7 +43,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `20`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   4.99850000e-01    4.99900000e-01   4.99950000e-01]`
-* sweepY = `[-140.13670349 -140.2587738  -140.2587738  ..., -138.06150818 -138.91600037  -139.2822113 ]`
+* sweepX = `[0.     0.0001 0.0001 ... 0.4999 0.4999 0.5   ]`
+* sweepY = `[-140.1367 -140.2588 -140.2588 ... -138.0615 -138.916  -139.2822]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

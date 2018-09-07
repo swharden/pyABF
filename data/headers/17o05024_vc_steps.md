@@ -17,7 +17,7 @@
 * abfDateTime = `2017-10-05 14:39:52.817000`
 * abfDateTimeString = `2017-10-05T14:39:52.817000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05024_vc_steps.abf`
+* abfFilePath = `C:/some/path/to/17o05024_vc_steps.abf`
 * abfID = `17o05024_vc_steps`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-21.36230278 -21.24023247 -21.24023247 ..., -20.75195122 -20.14159966   -19.40917778]]`
+* data = `[[-21.3623 -21.2402 -21.2402 ... -20.752  -20.1416 -19.4092]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `490000`
@@ -43,7 +43,7 @@
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `7`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   3.49985000e+00    3.49990000e+00   3.49995000e+00]`
-* sweepY = `[-21.36230278 -21.24023247 -21.24023247 ..., -21.48437309 -21.60644341  -21.85058403]`
+* sweepX = `[0.     0.0001 0.0001 ... 3.4999 3.4999 3.5   ]`
+* sweepY = `[-21.3623 -21.2402 -21.2402 ... -21.4844 -21.6064 -21.8506]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

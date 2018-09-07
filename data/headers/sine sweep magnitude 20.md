@@ -17,7 +17,7 @@
 * abfDateTime = `2013-12-17 15:27:56.218000`
 * abfDateTimeString = `2013-12-17T15:27:56.218000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\sine sweep magnitude 20.abf`
+* abfFilePath = `C:/some/path/to/sine sweep magnitude 20.abf`
 * abfID = `sine sweep magnitude 20`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.2.0.14`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[  0.00000000e+00   1.99999999e-06   7.99999998e-06 ...,   1.58338699e+01     1.60741196e+01   1.63102531e+01]]`
+* data = `[[ 0.      0.      0.     ... 15.8339 16.0741 16.3103]]`
 * dataByteStart = `3584`
 * dataPointByteSize = `4`
 * dataPointCount = `100000`
@@ -43,7 +43,7 @@
 * protocol = `(untitled)`
 * protocolPath = `(untitled)`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = ``
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   9.99970000e+00    9.99980000e+00   9.99990000e+00]`
-* sweepY = `[  0.00000000e+00   1.99999999e-06   7.99999998e-06 ...,   1.58338699e+01    1.60741196e+01   1.63102531e+01]`
+* sweepX = `[0.     0.0001 0.0002 ... 9.9997 9.9998 9.9999]`
+* sweepY = `[ 0.      0.      0.     ... 15.8339 16.0741 16.3103]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

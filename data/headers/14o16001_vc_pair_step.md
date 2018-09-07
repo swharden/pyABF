@@ -17,7 +17,7 @@
 * abfDateTime = `2014-10-16 10:01:35.078000`
 * abfDateTimeString = `2014-10-16T10:01:35.078000`
 * abfFileComment = `SWH[MTIV]`
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\14o16001_vc_pair_step.abf`
+* abfFilePath = `C:/some/path/to/14o16001_vc_pair_step.abf`
 * abfID = `14o16001_vc_pair_step`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.3.0.2`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[-25.87890434 -27.09960747 -26.73339653 ..., -22.09472466 -21.48437309   -22.58300591]  [-31.49413872 -33.3251915  -32.71483994 ..., -31.37206841 -31.49413872   -31.49413872]]`
+* data = `[[-25.8789 -27.0996 -26.7334 ... -22.0947 -21.4844 -22.583 ]  [-31.4941 -33.3252 -32.7148 ... -31.3721 -31.4941 -31.4941]]`
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `1040000`
@@ -43,7 +43,7 @@
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[-70. -70. -70. ..., -70. -70. -70.]`
+* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
 * sweepChannel = `0`
 * sweepCount = `13`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[  0.00000000e+00   1.00000000e-04   2.00000000e-04 ...,   3.99970000e+00    3.99980000e+00   3.99990000e+00]`
-* sweepY = `[-25.87890434 -27.09960747 -26.73339653 ..., -30.27343559 -33.44726181  -34.54589462]`
+* sweepX = `[0.     0.0001 0.0002 ... 3.9997 3.9998 3.9999]`
+* sweepY = `[-25.8789 -27.0996 -26.7334 ... -30.2734 -33.4473 -34.5459]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

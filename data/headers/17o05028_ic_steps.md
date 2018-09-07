@@ -17,7 +17,7 @@
 * abfDateTime = `2017-10-05 14:42:46.899000`
 * abfDateTimeString = `2017-10-05T14:42:46.899000`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\17o05028_ic_steps.abf`
+* abfFilePath = `C:/some/path/to/17o05028_ic_steps.abf`
 * abfID = `17o05028_ic_steps`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['pA']`
-* data = `[[-47.08862305 -47.1496582  -47.11914062 ..., -62.37792969 -62.40844727   -62.37792969]]`
+* data = `[[-47.0886 -47.1497 -47.1191 ... -62.3779 -62.4084 -62.3779]]`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `960000`
@@ -43,7 +43,7 @@
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[ 0.  0.  0. ...,  0.  0.  0.]`
+* sweepC = `[0. 0. 0. ... 0. 0. 0.]`
 * sweepChannel = `0`
 * sweepCount = `16`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[  0.00000000e+00   5.00000000e-05   1.00000000e-04 ...,   2.99985000e+00    2.99990000e+00   2.99995000e+00]`
-* sweepY = `[-47.08862305 -47.1496582  -47.11914062 ..., -44.6472168  -44.6472168  -44.61669922]`
+* sweepX = `[0.     0.0001 0.0001 ... 2.9999 2.9999 3.    ]`
+* sweepY = `[-47.0886 -47.1497 -47.1191 ... -44.6472 -44.6472 -44.6167]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

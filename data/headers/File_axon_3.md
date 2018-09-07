@@ -14,10 +14,10 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-05 02:02:35`
-* abfDateTimeString = `2018-09-05T02:02:35`
+* abfDateTime = `2018-09-06 21:42:12`
+* abfDateTimeString = `2018-09-06T21:42:12`
 * abfFileComment = ``
-* abfFilePath = `c:\Users\scott\Documents\GitHub\pyABF\data\abfs\File_axon_3.abf`
+* abfFilePath = `C:/some/path/to/File_axon_3.abf`
 * abfID = `File_axon_3`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -29,7 +29,7 @@
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['?', '?']`
 * dacUnits = `['?', '?']`
-* data = `[[ -1.55000000e+01  -2.80000000e+01  -2.85000000e+01 ...,  -2.80000000e+01    -2.75000000e+01  -2.80000000e+01]  [ -2.20000000e+04  -2.20000000e+04  -2.19500000e+04 ...,  -1.64500000e+04    -1.64500000e+04  -1.64500000e+04]]`
+* data = `[[   -15.5    -28.     -28.5 ...    -28.     -27.5    -28. ]  [-22000.  -22000.  -21950.  ... -16450.  -16450.  -16450. ]]`
 * dataByteStart = `8192`
 * dataPointByteSize = `2`
 * dataPointCount = `206440`
@@ -43,7 +43,7 @@
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[ nan  nan  nan ...,  nan  nan  nan]`
+* sweepC = `[nan nan nan ... nan nan nan]`
 * sweepChannel = `0`
 * sweepCount = `5`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[  0.00000000e+00   2.50000000e-05   5.00000000e-05 ...,   5.16025000e-01    5.16050000e-01   5.16075000e-01]`
-* sweepY = `[-15.5 -28.  -28.5 ..., -28.  -28.  -28.5]`
+* sweepX = `[0.     0.     0.0001 ... 0.516  0.5161 0.5161]`
+* sweepY = `[-15.5 -28.  -28.5 ... -28.  -28.  -28.5]`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
@@ -81,8 +81,8 @@ DAC data from ABF1 files is not available.
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-05 02:02:35`
-* abfDateTimeString = `2018-09-05T02:02:35`
+* abfDateTime = `2018-09-06 21:42:12`
+* abfDateTimeString = `2018-09-06T21:42:12`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
@@ -119,6 +119,7 @@ DAC data from ABF1 files is not available.
 * lSynchArrayPtr = `823`
 * lSynchArraySize = `5`
 * lTagSectionPtr = `0`
+* lTagTime = `[]`
 * nADCNumChannels = `2`
 * nADCPtoLChannelMap = `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]`
 * nADCSamplingSeq = `[5, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]`
@@ -133,9 +134,11 @@ DAC data from ABF1 files is not available.
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
 * nOperationMode = `5`
+* nTagType = `[]`
 * nTelegraphEnable = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nWaveformEnable = `[1, 0]`
 * nWaveformSource = `[1, 1]`
 * sADCChannelName = `['10Vm', 'ImRK01G1b', 'IN 2', 'IN 3', 'IN 4', 'stim', 'ImRK01G20', 'VmRK', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'IN 14', 'IN 15']`
 * sADCUnits = `['mV', 'pA', 'V', 'V', 'V', 'V', 'pA', 'mV', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']`
+* sComment = `[]`
 * sProtocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
