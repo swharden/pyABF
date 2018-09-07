@@ -196,6 +196,7 @@ class HeaderV1:
         self.abfDateTime = datetime.datetime.fromtimestamp(
             self.abfDateTime)
         self.abfDateTimeString = self.abfDateTime.isoformat()
+        self.abfDateTimeString = self.abfDateTimeString.replace(" ","T")
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
@@ -272,6 +273,7 @@ class HeaderV2:
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
         self.abfDateTimeString = timeStamp.isoformat()
+        self.abfDateTimeString = self.abfDateTimeString.replace(" ","T")
 
 
 class SectionMap:
