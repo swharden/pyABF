@@ -42,14 +42,24 @@ def runFunctionInFile(filename, functionName="go"):
 
 if __name__ == "__main__":
     
-    # quick tests which can be run routinely
+    # set this to true and run this test right before releasing
+    testing_for_release = False
+
+    # ensure ABF header, data, and core API did not change
     runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/testHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
 
-    # these probably don't need to be made any more
-    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
-    #runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
-    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
+    # I don't run these tests frequently because they're slow
+    run_tests_involving_matplotlib = False
+    if run_tests_involving_matplotlib or testing_for_release:
+        runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
+
+    # run this when new ABF files are added to the data folder
+    generate_data_for_new_abf_files = False
+    if generate_data_for_new_abf_files or testing_for_release:
+        runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
+        runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
