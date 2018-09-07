@@ -45,11 +45,11 @@ if __name__ == "__main__":
     # quick tests which can be run routinely
     runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
 
-    # matplotlib tests are slow to run output can vary between computers
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
+    # these probably don't need to be made any more
+    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
+    #runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
+    #runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
