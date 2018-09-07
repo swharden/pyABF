@@ -9,6 +9,7 @@ import glob
 import os
 import datetime
 import numpy as np
+np.set_printoptions(precision=4, suppress=True, threshold=5)
 
 def indexFolder(folder, launch=True):
     html = "<html><head><style>"
@@ -56,6 +57,12 @@ class InfoPage:
 
     def addThing(self, name, value=None):
         self.things.append([name, value])
+
+    def replaceThing(self, name, newValue):
+        for i,line in enumerate(self.things):
+            thisName, thisVal = line
+            if thisName==name:
+                self.things[i] = [name, newValue]
 
     def addDocs(self, docs):
         self.things.append([docs, "~DOCS~"])
