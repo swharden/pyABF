@@ -60,8 +60,7 @@ class InfoPage:
 
     def replaceThing(self, name, newValue):
         for i,line in enumerate(self.things):
-            thisName, thisVal = line
-            if thisName==name:
+            if line[0]==name:
                 self.things[i] = [name, newValue]
 
     def addDocs(self, docs):
