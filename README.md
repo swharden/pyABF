@@ -1,6 +1,6 @@
 # The pyABF Project
 
-**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Just glance over the code examples and graphs on the [getting started with pyABF](/docs/getting-started) page and you're good to go! Note that [vsABF](https://github.com/swharden/vsABF) is an actively-developed sister project which brings the pyABF API to Visual Studio.
+**The pyABF project simplifies the process of reading data from Axon Binary Format (ABF) files.** It was created with the goal of providing a pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Just glance over the code examples and graphs on the [getting started with pyABF](/docs/getting-started) page and you're good to go!
 
 ![](/docs/graphics/2017-11-06-aps.png)
 
@@ -24,6 +24,12 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [Additional pyABF Documentation](/docs/)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
 * [pyABF on PyPI](https://pypi.org/project/pyabf/)
+
+## Porting to Other Programming Languages
+The pyABF project is not only the location of the pyABF Python module, it serves as a site to aggregate ABF file format and analysis information and strategies. Code is written to be intentionally readable and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begin:
+
+* [vsABF](https://github.com/swharden/vsABF) - A .NET library to interface to files in the Axon Binary Format (ABF)
+* [phpABF](https://github.com/swharden/phpABF) - A PHP interface to files in the Axon Binary Format (ABF)
 
 ## Features
 * To see what pyABF can do check out the [getting started](/docs/getting-started) page
