@@ -20,7 +20,14 @@ log = logging.getLogger(__name__)
 
 def infoPage(abf, markdown=True, html=False):
     """Create the markdown summary of the ABF header."""
+    assert isinstance(abf, pyabf.ABF)
+
     page = abf.getInfoPage()
+
+    # make a few things cleaner for display on GitHub
+    abfFilePath = f"C:/some/path/to/{abf.abfID}.abf"
+    page.replaceThing("abfFilePath",abfFilePath)
+    
     if markdown:
         fname = f"{PATH_DATA}/../headers/{abf.abfID}.md"
         fname = os.path.abspath(fname)
