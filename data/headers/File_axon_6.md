@@ -29,7 +29,7 @@
 * creatorVersionString = `10.1.0.13`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['pA', 'mV']`
-* data = `[[-56.4758 -56.4697 -56.4697 ... -56.0303 -56.0364 -56.0303] [-0.0336 -0.033 -0.0336 ... -0.0592 -0.0586 -0.0586]]`
+* data = `array (2d) with values like: -56.47583, -56.46973, -56.46973, ..., -0.05920, -0.05859, -0.05859`
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `1280000`
@@ -43,7 +43,7 @@
 * protocol = `step cclamp 2nA for 2ms`
 * protocolPath = `C:\Axon\Params\step cclamp 2nA for 2ms.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[0. 0. 0. ... 0. 0. 0.]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `32`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[0. 0.0001 0.0001 ... 0.9999 0.9999 1.]`
-* sweepY = `[-56.4758 -56.4697 -56.4697 ... -56.0791 -56.0852 -56.0913]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.99985, 0.99990, 0.99995`
+* sweepY = `array (1d) with values like: -56.47583, -56.46973, -56.46973, ..., -56.07910, -56.08521, -56.09131`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

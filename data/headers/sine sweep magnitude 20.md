@@ -29,7 +29,7 @@
 * creatorVersionString = `10.2.0.14`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[0. 0. 0. ... 15.8339 16.0741 16.3103]]`
+* data = `array (2d) with values like: 0.00000, 0.00000, 0.00001, ..., 15.83387, 16.07412, 16.31025`
 * dataByteStart = `3584`
 * dataPointByteSize = `4`
 * dataPointCount = `100000`
@@ -43,7 +43,7 @@
 * protocol = `(untitled)`
 * protocolPath = `(untitled)`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = ``
-* sweepX = `[0. 0.0001 0.0002 ... 9.9997 9.9998 9.9999]`
-* sweepY = `[0. 0. 0. ... 15.8339 16.0741 16.3103]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 9.99970, 9.99980, 9.99990`
+* sweepY = `array (1d) with values like: 0.00000, 0.00000, 0.00001, ..., 15.83387, 16.07412, 16.31025`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

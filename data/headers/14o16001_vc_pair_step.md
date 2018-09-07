@@ -29,7 +29,7 @@
 * creatorVersionString = `10.3.0.2`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[-25.8789 -27.0996 -26.7334 ... -22.0947 -21.4844 -22.583] [-31.4941 -33.3252 -32.7148 ... -31.3721 -31.4941 -31.4941]]`
+* data = `array (2d) with values like: -25.87890, -27.09961, -26.73340, ..., -31.37207, -31.49414, -31.49414`
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `1040000`
@@ -43,7 +43,7 @@
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `13`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0002 ... 3.9997 3.9998 3.9999]`
-* sweepY = `[-25.8789 -27.0996 -26.7334 ... -30.2734 -33.4473 -34.5459]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 3.99970, 3.99980, 3.99990`
+* sweepY = `array (1d) with values like: -25.87890, -27.09961, -26.73340, ..., -30.27344, -33.44726, -34.54589`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

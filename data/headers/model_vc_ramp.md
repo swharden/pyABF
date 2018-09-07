@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-138.4277 -139.0381 -140.2588 ... -137.8174 -136.8408 -136.2305]]`
+* data = `array (2d) with values like: -138.42772, -139.03807, -140.25877, ..., -137.81737, -136.84081, -136.23045`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `120000`
@@ -43,7 +43,7 @@
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `50`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0001 ... 0.1199 0.1199 0.12]`
-* sweepY = `[-138.4277 -139.0381 -140.2588 ... -138.4277 -137.207 -136.1084]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.11985, 0.11990, 0.11995`
+* sweepY = `array (1d) with values like: -138.42772, -139.03807, -140.25877, ..., -138.42772, -137.20702, -136.10838`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

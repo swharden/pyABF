@@ -29,7 +29,7 @@
 * creatorVersionString = `10.1.0.7`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['pA']`
-* data = `[[-71.051 -71.0571 -71.051 ... -74.9207 -74.9268 -74.9329]]`
+* data = `array (2d) with values like: -71.05103, -71.05713, -71.05103, ..., -74.92065, -74.92676, -74.93286`
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `180000`
@@ -43,7 +43,7 @@
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[0. 0. 0. ... 0. 0. 0.]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `9`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[0. 0.0001 0.0001 ... 0.9999 0.9999 1.]`
-* sweepY = `[-71.051 -71.0571 -71.051 ... -70.1721 -70.1721 -70.1904]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.99985, 0.99990, 0.99995`
+* sweepY = `array (1d) with values like: -71.05103, -71.05713, -71.05103, ..., -70.17212, -70.17212, -70.19043`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

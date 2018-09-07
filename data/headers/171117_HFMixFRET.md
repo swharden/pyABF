@@ -28,8 +28,8 @@
 * creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 1, 'build': 5}`
 * creatorVersionString = `10.3.1.5`
 * dacNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
-* dacUnits = `['mV', 'mV', 'AO #', '6 A']`
-* data = `[[-0.4395 -0.4456 -0.4517 ... -0.3967 -0.3845 -0.3784] [-94.8792 -95.1233 -94.9707 ... -95.0012 -94.8792 -95.0317] [0.0699 0.0705 0.0699 ... 0.0702 0.0702 0.0699] [0.0708 0.0708 0.0711 ... 0.0711 0.0708 0.0705]]`
+* dacUnits = `['mV', 'mV', 'AO #', '6     A']`
+* data = `array (2d) with values like: -0.43945, -0.44556, -0.45166, ..., 0.07111, 0.07080, 0.07050`
 * dataByteStart = `6144`
 * dataPointByteSize = `2`
 * dataPointCount = `3220568`
@@ -43,7 +43,7 @@
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
-* sweepC = `[-100. -100. -100. ... -100. -100. -100.]`
+* sweepC = `array (1d) with values like: -100.00000, -100.00000, -100.00000, ..., -100.00000, -100.00000, -100.00000`
 * sweepChannel = `0`
 * sweepCount = `13`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `uA`
-* sweepX = `[0. 0.0001 0.0002 ... 6.1931 6.1932 6.1933]`
-* sweepY = `[-0.4395 -0.4456 -0.4517 ... -0.4456 -0.4456 -0.4517]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 6.19310, 6.19320, 6.19330`
+* sweepY = `array (1d) with values like: -0.43945, -0.44556, -0.45166, ..., -0.44556, -0.44556, -0.45166`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
@@ -262,7 +262,7 @@ DAC waveform is not enabled.
 * nTelegraphEnable = `[1, 0, 0, 0]`
 * nTelegraphInstrument = `[23, 0, 0, 0]`
 * nTelegraphMode = `[0, 0, 0, 0]`
-* sTelegraphInstrument = `['Dagan CA-1 Im=0.05', 'Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).']`
+* sTelegraphInstrument = `['Dagan CA-1  Im=0.05', 'Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).']`
 
 ## DACSection
 
@@ -356,7 +356,7 @@ DAC waveform is not enabled.
 * lADCChannelName = `['Current', 'Voltage', 'YFP', 'CFP']`
 * lADCUnits = `['uA', 'mV', 'V', 'V']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
-* lDACChannelUnits = `['mV', 'mV', 'AO #', '6 A']`
+* lDACChannelUnits = `['mV', 'mV', 'AO #', '6     A']`
 * lDACFilePath = `['', '', '', '']`
 * lFileComment = ``
 * nLeakSubtractADC = `['', '', '', '']`

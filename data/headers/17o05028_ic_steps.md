@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['pA']`
-* data = `[[-47.0886 -47.1497 -47.1191 ... -62.3779 -62.4084 -62.3779]]`
+* data = `array (2d) with values like: -47.08862, -47.14966, -47.11914, ..., -62.37793, -62.40845, -62.37793`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `960000`
@@ -43,7 +43,7 @@
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[0. 0. 0. ... 0. 0. 0.]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `16`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[0. 0.0001 0.0001 ... 2.9999 2.9999 3.]`
-* sweepY = `[-47.0886 -47.1497 -47.1191 ... -44.6472 -44.6472 -44.6167]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 2.99985, 2.99990, 2.99995`
+* sweepY = `array (1d) with values like: -47.08862, -47.14966, -47.11914, ..., -44.64722, -44.64722, -44.61670`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

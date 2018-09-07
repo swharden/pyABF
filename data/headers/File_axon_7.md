@@ -29,7 +29,7 @@
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-1.4807 -0.8093 -0.1311 ... -1.187 -1.0126 -0.6929]]`
+* data = `array (2d) with values like: -1.48067, -0.80929, -0.13112, ..., -1.18700, -1.01261, -0.69290`
 * dataByteStart = `4608`
 * dataPointByteSize = `4`
 * dataPointCount = `19380`
@@ -43,7 +43,7 @@
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[nan nan nan ... nan nan nan]`
+* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `12`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0025 0.005 ... 4. 4.0025 4.005]`
-* sweepY = `[-1.4807 -0.8093 -0.1311 ... 0.6081 0.2012 0.1266]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00248, 0.00496, ..., 4.00000, 4.00248, 4.00496`
+* sweepY = `array (1d) with values like: -1.48067, -0.80929, -0.13112, ..., 0.60808, 0.20118, 0.12658`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

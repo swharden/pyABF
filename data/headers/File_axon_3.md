@@ -14,8 +14,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-05 02:02:35`
-* abfDateTimeString = `2018-09-05T02:02:35`
+* abfDateTime = `2018-09-06 17:23:48`
+* abfDateTimeString = `2018-09-06T17:23:48`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_3.abf`
 * abfID = `File_axon_3`
@@ -29,7 +29,7 @@
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['?', '?']`
 * dacUnits = `['?', '?']`
-* data = `[[-15.5 -28. -28.5 ... -28. -27.5 -28.] [-22000. -22000. -21950. ... -16450. -16450. -16450.]]`
+* data = `array (2d) with values like: -15.50000, -28.00000, -28.50000, ..., -16450.00000, -16450.00000, -16450.00000`
 * dataByteStart = `8192`
 * dataPointByteSize = `2`
 * dataPointCount = `206440`
@@ -43,7 +43,7 @@
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[nan nan nan ... nan nan nan]`
+* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `5`
 * sweepLabelC = `Applied Current (pA)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[0. 0. 0.0001 ... 0.516 0.5161 0.5161]`
-* sweepY = `[-15.5 -28. -28.5 ... -28. -28. -28.5]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00003, 0.00005, ..., 0.51603, 0.51605, 0.51608`
+* sweepY = `array (1d) with values like: -15.50000, -28.00000, -28.50000, ..., -28.00000, -28.00000, -28.50000`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
@@ -81,8 +81,8 @@ DAC data from ABF1 files is not available.
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-05 02:02:35`
-* abfDateTimeString = `2018-09-05T02:02:35`
+* abfDateTime = `2018-09-06 17:23:48`
+* abfDateTimeString = `2018-09-06T17:23:48`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`

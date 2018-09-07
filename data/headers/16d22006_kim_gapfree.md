@@ -29,7 +29,7 @@
 * creatorVersionString = `10.3.2.1`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[0.0101 0.0125 0.0134 ... 0.0113 0.0104 0.011] [0.1364 0.144 0.1511 ... 0.1038 0.1035 0.1038]]`
+* data = `array (2d) with values like: 0.01007, 0.01251, 0.01343, ..., 0.10376, 0.10345, 0.10376`
 * dataByteStart = `4608`
 * dataPointByteSize = `2`
 * dataPointCount = `966000`
@@ -43,7 +43,7 @@
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[nan nan nan ... nan nan nan]`
+* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Cmd 0 (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `dB`
-* sweepX = `[0. 0.0001 0.0002 ... 48.2997 48.2998 48.2999]`
-* sweepY = `[0.0101 0.0125 0.0134 ... 0.0113 0.0104 0.011]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 48.29970, 48.29980, 48.29990`
+* sweepY = `array (1d) with values like: 0.01007, 0.01251, 0.01343, ..., 0.01129, 0.01038, 0.01099`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

@@ -29,7 +29,7 @@
 * creatorVersionString = `10.4.0.36`
 * dacNames = `['OUT 0', 'Cmd 1']`
 * dacUnits = `['V', 'mV']`
-* data = `[[-0.3519 -0.351 -0.3531 ... -0.3589 -0.3601 -0.3592] [25.0234 25.0264 25.0264 ... 25.0203 25.0203 25.0142]]`
+* data = `array (2d) with values like: -0.35187, -0.35095, -0.35309, ..., 25.02034, 25.02034, 25.01423`
 * dataByteStart = `5632`
 * dataPointByteSize = `2`
 * dataPointCount = `200000`
@@ -43,7 +43,7 @@
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[nan nan nan ... nan nan nan]`
+* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `OUT 0 (V)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `V`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `V`
-* sweepX = `[0. 0. 0. ... 1. 1. 1.]`
-* sweepY = `[-0.3519 -0.351 -0.3531 ... -0.3589 -0.3601 -0.3592]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00001, 0.00002, ..., 0.99997, 0.99998, 0.99999`
+* sweepY = `array (1d) with values like: -0.35187, -0.35095, -0.35309, ..., -0.35889, -0.36011, -0.35919`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

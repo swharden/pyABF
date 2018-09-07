@@ -29,7 +29,7 @@
 * creatorVersionString = `10.0.0.61`
 * dacNames = `['Iimp RK01']`
 * dacUnits = `['nA']`
-* data = `[[-0.0061 -0.0092 -0.0031 ... 0. 0. 0.]]`
+* data = `array (2d) with values like: -0.00610, -0.00916, -0.00305, ..., 0.00000, 0.00000, 0.00000`
 * dataByteStart = `4608`
 * dataPointByteSize = `2`
 * dataPointCount = `2176512`
@@ -43,7 +43,7 @@
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[nan nan nan ... nan nan nan]`
+* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `1`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `nA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0002 ... 217.6509 217.651 217.6511]`
-* sweepY = `[-0.0061 -0.0092 -0.0031 ... 0. 0. 0.]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 217.65090, 217.65100, 217.65110`
+* sweepY = `array (1d) with values like: -0.00610, -0.00916, -0.00305, ..., 0.00000, 0.00000, 0.00000`
 * tagComments = `['drogue on']`
 * tagSweeps = `[0.0]`
 * tagTimesMin = `[0.0]`

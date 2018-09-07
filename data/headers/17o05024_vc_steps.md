@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-21.3623 -21.2402 -21.2402 ... -20.752 -20.1416 -19.4092]]`
+* data = `array (2d) with values like: -21.36230, -21.24023, -21.24023, ..., -20.75195, -20.14160, -19.40918`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `490000`
@@ -43,7 +43,7 @@
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `7`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0001 ... 3.4999 3.4999 3.5]`
-* sweepY = `[-21.3623 -21.2402 -21.2402 ... -21.4844 -21.6064 -21.8506]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 3.49985, 3.49990, 3.49995`
+* sweepY = `array (1d) with values like: -21.36230, -21.24023, -21.24023, ..., -21.48437, -21.60644, -21.85058`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

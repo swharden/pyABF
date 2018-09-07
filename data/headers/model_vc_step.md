@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
 * dacUnits = `['mV']`
-* data = `[[-140.1367 -140.2588 -140.2588 ... -139.2822 -140.9912 -141.6015]]`
+* data = `array (2d) with values like: -140.13670, -140.25877, -140.25877, ..., -139.28221, -140.99120, -141.60155`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `200000`
@@ -43,7 +43,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `20`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0001 ... 0.4999 0.4999 0.5]`
-* sweepY = `[-140.1367 -140.2588 -140.2588 ... -138.0615 -138.916 -139.2822]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.49985, 0.49990, 0.49995`
+* sweepY = `array (1d) with values like: -140.13670, -140.25877, -140.25877, ..., -138.06151, -138.91600, -139.28221`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`

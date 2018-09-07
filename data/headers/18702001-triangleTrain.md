@@ -29,7 +29,7 @@
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0', 'Cmd 1']`
 * dacUnits = `['mV', 'mV']`
-* data = `[[-9.8877 -9.0332 -8.7891 ... -11.3525 -12.085 -13.0615] [-1.0358 -1.0355 -1.0361 ... -1.0358 -1.0355 -1.0364]]`
+* data = `array (2d) with values like: -9.88769, -9.03320, -8.78906, ..., -1.03577, -1.03546, -1.03638`
 * dataByteStart = `6656`
 * dataPointByteSize = `2`
 * dataPointCount = `120000`
@@ -43,7 +43,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `[-70. -70. -70. ... -70. -70. -70.]`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `3`
 * sweepLabelC = `Membrane Potential (mV)`
@@ -56,8 +56,8 @@
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0. 0.0001 0.0001 ... 0.9999 0.9999 1.]`
-* sweepY = `[-9.8877 -9.0332 -8.7891 ... -13.4277 -13.0615 -12.6953]`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.99985, 0.99990, 0.99995`
+* sweepY = `array (1d) with values like: -9.88769, -9.03320, -8.78906, ..., -13.42773, -13.06152, -12.69531`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
