@@ -11,15 +11,36 @@ import datetime
 import numpy as np
 np.set_printoptions(precision=4, suppress=True, threshold=5)
 
+
+def standardNumpyText(data):
+    """return a numpy array as a standard string regardless of numpy version."""
+    if isinstance(data, np.ndarray):
+        out = "array (%dd) with values like: " % (len(data.shape))
+        data = data.flatten()
+        if len(data) < 10:
+            data = ["%.05f" % x for x in data]
+            data = ", ".join(data)
+            out += f"{data}"
+        else:
+            dataFirst = ["%.05f" % x for x in data[:3]]
+            dataFirst = ", ".join(dataFirst)
+            dataLast = ["%.05f" % x for x in data[-3:]]
+            dataLast = ", ".join(dataLast)
+            out += f"{dataFirst}, ..., {dataLast}"
+    else:
+        out = str(out)
+    return out
+
+
 def indexFolder(folder, launch=True):
     html = "<html><head><style>"
-    html+="body {background-color: #ddd;}"
-    html+="img {border: 1px solid black; margin: 20px;}"
-    html+="img {box-shadow: 5px 5px 15px rgba(0, 0, 0, .3);}"
-    html+="img {height: 300px; background-color: white;}"
-    html+="</style></head><body>"
+    html += "body {background-color: #ddd;}"
+    html += "img {border: 1px solid black; margin: 20px;}"
+    html += "img {box-shadow: 5px 5px 15px rgba(0, 0, 0, .3);}"
+    html += "img {height: 300px; background-color: white;}"
+    html += "</style></head><body>"
 
-    html+="<h1>Images</h1>"
+    html += "<h1>Images</h1>"
     pics = []
     pics += glob.glob(folder+"/*.png")
     pics += glob.glob(folder+"/*.jpg")
@@ -27,7 +48,7 @@ def indexFolder(folder, launch=True):
         url = os.path.basename(pic)
         html += f"<a href='{url}'><img src='{url}'></a> "
 
-    html+="<h1>HTML Files</h1>"
+    html += "<h1>HTML Files</h1>"
     for pic in sorted(glob.glob(folder+"/*.html")):
         url = os.path.basename(pic)
         html += f"<li><a href='{url}'>{url}</a> "
@@ -59,8 +80,8 @@ class InfoPage:
         self.things.append([name, value])
 
     def replaceThing(self, name, newValue):
-        for i,line in enumerate(self.things):
-            if line[0]==name:
+        for i, line in enumerate(self.things):
+            if line[0] == name:
                 self.things[i] = [name, newValue]
 
     def addDocs(self, docs):
@@ -92,29 +113,26 @@ class InfoPage:
                 out += "> %s \n\n" % (name.strip().replace("\n", " "))
             elif str(name) == "~CODE~":
                 if value is None:
-                    value=""
-                out+="\n```\n"+value.strip("\n")+"\n```\n"
+                    value = ""
+                out += "\n```\n"+value.strip("\n")+"\n```\n"
             else:
                 if value is None:
                     out += "* %s\n" % (name)
                 else:
-                    val = str(value).replace("\n", " ")
-                    if val.startswith("[") and val.endswith("]"):
-                        val = val.replace(" ..., ", " ... ")
-                        val = val.replace("["," [ ")
-                        val = val.replace("]"," ] ")
-                        while "  " in val:
-                            val = val.replace("  "," ")
-                        while "[ " in val:
-                            val = val.replace("[ ","[")
-                        while " ]" in val:
-                            val = val.replace(" ]","]")
-                        val = val.strip()
+                    try:
+                        val = np.ndarray(val)
+                    except:
+                        pass
+                    if isinstance(value, np.ndarray):
+                        val = standardNumpyText(value)
+                    else:
+                        val = str(value)
+                    val = val.replace("\n", " ")
                     out += "* %s = `%s`\n" % (name, val)
 
         if saveAs:
             with open(saveAs, 'w') as f:
-                f.write(html)
+                f.write(out)
 
         return out
 
@@ -140,8 +158,8 @@ class InfoPage:
                 html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
             elif str(name) == "~CODE~":
                 if value is None:
-                    value=""
-                html+="\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
+                    value = ""
+                html += "\n<pre>\n"+value.strip("\n")+"\n</pre>\n"
             else:
                 if value is None:
                     html += "\n<div class='item'>%s</div>" % (name)
@@ -199,7 +217,7 @@ def abfInfoPage(abf):
             page.addThing(thingName, thing)
         else:
             print("Unsure how to generate info for:",
-                    thingName, type(thing))
+                  thingName, type(thing))
 
     for channel in abf.channelList:
         page.addSection("Epochs for Channel %d" % channel)
@@ -233,6 +251,7 @@ def abfInfoPage(abf):
             page.addThing(subItemName, getattr(thingItself, subItemName))
 
     return page
+
 
 if __name__ == "__main__":
 
