@@ -15,6 +15,8 @@ np.set_printoptions(precision=4, suppress=True, threshold=5)
 def standardNumpyText(data):
     """return a numpy array as a standard string regardless of numpy version."""
     if isinstance(data, np.ndarray):
+        if len(data.shape)==0:
+            return str(data)
         out = "array (%dd) with values like: " % (len(data.shape))
         data = data.flatten()
         if len(data) < 10:
@@ -27,8 +29,17 @@ def standardNumpyText(data):
             dataLast = ["%.05f" % x for x in data[-3:]]
             dataLast = ", ".join(dataLast)
             out += f"{dataFirst}, ..., {dataLast}"
+    elif isinstance(data, list):
+        if len(data) < 20:
+            return str(data)
+        else:
+            dataFirst = [str(x) for x in data[:3]]
+            dataFirst = ", ".join(dataFirst)
+            dataLast = [str(x) for x in data[-3:]]
+            dataLast = ", ".join(dataLast)
+            out = f"[{dataFirst}, ..., {dataLast}]"
     else:
-        out = str(out)
+        out = str(data)
     return out
 
 
@@ -119,11 +130,7 @@ class InfoPage:
                 if value is None:
                     out += "* %s\n" % (name)
                 else:
-                    try:
-                        val = np.ndarray(val)
-                    except:
-                        pass
-                    if isinstance(value, np.ndarray):
+                    if type(value) in [list,np.ndarray]:
                         val = standardNumpyText(value)
                     else:
                         val = str(value)

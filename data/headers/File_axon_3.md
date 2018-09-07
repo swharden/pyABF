@@ -39,7 +39,7 @@
 * epochPoints = `[]`
 * epochValues = `[]`
 * fileGUID = ``
-* holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
@@ -93,8 +93,8 @@ DAC data from ABF1 files is not available.
 * fADCSampleInterval = `25.0`
 * fDACCalibrationFactor = `[1.0, 1.0, 1.0, 1.0]`
 * fDACCalibrationOffset = `[0.0, 0.0, 0.0, 0.0]`
-* fEpochInitLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fEpochLevelInc = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fEpochInitLevel = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
+* fEpochLevelInc = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * fFileSignature = `q=?`
 * fFileVersionNumber = `1.8300000429153442`
 * fInstrumentOffset = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
@@ -110,8 +110,8 @@ DAC data from ABF1 files is not available.
 * lDACFilePtr = `[0, 0]`
 * lDataSectionPtr = `16`
 * lEpisodesPerRun = `40`
-* lEpochDurationInc = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
-* lEpochInitDuration = `[1000, 25, 10, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
+* lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
+* lEpochInitDuration = `[1000, 25, 10, ..., 0, 0, 0]`
 * lFileStartTime = `51328`
 * lNumSamplesPerEpisode = `41288`
 * lNumTagEntries = `0`
@@ -129,7 +129,7 @@ DAC data from ABF1 files is not available.
 * nDigitalHolding = `16`
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
-* nEpochType = `[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
+* nEpochType = `[0, 1, 1, ..., 0, 0, 0]`
 * nFileStartMillisecs = `552`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
