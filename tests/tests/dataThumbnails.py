@@ -149,7 +149,8 @@ def plotThumbnail(abf):
         channel = 1
 
     # plot the data sweep by sweep
-    for sweep in abf.sweepList:
+    maxSweepsToPlot = min(abf.sweepCount,20)
+    for sweep in range(maxSweepsToPlot):
         abf.setSweep(sweep, channel=channel, absoluteTime=absoluteTime)
         ax1.plot(abf.sweepX, abf.sweepY, alpha=.5, color='b', lw=.5)
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
