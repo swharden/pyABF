@@ -107,7 +107,8 @@ def plotHeader(abf):
         ax.get_yaxis().set_visible(False)  # hide Y axis
         plt.tight_layout()
         ax1.set_title("ABF Byte Map for "+abf.abfID+".abf")
-        ax2.legend(loc='upper right', fontsize=8, shadow=True, framealpha=1)
+        if len(ax2.get_legend_handles_labels()[0]):
+            ax2.legend(loc='upper right', fontsize=8, shadow=True, framealpha=1)
 
     ax1.axis([-100, abf.dataByteStart+1500, -.5, 1])
 
