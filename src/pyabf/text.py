@@ -98,8 +98,19 @@ class InfoPage:
                 if value is None:
                     out += "* %s\n" % (name)
                 else:
-                    out += "* %s = `%s`\n" % (name,
-                                              str(value).replace("\n", " "))
+                    val = str(value).replace("\n", " ")
+                    if val.startswith("[") and val.endswith("]"):
+                        val = val.replace(" ..., ", " ... ")
+                        val = val.replace("["," [ ")
+                        val = val.replace("]"," ] ")
+                        while "  " in val:
+                            val = val.replace("  "," ")
+                        while "[ " in val:
+                            val = val.replace("[ ","[")
+                        while " ]" in val:
+                            val = val.replace(" ]","]")
+                        val = val.strip()
+                    out += "* %s = `%s`\n" % (name, val)
 
         if saveAs:
             with open(saveAs, 'w') as f:

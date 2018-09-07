@@ -47,9 +47,9 @@ if __name__ == "__main__":
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
 
-    # slow tests which may desire to be hand-run
+    # matplotlib tests are slow to run output can vary between computers
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
