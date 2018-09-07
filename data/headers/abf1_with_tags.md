@@ -14,8 +14,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 21:42:12`
-* abfDateTimeString = `2018-09-06T21:42:12`
+* abfDateTime = `2018-09-06 20:04:50`
+* abfDateTimeString = `2018-09-06T20:04:50`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/abf1_with_tags.abf`
 * abfID = `abf1_with_tags`
@@ -56,7 +56,7 @@
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `[0.     0.0001 0.0001 ... 0.103  0.1031 0.1031]`
+* sweepX = `[0. 0.0001 0.0001 ... 0.103 0.1031 0.1031]`
 * sweepY = `[-34.5459 -34.3628 -34.9121 ... -37.8418 -38.5742 -38.9404]`
 * tagComments = `['APV+CGP+DNQX+ON@6']`
 * tagSweeps = `[3634.997576345129]`
@@ -74,8 +74,8 @@ DAC data from ABF1 files is not available.
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 21:42:12`
-* abfDateTimeString = `2018-09-06T21:42:12`
+* abfDateTime = `2018-09-06 20:04:50`
+* abfDateTimeString = `2018-09-06T20:04:50`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`

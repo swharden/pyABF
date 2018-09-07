@@ -14,8 +14,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 21:42:12`
-* abfDateTimeString = `2018-09-06T21:42:12`
+* abfDateTime = `2018-09-05 02:02:35`
+* abfDateTimeString = `2018-09-05T02:02:35`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_2.abf`
 * abfID = `File_axon_2`
@@ -56,7 +56,7 @@
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `mV`
-* sweepX = `[0.    0.001 0.002 ... 0.252 0.253 0.254]`
+* sweepX = `[0. 0.001 0.002 ... 0.252 0.253 0.254]`
 * sweepY = `[-55.2887 -55.2551 -55.2551 ... -55.1544 -55.1544 -55.1544]`
 * tagComments = `['Clampex start acquisition', 'C:\\Axon\\rsultats\\06-05\\11-06-05\\05611005.abf', 'Clampex end (1)', 'Clampex start acquisition']`
 * tagSweeps = `[104.9607843137255, 1673.337254901961, 1673.337254901961, 2452.443137254902]`
@@ -74,8 +74,8 @@ DAC data from ABF1 files is not available.
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 21:42:12`
-* abfDateTimeString = `2018-09-06T21:42:12`
+* abfDateTime = `2018-09-05 02:02:35`
+* abfDateTimeString = `2018-09-05T02:02:35`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
