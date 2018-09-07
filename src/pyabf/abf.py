@@ -129,8 +129,10 @@ class ABF:
         self.holdingCommand = self._headerV1.fEpochInitLevel
         self.protocolPath = self._headerV1.sProtocolPath
         self.abfFileComment = ""
-        self.tagComments = []
-        self.tagTimesSec = []
+        _tagMult = self._headerV1.fADCSampleInterval / 1e6
+        self.tagComments = self._headerV1.sComment
+        self.tagTimesSec = self._headerV1.lTagTime
+        self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
         # data info
         self._nDataFormat = self._headerV1.nDataFormat

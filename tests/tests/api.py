@@ -258,7 +258,7 @@ def test_setSweep(abf):
     return
 
 
-def specialTest_comments(fname):
+def specialTest_comments(fname,commentCount):
     """
     ## Comments (comment tags)
 
@@ -274,25 +274,25 @@ def specialTest_comments(fname):
     log.debug(f"abf.tagComments={abf.tagComments}")
     assert isinstance(abf.tagComments, list)
     assert isinstance(abf.tagComments[0], str)
-    assert len(abf.tagComments) == 2
+    assert len(abf.tagComments) == commentCount
     dot()
 
     log.debug(f"abf.tagSweeps={abf.tagSweeps}")
     assert isinstance(abf.tagSweeps, list)
     assert isinstance(abf.tagSweeps[0], float)
-    assert len(abf.tagSweeps) == 2
+    assert len(abf.tagSweeps) == commentCount
     dot()
 
     log.debug(f"abf.tagTimesMin={abf.tagTimesMin}")
     assert isinstance(abf.tagTimesMin, list)
     assert isinstance(abf.tagTimesMin[0], float)
-    assert len(abf.tagTimesMin) == 2
+    assert len(abf.tagTimesMin) == commentCount
     dot()
 
     log.debug(f"abf.tagTimesSec={abf.tagTimesSec}")
     assert isinstance(abf.tagTimesSec, list)
     assert isinstance(abf.tagTimesSec[0], float)
-    assert len(abf.tagTimesSec) == 2
+    assert len(abf.tagTimesSec) == commentCount
     dot()
 
     return
@@ -323,7 +323,8 @@ def go():
         globals()[functionName](abf2)
 
     log.debug("Testing calls work best on specific ABFs")
-    specialTest_comments(PATH_DATA+"/16d05007_vc_tags.abf")
+    specialTest_comments(PATH_DATA+"/16d05007_vc_tags.abf",commentCount=2)
+    specialTest_comments(PATH_DATA+"/abf1_with_tags.abf",commentCount=1)
     generateMarkdown()
     print(" OK")
 

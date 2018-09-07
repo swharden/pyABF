@@ -197,6 +197,16 @@ class HeaderV1:
             self.abfDateTime)
         self.abfDateTimeString = self.abfDateTime.isoformat()
 
+        # read tags into memory
+        self.lTagTime = [None]*self.lNumTagEntries
+        self.sComment = [None]*self.lNumTagEntries
+        self.nTagType = [None]*self.lNumTagEntries
+        for i in range(self.lNumTagEntries):
+            fb.seek(self.lTagSectionPtr*BLOCKSIZE + i * 64)
+            self.lTagTime[i] = readStruct(fb, "i")
+            self.sComment[i] = readStruct(fb, "56s")
+            self.nTagType[i] = readStruct(fb, "h")
+
 
 class HeaderV2:
     """
