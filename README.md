@@ -20,10 +20,11 @@ print(abf.sweepC) # displays command waveform (DAC)
 ```
 
 ## Documenation
-* [Getting Started with pyABF](/docs/getting-started)
-* [Additional pyABF Documentation](/docs/)
+* [Simple pyABF code examples](/docs/getting-started)
+* [Advanced use case examples](/docs/getting-started/advanced.md)
+* [Additional documentation and resources](/docs/)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
-* [pyABF on PyPI](https://pypi.org/project/pyabf/)
+* [pyABF listing on PyPI](https://pypi.org/project/pyabf/)
 
 ## Porting to Other Programming Languages
 The pyABF project is not only the location of the pyABF Python module, it serves as a site to aggregate ABF file format and analysis information and strategies. Code is written to be intentionally readable and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begin:
