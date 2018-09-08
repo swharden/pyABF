@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # I don't run these tests frequently because they're slow
     run_tests_involving_matplotlib = False
     if run_tests_involving_matplotlib or testing_for_release:
-        runFunctionInFile(PATH_PROJECT+"/tests/tests/quickStart.py")
+        runFunctionInFile(PATH_PROJECT+"/tests/tests/gettingStarted.py")
 
     # run this when new ABF files are added to the data folder
     generate_data_for_new_abf_files = False

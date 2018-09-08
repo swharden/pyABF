@@ -1,8 +1,8 @@
 """
 This file contains functions to demonstrate core functionality of the pyABF
-module. Functions prefaced with "demo_" may be run automatically to generate the
-quickstart guide. In this case their docstrings will be included in the 
-quickstart readme (markdown-formatted) and their code will be added to the 
+module. Functions prefaced with "demo_" may be run automatically to generate 
+a markdown document. In this case their docstrings will be included in the 
+getting started guide and their code will be added to the 
 readme along with any images saved with the same filename as the function.
 
 This documentation generator doubles as a test suite, as a variety of ABF 
@@ -30,6 +30,57 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+MARKDOWN_STANDARD = """
+
+# Getting Started with pyABF
+
+**This page demonstrates how to use pyABF to perform many common tasks.**
+Examples start out simple and increase in complexity. 
+Browsing this page is the best way to get started with pyABF, as every core 
+function is demonstrated in this document.
+All ABFs used in these examples are provided in [the data folder](/data/), 
+so you can practice recreating these examples in your own programming 
+environment.
+
+**Advanced examples:** experimental features (useful, but subject to syntax 
+changes as the pyABF API matures) are demonstrated on the 
+[advanced examples](advanced.md) page.
+
+**Technical note:** this guide is generated automatically by
+[gettingStarted.py](/tests/tests/gettingStarted.py)) and so this page doubles 
+as a test suite (all these examples should produce identical graphs after all
+code changes). 
+
+## Prerequisite Imports
+
+Although it's not explicitly shown in every example, it is assumed the following
+lines are present at the top of your Python script:
+
+```python
+import pyabf
+import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use('bmh')
+```
+
+The last line defines the default style of all the graphs on this page. I've 
+started to prefer the "bmh" style (with gray backgrounds), but a full list
+of example styles is on [Tony Syu's page](https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html)
+and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery/style_sheets/style_sheets_reference.html)
+"""
+
+MARKDOWN_ADVANCED = """
+
+# Advanced pyABF Examples
+
+* Review this page only after reviewing the 
+[getting started](/docs/getting-started) guide.
+* This page is a collection of advanced tasks performed by pyABF.
+* Use these advanced features at your own risk!
+  * Many of these examples are dirty hacks which may get cleaner with time
+  * However, this means the syntax may change as the API improves
+  * These examples will never be removed. Their code will always be updated.
+"""
 
 class NoStdStreams(object):
     def __init__(self, stdout=None):
@@ -47,7 +98,7 @@ class NoStdStreams(object):
         self.devnull.close()
 
 
-class Uses:
+class UseCaseManager:
     def __init__(self):
         self.figsize = (8, 5)
         self.dpi = 75
@@ -323,7 +374,7 @@ class Uses:
         plt.tight_layout()
         self.saveAndClose()
 
-    def demo_09a_digital_outputs(self):
+    def advanced_09a_digital_outputs(self):
         """
         ## Accessing Digital Outputs
 
@@ -364,7 +415,7 @@ class Uses:
 
         self.saveAndClose()
 
-    def demo_10a_digital_output_shading(self):
+    def advanced_10a_digital_output_shading(self):
         """
         ## Shading Epochs
 
@@ -600,7 +651,7 @@ class Uses:
 
         self.saveAndClose()
 
-    def demo_17_atf_plotting(self):
+    def advanced_17_atf_plotting(self):
         """
         ## Plotting Data from ATF Files
 
@@ -641,7 +692,7 @@ def cleanDocstrings(s):
 
 
 def cleanCode(s):
-    uses = Uses()
+    uses = UseCaseManager()
     s = s.replace("\n        ", "\n")
     s = s.replace("data/abfs/", "")
     s = s.replace("self.saveAndClose()", "plt.show()")
@@ -649,97 +700,62 @@ def cleanCode(s):
     s = s.split('"""', 2)[2].strip()
     return s
 
+def generate_demos(match="demo_"):
+    """
+    Load the use case manager and run every function inside it which contains
+    a match to the string given in the argument of this function.
 
-def go():
+    The function docstrings get rendered as a markdown page. If images are
+    generated and saved as a result, those are added to the markdown page too.
 
-    # start by deleting the contents of the output folder
-    for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
-        os.remove(fname)
+    Code is also pulled from the function and displayed in the markdown format.
+    """
 
-    # start the markdown output text
-    md = """
+    if match == "demo_":
+        print("Running standard demos ", end="")
+        md = MARKDOWN_STANDARD
+        fname = "readme.md"
+    elif match == "advanced_":
+        print("Running advanced demos ", end="")
+        md = MARKDOWN_ADVANCED
+        fname = "advanced.md"
+    else:
+        raise NotImplementedError("unsupported match string")
 
-# Getting Started with pyABF
-
-This page is a collection of common tasks performed by pyABF.
-They start out simple and increase in complexity. Browsing this page is the best
-way to get started with pyABF, as every core function is demonstrated in this
-document.
-
-The generation of this guide is fully automated 
-(by [quickStart.py](/tests/tests/quickStart.py)) so this page doubles as a test suite.
-All ABFs used in these examples are provided in  [the data folder](/data/), so
-you can replicate them yourself.
-
-## Prerequisite Imports
-
-Although it's not explicitly shown in every example, it is assumed the following
-lines are present at the top of your Python script:
-
-```python
-import pyabf
-import numpy as np
-import matplotlib.pyplot as plt
-plt.style.use('bmh')
-```
-
-The last line defines the default style of all the graphs on this page. I've 
-started to prefer the "bmh" style (with gray backgrounds), but a full list
-of example styles is on [Tony Syu's page](https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html)
-and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery/style_sheets/style_sheets_reference.html)
-"""
-
-    print("Generating quickstart docs ", end="")
-
-    # then run each of the use case functions above
-    uses = Uses()
-
-    # determine if the developer is actively testing a single function
-    testingOnly = False
+    uses = UseCaseManager()
     for functionName in sorted(dir(uses)):
-        if "_test" in functionName:
-            testingOnly = True
-
-    for functionName in sorted(dir(uses)):
-        if not functionName.startswith("demo_"):
+        if not functionName.startswith(match):
             continue
-
-        if testingOnly and not "_test" in functionName:
-            continue
-
-        # run the function
-        #print(f"executing {functionName}()")
         func = getattr(uses, functionName)
         with NoStdStreams():  # silence print statements
             log.debug("Running %s" % functionName)
             func()
         print(".", end="")
         sys.stdout.flush()
-
-        # use the function docstring as the markdown text
         md += "\n\n"+cleanDocstrings(func.__doc__)
-
-        # include the source code of the function (if it's not just a pass)
         code = inspect.getsource(func)
         if not code.strip().endswith("pass"):
             md += "\n\n**Code:**\n\n```python\n"
             md += cleanCode(code)
             md += "\n```"
-
-        # show the image if it exists
         imgName = functionName+".jpg"
         imgPath = f"{PATH_PROJECT}/docs/getting-started/source/{imgName}"
         if os.path.exists(imgPath):
             md += f"\n\n**Output:**\n\n![source/{imgName}](source/{imgName})"
-
-    # save the markdown page
-    fname = os.path.abspath(f"{PATH_PROJECT}/docs/getting-started/readme.md")
+    fname = os.path.abspath(f"{PATH_PROJECT}/docs/getting-started/{fname}")
     log.debug(f"saving markdown file: {fname}")
     with open(fname, 'w') as f:
         f.write(md)
 
     print(" OK")
 
+
+def go():
+    """Regenerate all use case examples and figures (simple and advanced)"""
+    for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
+        os.remove(fname)
+    generate_demos("demo_")
+    generate_demos("advanced_")
 
 if __name__ == "__main__":
     go()
