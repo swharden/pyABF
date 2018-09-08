@@ -42,6 +42,8 @@ def ensureAbfHeaderDidNotChange(abfFilePath):
         if "strings =" in newMarkdown[i]:
             continue
         if newMarkdown[i]!=previousMarkdown[i]:
+            if "abfDateTime" in newMarkdown[i]:
+                continue
             log.critical(f"MARKDOWN FILE CHANGED: {mdHeaderPath}")
             log.critical(f"OLD FILE LINE {i}:")
             log.critical(previousMarkdown[i])
