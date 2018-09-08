@@ -44,7 +44,7 @@ This GitHub project tracks the pyABF Python module as well as serve as a central
 ![](/docs/graphics/2017-11-18-multichannel.png)
 
 ## Citing pyABF
-If the pyABF project facilitated your research consider citing this project by name so it can benefit others too:
+If the pyABF module facilitated your research, consider citing this project by name so it can benefit others too:
 
 > _"Computational analysis of electrophysiological recordings was performed with custom software 
 > written for this project using Python 3.7 and the pyABF module."_
