@@ -13,7 +13,13 @@ pyABF to set-up an automatic analysis pipeline for electrophysiology data.
 """
 
 import os
+PATH_HERE = os.path.dirname(__file__)
+PATH_DATA = os.path.abspath(os.path.dirname(__file__)+"/../../data/abfs/")
+import sys
+sys.path.insert(0, PATH_HERE+"/../../src/")
 import pyabf
+
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -30,8 +36,6 @@ FIGSIZE_WIDE = (FIGSIZE[0]*1.6, FIGSIZE[1]*1)
 from abfnav import DATAFOLDER
 
 # Little operations to apply on graphs
-
-
 def _secLookUp(abf, timeSec1, timeSec2, returnPoints=False):
     """returns tangible times in seconds."""
     assert isinstance(abf, pyabf.ABF)
@@ -47,6 +51,7 @@ def _secLookUp(abf, timeSec1, timeSec2, returnPoints=False):
 
 def shadeDigitalOutput(abf, digitalOutputChannel=4):
     """In sweep view, shade the epoch number."""
+    log.debug("shading digital outputs")
     digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
     epochPoints = pyabf.stimulus.epochPoints(abf)
     outputStateByEpoch = digitalWaveforms[digitalOutputChannel]
@@ -59,6 +64,7 @@ def shadeDigitalOutput(abf, digitalOutputChannel=4):
 
 def shadeAllBackgrounds(color=(1.0, 1.0, 0.9)):
     """make the background color a certain color for every subplot."""
+    log.debug("shading all backgrounds", color)
     for i, ax in enumerate(plt.gcf().axes):
         ax.set_facecolor(color)
 
@@ -68,6 +74,7 @@ def addComments(abf):
     Call on a graph with a horizontal time in seconds to add vertical lines and
     labels to every abf comment.
     """
+    log.debug("adding comments to graphs")
     assert isinstance(abf, pyabf.ABF)
     if not abf.tagComments:
         return
@@ -83,6 +90,7 @@ def addComments(abf):
 
 def plotFigNew(abf, figsize=FIGSIZE):
     """create a figure"""
+    log.debug("creating new figure")
     plt.figure(figsize=figsize)
     return
 
@@ -90,6 +98,7 @@ def plotFigNew(abf, figsize=FIGSIZE):
 def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
                 unknown=False, title=None, labelAxes=True):
     """save a figure"""
+    log.debug("saving figure outputs")
     assert isinstance(abf, pyabf.ABF)
 
     # apply title only to single-subplot figures
@@ -157,6 +166,7 @@ def plotFigSave(abf, tag="", tight=True, closeToo=True, grid=True,
 
 def generic_ap_steps(abf):
     """Create a plot for generic AP steps."""
+    log.debug("generic plot: AP steps")
     assert isinstance(abf, pyabf.ABF)
     plotFigNew(abf)
 
@@ -203,6 +213,8 @@ def generic_ap_steps(abf):
 def generic_iv(abf, timeSec1, timeSec2, sweepStepMv, firstSweepMv, filter=True):
     """Create a graph plotting the I/V between two points."""
 
+    log.debug("generic plot: IV curve")
+
     # enable lowpass filter
     if filter:
         pyabf.filter.gaussian(abf, 2)
@@ -236,6 +248,7 @@ def generic_iv(abf, timeSec1, timeSec2, sweepStepMv, firstSweepMv, filter=True):
 
 def generic_overlay(abf, color=None, unknown=False, alpha=None):
     """plot every sweep semi-transparent on top of the next."""
+    log.debug("generic plot: overlay")
     assert isinstance(abf, pyabf.ABF)
     plotFigNew(abf)
     for channel in abf.channelList:
@@ -249,6 +262,7 @@ def generic_overlay(abf, color=None, unknown=False, alpha=None):
 
 def generic_overlay_average(abf, baselineSec1=None, baselineSec2=None):
     """plot every sweep semi-transparent on top of the next and show the average of all."""
+    log.debug("generic plot: overlay average")
     assert isinstance(abf, pyabf.ABF)
     if baselineSec2:
         abf.sweepBaseline(baselineSec1, baselineSec2)
@@ -267,6 +281,7 @@ def generic_overlay_average(abf, baselineSec1=None, baselineSec2=None):
 
 def generic_continuous(abf, unknown=False, alpha=1):
     """plot every sweep continuously through time."""
+    log.debug("generic plot: continuous")
     assert isinstance(abf, pyabf.ABF)
     plotFigNew(abf)
     for channel in abf.channelList:
@@ -282,6 +297,7 @@ def generic_continuous(abf, unknown=False, alpha=1):
 
 def generic_first_sweep(abf, timeSec1=None, timeSec2=None):
     """plot every sweep continuously through time."""
+    log.debug("generic plot: first sweep")
     assert isinstance(abf, pyabf.ABF)
     plotFigNew(abf)
     for channel in abf.channelList:
@@ -296,6 +312,7 @@ def generic_first_sweep(abf, timeSec1=None, timeSec2=None):
 
 def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
     """plot the average of every sweep continuously through time."""
+    log.debug("generic plot: average over time")
     assert isinstance(abf, pyabf.ABF)
     plotFigNew(abf)
     for channel in abf.channelList:
@@ -321,6 +338,7 @@ def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
 
 def generic_paired_pulse(abf, p1sec1, p1sec2, p2sec1, p2sec2):
     """single pulse or paired pulse analysis."""
+    log.debug("generic plot: pulse analysis")
     assert isinstance(abf, pyabf.ABF)
     sweepTimes = np.arange(abf.sweepCount)*abf.sweepLengthSec
 
@@ -370,7 +388,8 @@ def generic_paired_pulse(abf, p1sec1, p1sec2, p2sec1, p2sec2):
 
 def generic_memtest_ramp(abf, msg=False):
     """analyzes the ramp part of a sweep to calculate Cm"""
-
+    log.debug("generic plot: Cm ramp")
+    assert(isinstance(abf,pyabf.ABF))
     plotFigNew(abf)
 
     # plot the memtest
@@ -420,6 +439,7 @@ def generic_ap_freqPerSweep(abf):
     """
     Create a plot showing the AP frequency by sweep.
     """
+    log.debug("generic plot: AP Frequency Per Sweep")
     assert isinstance(abf, pyabf.ABF)
     apsPerSweep = [0]*abf.sweepCount
     sweepTimesSec = np.arange(abf.sweepCount)*abf.sweepLengthSec
@@ -441,6 +461,7 @@ def generic_ap_freqPerSweep(abf):
 
 def unknown(abf):
     """unknown protocol."""
+    log.debug("running method for unknown protocol")
     assert isinstance(abf, pyabf.ABF)
     totalLengthSec = abf.sweepCount*abf.sweepLengthSec
     if abf.sweepLengthSec < 10 and totalLengthSec < 60*2:
@@ -659,6 +680,7 @@ def protocol_0404(abf):
     """0404 VC 2s MT2-70 ramp -110-50.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
+    generic_average_over_time(abf, timeSec1=1.5)
     return
 
 
@@ -741,3 +763,11 @@ def protocol_0xxx(abf):
         protocol_0912(abf)
     else:
         unknown(abf)
+
+if __name__=="__main__":
+    log.critical("DO NOT RUN THIS FILE DIRECTLY")
+    log.setLevel(logging.DEBUG)
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\FSI ramp TGOT\2018_09_10_0023.abf"
+    abf = pyabf.ABF(fileToTest)
+    print("ABF is protocol",abf.protocol)
+    protocol_0404(abf)
