@@ -456,6 +456,57 @@ def generic_ap_freqPerSweep(abf):
     addComments(abf)
     plotFigSave(abf, tag="apFreqBySweep", labelAxes=False)
 
+def generic_trace_before_after_drug(abf, minAfterDrug = 2, minBeforeDrug = .5, isolateEpoch=3):
+    """create a plot showing the average of n sweeps before and after the first drug."""
+    assert isinstance(abf, pyabf.ABF)
+    for drugNumber in range(len(abf.tagComments)):
+
+        # determine ideal drug times for before/after drug applied
+        baselineSweepTimeMin = abf.tagTimesMin[drugNumber] - minBeforeDrug
+        baselineSweep = int(baselineSweepTimeMin*60/abf.sweepLengthSec)
+        baselineSweep = max(0, baselineSweep)
+        drugSweepTimeMin = abf.tagTimesMin[drugNumber] + minAfterDrug
+        drugSweep = int(drugSweepTimeMin*60/abf.sweepLengthSec)
+        drugSweep = min(drugSweep, abf.sweepCount-1)
+
+        # isolate just the part of the trace we are interested in
+        if (isolateEpoch):
+            i1 = pyabf.stimulus.epochPoints(abf)[isolateEpoch]
+            i2 = pyabf.stimulus.epochPoints(abf)[isolateEpoch+1]
+        else:
+            i1=0
+            i2=abf.sweepPointCount
+
+        # load ramp data from ideal times
+        pyabf.filter.gaussian(abf, 3)
+        abf.setSweep(baselineSweep)
+        rampBaseline = abf.sweepY[i1:i2]
+        abf.setSweep(drugSweep)
+        rampDrug = abf.sweepY[i1:i2]
+        rampDiff = rampDrug - rampBaseline
+
+        # create the plot
+
+        plotFigNew(abf)
+
+        ax1 = plt.gcf().add_subplot(211)
+        ax2 = plt.gcf().add_subplot(212)
+        
+        ax1.set_title("Representative traces around drug %d (%s)"%(drugNumber, abf.tagComments[drugNumber]))
+        ax1.plot(abf.sweepX[i1:i2], rampBaseline, label="-%.02f min"%minBeforeDrug, lw=2, alpha=.7)
+        ax1.plot(abf.sweepX[i1:i2], rampDrug, label="+%.02f min"%minAfterDrug, lw=2, alpha=.7)
+        ax1.legend()
+        
+        pyabf.filter.gaussian(abf, 3)  # apply lowpass filter
+        ax2.set_title("Ramp Difference")
+        ax2.plot(abf.sweepX[i1:i2], rampDiff, lw=2, alpha=.7, color='C3')
+        ax2.axhline(0,color='k',ls='--')
+        ax2.legend()
+
+        plotFigSave(abf, tag="ramp-drug%02d"%drugNumber)
+
+    return
+
 # Code defines which routines or generic graphs to use for each protocol
 
 
@@ -675,12 +726,12 @@ def protocol_0403(abf):
     generic_average_over_time(abf, timeSec1=1)
     return
 
-
 def protocol_0404(abf):
     """0404 VC 2s MT2-70 ramp -110-50.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1.5)
+    generic_trace_before_after_drug(abf)
     return
 
 
@@ -767,7 +818,7 @@ def protocol_0xxx(abf):
 if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
-    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\FSI ramp TGOT\2018_09_10_0023.abf"
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs\16o14032.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
     protocol_0404(abf)
