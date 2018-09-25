@@ -700,6 +700,7 @@ def protocol_0302(abf):
     """0302 IC 10s IC ramp drug.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_ap_freqPerSweep(abf)
+    generic_trace_before_after_drug(abf, isolateEpoch=None)
     return
 
 
@@ -818,7 +819,7 @@ def protocol_0xxx(abf):
 if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
-    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs\16o14032.abf"
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs\16o24034.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_0404(abf)
+    protocol_0302(abf)
