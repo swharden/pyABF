@@ -69,7 +69,7 @@ def shadeAllBackgrounds(color=(1.0, 1.0, 0.9)):
         ax.set_facecolor(color)
 
 
-def addComments(abf):
+def addComments(abf, minutes = False, showLabels = True):
     """
     Call on a graph with a horizontal time in seconds to add vertical lines and
     labels to every abf comment.
@@ -79,11 +79,15 @@ def addComments(abf):
     if not abf.tagComments:
         return
     for comment, timeSec in zip(abf.tagComments, abf.tagTimesSec):
-        plt.axvline(timeSec, color='r', lw=2, alpha=.5, ls='--')
+        xPos = timeSec
+        if minutes:
+            xPos /= 60.0
+        plt.axvline(xPos, color='r', lw=2, alpha=.5, ls='--')
         X1, X2, Y1, Y2 = plt.axis()
         Y2 = Y2-abs(Y2-Y1)*.02
-        plt.text(timeSec, Y2, comment, color='r', rotation='vertical',
-                 ha='right', va='top', weight='bold', alpha=.5, size=8)
+        if showLabels:
+            plt.text(xPos, Y2, comment, color='r', rotation='vertical',
+                    ha='right', va='top', weight='bold', alpha=.5, size=8)
 
 ### Code here acts on the active matplotlib figure or subplot ###
 
@@ -333,6 +337,55 @@ def generic_average_over_time(abf, timeSec1=None, timeSec2=None):
         ax.set_title(f"{abf.abfID} (Ch{channel+1}) [{timeNote}]")
         addComments(abf)
     plotFigSave(abf, tag=f"generic-average-over-time")
+    return
+
+def generic_memtest_over_time(abf):
+    """The first epoch is a VC step, so show memtest properties over time."""
+    log.debug("generic plot: memtest analysis")
+    assert isinstance(abf, pyabf.ABF)
+
+    IhBySweep, RmBySweep, RaBySweep, CmBySweep = pyabf.memtest.step_valuesBySweep(abf)
+    sweepTimesMin = np.arange(abf.sweepCount)*abf.sweepLengthSec/60
+
+    plotFigNew(abf)
+
+    ax1 = plt.gcf().add_subplot(2, 2, 1)
+    ax1.plot(sweepTimesMin, IhBySweep, '.', color='C0')
+    ax1.set_title("Holding Current (Ih)")
+    ax1.set_ylabel("Clamp Current (pA)")
+    ax1.set_xlabel("Experiment Time (min)")
+    ax1.margins(0,.4)
+    addComments(abf, True, False)
+
+    ax2 = plt.gcf().add_subplot(2, 2, 2)
+    ax2.plot(sweepTimesMin, RmBySweep, '.', color='C3')
+    ax2.set_title("Membrane Resistance (Rm)")
+    ax2.set_ylabel("Resistance (MOhm)")
+    ax2.set_xlabel("Experiment Time (min)")
+    ax2.margins(0,.4)
+    ax2.axis([None,None,0,None])
+    addComments(abf, True, False)
+    
+    ax3 = plt.gcf().add_subplot(2, 2, 3)
+    ax3.plot(sweepTimesMin, RaBySweep, '.', color='C7')
+    ax3.set_title("Access Resistance (Ra)")
+    ax3.set_ylabel("Resistance (MOhm)")
+    ax3.set_xlabel("Experiment Time (min)")
+    ax3.margins(0,.4)
+    ax3.axis([None,None,0,None])
+    addComments(abf, True, False)
+
+    ax4 = plt.gcf().add_subplot(2, 2, 4)
+    ax4.plot(sweepTimesMin, CmBySweep, '.', color='C1')
+    ax4.set_title("Membrane Capacitance (Cm)")
+    ax4.set_ylabel("Capacitance (pF)")
+    ax4.set_xlabel("Experiment Time (min)")
+    ax4.margins(0,.4)
+    ax4.axis([None,None,0,None])
+    addComments(abf, True, False)
+    
+    plotFigSave(abf, tag=f"generic-memtest", labelAxes=False)
+
     return
 
 
@@ -670,7 +723,6 @@ def protocol_0203(abf):
 def protocol_0204(abf):
     """0204 Cm ramp.pro"""
     assert isinstance(abf, pyabf.ABF)
-    #generic_overlay(abf, alpha=.5)
     generic_memtest_ramp(abf)
     return
 
@@ -709,6 +761,7 @@ def protocol_0401(abf):
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -717,6 +770,7 @@ def protocol_0402(abf):
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -725,14 +779,15 @@ def protocol_0403(abf):
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1)
+    generic_memtest_over_time(abf)
     return
 
 def protocol_0404(abf):
     """0404 VC 2s MT2-70 ramp -110-50.pro"""
     assert isinstance(abf, pyabf.ABF)
-    generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1.5)
     generic_trace_before_after_drug(abf)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -742,6 +797,7 @@ def protocol_0405(abf):
     generic_first_sweep(abf)
     generic_continuous(abf)
     generic_average_over_time(abf, timeSec1=1)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -749,6 +805,7 @@ def protocol_0406(abf):
     """0406 VC 10s MT-50.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -757,6 +814,7 @@ def protocol_0409(abf):
     assert isinstance(abf, pyabf.ABF)
     generic_continuous(abf)
     generic_average_over_time(abf, 0, .4)
+    generic_memtest_over_time(abf)
     return
 
 
@@ -806,6 +864,7 @@ def protocol_0912(abf):
     generic_first_sweep(abf, 2, 3)
     generic_paired_pulse(abf, p1sec, p1sec+pulseWidth,
                          p2sec, p2sec+pulseWidth)
+    generic_memtest_over_time(abf)
 
 
 def protocol_0xxx(abf):
@@ -819,7 +878,8 @@ def protocol_0xxx(abf):
 if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
-    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs\16o24034.abf"
+    
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\FSI ramp TGOT\2018_09_12_0012.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_0302(abf)
+    protocol_0404(abf)

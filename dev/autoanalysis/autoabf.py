@@ -128,8 +128,13 @@ if __name__ == "__main__":
     #autoAnalyzeAbf(abfFileSpecificPath, reanalyze=True)
 
     # analyze a specific folder
-    abfFileSpecificFolder = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs"
-    autoAnalyzeFolder(abfFileSpecificFolder, reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\01-IPSCs", reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\02-direct-ttx", reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\03-direct-ttx-mother", reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\04-direct-blockers-aPIR-vs-pPIR", reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\05-biphasic", reanalyze=False)
+    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\06-ic-ramps", reanalyze=False)
+
     print("DONE")
 
     # TODO: memtest - show Rm, Cm, etc
