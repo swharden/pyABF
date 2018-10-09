@@ -809,6 +809,13 @@ def protocol_0406(abf):
     return
 
 
+def protocol_0408(abf):
+    """0408 VC 10s two step.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
+    generic_memtest_over_time(abf)
+    return
+
 def protocol_0409(abf):
     """0406 VC 10s MT-50.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -879,7 +886,7 @@ if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
     
-    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\FSI ramp TGOT\2018_09_12_0012.abf"
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\PYR sEPSC sIPSC TGOT\2018_10_09_sh_0005.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_0404(abf)
+    protocol_0408(abf)
