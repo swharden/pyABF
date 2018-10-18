@@ -199,6 +199,8 @@ def generic_ap_steps(abf):
     axGain = plt.gcf().add_subplot(2, 2, 4)
 
     for epochNumber, color in zip([1, 4], ['C0', 'C1']):
+        if epochNumber >= len(pyabf.stimulus.epochValues(abf)[0]):
+            continue
         currents = pyabf.stimulus.epochValues(abf)[:, epochNumber]
         epochSec1 = pyabf.stimulus.epochPoints(abf)[epochNumber]/abf.dataRate
         epochSec2 = pyabf.stimulus.epochPoints(abf)[epochNumber+1]/abf.dataRate
@@ -683,6 +685,12 @@ def protocol_0121(abf):
     return
 
 
+def protocol_0122(abf):
+    """0122 steps single -50 to 150 step 10.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_ap_steps(abf)
+    return
+
 def protocol_0201(abf):
     """0201 memtest.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -886,7 +894,7 @@ if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
     
-    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\PYR sEPSC sIPSC TGOT\2018_10_09_sh_0005.abf"
+    fileToTest = R"X:\Data\CRH-Cre\oxt-tone\injection-gain-analysis-2\17731010.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_0408(abf)
+    protocol_0122(abf)
