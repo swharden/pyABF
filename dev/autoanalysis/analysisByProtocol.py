@@ -249,7 +249,7 @@ def generic_iv(abf, timeSec1, timeSec2, sweepStepMv, firstSweepMv, filter=True):
     ax2.set_xlabel("Voltage (mV)")
     ax2.set_title(f"{abf.abfID} I/V Relationship")
 
-    plotFigSave(abf, tag="IV")
+    plotFigSave(abf, tag="IV", labelAxes=False)
 
 
 def generic_overlay(abf, color=None, unknown=False, alpha=None):
