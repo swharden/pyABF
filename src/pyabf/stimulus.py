@@ -84,6 +84,11 @@ def digitalWaveformEpochs(abf):
 
 
 class Stimulus:
+
+    # on-disc location where custom waveforms for the stimset reconstruction
+    # are to be searched
+    protocolStorageDir = None
+
     def __init__(self, abf, channel):
         """
         handles epoch values for a single sweep/channel
@@ -259,6 +264,10 @@ class Stimulus:
         elif os.path.exists(os.path.join(abfFolder, stimBN)):
             log.debug("stimulus file found next to ABF")
             stimFname = os.path.join(abfFolder, stimBN)
+        elif Stimulus.protocolStorageDir is not None and \
+             os.path.exists(os.path.join(Stimulus.protocolStorageDir, stimBN)):
+            log.debug("stimulus file found in protocolStorageDir")
+            stimFname = os.path.join(Stimulus.protocolStorageDir, stimBN)
         else:
             log.debug("stimulus file never found: %s"%stimBN)
             return False
