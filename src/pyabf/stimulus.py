@@ -1,9 +1,9 @@
 """
-Code here relates to the creation of stimulus waveforms. Usually this is 
+Code here relates to the creation of stimulus waveforms. Usually this is
 accomplished by synthesizing a waveform by reading the epoch table. This
 includes the synthesis of digital output channel waveforms.
 
-Some ABFs use a custom stimulus waveform. Code here also allows for the reading 
+Some ABFs use a custom stimulus waveform. Code here also allows for the reading
 of these waveforms from ABF and ATF files.
 
 The Stimulus class is instantitated (once per channel) in the ABF class, and
@@ -309,7 +309,7 @@ class Stimulus:
                 return np.full(self.abf.sweepPointCount, np.nan)
             else:
                 return stimulusFromFile
-                
+
         else:
             log.warn("unknown nWaveformSource: %s" % nWaveformSource)
 
@@ -456,7 +456,7 @@ class Stimulus:
 
 def _epochThings(abf):
     """
-    return [epoch points, values, and digital outputs] for the current sweep and 
+    return [epoch points, values, and digital outputs] for the current sweep and
     channel.
     """
     assert isinstance(abf, pyabf.ABF)

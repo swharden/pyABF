@@ -37,8 +37,8 @@ class ABF:
     files. It can load ABF1 and ABF2 files identically.
 
     The default action is to read all the ABF data from disk when the class is
-    instantiated. When disabled (with an argument) to save speed, one can 
-    quickly iterate through many ABF files to access header contents. 
+    instantiated. When disabled (with an argument) to save speed, one can
+    quickly iterate through many ABF files to access header contents.
 
     Although you can access all data with abf.data, you can also call
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
