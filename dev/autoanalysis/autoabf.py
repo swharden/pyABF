@@ -96,6 +96,28 @@ def autoAnalyzeAbf(abf, reanalyze=True):
             log.debug(f"deleting {fname}")
             os.remove(fname)
 
+    # a few manual search/replace for special titles
+    if not "permanent" in abf.protocolPath:
+
+        # membrane-test-like protocols
+        if abf.protocol.lower() in ["Membrane Test", "membrane test"]:
+            abf.protocol = "KK01 memtest"
+
+        # holding-current-monitoring in VC with memtest
+        if abf.protocol in ["10 min gap free with memt", "10secondSweepGapFree pClamp 10"]:
+            abf.protocol = "KK02 memtest time course"
+        
+        # AP gain steps
+        if abf.adcUnits[0] == "mV" and abf.protocol == "IV":
+            abf.protocol = "KK03 AP gain"
+
+        # VC with stimuator
+        if abf.protocol in ["Stimulation Vclamp"]:
+            abf.protocol = "KK04 Evoked EPSC"
+
+    else:
+        log.warn("non-permanent protocol used!")
+
     # if the protocol is in the autoanalysis format determine its function
     functionName = None
     if " " in abf.protocol and len(abf.protocol.split(" ")[0]) == 4:
@@ -124,17 +146,11 @@ if __name__ == "__main__":
 
     # analyze a specific file
     #abfFileCmRamp = PATH_DATA+"/171116sh_0014.abf"
-    abfFileSpecificPath = R"X:\Data\SD\Piriform Oxytocin\core ephys\abfs\16o24034.abf"
+    #abfFileSpecificPath = R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio\14106_dic2_006.abf"
     #autoAnalyzeAbf(abfFileSpecificPath, reanalyze=True)
 
     # analyze a specific folder
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\01-IPSCs", reanalyze=False)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\02-direct-ttx", reanalyze=False)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\03-direct-ttx-mother", reanalyze=False)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\04-direct-blockers-aPIR-vs-pPIR", reanalyze=False)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\05-biphasic", reanalyze=False)
-    autoAnalyzeFolder(R"X:\Data\SD\Piriform Oxytocin\core ephys\06-ic-ramps", reanalyze=False)
-
+    autoAnalyzeFolder(R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio", reanalyze=True)
     print("DONE")
 
     # TODO: memtest - show Rm, Cm, etc

@@ -663,7 +663,6 @@ def protocol_0112(abf):
     generic_ap_steps(abf)
     return
 
-
 def protocol_0113(abf):
     """0113 steps dual -100 to 300 step 25.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -762,7 +761,6 @@ def protocol_0302(abf):
     generic_ap_freqPerSweep(abf)
     generic_trace_before_after_drug(abf, isolateEpoch=None)
     return
-
 
 def protocol_0401(abf):
     """0401 VC 2s MT-70.pro"""
@@ -867,7 +865,6 @@ def protocol_0501(abf):
     plotFigSave(abf, tag="opto-stacked", labelAxes=True)
     return
 
-
 def protocol_0912(abf):
     """0912 VC 20s stim PPR 40ms.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -881,7 +878,6 @@ def protocol_0912(abf):
                          p2sec, p2sec+pulseWidth)
     generic_memtest_over_time(abf)
 
-
 def protocol_0xxx(abf):
     """Protocols are tagged with this during development."""
     assert isinstance(abf, pyabf.ABF)
@@ -890,11 +886,45 @@ def protocol_0xxx(abf):
     else:
         unknown(abf)
 
+### These protocol's were made for Kyle and Haley's ABF1 aging project data
+
+def protocol_KK01(abf):
+    """Kyle's old experiments: memtest-like protocol."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay(abf)
+    return
+
+def protocol_KK02(abf):
+    """Kyle's old experiments: VC memtest time course."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
+    generic_average_over_time(abf, timeSec1=1)
+    return
+
+def protocol_KK03(abf):
+    """Kyle's old experiments: AP gain."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_ap_steps(abf)
+    return
+
+def protocol_KK04(abf):
+    """Kyle's old experiments: VC evoked EPSC."""
+
+    # fix tag times - why? 2-channels?
+    for i in range(len(abf.tagTimesMin)):
+        divBy = 4
+        abf.tagTimesMin[i] = abf.tagTimesMin[i]/divBy
+        abf.tagTimesSec[i] = abf.tagTimesSec[i]/divBy
+
+    generic_continuous(abf)
+    generic_average_over_time(abf, timeSec1=.65, timeSec2=.65+.15)
+    return
+
 if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
     
-    fileToTest = R"X:\Data\CRH-Cre\oxt-tone\injection-gain-analysis-2\17731010.abf"
+    fileToTest = R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio\14106_dic2_006.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_0122(abf)
+    protocol_KK04(abf)
