@@ -57,9 +57,8 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
 
     if not "data" in (dir(abf)):
         log.debug("ABF data not preloaded. Loading now...")
-        abf._fileOpen()
-        abf._loadAndScaleData()
-        abf._fileClose()
+        with open(abf.abfFilePath, 'rb') as fb:
+            abf._loadAndScaleData(fb)
 
     # TODO: prevent re-loading of the same sweep.
 

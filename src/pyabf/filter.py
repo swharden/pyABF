@@ -43,9 +43,8 @@ def remove(abf):
     Revert to the original data in the ABF. This is accomplished by opening
     the original file and re-reading the data (into abf.data).
     """
-    abf._fileOpen()
-    abf._loadAndScaleData()
-    abf._fileClose()
+    with open(abf.abfFilePath, 'rb') as fb:
+        abf._loadAndScaleData()
 
 
 def gaussian(abf, sigmaMs=5, channel=0):
