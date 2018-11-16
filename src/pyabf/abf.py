@@ -55,30 +55,28 @@ class ABF:
             raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
         log.debug(self.__repr__())
-        self._fileOpen()
 
-        # get a preliminary ABF version from the ABF file itself
-        self.abfVersion = {}
-        self.abfVersion["major"] = pyabf.abfHeader.abfFileFormat(self._fb)
-        if not self.abfVersion["major"] in [1, 2]:
-            raise NotImplementedError("Invalid ABF file format")
+        with open(self.abfFilePath, 'rb') as fb:
 
-        # read the ABF header and bring its contents to the local namespace
-        if self.abfVersion["major"] == 1:
-            self._readHeadersV1()
-        elif self.abfVersion["major"] == 2:
-            self._readHeadersV2()
+            # get a preliminary ABF version from the ABF file itself
+            self.abfVersion = {}
+            self.abfVersion["major"] = pyabf.abfHeader.abfFileFormat(fb)
+            if not self.abfVersion["major"] in [1, 2]:
+                raise NotImplementedError("Invalid ABF file format")
 
-        # create more local variables based on the header data
-        self._makeAdditionalVariables()
+            # read the ABF header and bring its contents to the local namespace
+            if self.abfVersion["major"] == 1:
+                self._readHeadersV1(fb)
+            elif self.abfVersion["major"] == 2:
+                self._readHeadersV2(fb)
 
-        # optionally load data from disk
-        if self._preLoadData:
-            self._loadAndScaleData()
-            self.setSweep(0)
+            # create more local variables based on the header data
+            self._makeAdditionalVariables()
 
-        # we are done with the ABF file, so close it
-        self._fileClose()
+            # optionally load data from disk
+            if self._preLoadData:
+                self._loadAndScaleData(fb)
+                self.setSweep(0)
 
     def __str__(self):
         txt = f"ABF file ({self.abfID}.abf)"
@@ -96,27 +94,12 @@ class ABF:
         return 'ABFcore(abf="%s", loadData=%s)' % \
             (self.abfFilePath, self._preLoadData)
 
-    def _fileOpen(self):
-        """Open the ABF file in rb mode."""
-        log.debug("opening ABF file")
-        self._fileSize = os.path.getsize(self.abfFilePath)
-        self._fb = open(self.abfFilePath, 'rb')
-        self._fileOpenTime = time.perf_counter()
-
-    def _fileClose(self):
-        """Close and release the ABF file."""
-        log.debug("closing ABF file")
-        self._fileCloseTime = time.perf_counter()
-        self._fb.close()
-        self._dataLoadTimeMs = (self._fileCloseTime-self._fileOpenTime)*1000
-        log.debug("ABF file was open for %.02f ms" % self._dataLoadTimeMs)
-
-    def _readHeadersV1(self):
+    def _readHeadersV1(self, fb):
         """Populate class variables from the ABF1 header."""
         assert self.abfVersion["major"] == 1
 
         # read the headers out of the file
-        self._headerV1 = HeaderV1(self._fb)
+        self._headerV1 = HeaderV1(fb)
 
         # create useful variables at the class level
         self.abfVersion = self._headerV1.abfVersionDict
@@ -166,22 +149,22 @@ class ABF:
             self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
             self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
 
-    def _readHeadersV2(self):
+    def _readHeadersV2(self, fb):
         """Populate class variables from the ABF2 header."""
 
         assert self.abfVersion["major"] == 2
 
         # read the headers out of the file
-        self._headerV2 = HeaderV2(self._fb)
-        self._sectionMap = SectionMap(self._fb)
-        self._protocolSection = ProtocolSection(self._fb, self._sectionMap)
-        self._adcSection = ADCSection(self._fb, self._sectionMap)
-        self._dacSection = DACSection(self._fb, self._sectionMap)
+        self._headerV2 = HeaderV2(fb)
+        self._sectionMap = SectionMap(fb)
+        self._protocolSection = ProtocolSection(fb, self._sectionMap)
+        self._adcSection = ADCSection(fb, self._sectionMap)
+        self._dacSection = DACSection(fb, self._sectionMap)
         self._epochPerDacSection = EpochPerDACSection(
-            self._fb, self._sectionMap)
-        self._epochSection = EpochSection(self._fb, self._sectionMap)
-        self._tagSection = TagSection(self._fb, self._sectionMap)
-        self._stringsSection = StringsSection(self._fb, self._sectionMap)
+            fb, self._sectionMap)
+        self._epochSection = EpochSection(fb, self._sectionMap)
+        self._tagSection = TagSection(fb, self._sectionMap)
+        self._stringsSection = StringsSection(fb, self._sectionMap)
         self._stringsIndexed = StringsIndexed(
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
@@ -269,12 +252,12 @@ class ABF:
         else:
             raise NotImplementedError("unknown data format")
 
-    def _loadAndScaleData(self):
+    def _loadAndScaleData(self, fb):
         """Load data from the ABF file and scale it by its scaleFactor."""
 
         # read the data from the ABF file
-        self._fb.seek(self.dataByteStart)
-        raw = np.fromfile(self._fb, dtype=self._dtype,
+        fb.seek(self.dataByteStart)
+        raw = np.fromfile(fb, dtype=self._dtype,
                           count=self.dataPointCount)
         nRows = self.channelCount
         nCols = int(self.dataPointCount/self.channelCount)
