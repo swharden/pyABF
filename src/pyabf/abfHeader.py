@@ -63,6 +63,8 @@ TELEGRAPHS = {
     27: "Axoclamp 900"
 }
 
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+
 def abfFileFormat(fb):
     """
     This function returns 1 or 2 if the ABF file is v1 or v2.    
@@ -193,10 +195,8 @@ class HeaderV1:
         # format creation date based on when file was created
         abfFilePath = fb.name
         self.abfDateTime = round(os.path.getctime(abfFilePath))
-        self.abfDateTime = datetime.datetime.fromtimestamp(
-            self.abfDateTime)
-        self.abfDateTimeString = self.abfDateTime.isoformat()
-        self.abfDateTimeString = self.abfDateTimeString.replace(" ","T")
+        self.abfDateTime = datetime.datetime.fromtimestamp(self.abfDateTime)
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[:-3]
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
@@ -272,8 +272,7 @@ class HeaderV2:
         startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
-        self.abfDateTimeString = timeStamp.isoformat()
-        self.abfDateTimeString = self.abfDateTimeString.replace(" ","T")
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[:-3]
 
 
 class SectionMap:
