@@ -68,6 +68,7 @@ FIRSTVALUES['File_axon_6'] = ['-56.47583', '-0.03357']
 FIRSTVALUES['File_axon_7'] = ['-1.48067']
 FIRSTVALUES['File_axon_1'] = ['2.18811']
 FIRSTVALUES['abf1_with_tags'] = ['-34.54589']
+FIRSTVALUES['2018_11_16_sh_0006'] = ['-119.14062']
 
 def go():
     print("Checking first values ", end="")
