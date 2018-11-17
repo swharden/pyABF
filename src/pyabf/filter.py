@@ -44,7 +44,7 @@ def remove(abf):
     the original file and re-reading the data (into abf.data).
     """
     with open(abf.abfFilePath, 'rb') as fb:
-        abf._loadAndScaleData()
+        abf._loadAndScaleData(fb)
 
 
 def gaussian(abf, sigmaMs=5, channel=0):
