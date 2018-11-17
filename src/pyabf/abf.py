@@ -73,6 +73,10 @@ class ABF:
             # create more local variables based on the header data
             self._makeAdditionalVariables()
 
+            # note the file size
+            fb.seek(0, os.SEEK_END)
+            self._fileSize = fb.tell()
+
             # optionally load data from disk
             if self._preLoadData:
                 self._loadAndScaleData(fb)
