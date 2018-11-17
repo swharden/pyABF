@@ -15,7 +15,7 @@
 ## ABF Class Variables
 
 * abfDateTime = `2008-04-28 14:47:33.262000`
-* abfDateTimeString = `2008-04-28T14:47:33.262000`
+* abfDateTimeString = `2008-04-28T14:47:33.262`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_1.abf`
 * abfID = `File_axon_1`
@@ -75,7 +75,7 @@ DAC waveform is not enabled.
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
 * abfDateTime = `2008-04-28 14:47:33.262000`
-* abfDateTimeString = `2008-04-28T14:47:33.262000`
+* abfDateTimeString = `2008-04-28T14:47:33.262`
 * abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.0`
 * abfVersionString = `2.0.0.0`

@@ -15,7 +15,7 @@
 ## ABF Class Variables
 
 * abfDateTime = `2017-11-17 12:54:26.816000`
-* abfDateTimeString = `2017-11-17T12:54:26.816000`
+* abfDateTimeString = `2017-11-17T12:54:26.816`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/171117_HFMixFRET.abf`
 * abfID = `171117_HFMixFRET`
@@ -104,7 +104,7 @@ DAC waveform is not enabled.
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
 * abfDateTime = `2017-11-17 12:54:26.816000`
-* abfDateTimeString = `2017-11-17T12:54:26.816000`
+* abfDateTimeString = `2017-11-17T12:54:26.816`
 * abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.0`
 * abfVersionString = `2.0.0.0`

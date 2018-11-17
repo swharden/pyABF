@@ -15,7 +15,7 @@
 ## ABF Class Variables
 
 * abfDateTime = `2016-12-22 14:39:47.945000`
-* abfDateTimeString = `2016-12-22T14:39:47.945000`
+* abfDateTimeString = `2016-12-22T14:39:47.945`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/16d22006_kim_gapfree.abf`
 * abfID = `16d22006_kim_gapfree`
@@ -82,7 +82,7 @@ DAC waveform is not enabled.
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
 * abfDateTime = `2016-12-22 14:39:47.945000`
-* abfDateTimeString = `2016-12-22T14:39:47.945000`
+* abfDateTimeString = `2016-12-22T14:39:47.945`
 * abfVersionDict = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.0`
 * abfVersionString = `2.0.0.0`

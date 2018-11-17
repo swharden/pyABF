@@ -15,7 +15,7 @@
 ## ABF Class Variables
 
 * abfDateTime = `2017-11-27 08:17:59.810000`
-* abfDateTimeString = `2017-11-27T08:17:59.810000`
+* abfDateTimeString = `2017-11-27T08:17:59.810`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/model_vc_ramp.abf`
 * abfID = `model_vc_ramp`
@@ -83,7 +83,7 @@ DAC waveform is controlled by epoch table:
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
 * abfDateTime = `2017-11-27 08:17:59.810000`
-* abfDateTimeString = `2017-11-27T08:17:59.810000`
+* abfDateTimeString = `2017-11-27T08:17:59.810`
 * abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.6`
 * abfVersionString = `2.6.0.0`

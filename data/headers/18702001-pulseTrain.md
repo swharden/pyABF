@@ -15,7 +15,7 @@
 ## ABF Class Variables
 
 * abfDateTime = `2018-07-02 09:29:47.630000`
-* abfDateTimeString = `2018-07-02T09:29:47.630000`
+* abfDateTimeString = `2018-07-02T09:29:47.630`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/18702001-pulseTrain.abf`
 * abfID = `18702001-pulseTrain`
@@ -98,7 +98,7 @@ DAC waveform is controlled by epoch table:
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
 * abfDateTime = `2018-07-02 09:29:47.630000`
-* abfDateTimeString = `2018-07-02T09:29:47.630000`
+* abfDateTimeString = `2018-07-02T09:29:47.630`
 * abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.6`
 * abfVersionString = `2.6.0.0`
