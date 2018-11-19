@@ -89,6 +89,8 @@ class Stimulus:
     # are to be searched
     protocolStorageDir = None
 
+    waveformCache = {}
+
     def __init__(self, abf, channel):
         """
         handles epoch values for a single sweep/channel
@@ -272,18 +274,23 @@ class Stimulus:
             log.debug("stimulus file never found: %s"%stimBN)
             return False
 
-        # read the ABF or ATF stimulus file
-        if stimFname.upper().endswith(".ABF"):
-            log.debug("stimulus file is an ABF")
-            abf = pyabf.ABF(stimFname)
-            #TODO: data requires custom stimulus scaling!
-            return abf.sweepY
-        elif stimFname.upper().endswith(".ATF"):
-            log.debug("stimulus file is an ATF")
-            atf = pyabf.ATF(stimFname)
-            #TODO: data requires custom stimulus scaling!
-            return atf.sweepY
+        # get the real path so that not two cache keys point to the same object
+        stimFname = os.path.realpath(stimFname)
 
+        if Stimulus.waveformCache.get(stimFname):
+            log.debug("stimulus file is already cached")
+        else:
+            # read the ABF or ATF stimulus file
+            if stimFname.upper().endswith(".ABF"):
+                log.debug("stimulus file is an ABF")
+                #TODO: data requires custom stimulus scaling!
+                Stimulus.waveformCache[stimFname] = pyabf.ABF(stimFname)
+            elif stimFname.upper().endswith(".ATF"):
+                log.debug("stimulus file is an ATF")
+                #TODO: data requires custom stimulus scaling!
+                Stimulus.waveformCache[stimFname] = pyabf.ATF(stimFname)
+
+        return Stimulus.waveformCache[stimFname].sweepY
 
     def stimulusWaveform(self, sweepNumber=0):
         """
