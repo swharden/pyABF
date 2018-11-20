@@ -43,23 +43,23 @@ def runFunctionInFile(filename, functionName="go"):
 if __name__ == "__main__":
     
     # set this to true and run this test right before releasing
-    testing_for_release = False
+    testing_for_release = True
 
-    # ensure ABF header, data, and core API did not change
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/testHeaders.py")
-    runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
-
-    # I don't run these tests frequently because they're slow
-    run_tests_involving_matplotlib = False
-    if run_tests_involving_matplotlib or testing_for_release:
-        runFunctionInFile(PATH_PROJECT+"/tests/tests/gettingStarted.py")
-
-    # run this when new ABF files are added to the data folder
+    # run this when new ABF files are added to the data folder (slow)
     generate_data_for_new_abf_files = False
     if generate_data_for_new_abf_files or testing_for_release:
         runFunctionInFile(PATH_PROJECT+"/tests/tests/dataHeaders.py")
         runFunctionInFile(PATH_PROJECT+"/tests/tests/dataThumbnails.py")
+
+    # regenerate all graphs for the getting started guide (slow)
+    run_tests_involving_matplotlib = False
+    if run_tests_involving_matplotlib or testing_for_release:
+        runFunctionInFile(PATH_PROJECT+"/tests/tests/gettingStarted.py")
+
+    # common tests: ensure ABF header, data, and core API did not change
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/testHeaders.py")
+    runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
