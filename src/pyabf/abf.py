@@ -224,8 +224,16 @@ class ABF:
     def _makeAdditionalVariables(self):
         """create or touch-up version-nonspecific variables."""
 
+        # ensure gap-free files have a single sweep
+        if self.abfVersion["major"]==1:
+            if self._headerV1.nOperationMode == 3:
+                self.sweepCount = 1
+        if self.abfVersion["major"]==2:
+            if self._protocolSection.nOperationMode == 3:
+                self.sweepCount = 1
+
         # sweep information
-        if self.sweepCount == 0:  # gap free
+        if self.sweepCount == 0:
             self.sweepCount = 1
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
