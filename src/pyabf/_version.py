@@ -1,4 +1,4 @@
-__version__ = '2.0.25'
+__version__ = '2.0.26'
 
 import warnings
 
