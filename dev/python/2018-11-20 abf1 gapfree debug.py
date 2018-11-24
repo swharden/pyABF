@@ -1,6 +1,7 @@
 """
 I got an email indicating this ABF wouldn't load properly.
 It seems to be a gap-free protocol, but is being loaded as >1000 sweeps!
+This ABF demonstrated the problem and the issue was fixed.
 """
 
 import os
