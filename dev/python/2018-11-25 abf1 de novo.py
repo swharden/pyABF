@@ -12,6 +12,7 @@ FOLDER_HERE = os.path.abspath(os.path.dirname(__file__))
 DEMO_NPY = os.path.join(FOLDER_HERE, "2018-11-24 simulated data.npy")
 DEMO_ABF = os.path.join(FOLDER_HERE, "2018-11-25 abf1 de novo.abf")
 BLOCKSIZE = 512
+HEADER_BLOCKS = 4
 
 
 def create_abf1_from_scratch():
@@ -24,9 +25,9 @@ def create_abf1_from_scratch():
     dataPointCount = sweepPointCount*sweepCount
 
     # predict how large our file must be and create a byte array of that size
-    dataBlocks = int(dataPointCount * 4 / BLOCKSIZE)+1
-    headerBlocks = 4
-    data = bytearray((dataBlocks + headerBlocks) * BLOCKSIZE)
+    bytesPerPoint = 2
+    dataBlocks = int(dataPointCount * bytesPerPoint / BLOCKSIZE) + 1
+    data = bytearray((dataBlocks + HEADER_BLOCKS) * BLOCKSIZE)
     print(f"Creating an ABF1 file {len(data)/1e6} MB in size ...")
 
     # populate only the useful header data values
@@ -35,27 +36,47 @@ def create_abf1_from_scratch():
     struct.pack_into('h', data, 8, 5)  # nOperationMode (5 is episodic)
     struct.pack_into('i', data, 10, dataPointCount)  # lActualAcqLength
     struct.pack_into('i', data, 16, sweepCount)  # lActualEpisodes
-    struct.pack_into('i', data, 40, 4)  # lDataSectionPtr (always 4?)
-    struct.pack_into('h', data, 100, 1)  # must be 1 for float32
+    struct.pack_into('i', data, 40, HEADER_BLOCKS)  # lDataSectionPtr
+    # struct.pack_into('h', data, 100, 1)  # nDataFormat is 1 for float32
     struct.pack_into('h', data, 120, 1)  # nADCNumChannels
     struct.pack_into('f', data, 122, 20)  # fADCSampleInterval (CUSTOMIZE!!!)
     struct.pack_into('i', data, 138, sweepPointCount)  # lNumSamplesPerEpisode
 
-    # These extras are for scaling, even though isn't not even used.
-    # Doing this prevents crashing on load due to divide-by-zero errors.
-    # fInstrumentScaleFactor, fSignalGain, fADCProgrammableGain, lADCResolution
-    for bytePosition in [922, 1050, 730, 252]:
-        for i in range(16):
-            struct.pack_into('f', data, bytePosition+i*4, 1)
+    # These ADC adjustments are used for integer conversion. It's a good idea
+    # to populate these with non-zero values even when using float32 notation
+    # to avoid divide-by-zero errors when loading ABFs.
+
+    fSignalGain = 1 # always 1
+    fADCProgrammableGain = 1 # always 1
+    lADCResolution = 2**15 # 16-bit
+    fInstrumentScaleFactor = .025
+    fADCRange = 10
+    for i in range(16):
+        struct.pack_into('f', data, 922+i*4, fInstrumentScaleFactor)
+        struct.pack_into('f', data, 1050+i*4, fSignalGain)
+        struct.pack_into('f', data, 730+i*4, fADCProgrammableGain)
+        struct.pack_into('f', data, 244+i*4, fADCRange)
+        struct.pack_into('f', data, 252+i*4, lADCResolution)
 
     # fill data portion with data from signal
-    dataByteOffset = BLOCKSIZE*4
+    dataByteOffset = BLOCKSIZE * HEADER_BLOCKS
     for sweepNumber, sweepSignal in enumerate(signalSweeps):
-        sweepByteOffset = sweepNumber * sweepPointCount * 4
+        sweepByteOffset = sweepNumber * sweepPointCount * bytesPerPoint
         for valueNumber, value in enumerate(sweepSignal):
-            valueByteOffset = valueNumber * 4
+
+            # scale this value to an integer
+            # WARNING: SOMETHING IS WRONG!
+            # SCALING IS A FEW ORDERS OF MAGNITUDE OFF!
+            value *= lADCResolution
+            value /= fADCRange
+            value *= fADCProgrammableGain
+            value *= fSignalGain
+            value *= fInstrumentScaleFactor
+
+            # load the value into the byte array
+            valueByteOffset = valueNumber * bytesPerPoint
             bytePosition = dataByteOffset + sweepByteOffset + valueByteOffset
-            struct.pack_into('f', data, bytePosition, value)
+            struct.pack_into('h', data, bytePosition, int(value))
 
     # save the byte array to disk
     with open(DEMO_ABF, 'wb') as f:
