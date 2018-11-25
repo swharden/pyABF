@@ -40,8 +40,8 @@
 * epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[nan, nan, nan, ..., nan, nan, nan]`
-* protocol = ` %*:v`
-* protocolPath = ``Ie[Izt=%L3VD$jtI?G *G`XB[[Bel%*/[?o Nez*z[S t {I5I%SN/ %*:v`
+* protocol = `XXX`
+* protocolPath = `XXX`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
@@ -134,4 +134,4 @@ DAC data from ABF1 files is not available.
 * sADCChannelName = `['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']`
 * sADCUnits = `['pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
 * sComment = `[]`
-* sProtocolPath = ``Ie[Izt=%L3VD$jtI?G *G`XB[[Bel%*/[?o Nez*z[S t {I5I%SN/ %*:v`
+* sProtocolPath = `XXX`
