@@ -99,20 +99,24 @@ class InfoPage:
         self.things.append([docs, "~DOCS~"])
 
     def showText(self):
+        print(self.getText())
+
+    def getText(self):
+        text = ""
         for item in self.things:
             name, value = item
             if value == "~SECTION~":
-                print("\n### %s ###" % name)
+                text+="\n### %s ###\n"%name
             elif value == "~DOCS~":
-                print("\n~~~ %s ~~~" % name)
+                text+="\n~~~ %s ~~~\n"%name
             elif str(name) == "~CODE~":
-                print(value)
+                text+=value+"\n"
             else:
                 if value is None:
-                    print("%s" % (name))
+                    text+="%s"%(name)+"\n"
                 else:
-                    print("%s = %s" % (name, value))
-        return
+                    text+="%s = %s\n" % (name, value)
+        return text
 
     def generateMarkdown(self, saveAs=False):
         out = "# %s\n" % (self.title)
