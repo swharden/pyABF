@@ -41,6 +41,13 @@ def create_abf1_from_scratch():
     struct.pack_into('f', data, 122, 20)  # fADCSampleInterval (CUSTOMIZE!!!)
     struct.pack_into('i', data, 138, sweepPointCount)  # lNumSamplesPerEpisode
 
+    # These extras are for scaling, even though isn't not even used.
+    # Doing this prevents crashing on load due to divide-by-zero errors.
+    # fInstrumentScaleFactor, fSignalGain, fADCProgrammableGain, lADCResolution
+    for bytePosition in [922, 1050, 730, 252]:
+        for i in range(16):
+            struct.pack_into('f', data, bytePosition+i*4, 1)
+
     # fill data portion with data from signal
     dataByteOffset = BLOCKSIZE*4
     for sweepNumber, sweepSignal in enumerate(signalSweeps):
