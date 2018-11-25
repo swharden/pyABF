@@ -4,10 +4,6 @@ not in MiniAnalysis. To assess why, the ABF converter was used to convert this
 "unknown binary" format to an ABF with a header MiniAnalysis is comfortable 
 with. By inspecting that header we can see what needs to be changed to support
 MiniAnalysis.
-
-Findings: the output looks great! No meaningful header values are changed.
-The reason MiniAnalysis can't view the file must be because of how the data
-is formatted...
 """
 
 import os
