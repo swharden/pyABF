@@ -39,7 +39,7 @@ def create_abf1_from_scratch():
     struct.pack_into('i', data, 40, HEADER_BLOCKS)  # lDataSectionPtr
     # struct.pack_into('h', data, 100, 1)  # nDataFormat is 1 for float32
     struct.pack_into('h', data, 120, 1)  # nADCNumChannels
-    struct.pack_into('f', data, 122, 20)  # fADCSampleInterval (CUSTOMIZE!!!)
+    struct.pack_into('f', data, 122, 50)  # fADCSampleInterval (CUSTOMIZE!!!)
     struct.pack_into('i', data, 138, sweepPointCount)  # lNumSamplesPerEpisode
 
 
