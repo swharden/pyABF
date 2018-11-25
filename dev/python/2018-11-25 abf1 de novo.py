@@ -32,7 +32,7 @@ def create_abf1_from_scratch():
 
     # populate only the useful header data values
     struct.pack_into('4s', data, 0, b'ABF ')  # fFileSignature
-    struct.pack_into('f', data, 4, 1.299)  # fFileVersionNumber
+    struct.pack_into('f', data, 4, 1.3)  # fFileVersionNumber
     struct.pack_into('h', data, 8, 5)  # nOperationMode (5 is episodic)
     struct.pack_into('i', data, 10, dataPointCount)  # lActualAcqLength
     struct.pack_into('i', data, 16, sweepCount)  # lActualEpisodes
@@ -42,6 +42,7 @@ def create_abf1_from_scratch():
     struct.pack_into('f', data, 122, 20)  # fADCSampleInterval (CUSTOMIZE!!!)
     struct.pack_into('i', data, 138, sweepPointCount)  # lNumSamplesPerEpisode
 
+
     # These ADC adjustments are used for integer conversion. It's a good idea
     # to populate these with non-zero values even when using float32 notation
     # to avoid divide-by-zero errors when loading ABFs.
@@ -49,20 +50,17 @@ def create_abf1_from_scratch():
     fSignalGain = 1 # always 1
     fADCProgrammableGain = 1 # always 1
     lADCResolution = 2**15 # 16-bit signed = +/- 32768
-    fInstrumentScaleFactor = .0005
+    
+    fInstrumentScaleFactor = 0.005 # good for -2k to +2k pA scale
     fADCRange = 10
     valueScale = lADCResolution / fADCRange * fInstrumentScaleFactor
-    print("value scale:", valueScale)
+    struct.pack_into('i', data, 252, lADCResolution)
+    struct.pack_into('f', data, 244, fADCRange)
     for i in range(16):
         struct.pack_into('f', data, 922+i*4, fInstrumentScaleFactor)
         struct.pack_into('f', data, 1050+i*4, fSignalGain)
         struct.pack_into('f', data, 730+i*4, fADCProgrammableGain)
-        struct.pack_into('f', data, 244+i*4, fADCRange)
-        struct.pack_into('i', data, 252+i*4, lADCResolution)
-        #struct.pack_into('h', data, 378+i, i) # nADCPtoLChannelMap 
-        #struct.pack_into('8s', data, 602+i*8, b'pA') # sADCUnits 
-        #struct.pack_into('h', data, 410+i, -1) # nADCSamplingSeq 
-    #struct.pack_into('h', data, 410, 0) # nADCSamplingSeq 
+        struct.pack_into('8s', data, 602+i*8, b'pA')
  
     # fill data portion with data from signal
     dataByteOffset = BLOCKSIZE * HEADER_BLOCKS
