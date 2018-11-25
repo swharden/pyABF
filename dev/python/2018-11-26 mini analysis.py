@@ -19,10 +19,8 @@ if __name__ == "__main__":
     # load both files
     print("loading original ABF...")
     abfOrig = pyabf.ABF(PATH_HERE+"/2018-11-25 abf1 de novo.abf")
-    abfOrig.getInfoPage().generateMarkdown(PATH_HERE+"/2018-11-25 abf1 de novo.md")
     print("loading MiniAnalysis Converted ABF...")
     abfMini = pyabf.ABF(PATH_HERE+"/2018-11-26 mini analysis converted.abf")
-    abfMini.getInfoPage().generateMarkdown(PATH_HERE+"/2018-11-26 mini analysis converted.md")
 
     # load the string headers of each file
     abfOrigHeader = abfOrig.getInfoPage().getText().split("\n")
@@ -30,12 +28,20 @@ if __name__ == "__main__":
     assert len(abfOrigHeader)==len(abfMiniHeader)
 
     # compare the headers line by line, showing differences
+    text = "# ABF1 Header Differences\n\n"
+    text += f"comparing `{abfOrig.abfID}` and `{abfMini.abfID}` \n\n"
+    headerStarted = False
     for i in range(len(abfOrigHeader)):
         origLine = abfOrigHeader[i]
         miniLine = abfMiniHeader[i]
+        if "ABF1 Header" in origLine:
+            headerStarted=True
+        if not headerStarted:
+            continue
+        if "\\" in origLine or "Protocol" in origLine or "protocol" in origLine:
+            continue
         if origLine!=miniLine:
-            print()
-            print(origLine)
-            print(miniLine)
-
+            text += f"```\n{origLine}\n{miniLine}\n```\n\n"
+    with open(PATH_HERE+"/2018-11-26 abf file comparison.md",'w') as f:
+        f.write(text)
     print("DONE")
