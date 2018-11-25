@@ -23,8 +23,10 @@ if __name__ == "__main__":
     # load both files
     print("loading original ABF...")
     abfOrig = pyabf.ABF(PATH_HERE+"/2018-11-25 abf1 de novo.abf")
+    abfOrig.getInfoPage().generateMarkdown(PATH_HERE+"/2018-11-25 abf1 de novo.md")
     print("loading MiniAnalysis Converted ABF...")
     abfMini = pyabf.ABF(PATH_HERE+"/2018-11-26 mini analysis converted.abf")
+    abfMini.getInfoPage().generateMarkdown(PATH_HERE+"/2018-11-26 mini analysis converted.md")
 
     # load the string headers of each file
     abfOrigHeader = abfOrig.getInfoPage().getText().split("\n")
