@@ -206,9 +206,16 @@ def abfInfoPage(abf):
     page = InfoPage(abf.abfID+".abf")
 
     # add info about this ABF instance
-
     page.addSection("ABF Class Methods")
-    for thingName in sorted(dir(abf)):
+
+    # create a list of all methods in this object
+    thingNames = sorted(dir(abf))
+
+    # remove methods that call this function (causing infinite loops)
+    thingNames.remove("headerText")
+    thingNames.remove("headerLaunch")
+    
+    for thingName in thingNames:
         if thingName.startswith("_"):
             continue
         thing = getattr(abf, thingName)
@@ -216,7 +223,7 @@ def abfInfoPage(abf):
             page.addThing("abf.%s()" % (thingName))
 
     page.addSection("ABF Class Variables")
-    for thingName in sorted(dir(abf)):
+    for thingName in thingNames:
         if thingName.startswith("_"):
             continue
         thing = getattr(abf, thingName)

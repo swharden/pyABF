@@ -316,3 +316,32 @@ class ABF:
         self.sweepLabelC = ""
         self.sweepX = []
         self.sweepY = []
+
+    @property
+    def headerText(self):
+        """Return all header information as a text-formatted string."""
+        infoPage = self.getInfoPage()
+        return infoPage.getText()
+
+    def headerLaunch(self):
+        """Display ABF header information in the web browser."""
+        infoPage = self.getInfoPage()
+        html = infoPage.generateHTML()
+
+        # open a temp file, save HTML, launch it, then delete it
+        import tempfile
+
+        namedTempFile = tempfile.NamedTemporaryFile(delete=False)
+        tmpFilePath = namedTempFile.name+'.html'
+
+        try:
+            with open(tmpFilePath, 'w') as f:
+                print("creating a temporary webpage", tmpFilePath, "...")
+                f.write(html)
+            print("launching file in a web browser ...")
+            os.system(tmpFilePath)
+        finally:
+            print("waiting a few seconds for the browser to launch...")
+            time.sleep(3) # give it time to display before deleting the file
+            os.remove(tmpFilePath)
+            print("deleted", tmpFilePath)
