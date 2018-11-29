@@ -83,15 +83,15 @@ class ABF:
                 self.setSweep(0)
 
     def __str__(self):
-        txt = f"ABF file ({self.abfID}.abf)"
-        txt += f" with {self.channelCount} channel"
+        txt = "ABF file (%s.abf)"%(self.abfID)
+        txt += " with {%d} channel"%(self.channelCount)        
         if self.channelCount > 1:
             txt += "s"
-        txt += f", {self.sweepCount} sweep"
+        txt += ", %d sweep"%(self.sweepCount)
         if self.sweepCount > 1:
             txt += "s"
         abfLengthMin = self.sweepLengthSec*self.sweepCount/60.0
-        txt += f", and a total length of %.02f min." % (abfLengthMin)
+        txt += ", and a total length of %.02f min." % (abfLengthMin)
         return txt
 
     def __repr__(self):

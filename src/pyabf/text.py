@@ -22,13 +22,13 @@ def standardNumpyText(data):
         if len(data) < 10:
             data = ["%.05f" % x for x in data]
             data = ", ".join(data)
-            out += f"{data}"
+            out += data
         else:
             dataFirst = ["%.05f" % x for x in data[:3]]
             dataFirst = ", ".join(dataFirst)
             dataLast = ["%.05f" % x for x in data[-3:]]
             dataLast = ", ".join(dataLast)
-            out += f"{dataFirst}, ..., {dataLast}"
+            out += "%s, ..., %s"%(dataFirst, dataLast)
     elif isinstance(data, list):
         if len(data) < 20:
             return str(data)
@@ -37,7 +37,7 @@ def standardNumpyText(data):
             dataFirst = ", ".join(dataFirst)
             dataLast = [str(x) for x in data[-3:]]
             dataLast = ", ".join(dataLast)
-            out = f"[{dataFirst}, ..., {dataLast}]"
+            out = "[%s, ..., %s]"%(dataFirst, dataLast)
     else:
         out = str(data)
     return out
@@ -57,12 +57,12 @@ def indexFolder(folder, launch=True):
     pics += glob.glob(folder+"/*.jpg")
     for pic in sorted(pics):
         url = os.path.basename(pic)
-        html += f"<a href='{url}'><img src='{url}'></a> "
+        html += "<a href='%s'><img src='%s'></a> "%(url,url)
 
     html += "<h1>HTML Files</h1>"
     for pic in sorted(glob.glob(folder+"/*.html")):
         url = os.path.basename(pic)
-        html += f"<li><a href='{url}'>{url}</a> "
+        html += "<li><a href='%s'>%s</a> "%(url,url)
 
     html += "</body></html>"
     fname = folder+"/index-pics.html"

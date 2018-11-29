@@ -91,8 +91,9 @@ def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     If cleanStrings is enabled, ascii-safe strings are returned.
     """
 
-    if not isinstance(fb, io.BufferedReader):
-        raise ValueError("require an ABF file open in 'fb' mode")
+    #if not isinstance(fb, io.BufferedReader):
+        # this check only works in Python 3 (python 2 returns a 'file' object)
+        #raise ValueError("require an ABF file open in 'fb' mode")
 
     if seek:
         fb.seek(seek)

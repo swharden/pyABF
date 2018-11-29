@@ -29,7 +29,6 @@ setup(
     platforms='any',
     description='Python library for reading files in Axon Binary Format (ABF)',
     long_description=long_description,
-    python_requires='>=3.6',
     install_requires=[
         'matplotlib>=2.1.0',
         'numpy>=1.13.3',

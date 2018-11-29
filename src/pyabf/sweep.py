@@ -107,7 +107,7 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
         baseline = np.average(
             abf.sweepY[int(abf._sweepBaselinePoints[0]):int(abf._sweepBaselinePoints[1])])
         abf.sweepY = abf.sweepY-baseline
-        abf.sweepLabelY = "Δ " + abf.sweepLabelY
+        abf.sweepLabelY = "Delta " + abf.sweepLabelY
 
     # make sure sweepPointCount is always accurate
     assert (abf.sweepPointCount == len(abf.sweepY))

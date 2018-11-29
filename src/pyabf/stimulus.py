@@ -114,7 +114,7 @@ class Stimulus:
         return len(self.epochList)
 
     def __str__(self):
-        msg = f"Channel {self.channel} epochs ({self.epochCount}): "
+        msg = "Channel %d epochs (%d): "%(self.channel, self.epochCount)
         msg += ", ".join(self.label)
         return msg
 
@@ -233,8 +233,8 @@ class Stimulus:
             out = "DAC waveform is controlled by epoch table:\n"
             out += self._txtFmt("Ch%d EPOCH" % self.channel, self.label)
             out += self._txtFmt("Type", self.type)
-            out += self._txtFmt(f"First Level ({self.dacUnits})", self.level)
-            out += self._txtFmt(f"Delta Level ({self.dacUnits})",
+            out += self._txtFmt("First Level (%s)"%(self.dacUnits), self.level)
+            out += self._txtFmt("Delta Level (%s)"%(self.dacUnits),
                                 self.levelDelta)
             out += self._txtFmt("First Duration (samples)", self.duration)
             out += self._txtFmt("Delta Duration (samples)", self.durationDelta)
@@ -451,7 +451,7 @@ class Stimulus:
 
             else:
                 # unsupported epoch
-                msg = f"unknown sweep type: {self.type[epochNumber]}"
+                msg = "unknown sweep type: "+self.type[epochNumber]
                 msg += " (treating as a step)"
                 log.warn(msg)
                 chunk.fill(sweepLevel)
