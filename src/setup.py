@@ -34,6 +34,7 @@ setup(
         'numpy>=1.13.3',
     ],
     classifiers=[
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
