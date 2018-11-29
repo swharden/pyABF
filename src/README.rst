@@ -55,7 +55,7 @@ Quickstart
   plt.figure(figsize=(8, 5))
   for sweepNumber in range(abf.sweepCount)[::5]:
       abf.setSweep(sweepNumber)
-      plt.plot(abf.sweepX,abf.sweepY,alpha=.5,label=f"sweep {sweepNumber+1}")
+      plt.plot(abf.sweepX,abf.sweepY,alpha=.5,label="sweep {%d+1}"%(sweepNumber))
 
   plt.margins(0, .1)
   plt.legend()
