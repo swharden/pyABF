@@ -41,6 +41,7 @@ This GitHub project tracks the pyABF Python module as well as serve as a central
 * Cross-platform, open-source, 100% Python
 * Supports 32-bit and 64-bit architectures
 * Runs on Python 2.7 and Python 3.6+
+* Supports ABF export (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
 
 ![](/docs/graphics/spacer_paired_patch.jpg)
 ![](/docs/graphics/2017-11-18-multichannel.png)
