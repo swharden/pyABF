@@ -5,7 +5,7 @@ Code here relates to modification and de-novo creation of ABF files.
 import os
 import time
 import struct
-import generate
+import pyabf.generate
 import numpy as np
 import logging
 logging.basicConfig(level=logging.INFO)

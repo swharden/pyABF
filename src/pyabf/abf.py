@@ -31,6 +31,8 @@ from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
 from pyabf.stimulus import Stimulus
 
+import pyabf.abfWriter
+
 class ABF:
     """
     The ABF class provides direct access to the header and signal data of ABF
@@ -336,12 +338,26 @@ class ABF:
 
         try:
             with open(tmpFilePath, 'w') as f:
-                print("creating a temporary webpage", tmpFilePath, "...")
+                log.info("creating a temporary webpage %s ..."%(tmpFilePath))
                 f.write(html)
-            print("launching file in a web browser ...")
+            log.info("launching file in a web browser ...")
             os.system(tmpFilePath)
         finally:
-            print("waiting a few seconds for the browser to launch...")
+            log.info("waiting a few seconds for the browser to launch...")
             time.sleep(3) # give it time to display before deleting the file
             os.remove(tmpFilePath)
-            print("deleted", tmpFilePath)
+            log.info("deleted %s"%(tmpFilePath))
+
+    def saveABF1(self, filename):
+        """
+        Save this ABF file as an ABF1 file compatible with ClampFit and 
+        MiniAnalysis. To create an ABF1 file from scratch (not starting from
+        an existing ABF file), see methods in the pyabf.abfWriter module.
+        """
+        filename = os.path.abspath(filename)
+        log.info("Saving ABF as ABF1 file: %s"%filename)
+        sweepData = np.empty((self.sweepCount, self.sweepPointCount))
+        for sweep in self.sweepList:
+            self.setSweep(sweep)
+            sweepData[sweep] = self.sweepY
+        pyabf.abfWriter.writeABF1(sweepData, filename)
