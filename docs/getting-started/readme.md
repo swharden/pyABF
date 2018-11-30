@@ -44,13 +44,27 @@ Give an ABF file path to `pyabf.ABF()` to get started
 **Code:**
 ```python
 import pyabf
-abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
+abf = pyabf.ABF("demo.abf")
 print(abf)
 ```
 
 **Output:**
 ```
-ABF file (16d05007_vc_tags.abf) with 1 channel, 187 sweeps, and a total length of 6.23 min.
+ABF file (demo.abf) with 1 channel, 187 sweeps, and a total length of 6.23 min.
+```
+
+## Inspect the ABF header
+
+Sometimes it is useful to see all the data contained in the ABF header.
+While inspecting the header is not necessary to use pyabf, it is useful
+to know how to access this information.
+
+**Code:**
+```python
+import pyabf
+abf = pyabf.ABF("demo.abf")
+print(abf.headerText) # display header information in the console
+abf.headerLaunch() # display header information in a web browser
 ```
 
 ## Access Sweep Data
