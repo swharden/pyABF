@@ -3,7 +3,6 @@
 ## ABF Class Methods
 
 * abf.getInfoPage()
-* abf.saveABF1()
 * abf.setSweep()
 * abf.sweepArea()
 * abf.sweepAvg()
