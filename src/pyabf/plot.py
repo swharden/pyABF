@@ -40,10 +40,10 @@ def sweepDataRange(abf, fraction=1, sweepNumber=0, channel=0):
     return firstSweepRange*fraction
 
 
-def colorsBinned(bins, colormap="Dark2", reverse=False):
+def colorsBinned(bins, colormap="viridis", reverse=False):
     """
     Return a list of colors spanning the range of the given colormap.
-    I like using these colormaps: Winter, Dark2
+    I like using these colormaps: Winter, Dark2, rainbow, viridis
     """
     colormap = plt.get_cmap(colormap)
     colors = []

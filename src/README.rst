@@ -21,7 +21,7 @@ Quickstart
 
   import pyabf
   abf = pyabf.ABF("demo.abf")
-  abf.setSweep(3) # sweeps start at 0
+  abf.setSweep(3)
   print(abf.sweepY) # sweep data (ADC)
   print(abf.sweepC) # sweep command (DAC)
   print(abf.sweepX) # sweep times (seconds)
@@ -34,7 +34,7 @@ Quickstart
   import pyabf
   abf = pyabf.ABF("17o05028_ic_steps.abf")
   abf.setSweep(14)
-  plt.plot(abf.sweepX, abf.sweepY, lw=.5)
+  plt.plot(abf.sweepX, abf.sweepY)
   plt.show()
 
 .. class:: no-web

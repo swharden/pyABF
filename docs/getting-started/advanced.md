@@ -11,6 +11,40 @@
   * These examples will never be removed. Their code will always be updated.
 
 
+## Advanced Plotting with the `pyabf.plot` Module
+
+pyabf has a plot module which has been designed to simplify the act
+of creating matplotlib plots of electrophysiological data loaded with
+the ABF class. This module isn't fully developed yet (so don't rely
+on code you write today working with it tomorrow), but it's a strong
+start and has some interesting functionality that might be worth
+inspecting. 
+
+If you care a lot about how your graphs look, plot them yourself with
+matplotlib commands. If you want to save keystrokes, don't care how
+the graphs look, or don't know how to use matplotlib (and don't feel
+like learning), maybe some of the functions in `pyabf.plot` will be
+useful to you. You don't have to import it, just call its functions
+and pass-in the abf object you're currently working with.
+
+Notice in this example there is an L-shaped scalebar. Nice!
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("171116sh_0018.abf")
+pyabf.plot.sweeps(abf, title=False, 
+    offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
+pyabf.plot.scalebar(abf, hideFrame=True)
+plt.tight_layout()
+plt.show()
+```
+
+**Output:**
+
+![source/advanced_08b_using_plot_module.jpg](source/advanced_08b_using_plot_module.jpg)
+
 ## Accessing Digital Outputs
 
 Epochs don't just control DAC clamp settings, they also control digital
@@ -30,13 +64,18 @@ abf = pyabf.ABF("17o05026_vc_stim.abf")
 fig = plt.figure(figsize=(8, 5))
 
 ax1 = fig.add_subplot(211)
+ax1.grid(alpha=.2)
 ax1.set_title("Digital Output 4")
-ax1.set_ylabel("State")
+ax1.set_ylabel("Digital Output")
 
 # plot the digital output of the first sweep
 ax1.plot(abf.sweepX, abf.sweepD(4), color='r')
+ax1.set_yticks([0, 1])
+ax1.set_yticklabels(["OFF", "ON"])
+ax1.axes.set_ylim(-.5, 1.5)
 
 ax2 = fig.add_subplot(212, sharex=ax1)
+ax2.grid(alpha=.2)
 ax2.set_title("Recorded Waveform")
 ax2.set_xlabel(abf.sweepLabelY)
 ax2.set_ylabel(abf.sweepLabelC)
@@ -46,10 +85,9 @@ for sweepNumber in abf.sweepList:
     abf.setSweep(sweepNumber)
     ax2.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
 
-fig.subplots_adjust(hspace=.4)
+# zoom in on an interesting region
 ax2.axes.set_xlim(1.10, 1.25)
 ax2.axes.set_ylim(-150, 50)
-
 plt.show()
 ```
 
@@ -83,13 +121,89 @@ plt.axis([1.10, 1.25, -150, 50])
 t1 = abf.sweepX[abf.epochPoints[3]]
 t2 = abf.sweepX[abf.epochPoints[4]]
 plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
-
+plt.grid(alpha=.2)
 plt.show()
 ```
 
 **Output:**
 
 ![source/advanced_10a_digital_output_shading.jpg](source/advanced_10a_digital_output_shading.jpg)
+
+## Create an I/V Curve
+
+This example analyzes 171116sh_0013.abf (a voltage clamp ABF which 
+goes from -110 mV to -50 mV increasing the clamp voltage by 5 mV each
+sweep).
+
+Currents are the average value of each sweep between the 0.5 and 1 sec
+mark. Notice our use of the additional module to get the average
+value between two marks for every sweep. Clamp values are obtained
+from `abf.epochValues`, a 2d array of DAC command values at each
+epoch (columns) arranged by sweep (rows).
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("171116sh_0013.abf")
+currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
+voltages = pyabf.stimulus.epochValues(abf)
+
+plt.figure(figsize=(8, 5))
+plt.grid(alpha=.5, ls='--')
+plt.plot(voltages, currentsAv, '.-', ms=15)
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelC)
+plt.title(f"I/V Relationship of {abf.abfID}")
+
+plt.show()
+```
+
+**Output:**
+
+![source/advanced_15a_IV_curve.jpg](source/advanced_15a_IV_curve.jpg)
+
+## Averaging Sweeps
+
+Sometimes you want to analyze a sweep which is the average of several
+sweeps. Often this is used in conjunction with baseline subtraction.
+
+This can be done using the sweep range average function.
+Although here it's given without arguments, it can take a list of
+specific sweep numbers.
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("17o05026_vc_stim.abf")
+abf.sweepBaseline(1.10, 1.16)
+
+plt.figure(figsize=(8, 5))
+plt.grid(alpha=.5, ls='--')
+plt.axhline(0, color='k', ls=':')
+
+# plot all individual sweeps
+for sweep in abf.sweepList:
+    abf.setSweep(sweep)
+    plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
+
+# calculate and plot the average of all sweeps
+avgSweep = pyabf.sweep.averageTrace(abf)
+plt.plot(abf.sweepX, avgSweep, lw=2)
+
+# decorate the plot and zoom in on the interesting area
+plt.title("Average of %d sweeps"%(abf.sweepCount))
+plt.ylabel(abf.sweepLabelY)
+plt.xlabel(abf.sweepLabelX)
+plt.axis([1.10, 1.25, -110, 20])
+
+plt.show()
+```
+
+**Output:**
+
+![source/advanced_16_average_sweep.jpg](source/advanced_16_average_sweep.jpg)
 
 ## Plotting Data from ATF Files
 
@@ -113,13 +227,17 @@ ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122)
 
 for channel, ax in enumerate([ax1, ax2]):
-    ax.set_title(f"{atf.atfID} channel {channel}")
+    ax.set_title("channel %d"%(channel))
     ax.set_xlabel(atf.sweepLabelX)
     ax.set_ylabel(atf.sweepLabelY)
     for sweepNumber in atf.sweepList:
         atf.setSweep(sweepNumber, channel)
         ax.plot(atf.sweepX, atf.sweepY)
 
+ax1.margins(0, .1)
+ax2.margins(0, .1)
+ax1.grid(alpha=.2)
+ax2.grid(alpha=.2)
 plt.show()
 ```
 

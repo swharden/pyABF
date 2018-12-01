@@ -22,7 +22,6 @@ log = logging.getLogger(__name__)
 import datetime
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
-plt.style.use('bmh')  # alternative color scheme
 
 # now you are free to import additional modules
 import glob
@@ -132,6 +131,8 @@ def plotThumbnail(abf):
     fig.patch.set_alpha(0)  # transparent background
     ax1 = fig.add_subplot(211)
     ax2 = fig.add_subplot(212)
+    ax1.grid(alpha=.4, ls='--')
+    ax2.grid(alpha=.4, ls='--')
     ax1.patch.set_facecolor('w')
     ax2.patch.set_facecolor('w')
     ax1.set_xmargin(0)

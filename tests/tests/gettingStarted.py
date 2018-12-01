@@ -21,7 +21,6 @@ import glob
 import numpy as np
 
 import matplotlib.pyplot as plt
-plt.style.use('bmh')
 import numpy as np
 import glob
 import inspect
@@ -60,13 +59,7 @@ lines are present at the top of your Python script:
 import pyabf
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('bmh')
 ```
-
-The last line defines the default style of all the graphs on this page. I've 
-started to prefer the "bmh" style (with gray backgrounds), but a full list
-of example styles is on [Tony Syu's page](https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html)
-and on the [official matplotlib style page](https://matplotlib.org/2.1.1/gallery/style_sheets/style_sheets_reference.html)
 """
 
 MARKDOWN_ADVANCED = """
@@ -155,91 +148,106 @@ class UseCaseManager:
 
         ABF objects provide access to ABF data by sweep number. Sweep numbers
         start at zero, and after setting a sweep you can access that sweep's
-        ADC data (`sweepY`), DAC simulus waveform / command signal (`sweepC`), 
-        or the time units for the sweep (`sweepX`).
-
-        """
+        ADC data with `sweepY`, DAC simulus waveform / command signal with 
+        `sweepC`, and the time units for the sweep with `sweepX`.
+        
+        **Code:**
+        ```python
         import pyabf
-        abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
-        abf.setSweep(14)  # sweeps start at 0
-        print(abf.sweepY)  # sweep data (ADC)
-        print(abf.sweepC)  # sweep command (DAC)
-        print(abf.sweepX)  # sweep times (seconds)
+        abf = pyabf.ABF("18808025.abf")
+        abf.setSweep(14)
+        print("sweep data (ADC):", abf.sweepY)
+        print("sweep command (DAC):", abf.sweepC)
+        print("sweep times (seconds):", abf.sweepX)
+        ```
+
+        **Output:**
+        ```
+        sweep data (ADC): [-13.6719 -12.9395 -12.207  ..., -15.8691 -15.8691 -16.7236]
+        sweep command (DAC): [-70. -70. -70. ..., -70. -70. -70.]
+        sweep times (seconds): [ 0.      0.0001  0.0001 ...,  0.5998  0.5999  0.5999]
+        ```
+        """
+        pass
 
     def demo_02a_plot_matplotlib_sweep(self):
         """
-        ## Plot Sweep Data
+        ## Plot a Sweep with Matplotlib
 
-        Plot a sweep of ABF data using matplotlib.
+        Matplotlib is a fantastic plotting library for Python. This example
+        shows how to plot an ABF sweep using matplotlib.
+        ABF `setSweep()` is used to tell the ABF class what sweep to load
+        into memory. After that you can just plot `sweepX` and `sweepY`.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
         abf.setSweep(14)
         plt.figure(figsize=self.figsize)
-        plt.plot(abf.sweepX, abf.sweepY, lw=.5)
+        plt.plot(abf.sweepX, abf.sweepY)
+        plt.grid(alpha=.2) #ignore
+        plt.margins(0,.1) #ignore
+        plt.tight_layout() #ignore
         self.saveAndClose()
 
     def demo_03a_decorate_matplotlib_plot(self):
         """
         ## Decorate Plots with ABF Information
 
-        Plot every 5th sweep and decorate the plot nicely.
-        Note that the _displayed_ sweep number starts at 1.
+        The ABF class provides easy access to lots of information about the ABF.
+        This example shows how to use these class methods to create a prettier
+        plot of several sweeps from the same file.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
-
         plt.figure(figsize=self.figsize)
-        for sweepNumber in [0, 5, 10, 15]:
-            abf.setSweep(sweepNumber)
-            plt.plot(abf.sweepX, abf.sweepY, alpha=.5,
-                     label=f"sweep {sweepNumber}")
-
-        plt.margins(0, .1)
-        plt.legend()
+        plt.title(abf.abfID)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
-        plt.title(abf.abfID)
-        plt.tight_layout()
+        for i in [0, 5, 10, 15]:
+            abf.setSweep(i)
+            plt.plot(abf.sweepX, abf.sweepY, alpha=.5, label="sweep %d"%(i))
+        plt.margins(0, .1) #ignore
+        plt.tight_layout() #ignore
+        plt.grid(alpha=.2) #ignore
+        plt.legend()
         self.saveAndClose()
 
     def demo_04a_plotting_multiple_channels(self):
         """
         ## Plot Multi-Channel ABFs
 
-        Channel selection is done by adding the `channel=` 
-        argument in `setSweep()`
+        Channel selection is achieved by defining a channel when calling
+        `setSweep()`.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/14o08011_ic_pair.abf")
-
         fig = plt.figure(figsize=self.figsize)
 
+        # plot the first channel
         abf.setSweep(sweepNumber=0, channel=0)
-        ax1 = fig.add_subplot(211)
-        ax1.set_title(f"Channel {abf.sweepChannel+1}")
-        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
-        ax1.set_ylabel(abf.sweepLabelY)
+        plt.plot(abf.sweepX, abf.sweepY, label="Channel 1")
 
+        # plot the second channel
         abf.setSweep(sweepNumber=0, channel=1)
-        ax2 = fig.add_subplot(212)
-        ax2.set_title(f"Channel {abf.sweepChannel+1}")
-        ax2.plot(abf.sweepX, abf.sweepY, lw=.5)
-        ax2.set_xlabel(abf.sweepLabelX)
-        ax2.set_ylabel(abf.sweepLabelY)
+        plt.plot(abf.sweepX, abf.sweepY, label="Channel 2")
 
-        fig.subplots_adjust(hspace=.4)  # add more space between the subplots
-
+        # decorate the plot
+        plt.ylabel(abf.sweepLabelY)
+        plt.xlabel(abf.sweepLabelX)
+        plt.tight_layout() #ignore
+        plt.grid(alpha=.2) #ignore
+        plt.axis([25, 45, -70, 50])
+        plt.legend()
         self.saveAndClose()
 
     def demo_05a_plotting_command_waveform(self):
         """
-        ## Plot the Stimulus Waveform
+        ## Plot the Command Waveform
 
-        Episodic ABF files can have complex protocols designed with the waveform
+        Episodic ABF files can have complex protocols designed with in waveform
         editor. After calling `setSweep()` the command waveform can be accessed
         as `sweep.C`.
         """
@@ -247,122 +255,149 @@ class UseCaseManager:
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
         abf.setSweep(14)
-
         fig = plt.figure(figsize=self.figsize)
 
+        # plot the ADC (voltage recording)
         ax1 = fig.add_subplot(211)
         ax1.set_title("ADC (recorded waveform)")
-        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
-        ax1.set_ylabel(abf.sweepLabelY)
+        ax1.plot(abf.sweepX, abf.sweepY)
 
+        # plot the DAC (clamp current)
         ax2 = fig.add_subplot(212)
         ax2.set_title("DAC (stimulus waveform)")
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
+
+        # decorate the plots
+        ax1.set_ylabel(abf.sweepLabelY)
         ax2.set_xlabel(abf.sweepLabelX)
         ax2.set_ylabel(abf.sweepLabelC)
-
-        fig.subplots_adjust(hspace=.4)  # add more space between the subplots
-
+        ax1.grid(alpha=.2) #ignore
+        ax2.grid(alpha=.2) #ignore
+        ax1.margins(0,.1) #ignore
+        ax2.margins(0,.1) #ignore
+        fig.subplots_adjust(hspace=.4)  #ignore
         self.saveAndClose()
 
     def demo_06a_linking_subplots_and_zooming(self):
         """
-        ## Zooming Gracefully
+        ## Axis-Linked Subplots
 
-        While you can zoom in on data by setting its matplotlib axis, when
-        using subplots it helps to link them together horizontally.
+        Matplotlib allows you to create subplots with linked axes. This is
+        convenient when plotting a waveform and its command stimulus at the
+        same time, because zooming-in on one will zoom-in on the other. This
+        is most useful when using interactive graphs, but works in all cases.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
         abf.setSweep(14)
-
         fig = plt.figure(figsize=self.figsize)
 
+        # plot the ADC (voltage recording)
         ax1 = fig.add_subplot(211)
         ax1.set_title("ADC (recorded waveform)")
-        ax1.plot(abf.sweepX, abf.sweepY, lw=.5)
-        ax1.set_ylabel(abf.sweepLabelY)
+        ax1.plot(abf.sweepX, abf.sweepY)
 
-        ax2 = fig.add_subplot(212, sharex=ax1)  # this links them together
+        # plot the DAC (clamp current)
+        ax2 = fig.add_subplot(212, sharex=ax1)  # <-- this argument is new
         ax2.set_title("DAC (stimulus waveform)")
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
+
+        # decorate the plots
+        ax1.set_ylabel(abf.sweepLabelY)
         ax2.set_xlabel(abf.sweepLabelX)
         ax2.set_ylabel(abf.sweepLabelC)
-
-        fig.subplots_adjust(hspace=.4)  # add more space between the subplots
-
-        ax1.axes.set_xlim(0.1, 0.4)  # zoom between 100 and 200 ms
-
+        ax1.grid(alpha=.2) #ignore
+        ax2.grid(alpha=.2) #ignore
+        fig.subplots_adjust(hspace=.4)  #ignore
+        ax1.axes.set_xlim(1.25, 2.5)  # <-- adjust axis like this
         self.saveAndClose()
 
     def demo_07a_stacked_sweeps(self):
         """
-        ## Stacking Sweeps
+        ## Plot Stacked Sweeps
 
         I often like to view sweeps stacked one on top of another. In ClampFit
         this is done with "distribute traces". Here we can add a bit of offset
-        when plotting sweeps.
+        when plotting sweeps and achieve the same effect. This example makes
+        use of `abf.sweepList`, which is the same as `range(abf.sweepCount)`
+        """
 
-        Note also that `abf.sweepList` is the same as `range(abf.sweepCount)`
+        import pyabf
+        abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
+        plt.figure(figsize=self.figsize)
+
+        # plot every sweep (with vertical offset)
+        for sweepNumber in abf.sweepList:
+            abf.setSweep(sweepNumber)
+            offset = 140*sweepNumber
+            plt.plot(abf.sweepX, abf.sweepY+offset, color='C0')
+
+        # decorate the plot
+        plt.gca().get_yaxis().set_visible(False)  # hide Y axis
+        plt.xlabel(abf.sweepLabelX)
+        plt.margins(0, .02) #ignore
+        plt.tight_layout() #ignore
+        self.saveAndClose()
+
+    def demo_08a_xy_offset(self):
+        """
+        ## Plot Sweeps in 3D
+
+        The previous example how to plot stacked sweeps by adding a Y offset
+        to each sweep. If you add an X and Y offset to each sweep, you can
+        create a 3D effect.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
 
         plt.figure(figsize=self.figsize)
-
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
-            plt.plot(abf.sweepX, abf.sweepY + 140*sweepNumber,
-                     color='C0', lw=.5)
+            i1, i2 = 0, int(abf.dataRate * 1) # plot part of the sweep
+            dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
+            dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
+            plt.plot(dataX, dataY, color='C0', alpha=.5)
 
-        plt.gca().get_yaxis().set_visible(False)  # hide Y axis
-        plt.xlabel(abf.sweepLabelX)
-        plt.margins(0, .02)
-        plt.tight_layout()
-
+        plt.gca().axis('off') # hide axes to enhance floating effect
+        plt.margins(.02, .02) #ignore
+        plt.tight_layout() #ignore
         self.saveAndClose()
 
-    def demo_08a_xy_offset(self):
+    def demo_08b_custom_colormap(self):
         """
-        ## XY Offset and Custom Colormap
+        ## Custom Colormaps
 
-        Plotting every sweep with a slight X and Y offset produces a cool
-        3D effect. I often use this view to visually inspect drug effects.
-
-        I also assign a color by sweep from a matplotlib colormap.
+        Matplotlib's colormap tools can be used to add an extra dimension to
+        graphs. All matplotlib colormaps are [listed here](https://matplotlib.org/examples/color/colormaps_reference.html).
+        For an interesting discussion on choosing ideal colormaps for scientific
+        data visit [bids.github.io/colormap/](https://bids.github.io/colormap/).
+        Good colors for e-phys are "winter", "rainbow", and "viridis".
         """
 
         import pyabf
-        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+        abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
 
-        # only plot data between this time range
-        i1 = int(abf.dataRate*3.0)
-        i2 = int(abf.dataRate*3.5)
-
-        # use a custom colormap
+        # use a custom colormap to create a different color for every sweep
         cm = plt.get_cmap("winter")
         colors = [cm(x/abf.sweepCount) for x in abf.sweepList]
+        #colors.reverse()
 
         plt.figure(figsize=self.figsize)
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
-            plt.plot(
-                abf.sweepX[i1:i2] + .05 * sweepNumber,
-                abf.sweepY[i1:i2] + 15*sweepNumber,
-                color=colors[sweepNumber],
-                lw=.5, alpha=.6)
+            i1, i2 = 0, int(abf.dataRate * 1)
+            dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
+            dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
+            plt.plot(dataX, dataY, color=colors[sweepNumber], alpha=.5)
 
-        # remove axes and use tight margins
-        plt.gca().get_yaxis().set_visible(False)  # hide Y axis
-        plt.gca().get_xaxis().set_visible(False)  # hide X axis
-        plt.margins(.02, .02)
-        plt.tight_layout()
-
+        plt.gca().axis('off')
+        plt.margins(.02, .02) #ignore
+        plt.tight_layout() #ignore
         self.saveAndClose()
 
-    def demo_08b_using_plot_module(self):
+    def advanced_08b_using_plot_module(self):
         """
         ## Advanced Plotting with the `pyabf.plot` Module
 
@@ -384,11 +419,10 @@ class UseCaseManager:
         """
 
         import pyabf
-        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
-        pyabf.plot.sweeps(abf, title=False, offsetXsec=.05,
-                          offsetYunits=15, startAtSec=3, endAtSec=3.5)
+        abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
+        pyabf.plot.sweeps(abf, title=False, 
+            offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
         pyabf.plot.scalebar(abf, hideFrame=True)
-        plt.gca().patch.set_alpha(0)
         plt.tight_layout()
         self.saveAndClose()
 
@@ -411,13 +445,18 @@ class UseCaseManager:
         fig = plt.figure(figsize=self.figsize)
 
         ax1 = fig.add_subplot(211)
+        ax1.grid(alpha=.2)
         ax1.set_title("Digital Output 4")
-        ax1.set_ylabel("State")
+        ax1.set_ylabel("Digital Output")
 
         # plot the digital output of the first sweep
         ax1.plot(abf.sweepX, abf.sweepD(4), color='r')
+        ax1.set_yticks([0, 1])
+        ax1.set_yticklabels(["OFF", "ON"])
+        ax1.axes.set_ylim(-.5, 1.5)
 
         ax2 = fig.add_subplot(212, sharex=ax1)
+        ax2.grid(alpha=.2)
         ax2.set_title("Recorded Waveform")
         ax2.set_xlabel(abf.sweepLabelY)
         ax2.set_ylabel(abf.sweepLabelC)
@@ -426,11 +465,11 @@ class UseCaseManager:
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
             ax2.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
-
-        fig.subplots_adjust(hspace=.4)
+        
+        # zoom in on an interesting region
         ax2.axes.set_xlim(1.10, 1.25)
         ax2.axes.set_ylim(-150, 50)
-
+        fig.subplots_adjust(hspace=.4) #ignore
         self.saveAndClose()
 
     def advanced_10a_digital_output_shading(self):
@@ -459,34 +498,30 @@ class UseCaseManager:
         t1 = abf.sweepX[abf.epochPoints[3]]
         t2 = abf.sweepX[abf.epochPoints[4]]
         plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
-
+        plt.grid(alpha=.2)
         self.saveAndClose()
 
     def demo_11a_gap_free(self):
         """
-        ## Working with Gap-Free Files
+        ## Plotting Gap-Free ABFs
 
-        The pyABF project considers everything like it's an episodic ABF.
-        Gap free ABF files are treated as if they were episodic files with
-        a single sweep.
-
-        When an abf object is instantiated, `setSweep(0)` is called
-        automatically, so the entire gap-free set of data is pre-loaded into
-        sweepX and sweepY.
-
-        Note also that if it doesn't seem like the units are consistant
-        with a simple current-clamp or voltage-clamp signal, the label
-        is made from the channel name and the units.
+        The pyABF treats every ABF like it's episodic (with sweeps). As such,
+        gap free ABF files are loaded as if they were episodic files with
+        a single sweep. When an ABF is loaded, `setSweep(0)` is called
+        automatically, so the entire gap-free set of data is already available
+        by plotting `sweepX` and `sweepY`.
         """
 
         import pyabf
-        abf = pyabf.ABF("data/abfs/16d22006_kim_gapfree.abf")
-
+        abf = pyabf.ABF("data/abfs/abf1_with_tags.abf")
         plt.figure(figsize=self.figsize)
         plt.plot(abf.sweepX, abf.sweepY, lw=.5)
+        plt.axis([725, 825, -150, -15])
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         plt.title("Example Gap Free File")
+        plt.margins(0,.1) #ignore
+        plt.grid(alpha=.2) #ignore
         self.saveAndClose()
 
     def demo_12a_tags(self):
@@ -494,8 +529,11 @@ class UseCaseManager:
         ## Accessing Comments (Tags) in ABF Files
 
         While recording an ABF the user can insert a comment at a certain
-        time point. ClampFit calls these "tags", and they can be a useful
-        way to mark things like drug applications during an experiment.
+        time point. pClamp calls these "tags", and they can be a useful
+        way to mark when a drug was applied during an experiment. For this
+        to work, `sweepX` needs to be a list of times in the ABF recording
+        (not times which always start at 0 for every new sweep). Set this
+        behavior by setting `absoluteTime=True` when calling `setSweep()`.
 
         A list of comments (the text of tags) is stored in a list 
         `abf.tagComments`. The sweep for each tag is in `abf.tagSweeps`, while
@@ -505,22 +543,26 @@ class UseCaseManager:
         import pyabf
         abf = pyabf.ABF("data/abfs/16d05007_vc_tags.abf")
 
-        # first plot the entire ABF continuously
+        # create a plot with time on the horizontal axis
         plt.figure(figsize=self.figsize)
         for sweep in abf.sweepList:
-            abf.setSweep(sweep, absoluteTime=True)
-            abf.sweepY[:int(abf.dataRate*1.0)] = np.nan  # blank the memtest
-            plt.plot(abf.sweepX, abf.sweepY, lw=.5, color='C0')
+            abf.setSweep(sweep, absoluteTime=True) # <-- relates to sweepX
+            abf.sweepY[:int(abf.dataRate*1.0)] = np.nan  # ignore
+            plt.plot(abf.sweepX, abf.sweepY, lw=.5, alpha=.5, color='C0')
+        plt.margins(0, .5)
+        plt.grid(alpha=.2) #ignore
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
 
         # now add the tags as vertical lines
         for i, tagTimeSec in enumerate(abf.tagTimesSec):
-            plt.axvline(abf.tagTimesSec[i], label=abf.tagComments[i],
-                        color=f"C{i+3}", ls='--', alpha=.8)
+            posX = abf.tagTimesSec[i]
+            comment = abf.tagComments[i]
+            color = "C%d"%(i+1)
+            plt.axvline(posX, label=comment, color=color, ls='--')
         plt.legend()
 
-        plt.title("ABF File Comments (Tags)")
+        plt.title("ABF File with Comments (Tags)")
         self.saveAndClose()
 
     def demo_13a_baseline(self):
@@ -531,25 +573,23 @@ class UseCaseManager:
         easily by running `abf.baseline(t1, t2)` (where t1 and t2 are both times
         in seconds). Subsequent `setSweep()` calls will automatically subtract
         the average data value between these two points from the entire sweep,
-        centering it at zero.
-
-        To turn off baseline subtraction after it has been enabled, call 
-        `abf.baseline()` without arguments.
+        centering it at zero. To turn off baseline subtraction after it has been
+        enabled, call `abf.baseline()` without arguments.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
         plt.figure(figsize=self.figsize)
 
-        # enable baseline subtraction and plot a demo sweep
+        # enable baseline subtraction
         abf.sweepBaseline(2.1, 2.15)
         abf.setSweep(3)
-        plt.plot(abf.sweepX, abf.sweepY, label="subtracted")
+        plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="subtracted")
 
-        # disable baseline subtraction and plot a demo sweep
+        # disable baseline subtraction
         abf.sweepBaseline()
         abf.setSweep(3)
-        plt.plot(abf.sweepX, abf.sweepY, label="original")
+        plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="original")
 
         # decorate the plot
         plt.title("Sweep Baseline Subtraction")
@@ -558,6 +598,7 @@ class UseCaseManager:
         plt.xlabel(abf.sweepLabelX)
         plt.legend()
         plt.axis([2, 2.5, -50, 20])
+        plt.grid(alpha=.2) #ignore
         self.saveAndClose()
 
     def demo_14a_gaussian_filter(self):
@@ -567,17 +608,18 @@ class UseCaseManager:
         Noisy data can be filtered in software. This is especially helpful
         for inspection of evoked or spontaneuos post-synaptic currents. To
         apply low-pass filtering on a specific channel, invoke the 
-        `abf.filter.gaussian()` method a single time. After that, every
-        `setSweep()` will display filtered data.
+        `abf.filter.gaussian()` method before calling `setSweep()`.
 
         The degree of smoothing is defined by _sigma_ (milliseconds units), 
-        passed as an argument: `abf.filter.gaussian(abf, sigma)`. Increase
-        sigma to increase the smoothness. Note that calling this filter 
-        multiple times on the same ABF will make it progressively smoother, but
-        the act is resource-intense and not recommended. 
+        passed as an argument: `abf.filter.gaussian(abf, sigma)`. 
+        
+        When an ABF file is loaded its entire data is loaded into memory. When
+        the gaussian filter is called, the entire data is smoothed in memory.
+        This means calling the filter several times with the same sigma will
+        make it progressively smoother (although extremely processor-intensive).
 
-        Set sigma to 0 to remove all filters (the original data will be re-read
-        from the ABF file).
+        Set sigma to 0 to remove all filters. This will cause the original data
+        to be re-read from the ABF file.
         """
 
         import pyabf
@@ -590,20 +632,22 @@ class UseCaseManager:
 
         # show multiple degrees of smoothless
         for sigma in [.5, 2, 10]:
-            pyabf.filter.gaussian(abf, 0)  # remove old filter
-            pyabf.filter.gaussian(abf, sigma)  # apply custom sigma
-            abf.setSweep(3)  # reload sweep
-            plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label=f"sigma: {sigma}")
+            pyabf.filter.gaussian(abf, 0) # remove old filter
+            pyabf.filter.gaussian(abf, sigma) # apply custom sigma
+            abf.setSweep(3) # reload sweep with new filter
+            label = "sigma: %.02f" % (sigma)
+            plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label=label)
 
-        # zoom in on an interesting region
-        plt.title("Gaussian Filtering")
+        # zoom in on an interesting region and decorate the plot
+        plt.title("Gaussian Filtering of ABF Data")
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         plt.axis([8.20, 8.30, -45, -5])
         plt.legend()
+        plt.grid(alpha=.2) #ignore
         self.saveAndClose()
 
-    def demo_15a_IV_curve(self):
+    def advanced_15a_IV_curve(self):
         """
         ## Create an I/V Curve
 
@@ -632,7 +676,7 @@ class UseCaseManager:
 
         self.saveAndClose()
 
-    def demo_16_average_sweep(self):
+    def advanced_16_average_sweep(self):
         """
         ## Averaging Sweeps
 
@@ -659,10 +703,10 @@ class UseCaseManager:
 
         # calculate and plot the average of all sweeps
         avgSweep = pyabf.sweep.averageTrace(abf)
-        plt.plot(abf.sweepX, avgSweep, color='C1', lw=2)
+        plt.plot(abf.sweepX, avgSweep, lw=2)
 
         # decorate the plot and zoom in on the interesting area
-        plt.title(f"Average of {abf.sweepCount} sweeps")
+        plt.title("Average of %d sweeps"%(abf.sweepCount))
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         plt.axis([1.10, 1.25, -110, 20])
@@ -691,13 +735,18 @@ class UseCaseManager:
         ax2 = fig.add_subplot(122)
 
         for channel, ax in enumerate([ax1, ax2]):
-            ax.set_title(f"{atf.atfID} channel {channel}")
+            ax.set_title("channel %d"%(channel))
             ax.set_xlabel(atf.sweepLabelX)
             ax.set_ylabel(atf.sweepLabelY)
             for sweepNumber in atf.sweepList:
                 atf.setSweep(sweepNumber, channel)
                 ax.plot(atf.sweepX, atf.sweepY)
 
+        ax1.margins(0, .1)
+        ax2.margins(0, .1)
+        ax1.grid(alpha=.2)
+        ax2.grid(alpha=.2)
+        fig.subplots_adjust(wspace=.4)  #ignore
         self.saveAndClose()
 
     plt.show()
@@ -710,13 +759,24 @@ def cleanDocstrings(s):
 
 
 def cleanCode(s):
-    uses = UseCaseManager()
+    """
+    Given a block of code as a string (probably pulled from a function in this
+    script), return that code block with certain fixes so it displays well
+    online.
+    """
     s = s.replace("\n        ", "\n")
     s = s.replace("data/abfs/", "")
     s = s.replace("self.saveAndClose()", "plt.show()")
-    s = s.replace("self.figsize", str(uses.figsize))
+    s = s.replace("self.figsize", str(UseCaseManager().figsize))
     s = s.split('"""', 2)[2].strip()
-    return s
+    newLines = []
+    for line in s.split("\n"):
+        if line.strip().endswith("#ignore"):
+            continue
+        if line.strip().endswith("# ignore"):
+            continue
+        newLines.append(line)
+    return "\n".join(newLines)
 
 def generate_demos(match="demo_"):
     """
