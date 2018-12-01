@@ -27,12 +27,6 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
 * [pyABF listing on PyPI](https://pypi.org/project/pyabf/)
 
-## Porting to Other Programming Languages
-This GitHub project tracks the pyABF Python module as well as serve as a central site to aggregate ABF file format and analysis information and strategies. Code is written to be intentionally readable and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begin:
-
-* [vsABF](https://github.com/swharden/vsABF) - A .NET library to interface to files in the Axon Binary Format (ABF)
-* [phpABF](https://github.com/swharden/phpABF) - A PHP interface to files in the Axon Binary Format (ABF)
-
 ## Features
 * To see some of what pyABF can do, review the [simple](/docs/getting-started) and [advanced](/docs/getting-started/advanced.md) example pages
 * No obscure dependencies (just matplotlib and numpy)
@@ -42,6 +36,16 @@ This GitHub project tracks the pyABF Python module as well as serve as a central
 * Supports 32-bit and 64-bit architectures
 * Runs on Python 2.7 and Python 3.6+
 * Supports ABF export (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
+
+<p align="center">
+  <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
+</p>
+
+## Porting to Other Programming Languages
+This GitHub project tracks the pyABF Python module as well as serve as a central site to aggregate ABF file format and analysis information and strategies. Code is written to be intentionally readable and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begin:
+
+* [vsABF](https://github.com/swharden/vsABF) - A .NET library to interface to files in the Axon Binary Format (ABF)
+* [phpABF](https://github.com/swharden/phpABF) - A PHP interface to files in the Axon Binary Format (ABF)
 
 ![](/docs/graphics/spacer_paired_patch.jpg)
 ![](/docs/graphics/2017-11-18-multichannel.png)
