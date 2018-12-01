@@ -1,7 +1,10 @@
 pyABF: a pure-Python ABF file reader
 ====================================
 
-**pyABF** provides a Python interface to files in the Axon Binary Format (ABF)
+**pyABF** provides a Python interface to files in the Axon Binary Format (ABF).
+pyABF supports Python 2.7 and Python 3.6+ and does not use obscure libraries
+(just the standard libraries plus numpy and matplotlib). pyABF supports reading
+of ABF1 and ABF2 files, and can write ABF1 files.
 
 * `pyABF Homepage (GitHub) <https://github.com/swharden/pyABF>`_
 * `Getting Started with pyABF <https://github.com/swharden/pyABF/tree/master/docs/getting-started>`_
@@ -44,7 +47,7 @@ Quickstart
         :align: center
 
 
-**Create Fancy Plots with Matplotlib:**
+**Create Decorated Plots with Matplotlib:**
 
 .. code-block:: python
 
@@ -78,3 +81,7 @@ Additional Examples
 **Full pyabf API documentation**, additional code examples, a pyabf cookbook, 
 and low-level information about the ABF file format can be found at the pyABF 
 project homepage: https://github.com/swharden/pyABF
+
+    .. image:: https://raw.githubusercontent.com/swharden/pyABF/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg
+        :alt: pyABF Example
+        :align: center
