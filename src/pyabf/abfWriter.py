@@ -55,9 +55,29 @@ def writeABF1(sweepData, filename):
     fADCProgrammableGain = 1  # always 1
     lADCResolution = 2**15  # 16-bit signed = +/- 32768
 
-    fInstrumentScaleFactor = 0.005  # good for -2k to +2k pA scale
-    fADCRange = 10
-    valueScale = lADCResolution / fADCRange * fInstrumentScaleFactor
+    # determine the peak data deviation from zero
+    maxVal = np.max(np.abs(sweepData))
+    log.debug("maximum data value: %f"%(maxVal))
+
+    # set the scaling factor to be the biggest allowable to accomodate the data
+    fInstrumentScaleFactor = 100
+    for i in range(10):
+        fInstrumentScaleFactor /= 10
+        fADCRange = 10
+        valueScale = lADCResolution / fADCRange * fInstrumentScaleFactor
+        maxDeviationFromZero = 32767 / valueScale
+        if (maxDeviationFromZero<maxVal):
+            log.debug("scaling factor %f is too small (max %f)"%(valueScale, 
+                maxDeviationFromZero))
+        else:
+            log.debug("scaling factor %f will be used"%(valueScale))
+            break
+        
+    log.debug("maximum allowed data value: %f"%(maxDeviationFromZero))
+    log.debug("first value (float): %f"%(sweepData[0][0]))
+    log.debug("first value (scaled int): %f"%(int(sweepData[0][0]*valueScale)))
+
+    # store the scale data in the header
     struct.pack_into('i', data, 252, lADCResolution)
     struct.pack_into('f', data, 244, fADCRange)
     for i in range(16):
@@ -66,7 +86,7 @@ def writeABF1(sweepData, filename):
         struct.pack_into('f', data, 730+i*4, fADCProgrammableGain)
         struct.pack_into('8s', data, 602+i*8, b'pA')
 
-    # fill data portion with data from signal
+    # fill data portion with scaled data from signal
     dataByteOffset = BLOCKSIZE * HEADER_BLOCKS
     for sweepNumber, sweepSignal in enumerate(sweepData):
         sweepByteOffset = sweepNumber * sweepPointCount * bytesPerPoint

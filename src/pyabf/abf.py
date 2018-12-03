@@ -361,3 +361,4 @@ class ABF:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
         pyabf.abfWriter.writeABF1(sweepData, filename)
+        log.info("saved ABF1 file: %s"%filename)
