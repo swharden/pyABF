@@ -41,8 +41,8 @@
 * epochValues = `[-70.0, -70.0, -70.0]`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
-* protocol = `(untitled)`
-* protocolPath = `(untitled)`
+* protocol = `None`
+* protocolPath = `None`
 * stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
