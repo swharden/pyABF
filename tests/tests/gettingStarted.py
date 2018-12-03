@@ -202,7 +202,7 @@ class UseCaseManager:
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05028_ic_steps.abf")
         plt.figure(figsize=self.figsize)
-        plt.title(abf.abfID)
+        plt.title("pyABF and Matplotlib are a great pair!")
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         for i in [0, 5, 10, 15]:
