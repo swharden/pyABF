@@ -11,7 +11,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
-def writeABF1(sweepData, filename):
+def writeABF1(sweepData, filename, units='pA'):
     """
     Create an ABF1 file from scratch and write it to disk.
     Files created with this function are compatible with MiniAnalysis.
@@ -77,6 +77,11 @@ def writeABF1(sweepData, filename):
     log.debug("first value (float): %f"%(sweepData[0][0]))
     log.debug("first value (scaled int): %f"%(int(sweepData[0][0]*valueScale)))
 
+    # prepare units as a space-padded 8-byte string
+    unitString = units
+    while len(unitString)<8:
+        unitString = unitString + " "
+
     # store the scale data in the header
     struct.pack_into('i', data, 252, lADCResolution)
     struct.pack_into('f', data, 244, fADCRange)
@@ -84,7 +89,7 @@ def writeABF1(sweepData, filename):
         struct.pack_into('f', data, 922+i*4, fInstrumentScaleFactor)
         struct.pack_into('f', data, 1050+i*4, fSignalGain)
         struct.pack_into('f', data, 730+i*4, fADCProgrammableGain)
-        struct.pack_into('8s', data, 602+i*8, b'pA')
+        struct.pack_into('8s', data, 602+i*8, unitString.encode())
 
     # fill data portion with scaled data from signal
     dataByteOffset = BLOCKSIZE * HEADER_BLOCKS
