@@ -244,9 +244,11 @@ class ABF:
         self.sweepList = list(range(self.sweepCount))
 
         # protocol file
-        self.protocol = os.path.basename(self.protocolPath)
-        self.protocol = self.protocol.replace(".pro", "")
-        if len(self.protocol) == 0 or ord(self.protocol[0]) == 127:
+        if self.protocolPath.endswith(".pro"):
+            self.protocol = os.path.basename(self.protocolPath)
+            self.protocol = self.protocol.replace(".pro", "")
+        else:
+            self.protocolPath = "None"
             self.protocol = "None"
 
         # tag details
