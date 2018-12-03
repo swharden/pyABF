@@ -177,10 +177,11 @@ def deleteImages():
         os.remove(fname)
 
 
-def go():
+def go(processData=True):
 
     print("Generating data thumbnails", end=" ")
-    deleteImages()
+    if processData:
+        deleteImages()
 
     md = "# Sample ABFs\n\n"
     md += "This is a small collection of various ABFs I practice developing with. "
@@ -188,38 +189,37 @@ def go():
     md += "of ABF file, email it to me and I will include it here. Note that this page "
     md += "is generated automatically by [dataThumbnails.py](/tests/tests/dataThumbnails.py).\n\n"
 
-    md += "ABF Information | Header Map | Thumbnails\n"
-    md += "---|---|---\n"
-
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
 
         # load the ABF
         abf = pyabf.ABF(fname)
+        abfIDsafe = abf.abfID.replace(" ", "%20")
 
         # indicate which ABF is being challenged
         log.debug("creating thumbnail for %s" % abf.abfID)
 
         # create the graphs
-        plotThumbnail(abf)
-        plotHeader(abf)
+        if processData:
+            plotThumbnail(abf)
+            #plotHeader(abf)
+
+        # update the console
         print(".", end="")
         sys.stdout.flush()
 
         # update main readme
-        abfIDsafe = abf.abfID.replace(" ", "%20")
-        md += f"**{abf.abfID}.abf**<br />"
-        md += f"ABF Version: {abf.abfVersionString}<br />"
-        md += "Channels: %d (%s)<br />" % (abf.channelCount,
-                                           ", ".join(abf.adcUnits))
-        md += f"Sweeps: {abf.sweepCount}<br />"
-        md += f"Protocol: _{abf.protocol}_"
-        md += " | "
-        md += "![headers/%s_map.png](headers/%s_map.png)<br />" % (
-            abfIDsafe, abfIDsafe)
-        md += "[view entire header](headers/%s.md)" % (abfIDsafe)
-        md += " | "
-        md += "![headers/%s.png](headers/%s.png)" % (abfIDsafe, abfIDsafe)
-        md += "\n"
+        md += "## %s.abf\n"%(abf.abfID)
+        md += "ABF (version %s) "%(abf.abfVersionString)
+        if abf.channelCount==1:
+            md += "with 1 channel "
+        else:
+            md += "with %d channels " % (abf.channelCount)
+        md += "(%s), "%(", ".join(abf.adcUnits))
+        md += "%d sweeps, "%(abf.sweepCount)
+        md += "recorded using protocol _%s_.<br> "%(abf.protocol)
+        md += "\n[View the full header](headers/%s.md)" % (abfIDsafe)
+        md += "<a href='headers/%s.png'><img src='headers/%s.png'></a>"%(abfIDsafe, abfIDsafe)
+        md += "\n\n"
 
     # write main readme
     with open(PATH_PROJECT+"/data/readme.md", 'w') as f:
@@ -229,4 +229,4 @@ def go():
 
 
 if __name__ == "__main__":
-    go()
+    go(False)
