@@ -42,7 +42,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 </p>
 
 ## Porting to Other Programming Languages
-This GitHub project tracks the pyABF Python module as well as serve as a central site to aggregate ABF file format and analysis information and strategies. Code is written to be intentionally readable and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begin:
+This repository tracks development of the pyABF Python module and also serves as a central site to aggregate ABF file format and analysis information and strategies. Code for this project is written to be easy to read, and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begun:
 
 * [vsABF](https://github.com/swharden/vsABF) - A .NET library to interface to files in the Axon Binary Format (ABF)
 * [phpABF](https://github.com/swharden/phpABF) - A PHP interface to files in the Axon Binary Format (ABF)
