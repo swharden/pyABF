@@ -39,11 +39,21 @@ def runFunctionInFile(filename, functionName="go"):
         getattr(theModule, functionName)()
 
 
+def testInterpreter(path_python):
+    """Test pyABF against a specific python interpreter."""
+    path_testScript = os.path.dirname(__file__)+"/tests/py2and3.py"
+    print("Testing Python interpreter ... ", end="")
+    cmd = '"%s" "%s"'%(path_python, path_testScript)
+    result = os.popen(cmd).read()
+    if "Traceback" in result:
+        raise Exception("python interpreter error")
+    else:
+        print("OK")
 
 if __name__ == "__main__":
     
     # set this to true and run this test right before releasing
-    testing_for_release = True
+    testing_for_release = False
 
     # run this when new ABF files are added to the data folder (slow)
     generate_data_for_new_abf_files = False
@@ -61,5 +71,9 @@ if __name__ == "__main__":
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/testHeaders.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
+
+    # test against python2 and python3
+    testInterpreter(R"C:\Users\scott\Anaconda3\python.exe")
+    testInterpreter(R"C:\Users\scott\Anaconda3\envs\Anaconda27\python.exe")
 
     print("\n\n### TESTS COMPLETED SUCCESSFULLY###\n")
