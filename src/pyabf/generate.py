@@ -8,10 +8,8 @@ Same goes for simulating membrane tests, then analyzing them.
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-
-def generate_exp(tauMs=100, rateHz=20_000, filterHz=4_000):
+def generate_exp(tauMs=100, rateHz=20000, filterHz=4000):
     """
     Create a signal similar to an EPSC or IPSC with a sharp rise and 
     exponential decay. Apply a Gaussian convolution (to simulate the low-pass
@@ -25,7 +23,7 @@ def generate_exp(tauMs=100, rateHz=20_000, filterHz=4_000):
     return data
 
 
-def generate_alpha(tauMs=100, rateHz=20_000):
+def generate_alpha(tauMs=100, rateHz=20000):
     """
     Create a signal similar to an EPSP or IPSP with a slow rise and decay. 
     """
@@ -153,6 +151,7 @@ class SynthSweep:
 
     def plot(self, show=False):
         """Display the current sweep."""
+        import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(10, 4))
         plt.grid(alpha=.2, ls='--')
         ax.plot(self.sweepX, self.sweepY, color='r', lw=.5)

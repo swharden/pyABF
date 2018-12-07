@@ -107,7 +107,7 @@ def writeABF1(sweepData, filename, units='pA'):
     return
 
 
-def _demo_sweep_data(sweeps=3, sweepLengthSec=5, sampleRate=20_000):
+def _demo_sweep_data(sweeps=3, sweepLengthSec=5, sampleRate=20000):
     """crete a 2D numpy array of data to test ABF creation."""
     sweepData = np.empty((sweeps, sweepLengthSec*sampleRate))
     for i in range(sweeps):
