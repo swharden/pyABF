@@ -86,7 +86,8 @@ class ABF:
 
     def __str__(self):
         txt = "ABF file (%s.abf)"%(self.abfID)
-        txt += " with {%d} channel"%(self.channelCount)        
+        txt += " sampled at %.02f kHz"%(self.dataRate/1e3)
+        txt += " with %d channel"%(self.channelCount)        
         if self.channelCount > 1:
             txt += "s"
         txt += ", %d sweep"%(self.sweepCount)
