@@ -93,7 +93,7 @@ class ABF:
         txt += ", %d sweep"%(self.sweepCount)
         if self.sweepCount > 1:
             txt += "s"
-        abfLengthMin = self.sweepLengthSec*self.sweepCount/60.0
+        abfLengthMin = self.sweepIntervalSec*self.sweepCount/60.0 + self.sweepLengthSec
         txt += ", and a total length of %.02f min." % (abfLengthMin)
         return txt
 
@@ -249,6 +249,12 @@ class ABF:
         self.sweepLengthSec = self.sweepPointCount / self.dataRate
         self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
+
+        # set sweepIntervalSec (can be different than sweepLengthSec)
+        if self.abfVersion["major"]==1:
+            self.sweepIntervalSec = self.sweepLengthSec
+        if self.abfVersion["major"]==2:
+            self.sweepIntervalSec = self._protocolSection.fEpisodeStartToStart
 
         # protocol file
         if self.protocolPath.endswith(".pro"):
