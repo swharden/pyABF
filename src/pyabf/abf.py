@@ -33,6 +33,7 @@ from pyabf.stimulus import Stimulus
 
 import pyabf.abfWriter
 
+
 class ABF:
     """
     The ABF class provides direct access to the header and signal data of ABF
@@ -85,12 +86,12 @@ class ABF:
                 self.setSweep(0)
 
     def __str__(self):
-        txt = "ABF file (%s.abf)"%(self.abfID)
-        txt += " sampled at %.02f kHz"%(self.dataRate/1e3)
-        txt += " with %d channel"%(self.channelCount)        
+        txt = "ABF file (%s.abf)" % (self.abfID)
+        txt += " sampled at %.02f kHz" % (self.dataRate/1e3)
+        txt += " with %d channel" % (self.channelCount)
         if self.channelCount > 1:
             txt += "s"
-        txt += ", %d sweep"%(self.sweepCount)
+        txt += ", %d sweep" % (self.sweepCount)
         if self.sweepCount > 1:
             txt += "s"
         abfLengthMin = self.sweepIntervalSec*self.sweepCount/60.0 + self.sweepLengthSec
@@ -227,17 +228,17 @@ class ABF:
     def _makeAdditionalVariables(self):
         """create or touch-up version-nonspecific variables."""
 
-        # correct for files crazy large or small holding levels (usually the 
+        # correct for files crazy large or small holding levels (usually the
         # result of non-filled binary data getting interpreted as a float)
         for i, level in enumerate(self.holdingCommand):
-            if abs(level)>1e6 or abs(level)<1e-6:
+            if abs(level) > 1e6 or abs(level) < 1e-6:
                 self.holdingCommand[i] = np.nan
 
         # ensure gap-free files have a single sweep
-        if self.abfVersion["major"]==1:
+        if self.abfVersion["major"] == 1:
             if self._headerV1.nOperationMode == 3:
                 self.sweepCount = 1
-        if self.abfVersion["major"]==2:
+        if self.abfVersion["major"] == 2:
             if self._protocolSection.nOperationMode == 3:
                 self.sweepCount = 1
 
@@ -251,9 +252,9 @@ class ABF:
         self.sweepList = list(range(self.sweepCount))
 
         # set sweepIntervalSec (can be different than sweepLengthSec)
-        if self.abfVersion["major"]==1:
+        if self.abfVersion["major"] == 1:
             self.sweepIntervalSec = self.sweepLengthSec
-        if self.abfVersion["major"]==2:
+        if self.abfVersion["major"] == 2:
             self.sweepIntervalSec = self._protocolSection.fEpisodeStartToStart
 
         # protocol file
@@ -353,15 +354,15 @@ class ABF:
 
         try:
             with open(tmpFilePath, 'w') as f:
-                log.info("creating a temporary webpage %s ..."%(tmpFilePath))
+                log.info("creating a temporary webpage %s ..." % (tmpFilePath))
                 f.write(html)
             log.info("launching file in a web browser ...")
             os.system(tmpFilePath)
         finally:
             log.info("waiting a few seconds for the browser to launch...")
-            time.sleep(3) # give it time to display before deleting the file
+            time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
-            log.info("deleted %s"%(tmpFilePath))
+            log.info("deleted %s" % (tmpFilePath))
 
     def saveABF1(self, filename):
         """
@@ -370,13 +371,13 @@ class ABF:
         an existing ABF file), see methods in the pyabf.abfWriter module.
         """
         filename = os.path.abspath(filename)
-        log.info("Saving ABF as ABF1 file: %s"%filename)
+        log.info("Saving ABF as ABF1 file: %s" % filename)
         sweepData = np.empty((self.sweepCount, self.sweepPointCount))
         for sweep in self.sweepList:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
         pyabf.abfWriter.writeABF1(sweepData, filename)
-        log.info("saved ABF1 file: %s"%filename)
+        log.info("saved ABF1 file: %s" % filename)
 
     def launchInClampFit(self):
         """
@@ -384,7 +385,7 @@ class ABF:
         if it were double-clicked in the windows explorer. This will fail is
         ClampFit is already open.
         """
-        cmd = 'explorer.exe "%s"'%(self.abfFilePath)
-        print("Launching %s.abf in ClampFit..."%(self.abfID))
+        cmd = 'explorer.exe "%s"' % (self.abfFilePath)
+        print("Launching %s.abf in ClampFit..." % (self.abfID))
         print(cmd)
         os.system(cmd)
