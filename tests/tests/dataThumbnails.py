@@ -165,7 +165,8 @@ def plotThumbnail(abf):
     ax2.set_ylabel(abf.sweepLabelC)
     ax2.set_xlabel(abf.sweepLabelX)
     fig.tight_layout()
-    #fig.savefig(PATH_PROJECT+"/data/headers/%s.png" % abf.abfID)
+    ax1.margins(0,.1)
+    ax2.margins(0,.1)
     fig.savefig(f"{PATH_PROJECT}/data/headers/{abf.abfID}.png")
     plt.close()
 
@@ -229,4 +230,5 @@ def go(processData=True):
 
 
 if __name__ == "__main__":
-    go(False)
+    print("DO NOT RUN THIS DIRECTLY")
+    go(True)
