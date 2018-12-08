@@ -364,3 +364,14 @@ class ABF:
             sweepData[sweep] = self.sweepY
         pyabf.abfWriter.writeABF1(sweepData, filename)
         log.info("saved ABF1 file: %s"%filename)
+
+    def launchInClampFit(self):
+        """
+        Launch the ABF in the default ABF viewing program (usually ClampFit) as
+        if it were double-clicked in the windows explorer. This will fail is
+        ClampFit is already open.
+        """
+        cmd = 'explorer.exe "%s"'%(self.abfFilePath)
+        print("Launching %s.abf in ClampFit..."%(self.abfID))
+        print(cmd)
+        os.system(cmd)
