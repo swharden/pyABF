@@ -3,6 +3,7 @@
 ## ABF Class Methods
 
 * abf.getInfoPage()
+* abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
 * abf.sweepArea()
@@ -47,6 +48,7 @@
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `5`
+* sweepIntervalSec = `0.5161`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
 * sweepLabelY = `Membrane Potential (mV)`

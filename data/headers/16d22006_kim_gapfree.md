@@ -3,6 +3,7 @@
 ## ABF Class Methods
 
 * abf.getInfoPage()
+* abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
 * abf.sweepArea()
@@ -47,6 +48,7 @@
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepIntervalSec = `48.3`
 * sweepLabelC = `Cmd 0 (mV)`
 * sweepLabelX = `time (seconds)`
 * sweepLabelY = `IN 2 (dB)`

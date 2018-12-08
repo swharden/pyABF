@@ -119,7 +119,7 @@ plot of several sweeps from the same file.
 import pyabf
 abf = pyabf.ABF("17o05028_ic_steps.abf")
 plt.figure(figsize=(8, 5))
-plt.title(abf.abfID)
+plt.title("pyABF and Matplotlib are a great pair!")
 plt.ylabel(abf.sweepLabelY)
 plt.xlabel(abf.sweepLabelX)
 for i in [0, 5, 10, 15]:
