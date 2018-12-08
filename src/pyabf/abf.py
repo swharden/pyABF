@@ -95,6 +95,12 @@ class ABF:
         if self.sweepCount > 1:
             txt += "s"
         abfLengthMin = self.sweepIntervalSec*self.sweepCount/60.0 + self.sweepLengthSec
+        if len(self.tagComments)==0:
+            txt += ", no tags"
+        elif len(self.tagComments)==1:
+            txt += ", 1 tag"
+        elif len(self.tagComments)>1:
+            txt += ", %d tags" % (len(self.tagComments))
         txt += ", and a total length of %.02f min." % (abfLengthMin)
         return txt
 
