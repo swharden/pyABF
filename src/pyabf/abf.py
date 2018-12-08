@@ -123,6 +123,12 @@ class ABF:
         self.tagTimesSec = self._headerV1.lTagTime
         self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
+        # correct for files crazy large or small holding levels (usually the 
+        # result of non-filled binary data getting interpreted as a float)
+        for i, level in enumerate(self.holdingCommand):
+            if abs(level)>1e6 or abs(level)<1e-6:
+                self.holdingCommand[i] = np.nan
+
         # data info
         self._nDataFormat = self._headerV1.nDataFormat
         self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
