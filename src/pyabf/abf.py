@@ -256,6 +256,8 @@ class ABF:
             self.sweepIntervalSec = self.sweepLengthSec
         if self.abfVersion["major"] == 2:
             self.sweepIntervalSec = self._protocolSection.fEpisodeStartToStart
+            if self.sweepIntervalSec==0:
+                self.sweepIntervalSec = self.sweepLengthSec
 
         # protocol file
         if self.protocolPath.endswith(".pro"):

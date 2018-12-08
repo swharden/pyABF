@@ -94,7 +94,7 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
     abf.sweepY = abf.data[channel, pointStart:pointEnd]
     abf.sweepX = np.arange(len(abf.sweepY))*abf.dataSecPerPoint
     if absoluteTime:
-        abf.sweepX += sweepNumber * abf.sweepLengthSec
+        abf.sweepX += sweepNumber * abf.sweepIntervalSec
 
     # default case is disabled
     if not hasattr(abf, '_sweepBaselinePoints'):
