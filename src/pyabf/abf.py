@@ -124,12 +124,6 @@ class ABF:
         self.tagTimesSec = self._headerV1.lTagTime
         self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
-        # correct for files crazy large or small holding levels (usually the 
-        # result of non-filled binary data getting interpreted as a float)
-        for i, level in enumerate(self.holdingCommand):
-            if abs(level)>1e6 or abs(level)<1e-6:
-                self.holdingCommand[i] = np.nan
-
         # data info
         self._nDataFormat = self._headerV1.nDataFormat
         self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
@@ -232,6 +226,12 @@ class ABF:
 
     def _makeAdditionalVariables(self):
         """create or touch-up version-nonspecific variables."""
+
+        # correct for files crazy large or small holding levels (usually the 
+        # result of non-filled binary data getting interpreted as a float)
+        for i, level in enumerate(self.holdingCommand):
+            if abs(level)>1e6 or abs(level)<1e-6:
+                self.holdingCommand[i] = np.nan
 
         # ensure gap-free files have a single sweep
         if self.abfVersion["major"]==1:
