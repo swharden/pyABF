@@ -49,7 +49,7 @@ def ensureAbfHeaderDidNotChange(abfFilePath):
             log.critical(previousMarkdown[i])
             log.critical(f"NEW FILE LINE {i}:")
             log.critical(newMarkdown[i])
-            raise NotImplementedError("HEADER CHANGED")
+            raise NotImplementedError("HEADER CHANGED (save new headers?)")
     return
 
 def go():
