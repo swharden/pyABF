@@ -237,8 +237,10 @@ class ABF:
         # correct for files crazy large or small holding levels (usually the
         # result of non-filled binary data getting interpreted as a float)
         for i, level in enumerate(self.holdingCommand):
-            if abs(level) > 1e6 or abs(level) < 1e-6:
+            if abs(level) > 1e6:
                 self.holdingCommand[i] = np.nan
+            if abs(level) > 0 and abs(level) < 1e-6:
+                self.holdingCommand[i] = 0
 
         # ensure gap-free files have a single sweep
         if self.abfVersion["major"] == 1:
