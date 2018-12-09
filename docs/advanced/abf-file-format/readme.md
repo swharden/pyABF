@@ -865,7 +865,7 @@ This document is extensive, but still a survey-level overview of the ABF file fo
 * Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (3rd party cache)
 * [pCLAMP 10 download page](http://mdc.custhelp.com/app/answers/detail/a_id/18779/~/axon™-pclamp™-10-electrophysiology-data-acquisition-%26-analysis-software) for pCLAMP, ClampFit, and AxoScope
 * [Historical pCLAMP User Guides](http://mdc.custhelp.com/app/answers/detail/a_id/18747/session/L2F2LzEvdGltZS8xNTI5Nzc5MDQ2L3NpZC9TdEZxa1hQbg%3D%3D)
-* [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) (contains abffio.dll) _note: The official download link stopped working some time between June and December 2018_
+* [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) provides abffio.dll and some documentation. _Note: The official download link stopped working some time between June and December 2018, but its content is mirrored [here](https://github.com/swharden/pyABF/tree/master/docs/advanced/AxonSDK)_
 
 ### Other ABF-reading Projects
 * [BioSig](https://github.com/dongzhenye/biosignal-tools/tree/master/biosig4c%2B%2B/t210) uses modified Axon Library Files
