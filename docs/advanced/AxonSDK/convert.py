@@ -36,13 +36,15 @@ _This page was generated automatically by [convert.py](convert.py)_
 
 """
 
-# create markdown with header lines connected to DLL functions
+# create markdown with lines from the H file
 md += "## ABFFILES.H\n\n"
 with open(abfHfile) as f:
     raw = f.read()
 raw = raw.replace("\n", " ")
 lines = raw.split(";")
 lines = lines[2:]
+lines = [x.strip() for x in lines]
+lines = sorted(lines)
 for line in lines:
     line=line.strip()
     if line.startswith("#") \
