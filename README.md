@@ -36,6 +36,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 * Supports 32-bit and 64-bit architectures
 * Runs on Python 2.7 and Python 3.6+
 * Supports ABF export (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
+* Supports ABF 2.9 files created by pCLAMP 11
 
 <p align="center">
   <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
