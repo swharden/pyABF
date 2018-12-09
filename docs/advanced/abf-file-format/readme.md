@@ -865,7 +865,7 @@ This document is extensive, but still a survey-level overview of the ABF file fo
 * Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (3rd party cache)
 * [pCLAMP 10 download page](http://mdc.custhelp.com/app/answers/detail/a_id/18779/~/axon™-pclamp™-10-electrophysiology-data-acquisition-%26-analysis-software) for pCLAMP, ClampFit, and AxoScope
 * [Historical pCLAMP User Guides](http://mdc.custhelp.com/app/answers/detail/a_id/18747/session/L2F2LzEvdGltZS8xNTI5Nzc5MDQ2L3NpZC9TdEZxa1hQbg%3D%3D)
-* [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) (contains abffio.dll)   
+* [pCLAMP ABF File Support Pack](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon™-pclamp®-abf-file-support-pack-download-page) (contains abffio.dll) _note: The official download link stopped working some time between June and December 2018_
 
 ### Other ABF-reading Projects
 * [BioSig](https://github.com/dongzhenye/biosignal-tools/tree/master/biosig4c%2B%2B/t210) uses modified Axon Library Files
@@ -877,6 +877,7 @@ _Defines the ABFFileHeader structure and provides prototypes for functions imple
 * StimFit - [abflib.cpp](https://github.com/neurodroid/stimfit/blob/master/src/libstfio/abf/abflib.cpp) - C++ implementation of an ABF reader
 * Neo-IO - [axonrawio.py](https://github.com/NeuralEnsemble/python-neo/blob/master/neo/rawio/axonrawio.py)
 * QUB Express - [Python 2 code](https://qub.mandelics.com/src/qub-express/qubx/data_abf.py) interacts with abffio.dll 
+* [libabf](https://github.com/yamad/libabf/blob/master/docs/goals.rst) - an open-source, portable C library for reading and writing ABF files
 
 ### Electrophysiology Equipment and Theory
 * [Axoclamp-2B theory and operation](https://neurophysics.ucsd.edu/Manuals/Axon%20Instruments/Axoclamp-2B_Manual.pdf)
