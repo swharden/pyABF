@@ -1,0 +1,1170 @@
+==================================================
+Function Name     : ABF_BuildErrorText
+Address           : 0x65008430
+Relative Address  : 0x00008430
+Ordinal           : 470 (0x1d6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_CalculateCRC
+Address           : 0x65009220
+Relative Address  : 0x00009220
+Ordinal           : 980 (0x3d4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_Close
+Address           : 0x65004300
+Relative Address  : 0x00004300
+Ordinal           : 160 (0xa0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_EpisodeFromSynchCount
+Address           : 0x65007300
+Relative Address  : 0x00007300
+Ordinal           : 290 (0x122)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_FormatDelta
+Address           : 0x65006ff0
+Relative Address  : 0x00006ff0
+Ordinal           : 460 (0x1cc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_FormatTag
+Address           : 0x65006bb0
+Relative Address  : 0x00006bb0
+Ordinal           : 280 (0x118)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetActualEpisodes
+Address           : 0x65007860
+Relative Address  : 0x00007860
+Ordinal           : 700 (0x2bc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetActualSamples
+Address           : 0x650078a0
+Relative Address  : 0x000078a0
+Ordinal           : 701 (0x2bd)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetEpisodeDuration
+Address           : 0x650078e0
+Relative Address  : 0x000078e0
+Ordinal           : 360 (0x168)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetEpisodeFileOffset
+Address           : 0x65007530
+Relative Address  : 0x00007530
+Ordinal           : 310 (0x136)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetFileHandle
+Address           : 0x65008570
+Relative Address  : 0x00008570
+Ordinal           : 910 (0x38e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetFileName
+Address           : 0x650091d0
+Relative Address  : 0x000091d0
+Ordinal           : 960 (0x3c0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetMaxAnnotationSize
+Address           : 0x65009140
+Relative Address  : 0x00009140
+Ordinal           : 630 (0x276)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetMissingSynchCount
+Address           : 0x65007600
+Relative Address  : 0x00007600
+Ordinal           : 320 (0x140)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetNumSamples
+Address           : 0x65007750
+Relative Address  : 0x00007750
+Ordinal           : 340 (0x154)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetStartTime
+Address           : 0x65007a10
+Relative Address  : 0x00007a10
+Ordinal           : 350 (0x15e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetSynchArray
+Address           : 0x650085b0
+Relative Address  : 0x000085b0
+Ordinal           : 900 (0x384)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetTrialDuration
+Address           : 0x65007970
+Relative Address  : 0x00007970
+Ordinal           : 530 (0x212)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetVoiceTag
+Address           : 0x650083a0
+Relative Address  : 0x000083a0
+Ordinal           : 420 (0x1a4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_GetWaveform
+Address           : 0x650065e0
+Relative Address  : 0x000065e0
+Ordinal           : 250 (0xfa)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_HasData
+Address           : 0x65003c50
+Relative Address  : 0x00003c50
+Ordinal           : 150 (0x96)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_HasOverlappedData
+Address           : 0x650076f0
+Relative Address  : 0x000076f0
+Ordinal           : 330 (0x14a)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_IsABFFile
+Address           : 0x650038b0
+Relative Address  : 0x000038b0
+Ordinal           : 140 (0x8c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_MultiplexRead
+Address           : 0x65005440
+Relative Address  : 0x00005440
+Ordinal           : 170 (0xaa)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_MultiplexWrite
+Address           : 0x65005790
+Relative Address  : 0x00005790
+Ordinal           : 180 (0xb4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ParamReader
+Address           : 0x65003630
+Relative Address  : 0x00003630
+Ordinal           : 540 (0x21c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ParamWriter
+Address           : 0x65003760
+Relative Address  : 0x00003760
+Ordinal           : 550 (0x226)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ParseStringAnnotation
+Address           : 0x65008de0
+Relative Address  : 0x00008de0
+Ordinal           : 631 (0x277)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_PlayVoiceTag
+Address           : 0x65017d60
+Relative Address  : 0x00017d60
+Ordinal           : 430 (0x1ae)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadAnnotation
+Address           : 0x65008d20
+Relative Address  : 0x00008d20
+Ordinal           : 620 (0x26c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadChannel
+Address           : 0x65005be0
+Relative Address  : 0x00005be0
+Ordinal           : 210 (0xd2)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadDACFileEpi
+Address           : 0x65006410
+Relative Address  : 0x00006410
+Ordinal           : 230 (0xe6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadDeltas
+Address           : 0x65006eb0
+Relative Address  : 0x00006eb0
+Ordinal           : 450 (0x1c2)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadIntegerAnnotation
+Address           : 0x65008f80
+Relative Address  : 0x00008f80
+Ordinal           : 622 (0x26e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadOpen
+Address           : 0x65003090
+Relative Address  : 0x00003090
+Ordinal           : 110 (0x6e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadRawChannel
+Address           : 0x65006250
+Relative Address  : 0x00006250
+Ordinal           : 220 (0xdc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadScopeConfig
+Address           : 0x65007e80
+Relative Address  : 0x00007e80
+Ordinal           : 380 (0x17c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadStatisticsConfig
+Address           : 0x65008250
+Relative Address  : 0x00008250
+Ordinal           : 400 (0x190)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadStringAnnotation
+Address           : 0x65008ea0
+Relative Address  : 0x00008ea0
+Ordinal           : 621 (0x26d)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_ReadTags
+Address           : 0x650068f0
+Relative Address  : 0x000068f0
+Ordinal           : 270 (0x10e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SaveVoiceTag
+Address           : 0x65008330
+Relative Address  : 0x00008330
+Ordinal           : 410 (0x19a)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SetChunkSize
+Address           : 0x650089c0
+Relative Address  : 0x000089c0
+Ordinal           : 500 (0x1f4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SetEpisodeStart
+Address           : 0x65005af0
+Relative Address  : 0x00005af0
+Ordinal           : 520 (0x208)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SetErrorCallback
+Address           : 0x65008530
+Relative Address  : 0x00008530
+Ordinal           : 480 (0x1e0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SetOverlap
+Address           : 0x65008a10
+Relative Address  : 0x00008a10
+Ordinal           : 510 (0x1fe)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_SynchCountFromEpisode
+Address           : 0x65007440
+Relative Address  : 0x00007440
+Ordinal           : 300 (0x12c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_UpdateEpisodeSamples
+Address           : 0x650085f0
+Relative Address  : 0x000085f0
+Ordinal           : 490 (0x1ea)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_UpdateHeader
+Address           : 0x65003cf0
+Relative Address  : 0x00003cf0
+Ordinal           : 130 (0x82)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_UpdateTag
+Address           : 0x65006870
+Relative Address  : 0x00006870
+Ordinal           : 262 (0x106)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteAnnotation
+Address           : 0x65008a60
+Relative Address  : 0x00008a60
+Ordinal           : 610 (0x262)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteDACFileEpi
+Address           : 0x65006520
+Relative Address  : 0x00006520
+Ordinal           : 240 (0xf0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteDelta
+Address           : 0x65006e20
+Relative Address  : 0x00006e20
+Ordinal           : 440 (0x1b8)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteIntegerAnnotation
+Address           : 0x65008c00
+Relative Address  : 0x00008c00
+Ordinal           : 612 (0x264)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteOpen
+Address           : 0x650039c0
+Relative Address  : 0x000039c0
+Ordinal           : 120 (0x78)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteRawData
+Address           : 0x65005b80
+Relative Address  : 0x00005b80
+Ordinal           : 190 (0xbe)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteScopeConfig
+Address           : 0x65007af0
+Relative Address  : 0x00007af0
+Ordinal           : 370 (0x172)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteStatisticsConfig
+Address           : 0x650080c0
+Relative Address  : 0x000080c0
+Ordinal           : 390 (0x186)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteStringAnnotation
+Address           : 0x65008af0
+Relative Address  : 0x00008af0
+Ordinal           : 611 (0x263)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABF_WriteTag
+Address           : 0x650067e0
+Relative Address  : 0x000067e0
+Ordinal           : 260 (0x104)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_CheckScopeConfig
+Address           : 0x6500a5a0
+Relative Address  : 0x0000a5a0
+Ordinal           : 1130 (0x46a)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_CheckUserList
+Address           : 0x6500f820
+Relative Address  : 0x0000f820
+Ordinal           : 1500 (0x5dc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ClipADCUUValue
+Address           : 0x6500ad20
+Relative Address  : 0x0000ad20
+Ordinal           : 1160 (0x488)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ClipDACUUValue
+Address           : 0x6500ae50
+Relative Address  : 0x0000ae50
+Ordinal           : 1180 (0x49c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ConvertABF2ToABF1Header
+Address           : 0x6500b150
+Relative Address  : 0x0000b150
+Ordinal           : 1760 (0x6e0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ConvertFromABF1
+Address           : 0x6500c570
+Relative Address  : 0x0000c570
+Ordinal           : 1720 (0x6b8)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_DisplayRangeToGainOffset
+Address           : 0x6500acc0
+Relative Address  : 0x0000acc0
+Ordinal           : 1410 (0x582)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GainOffsetToDisplayRange
+Address           : 0x6500abb0
+Relative Address  : 0x0000abb0
+Ordinal           : 1400 (0x578)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetAdaptDuration
+Address           : 0x6500d210
+Relative Address  : 0x0000d210
+Ordinal           : 3080 (0xc08)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetADCDisplayRange
+Address           : 0x6500ab70
+Relative Address  : 0x0000ab70
+Ordinal           : 1140 (0x474)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetADCtoUUFactors
+Address           : 0x6500aa80
+Relative Address  : 0x0000aa80
+Ordinal           : 1150 (0x47e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetChannelOffset
+Address           : 0x6500c960
+Relative Address  : 0x0000c960
+Ordinal           : 1260 (0x4ec)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetCreatorInfo
+Address           : 0x6500c7e0
+Relative Address  : 0x0000c7e0
+Ordinal           : 1740 (0x6cc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetDACtoUUFactors
+Address           : 0x6500add0
+Relative Address  : 0x0000add0
+Ordinal           : 1170 (0x492)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetDigitalWaveform
+Address           : 0x6500e230
+Relative Address  : 0x0000e230
+Ordinal           : 1280 (0x500)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpisodeDuration
+Address           : 0x6500f000
+Relative Address  : 0x0000f000
+Ordinal           : 1450 (0x5aa)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpisodeStartToStart
+Address           : 0x6500f330
+Relative Address  : 0x0000f330
+Ordinal           : 1490 (0x5d2)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpochDuration
+Address           : 0x6500ca60
+Relative Address  : 0x0000ca60
+Ordinal           : 1660 (0x67c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpochLevel
+Address           : 0x6500cc20
+Relative Address  : 0x0000cc20
+Ordinal           : 1670 (0x686)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpochLevelRange
+Address           : 0x6500cd60
+Relative Address  : 0x0000cd60
+Ordinal           : 1680 (0x690)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetEpochLimits
+Address           : 0x6500d6d0
+Relative Address  : 0x0000d6d0
+Ordinal           : 1250 (0x4e2)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetErrorText
+Address           : 0x6500c670
+Relative Address  : 0x0000c670
+Ordinal           : 1240 (0x4d8)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetHoldingDuration
+Address           : 0x6500d520
+Relative Address  : 0x0000d520
+Ordinal           : 1330 (0x532)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetMathChannelName
+Address           : 0x6500b110
+Relative Address  : 0x0000b110
+Ordinal           : 1210 (0x4ba)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetMathValue
+Address           : 0x6500af00
+Relative Address  : 0x0000af00
+Ordinal           : 1190 (0x4a6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetMaxPNSubsweeps
+Address           : 0x6500d050
+Relative Address  : 0x0000d050
+Ordinal           : 1690 (0x69a)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetMetaEpisodeDuration
+Address           : 0x6500f270
+Relative Address  : 0x0000f270
+Ordinal           : 1480 (0x5c8)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetModifierInfo
+Address           : 0x6500c8e0
+Relative Address  : 0x0000c8e0
+Ordinal           : 1750 (0x6d6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetNumberOfChangingSweeps
+Address           : 0x6500ea70
+Relative Address  : 0x0000ea70
+Ordinal           : 1630 (0x65e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetPNDuration
+Address           : 0x6500f120
+Relative Address  : 0x0000f120
+Ordinal           : 1460 (0x5b4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetPostTrainDuration
+Address           : 0x6500d2c0
+Relative Address  : 0x0000d2c0
+Ordinal           : 1700 (0x6a4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetPostTrainLevel
+Address           : 0x6500d1a0
+Relative Address  : 0x0000d1a0
+Ordinal           : 1710 (0x6ae)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetTimebase
+Address           : 0x6500e9f0
+Relative Address  : 0x0000e9f0
+Ordinal           : 1310 (0x51e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetTrainDuration
+Address           : 0x6500f1e0
+Relative Address  : 0x0000f1e0
+Ordinal           : 1470 (0x5be)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_GetWaveform
+Address           : 0x6500d930
+Relative Address  : 0x0000d930
+Ordinal           : 1270 (0x4f6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_Initialize
+Address           : 0x65009970
+Relative Address  : 0x00009970
+Ordinal           : 1110 (0x456)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_InitializeScopeConfig
+Address           : 0x6500a140
+Relative Address  : 0x0000a140
+Ordinal           : 1120 (0x460)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_IsADCLeakSubtracted
+Address           : 0x6500f0c0
+Relative Address  : 0x0000f0c0
+Ordinal           : 1440 (0x5a0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_IsConstantDigitalOutput
+Address           : 0x6500eee0
+Relative Address  : 0x0000eee0
+Ordinal           : 1640 (0x668)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_IsConstantWaveform
+Address           : 0x6500ec00
+Relative Address  : 0x0000ec00
+Ordinal           : 1340 (0x53c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_IsPNEnabled
+Address           : 0x6500f050
+Relative Address  : 0x0000f050
+Ordinal           : 1730 (0x6c2)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_MSToSynchCount
+Address           : 0x6500c7b0
+Relative Address  : 0x0000c7b0
+Ordinal           : 1430 (0x596)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ParamReader
+Address           : 0x6500c560
+Relative Address  : 0x0000c560
+Ordinal           : 1220 (0x4c4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_ParamWriter
+Address           : 0x6500c590
+Relative Address  : 0x0000c590
+Ordinal           : 1230 (0x4ce)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_SweepLenFromUserLen
+Address           : 0x6500d620
+Relative Address  : 0x0000d620
+Ordinal           : 1380 (0x564)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_SynchCountToMS
+Address           : 0x6500c720
+Relative Address  : 0x0000c720
+Ordinal           : 1420 (0x58c)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFH_UserLenFromSweepLen
+Address           : 0x6500d660
+Relative Address  : 0x0000d660
+Ordinal           : 1390 (0x56e)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_FixSignalName
+Address           : 0x65017cc0
+Relative Address  : 0x00017cc0
+Ordinal           : 3070 (0xbfe)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_FormatDouble
+Address           : 0x65017a10
+Relative Address  : 0x00017a10
+Ordinal           : 3020 (0xbcc)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_FormatHMS
+Address           : 0x65017a40
+Relative Address  : 0x00017a40
+Ordinal           : 3025 (0xbd1)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_GetABFString
+Address           : 0x65017b00
+Relative Address  : 0x00017b00
+Ordinal           : 3040 (0xbe0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_GetValidSignalNameChars
+Address           : 0x65017c30
+Relative Address  : 0x00017c30
+Ordinal           : 3060 (0xbf4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_IsValidSignalName
+Address           : 0x65017c40
+Relative Address  : 0x00017c40
+Ordinal           : 3050 (0xbea)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : ABFU_SetABFString
+Address           : 0x65017ab0
+Relative Address  : 0x00017ab0
+Ordinal           : 3030 (0xbd6)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : INFO_FormatDate
+Address           : 0x65010300
+Relative Address  : 0x00010300
+Ordinal           : 2030 (0x7ee)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : INFO_FormatTime
+Address           : 0x65010240
+Relative Address  : 0x00010240
+Ordinal           : 2020 (0x7e4)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : INFO_GetBufferSize
+Address           : 0x650177d0
+Relative Address  : 0x000177d0
+Ordinal           : 2000 (0x7d0)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
+==================================================
+Function Name     : INFO_GetInfo
+Address           : 0x65010550
+Relative Address  : 0x00010550
+Ordinal           : 2010 (0x7da)
+Filename          : ABFFIO.dll
+Full Path         : C:\Program Files (x86)\Molecular Devices\pCLAMP10.7\ABFFIO.dll
+Type              : Exported Function
+==================================================
+
