@@ -71,7 +71,7 @@ for i in range(0, len(values), 7):
     name = values[i+0]
     address = values[i+1]
     addressRel = values[i+2]
-    ordinal = values[i+2]
+    ordinal = values[i+3]
     md += "%s|%s|%s\n" % (name, addressRel, ordinal)
 
 # write the markdown to disk
