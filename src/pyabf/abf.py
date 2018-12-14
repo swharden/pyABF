@@ -47,13 +47,13 @@ class ABF:
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
-    def __init__(self, abf, loadData=True):
+    def __init__(self, abfFilePath, loadData=True):
 
         # assign arguments to the class
         self._preLoadData = loadData
 
         # clean-up file paths and filenames, then open the file
-        self.abfFilePath = os.path.abspath(abf)
+        self.abfFilePath = os.path.abspath(abfFilePath)
         if not os.path.exists(self.abfFilePath):
             raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
