@@ -44,6 +44,13 @@ def standardNumpyText(data):
 
 
 def indexFolder(folder, launch=True):
+    """
+    Create a quick and dirty flat-file HTML document to describe all images
+    and HTML files in a folder. This is useful when auto-analysis of ABF(s)
+    produced many matplotlib graphs and/or data output as HTML files, and you
+    want to rapidly see all these outputs at a glance.
+    """
+
     html = "<html><head><style>"
     html += "body {background-color: #ddd;}"
     html += "img {border: 1px solid black; margin: 20px;}"
@@ -102,6 +109,7 @@ class InfoPage:
         print(self.getText())
 
     def getText(self):
+        """Return information about all objects as markdown-formatted text."""
         text = ""
         for item in self.things:
             name, value = item
@@ -116,6 +124,9 @@ class InfoPage:
                     text+="%s"%(name)+"\n"
                 else:
                     text+="%s = %s\n" % (name, value)
+        lines = text.split("\n")
+        lines = [x.strip() for x in lines]
+        text = "\n".join(lines)
         return text
 
     def generateMarkdown(self, saveAs=False):
@@ -229,13 +240,12 @@ def abfInfoPage(abf):
         thing = getattr(abf, thingName)
         if "method" in str(type(thing)):
             continue
-        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray, range)):
+        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray)):
             page.addThing(thingName, thing)
         elif thing is None or thing is False or thing is True:
             page.addThing(thingName, thing)
         else:
-            print("Unsure how to generate info for:",
-                  thingName, type(thing))
+            print("Unsure how to generate info for:", thingName, type(thing))
 
     for channel in abf.channelList:
         page.addSection("Epochs for Channel %d" % channel)
@@ -272,7 +282,4 @@ def abfInfoPage(abf):
 
 
 if __name__ == "__main__":
-
-    indexFolder(R"C:\Users\scott\Documents\temp")
-
-    print("DONE")
+    print("DO NOT RUN THIS MODULE DIRECTLY")
