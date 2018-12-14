@@ -210,15 +210,8 @@ def go(processData=True):
 
         # update main readme
         md += "## %s.abf\n"%(abf.abfID)
-        md += "ABF (version %s) "%(abf.abfVersionString)
-        if abf.channelCount==1:
-            md += "with 1 channel "
-        else:
-            md += "with %d channels " % (abf.channelCount)
-        md += "(%s), "%(", ".join(abf.adcUnits))
-        md += "%d sweeps, "%(abf.sweepCount)
-        md += "recorded using protocol _%s_.<br> "%(abf.protocol)
-        md += "\n[View the full header](headers/%s.md)" % (abfIDsafe)
+        md += str(abf)
+        md += "<br>\n[View the full header](headers/%s.md)" % (abfIDsafe)
         md += "<a href='headers/%s.png'><img src='headers/%s.png'></a>"%(abfIDsafe, abfIDsafe)
         md += "\n\n"
 
