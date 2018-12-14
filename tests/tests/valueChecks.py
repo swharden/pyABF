@@ -74,6 +74,7 @@ FIRSTVALUES['f1'] = ['-30.51758', '-4.27246', '3100.58594', '3445.43457']
 FIRSTVALUES['171116sh_0020_saved'] = ['72.72339']
 FIRSTVALUES['f1_saved'] = ['-30.51758']
 FIRSTVALUES['2018_12_09_pCLAMP11_0001'] = ['-3.65051']
+FIRSTVALUES['18425108'] = ['0.07935', '-71.35010']
 
 def go():
     print("Checking first values ", end="")
