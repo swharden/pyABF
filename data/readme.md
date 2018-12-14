@@ -150,6 +150,10 @@ ABF (version 2.0.0.0) with 2 channels (pA, pA), sampled at 250.0 kHz, containing
 ABF (version 2.6.0.0) with 2 channels (pA, pA), sampled at 250.0 kHz, containing 48 sweeps, having no tags, with a total length of 0.16 minutes, recorded with protocol "ONRec_Hv1".<br>
 [View the full header](headers/2018_04_13_0016b_modified.md)<a href='headers/2018_04_13_0016b_modified.png'><img src='headers/2018_04_13_0016b_modified.png'></a>
 
+## 2018_05_08_0028-IC-VC-pair.abf
+ABF (version 2.6.0.0) with 2 channels (mV, pA), sampled at 20.0 kHz, containing 20 sweeps, having no tags, with a total length of 1.75 minutes, recorded with protocol "p0601 IC1 VC2".<br>
+[View the full header](headers/2018_05_08_0028-IC-VC-pair.md)<a href='headers/2018_05_08_0028-IC-VC-pair.png'><img src='headers/2018_05_08_0028-IC-VC-pair.png'></a>
+
 ## 2018_08_23_0009.abf
 ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 40 sweeps, having no tags, with a total length of 0.41 minutes, recorded with protocol "0201 memtest".<br>
 [View the full header](headers/2018_08_23_0009.md)<a href='headers/2018_08_23_0009.png'><img src='headers/2018_08_23_0009.png'></a>
