@@ -33,6 +33,8 @@
 * dacUnits = `['mV']`
 * data = `array (2d) with values like: -1.48067, -0.80929, -0.13112, ..., -1.18700, -1.01261, -0.69290`
 * dataByteStart = `4608`
+* dataLengthMin = `2.066790736145575`
+* dataLengthSec = `124.0074441687345`
 * dataPointByteSize = `4`
 * dataPointCount = `19380`
 * dataPointsPerMs = `0`

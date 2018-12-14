@@ -24,7 +24,7 @@
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
 * adcNames = `['IN 0']`
-* adcUnits = `['']`
+* adcUnits = `['?']`
 * channelCount = `1`
 * channelList = `[0]`
 * creatorVersion = `{'major': 10, 'minor': 2, 'bugfix': 0, 'build': 14}`
@@ -33,6 +33,8 @@
 * dacUnits = `['mV']`
 * data = `array (2d) with values like: 0.00000, 0.00000, 0.00001, ..., 15.83387, 16.07412, 16.31025`
 * dataByteStart = `3584`
+* dataLengthMin = `0.16666666666666666`
+* dataLengthSec = `10.0`
 * dataPointByteSize = `4`
 * dataPointCount = `100000`
 * dataPointsPerMs = `10`
@@ -51,14 +53,14 @@
 * sweepIntervalSec = `10.0`
 * sweepLabelC = `Cmd 0 (mV)`
 * sweepLabelX = `time (seconds)`
-* sweepLabelY = `IN 0 ()`
+* sweepLabelY = `IN 0 (?)`
 * sweepLengthSec = `10.0`
 * sweepList = `[0]`
 * sweepNumber = `0`
 * sweepPointCount = `100000`
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
-* sweepUnitsY = ``
+* sweepUnitsY = `?`
 * sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 9.99970, 9.99980, 9.99990`
 * sweepY = `array (1d) with values like: 0.00000, 0.00000, 0.00001, ..., 15.83387, 16.07412, 16.31025`
 * tagComments = `[]`

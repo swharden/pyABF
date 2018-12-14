@@ -33,6 +33,8 @@
 * dacUnits = `['?']`
 * data = `array (2d) with values like: -30.51758, -41.50391, -32.34863, ..., -37.84180, -36.62109, -25.63477`
 * dataByteStart = `2048`
+* dataLengthMin = `0.4583333333333333`
+* dataLengthSec = `27.5`
 * dataPointByteSize = `2`
 * dataPointCount = `500000`
 * dataPointsPerMs = `20`
