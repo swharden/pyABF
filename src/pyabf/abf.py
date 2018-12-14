@@ -86,22 +86,50 @@ class ABF:
                 self.setSweep(0)
 
     def __str__(self):
-        txt = "ABF file (%s.abf)" % (self.abfID)
-        txt += " sampled at %.02f kHz" % (self.dataRate/1e3)
-        txt += " with %d channel" % (self.channelCount)
-        if self.channelCount > 1:
-            txt += "s"
-        txt += ", %d sweep" % (self.sweepCount)
-        if self.sweepCount > 1:
-            txt += "s"
-        abfLengthMin = self.sweepIntervalSec*self.sweepCount/60.0 + self.sweepLengthSec
-        if len(self.tagComments)==0:
-            txt += ", no tags"
-        elif len(self.tagComments)==1:
-            txt += ", 1 tag"
-        elif len(self.tagComments)>1:
-            txt += ", %d tags" % (len(self.tagComments))
-        txt += ", and a total length of %.02f min." % (abfLengthMin)
+        """Return a string describing basic properties of the loaded ABF."""
+
+        txt = """
+        ABF (version VERSN)
+        with CHNM channels (CHUNITS),
+        sampled at RATEKHZ kHz,
+        containing SWCNT sweeps,
+        having no tags, 
+        with a total length of LENMIN minutes,
+        recorded without a protocol file.
+        """.strip().replace("\n"," ")
+        while "  " in txt:
+            txt = txt.replace("  ", " ")
+
+        # ABF version
+        txt = txt.replace("VERSN", self.abfVersionString)
+
+        # channels
+        txt = txt.replace("CHNM", str(self.channelCount))
+        txt = txt.replace("CHUNITS", ", ".join(self.adcUnits))
+        if self.channelCount==1:
+            txt = txt.replace(" channels ", " channel ")
+
+        # data dimensions
+        txt = txt.replace("RATEKHZ", str(self.dataRate/1e3))
+        txt = txt.replace("SWCNT", str(self.sweepCount))
+        txt = txt.replace("LENMIN", "%.02f"%(self.dataLengthMin))
+        if self.sweepCount==1:
+            txt = txt.replace("sweeps", "sweep")
+
+        # protocol
+        if self.protocol and self.protocol!="None":
+            protoMsg = 'with protocol "%s"'%self.protocol
+            txt = txt.replace('without a protocol file', protoMsg)
+
+        # tags
+        if len(self.tagComments)>0:
+            tagmsg = ", ".join(self.tagComments)
+            tagmsg = "%d tags (%s)"%(len(self.tagComments), tagmsg)
+            tagmsg = tagmsg.replace("no tags", tagmsg)
+            if len(self.tagComments)==1:
+                tagmsg = tagmsg.replace(" tags ", " tag ")
+            txt = txt.replace("no tags", tagmsg)    
+
         return txt
 
     def __repr__(self):
@@ -267,6 +295,12 @@ class ABF:
             if self.sweepIntervalSec==0:
                 self.sweepIntervalSec = self.sweepLengthSec
 
+        # determine total ABF recording length
+        self.dataLengthSec = self.sweepIntervalSec*self.sweepCount
+        if self.sweepCount>1:
+            self.dataLengthSec += self.sweepLengthSec
+        self.dataLengthMin = self.dataLengthSec / 60.0
+
         # protocol file
         if self.protocolPath.endswith(".pro"):
             self.protocol = os.path.basename(self.protocolPath)
@@ -278,6 +312,14 @@ class ABF:
         # tag details
         self.tagTimesMin = [x/60 for x in self.tagTimesSec]
         self.tagSweeps = [x/self.sweepLengthSec for x in self.tagTimesSec]
+
+        # fix empty channel units and names
+        for i, val in enumerate(self.adcUnits):
+            if val=="" or val==None:
+                self.adcUnits[i] = "?"
+        for i, val in enumerate(self.adcNames):
+            if val=="" or val==None:
+                self.adcNames[i] = "?"
 
         # create objects for each channel stimulus
         self.stimulusByChannel = []
