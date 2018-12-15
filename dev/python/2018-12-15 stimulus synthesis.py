@@ -190,13 +190,14 @@ def getEpochs(abf, dacNum=0):
     
     return epochs
 
-def showEpochTable(abfFileName):
+def showEpochTable(abfFileName, dacNum=0):
     abf = pyabf.ABF(abfFileName)
     print("\n" + abf.abfID)
-    epochs = getEpochs(abf)
+    epochs = getEpochs(abf, dacNum)
     print(epochTableText(epochs))
 
 if __name__ == "__main__":
-    showEpochTable(PATH_DATA+"/18711001.abf")
-    showEpochTable(PATH_DATA+"/05210017_vc_abf1.abf")
-    showEpochTable(PATH_DATA+"/18425108.abf")
+    #showEpochTable(PATH_DATA+"/18711001.abf")
+    #showEpochTable(PATH_DATA+"/05210017_vc_abf1.abf")
+    showEpochTable(PATH_DATA+"/pclamp11_4ch.abf", 0)
+    showEpochTable(PATH_DATA+"/pclamp11_4ch.abf", 1)
