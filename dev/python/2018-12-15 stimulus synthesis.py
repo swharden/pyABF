@@ -33,15 +33,14 @@ import warnings
 import matplotlib.pyplot as plt
 import glob
 
+_DIGITAL_OUTPUT_COUT = 8
+
 class Epoch:
     """
     The Epoch class represents data contained in a single epoch column
     of the stimulus waveform editor. It's just an easy way to hold and convert
     all the data values for a single epoch.
     """
-
-    # ABF settings
-    _nDigitalOutputs = 8
 
     # settable values
     epochNumber = -1
@@ -50,7 +49,7 @@ class Epoch:
     levelDelta = -1
     duration = -1
     durationDelta = -1
-    digitalPattern = [3]*_nDigitalOutputs
+    digitalPattern = [-1]*_DIGITAL_OUTPUT_COUT
     pulsePeriod = -1
     pulseWidth = -1
     dacNum = -1
@@ -92,8 +91,9 @@ class Epoch:
                                                  self.levelDelta)
         txt += "Duration: %.02f (delta %.02f); " % (self.duration,
                                                     self.durationDelta)
+        digStr = [str(x) for x in self.digitalPattern]
+        txt += "DigOuts: %s"%("".join(digStr))
         return txt
-
 
 class EpochSweepWaveform:
 
@@ -114,14 +114,41 @@ class EpochSweepWaveform:
         self.types = []
         self.pulseWidths = []
         self.pulsePeriods = []
+        self.digitalStates = []
 
-    def addEpoch(self, pt1, pt2, level, epochType, pulseWidth, pulsePeriod):
+    def addEpoch(self, pt1, pt2, level, epochType, pulseWidth, pulsePeriod,
+                 digitalState):
+
+        assert isinstance(pt1, int)
         self.p1s.append(pt1)
+
+        assert isinstance(pt2, int)
         self.p2s.append(pt2)
+
+        assert isinstance(level, int) or isinstance(level, float)
         self.levels.append(level)
+
+        assert isinstance(epochType, str)
         self.types.append(epochType)
+
+        assert isinstance(pulseWidth, int)
         self.pulseWidths.append(pulseWidth)
+
+        assert isinstance(pulsePeriod, int)
         self.pulsePeriods.append(pulsePeriod)
+
+        assert isinstance(digitalState, list)
+        assert len(digitalState)==_DIGITAL_OUTPUT_COUT
+        self.digitalStates.append(digitalState)
+
+    def getDigitalWaveform(self, digitalChannel):
+        """Return a waveform reflecting a certain digital output channel."""
+        sweepD = np.full(self.p2s[-1], 5)
+        for i in range(len(self.levels)):
+            digitalState = self.digitalStates[i]
+            digitalStateForChannel = digitalState[digitalChannel]
+            sweepD[self.p1s[i]:self.p2s[i]] = digitalStateForChannel
+        return sweepD
 
     def getWaveform(self):
         sweepC = np.full(self.p2s[-1], np.nan)
@@ -140,7 +167,7 @@ class EpochSweepWaveform:
             levelDelta = level - levelBefore
 
             # determine how many pulses there are
-            if self.pulsePeriods[i]>0:
+            if self.pulsePeriods[i] > 0:
                 pulseCount = int(chunkSize/self.pulsePeriods[i])
             else:
                 pulseCount = 0
@@ -149,12 +176,12 @@ class EpochSweepWaveform:
 
             if epochType == "Step":
                 # epoch type 1: step
-                chunk = np.full(chunkSize, level)               
+                chunk = np.full(chunkSize, level)
 
             elif epochType == "Ramp":
                 # epoch type 2: smooth ramp
                 chunk = np.linspace(levelBefore, level, chunkSize)
-                
+
             elif epochType == "Pulse":
                 # epoch type 3: pulse train
                 chunk = np.full(chunkSize, levelBefore)
@@ -162,7 +189,7 @@ class EpochSweepWaveform:
                     p1 = int(pulsePeriod*pulse)
                     p2 = int(p1 + pulseWidth)
                     chunk[p1:p2] = level
-            
+
             elif epochType == "Tri":
                 # epoch type 4: triangle train
                 chunk = np.full(chunkSize, np.nan)
@@ -180,7 +207,7 @@ class EpochSweepWaveform:
                 vals += np.pi
                 cos = np.cos(vals) * levelDelta/2
                 chunk += cos + levelDelta/2
-            
+
             elif epochType == "BiPhsc":
                 # epoch type 7: biphasic train
                 chunk = np.full(chunkSize, levelBefore)
@@ -296,9 +323,24 @@ class EpochTable:
             epoch.duration = abf._epochPerDacSection.lEpochInitDuration[i]
             epoch.pulsePeriod = abf._epochPerDacSection.lEpochPulsePeriod[i]
             epoch.pulseWidth = abf._epochPerDacSection.lEpochPulseWidth[i]
+            #TODO: do digital outputs support multi-channel ABFs? how??
+            digitalOutValue = abf._epochSection.nEpochDigitalOutput[i]
+            epoch.digitalPattern = self._valToBitList(digitalOutValue)
             epochs.append(epoch)
 
         return epochs
+
+    def _valToBitList(self, value, bitCount=_DIGITAL_OUTPUT_COUT):
+        """
+        Given an integer, return a list of 0s and 1s representing the state of 
+        each of the bit.
+        """
+        value = int(value)
+        binString = bin(value)[2:].zfill(bitCount)
+        bits = list(binString)
+        bits = [int(x) for x in bits]
+        bits.reverse()
+        return bits
 
     def __str__(self):
         return self.text
@@ -388,7 +430,8 @@ class EpochTable:
 
             # add the pre-epoch values
             preEpochEndPoint = int(self.sweepPointCount/64)
-            ep.addEpoch(0, preEpochEndPoint, lastSweepLastLevel, "Step", 0, 0)
+            ep.addEpoch(0, preEpochEndPoint, lastSweepLastLevel, "Step",
+                        0, 0, [0]*_DIGITAL_OUTPUT_COUT)
 
             # step through each epoch
             position = preEpochEndPoint
@@ -396,7 +439,8 @@ class EpochTable:
                 pt1, pt2 = position, position + epoch.duration
                 level = epoch.level + epoch.levelDelta*sweep
                 ep.addEpoch(pt1, pt2, level, epoch.epochTypeStr,
-                            epoch.pulseWidth, epoch.pulsePeriod)
+                            epoch.pulseWidth, epoch.pulsePeriod,
+                            epoch.digitalPattern)
                 position += epoch.duration
 
             # add the post-epoch values
@@ -404,13 +448,14 @@ class EpochTable:
                 lastSweepLastLevel = level
             else:
                 lastSweepLastLevel = self.holdingLevel
-            ep.addEpoch(pt2, self.sweepPointCount,
-                        lastSweepLastLevel, "Step", 0, 0)
+            ep.addEpoch(pt2, self.sweepPointCount, lastSweepLastLevel, "Step",
+                        0, 0, [0]*_DIGITAL_OUTPUT_COUT)
 
             # add this sweep waveform to the list
             epochWaveformsBySweep.append(ep)
 
         return epochWaveformsBySweep
+
 
 def _demo_create_graphs():
     """Plot sweepC of ABFs containing waveforms of all types."""
@@ -424,27 +469,29 @@ def _demo_create_graphs():
         plt.title(abf.abfID)
     plt.show()
 
+
 def _demo_epoch_table():
     """Demonstrate the text epoch table feature."""
     for fname in glob.glob(PATH_DATA+"/18702001-*.abf"):
         abf = pyabf.ABF(fname)
-        print("\n\n","#"*20,abf.abfID,"(CH 1)","#"*20)
+        print("\n\n", "#"*20, abf.abfID, "(CH 1)", "#"*20)
 
         # show the epoch table as a big text block
         epochTable = EpochTable(abf, 1)
-        print(epochTable) 
+        print(epochTable)
+
 
 def _demo_epoch_access():
     """Demonstrate how to access epoch levels and point indexes."""
     for fname in glob.glob(PATH_DATA+"/18702001-*.abf"):
         abf = pyabf.ABF(fname)
-        print("\n\n","#"*20,abf.abfID,"(CH 1)","#"*20)
+        print("\n\n", "#"*20, abf.abfID, "(CH 1)", "#"*20)
 
         # show waveform info for each sweep
         epochTable = EpochTable(abf, 1)
         for sweep in abf.sweepList:
             sweepWaveform = epochTable.epochWaveformsBySweep[sweep]
-            print("\n","#"*5,"Sweep", sweep, "#"*5)
+            print("\n", "#"*5, "Sweep", sweep, "#"*5)
             print(sweepWaveform)
             print("levels:", sweepWaveform.levels)
             print("types:", sweepWaveform.types)
@@ -453,20 +500,34 @@ def _demo_epoch_access():
             print("pulsePeriods:", sweepWaveform.pulsePeriods)
             print("pulseWidths:", sweepWaveform.pulseWidths)
 
+
 def _demo_sweepC():
     """Demonstrate how to generate the sweepC waveform."""
     for fname in glob.glob(PATH_DATA+"/18702001-*.abf"):
         abf = pyabf.ABF(fname)
-        print("\n%s (CH 1)"%abf.abfID)
+        print("\n%s (CH 1)" % abf.abfID)
         epochTable = EpochTable(abf, 1)
         for sweep in abf.sweepList:
             sweepWaveform = epochTable.epochWaveformsBySweep[sweep]
             sweepC = sweepWaveform.getWaveform()
-            print("Sweep", sweep, "=", sweepC)
+            print("SweepC", sweep, "=", sweepC)
+
+
+def _demo_sweepD():
+    """Demonstrate how to access digital outputs."""
+    abf = pyabf.ABF(PATH_DATA+"/17o05026_vc_stim.abf")
+    epochTable = EpochTable(abf, 0)  # channel 0
+    sweepWaveform = epochTable.epochWaveformsBySweep[0]  # sweep 0
+    sweepD = sweepWaveform.getDigitalWaveform(4)  # digital output 4
+    print("SweepD", sweepD)
+    plt.plot(sweepD)
+    plt.show()
+
 
 if __name__ == "__main__":
     print("DO NOT RUN THIS MODULE DIRECTLY")
-    _demo_create_graphs()
-    #_demo_epoch_table()
-    #_demo_epoch_access()
-    #_demo_sweepC()
+    # _demo_create_graphs()
+    _demo_epoch_table()
+    # _demo_epoch_access()
+    # _demo_sweepC()
+    # _demo_sweepD()
