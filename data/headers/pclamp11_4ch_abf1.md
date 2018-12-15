@@ -40,16 +40,15 @@
 * dataPointsPerMs = `80`
 * dataRate = `80000`
 * dataSecPerPoint = `1.25e-05`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[10.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `None`
 * protocolPath = `None`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
+* sweepC = `array (1d) with values like: 10.00000, 10.00000, 10.00000, ..., 10.00000, 10.00000, 10.00000`
 * sweepChannel = `0`
 * sweepCount = `10`
+* sweepEpochs = `Sweep epoch waveform: Step 10.00 [0:62], Step 10.00 [62:2062], Step 10.00 [2062:4000]`
 * sweepIntervalSec = `0.05`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,28 +71,37 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+                    EPOCH         A
+                     Type      Step
+              First Level     10.00
+              Delta Level      0.00
+  First Duration (points)      2000
+  Delta Duration (points)         0
+     Digital Pattern #3-0      0000
+     Digital Pattern #7-4      0000
+    Train Period (points)         0
+     Pulse Width (points)         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC data from ABF1 files is not available.
+NOT INIT
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-DAC data from ABF1 files is not available.
+NOT INIT
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-DAC data from ABF1 files is not available.
+NOT INIT
 ```
 
 ## ABF1 Header

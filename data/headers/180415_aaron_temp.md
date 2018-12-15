@@ -40,16 +40,15 @@
 * dataPointsPerMs = `100`
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
-* epochPoints = `[0, 1562, 100000]`
-* epochValues = `[0.0, 0.0, 0.0]`
 * fileGUID = `{40392588-482D-4FB4-AEE0-820FF5228888}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:1562], Step 0.00 [1562:100000]`
 * sweepIntervalSec = `1.0`
 * sweepLabelC = `OUT 0 (V)`
 * sweepLabelX = `time (seconds)`
@@ -72,14 +71,14 @@
 
 
 ```
-DAC waveform is not enabled.
+DAC waveform is not enabled
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## ABF2 Header

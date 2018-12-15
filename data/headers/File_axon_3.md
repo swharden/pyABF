@@ -40,16 +40,15 @@
 * dataPointsPerMs = `40`
 * dataRate = `40000`
 * dataSecPerPoint = `2.5e-05`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `5`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:322], Step 0.00 [322:347], Step 0.00 [347:357], Step 0.00 [357:382], Step 0.00 [382:20644]`
 * sweepIntervalSec = `0.5161`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
@@ -72,14 +71,23 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+                    EPOCH         B         C         D
+                     Type      Step      Step      Step
+              First Level      0.00      0.00      0.00
+              Delta Level      0.00      0.00      0.00
+  First Duration (points)        25        10        25
+  Delta Duration (points)         0         0         0
+     Digital Pattern #3-0      0000      0000      0000
+     Digital Pattern #7-4      0000      0000      0000
+    Train Period (points)         0         0         0
+     Pulse Width (points)         0         0         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC data from ABF1 files is not available.
+NOT INIT
 ```
 
 ## ABF1 Header

@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[0, 62, 2062, 4062, 6062, 8062, 4000]`
-* epochValues = `[-10.0, -10.0, 10.0, 20.0, 30.0, 40.0, -10.0]`
 * fileGUID = `{00000000-0000-0000-0000-000000000000}`
 * holdingCommand = `[-10.0, -20.0, 0.0, -40.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `None`
 * protocolPath = `None`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
 * sweepC = `array (1d) with values like: -10.00000, -10.00000, -10.00000, ..., -10.00000, -10.00000, -10.00000`
 * sweepChannel = `0`
 * sweepCount = `10`
+* sweepEpochs = `Sweep epoch waveform: Step -10.00 [0:62], Step 10.00 [62:2062], Step -10.00 [2062:4000]`
 * sweepIntervalSec = `0.2`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,60 +71,37 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A
-                     Type   Step
-         First Level (mV)     10
-         Delta Level (mV)      0
- First Duration (samples)   2000
- Delta Duration (samples)      0
-   Train Period (samples)      0
-    Pulse Width (samples)      0
+                    EPOCH         A
+                     Type      Step
+              First Level     10.00
+              Delta Level      0.00
+  First Duration (points)      2000
+  Delta Duration (points)         0
+     Digital Pattern #3-0      1111
+     Digital Pattern #7-4      0000
+    Train Period (points)         0
+     Pulse Width (points)         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch1 EPOCH      A
-                     Type   Step
-         First Level (mV)     20
-         Delta Level (mV)      0
- First Duration (samples)   2000
- Delta Duration (samples)      0
-   Train Period (samples)      0
-    Pulse Width (samples)      0
+NOT INIT
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch2 EPOCH      A
-                     Type   Step
-         First Level (mV)     30
-         Delta Level (mV)      0
- First Duration (samples)   2000
- Delta Duration (samples)      0
-   Train Period (samples)      0
-    Pulse Width (samples)      0
+NOT INIT
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch3 EPOCH      A
-                     Type   Step
-         First Level (mV)     40
-         Delta Level (mV)      0
- First Duration (samples)   2000
- Delta Duration (samples)      0
-   Train Period (samples)      0
-    Pulse Width (samples)      0
+NOT INIT
 ```
 
 ## ABF2 Header

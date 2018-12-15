@@ -40,16 +40,15 @@
 * dataPointsPerMs = `50`
 * dataRate = `50000`
 * dataSecPerPoint = `2e-05`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `slaven-Ch1-gapfree`
 * protocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 112.00 [0:34843], Step 112.00 [34843:35843], Step 112.00 [35843:2230000]`
 * sweepIntervalSec = `44.6`
 * sweepLabelC = `? (?)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,16 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+                    EPOCH         A
+                     Type      Step
+              First Level    112.00
+              Delta Level    -20.00
+  First Duration (points)      1000
+  Delta Duration (points)         0
+     Digital Pattern #3-0      0000
+     Digital Pattern #7-4      0000
+    Train Period (points)         0
+     Pulse Width (points)         0
 ```
 
 ## ABF1 Header

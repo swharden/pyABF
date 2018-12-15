@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[nan, nan, nan, ..., nan, nan, nan]`
 * protocol = `None`
 * protocolPath = `None`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `10`
+* sweepEpochs = `Sweep epoch waveform: Step nan [0:781], Unknown nan [781:-8060257], Unknown nan [-8060257:-14679509], Unknown nan [-14679509:-23395909], Unknown nan [-23395909:-29753007], Unknown nan [-29753007:-38469385], Unknown nan [-38469385:-46923625], Unknown nan [-46923625:-54853579], Unknown nan [-54853579:-61341741], Unknown nan [-61341741:-69271695], Unknown nan [-69271695:-76284159], Step nan [-76284159:50000]`
 * sweepIntervalSec = `2.5`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,7 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+unknown nWaveformSource
 ```
 
 ## ABF1 Header

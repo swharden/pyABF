@@ -40,16 +40,15 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochPoints = `[0, 7546, 483000]`
-* epochValues = `[0.0, 0.0, 0.0]`
 * fileGUID = `{7125B685-4F50-474D-B53F-AF2D1E9D3434}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:7546], Step 0.00 [7546:483000]`
 * sweepIntervalSec = `48.3`
 * sweepLabelC = `Cmd 0 (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,14 +71,14 @@
 
 
 ```
-DAC waveform is not enabled.
+DAC waveform is not enabled
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## ABF2 Header

@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[0, 937, 2937, 12937, 22937, 32937, 42937, 60000]`
-* epochValues = `[0.0, 0.0, 0.0, -50.0, 0.0, -50.0, -50.0, 0.0]`
 * fileGUID = `{307EE462-8A84-41AE-8188-4AB5B73AE3E3}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `16`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:937], Step 0.00 [937:2937], Step -50.00 [2937:12937], Step 0.00 [12937:22937], Step -50.00 [22937:32937], Step -50.00 [32937:42937], Step 0.00 [42937:60000]`
 * sweepIntervalSec = `3.0`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
@@ -72,15 +71,16 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A      B      C      D      E
-                     Type   Step   Step   Step   Step   Step
-         First Level (pA)      0    -50      0    -50    -50
-         Delta Level (pA)      0     10      0      0     10
- First Duration (samples)   2000  10000  10000  10000  10000
- Delta Duration (samples)      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0
+                    EPOCH         A         B         C         D         E
+                     Type      Step      Step      Step      Step      Step
+              First Level      0.00    -50.00      0.00    -50.00    -50.00
+              Delta Level      0.00     10.00      0.00      0.00     10.00
+  First Duration (points)      2000     10000     10000     10000     10000
+  Delta Duration (points)         0         0         0         0         0
+     Digital Pattern #3-0      0000      0000      0000      0000      0000
+     Digital Pattern #7-4      0000      0000      0000      0000      0000
+    Train Period (points)         0         0         0         0         0
+     Pulse Width (points)         0         0         0         0         0
 ```
 
 ## ABF2 Header

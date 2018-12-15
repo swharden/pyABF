@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 112.00 [0:281250], Step 112.00 [281250:282250], Step 112.00 [282250:18000000]`
 * sweepIntervalSec = `900.0`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,16 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+                    EPOCH         A
+                     Type      Step
+              First Level    112.00
+              Delta Level    -20.00
+  First Duration (points)      1000
+  Delta Duration (points)         0
+     Digital Pattern #3-0      0000
+     Digital Pattern #7-4      0000
+    Train Period (points)         0
+     Pulse Width (points)         0
 ```
 
 ## ABF1 Header

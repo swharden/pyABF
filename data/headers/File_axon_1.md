@@ -40,16 +40,15 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochPoints = `[0, 29888, 1912832]`
-* epochValues = `[0.0, 0.0, 0.0]`
 * fileGUID = `{F182D298-AB6D-4149-970B-AE3BCB5EEDED}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:29888], Step 0.00 [29888:1912832]`
 * sweepIntervalSec = `191.2832`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,7 @@
 
 
 ```
-DAC waveform is not enabled.
+DAC waveform is not enabled
 ```
 
 ## ABF2 Header

@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[0, 312, 4312, 14312, 18312, 20000]`
-* epochValues = `[0.0, 0.0, 0.0, -100.0, 0.0, 0.0]`
 * fileGUID = `{8F92BF12-A392-4FCF-9C94-47C4F08FD2D2}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `9`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:312], Step 0.00 [312:4312], Step -100.00 [4312:14312], Step 0.00 [14312:18312], Step 0.00 [18312:20000]`
 * sweepIntervalSec = `5.0`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
@@ -72,15 +71,16 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A      B      C
-                     Type   Step   Step   Step
-         First Level (pA)      0   -100      0
-         Delta Level (pA)      0     50      0
- First Duration (samples)   4000  10000   4000
- Delta Duration (samples)      0      0      0
-   Train Period (samples)      0      0      0
-    Pulse Width (samples)      0      0      0
+                    EPOCH         A         B         C
+                     Type      Step      Step      Step
+              First Level      0.00   -100.00      0.00
+              Delta Level      0.00     50.00      0.00
+  First Duration (points)      4000     10000      4000
+  Delta Duration (points)         0         0         0
+     Digital Pattern #3-0      1111      0000      0000
+     Digital Pattern #7-4      0000      0000      0000
+    Train Period (points)         0         0         0
+     Pulse Width (points)         0         0         0
 ```
 
 ## ABF2 Header

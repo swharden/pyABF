@@ -40,16 +40,15 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochPoints = `[0, 1562, 100000]`
-* epochValues = `[-70.0, -70.0, -70.0]`
 * fileGUID = `{FA90BECA-056E-4757-9776-ADFD60958D8D}`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
 * protocol = `None`
 * protocolPath = `None`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step -70.00 [0:1562], Step -70.00 [1562:100000]`
 * sweepIntervalSec = `10.0`
 * sweepLabelC = `Cmd 0 (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,15 +71,16 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH
+                    EPOCH
                      Type
-         First Level (mV)
-         Delta Level (mV)
- First Duration (samples)
- Delta Duration (samples)
-   Train Period (samples)
-    Pulse Width (samples)
+              First Level
+              Delta Level
+  First Duration (points)
+  Delta Duration (points)
+     Digital Pattern #3-0
+     Digital Pattern #7-4
+    Train Period (points)
+     Pulse Width (points)
 ```
 
 ## ABF2 Header

@@ -40,16 +40,15 @@
 * dataPointsPerMs = `1`
 * dataRate = `1000`
 * dataSecPerPoint = `0.001`
-* epochPoints = `[]`
-* epochValues = `[]`
 * fileGUID = ``
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `Cc_minidigi`
 * protocolPath = `C:\Axon\rk400\0.1G\minidigi\Cc_minidigi.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:18750], Step 0.00 [18750:1200000]`
 * sweepIntervalSec = `1200.0`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,7 @@
 
 
 ```
-DAC data from ABF1 files is not available.
+DAC waveform is not enabled
 ```
 
 ## ABF1 Header

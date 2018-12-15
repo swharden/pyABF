@@ -40,16 +40,15 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochPoints = `[0, 625, 2625, 4625, 9625, 14625, 19625, 24625, 29625, 34625, 36625, 38625, 43625, 48625, 53625, 58625, 63625, 68625, 40000]`
-* epochValues = `[-70.0, -70.0, -70.0, -80.0, -70.0, -110.0, -70.0, -50.0, -110.0, -50.0, -70.0, -80.0, -70.0, -110.0, -70.0, -50.0, -110.0, -50.0, -70.0]`
 * fileGUID = `{7468FC35-C797-4101-8212-7E5BF83BF9F9}`
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `13`
+* sweepEpochs = `Sweep epoch waveform: Step -70.00 [0:625], Step -70.00 [625:2625], Step -80.00 [2625:4625], Step -70.00 [4625:9625], Step -110.00 [9625:14625], Step -70.00 [14625:19625], Step -50.00 [19625:24625], Step -110.00 [24625:29625], Step -50.00 [29625:34625], Step -70.00 [34625:40000]`
 * sweepIntervalSec = `4.0`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,30 +71,23 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A      B      C      D      E      F      G      H
-                     Type   Step   Step   Step   Step   Step   Step   Step   Step
-         First Level (mV)    -70    -80    -70   -110    -70    -50   -110    -50
-         Delta Level (mV)      0      0      0      5      0      0      5      0
- First Duration (samples)   2000   2000   5000   5000   5000   5000   5000   5000
- Delta Duration (samples)      0      0      0      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0      0      0      0
+                    EPOCH         A         B         C         D         E         F         G         H
+                     Type      Step      Step      Step      Step      Step      Step      Step      Step
+              First Level    -70.00    -80.00    -70.00   -110.00    -70.00    -50.00   -110.00    -50.00
+              Delta Level      0.00      0.00      0.00      5.00      0.00      0.00      5.00      0.00
+  First Duration (points)      2000      2000      5000      5000      5000      5000      5000      5000
+  Delta Duration (points)         0         0         0         0         0         0         0         0
+     Digital Pattern #3-0      1111      0000      0000      0000      0000      0000      0000      0000
+     Digital Pattern #7-4      0000      0000      0000      0000      0000      0000      0000      0000
+    Train Period (points)         0         0         0         0         0         0         0         0
+     Pulse Width (points)         0         0         0         0         0         0         0         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch1 EPOCH      A      B      C      D      E      F      G      H
-                     Type   Step   Step   Step   Step   Step   Step   Step   Step
-         First Level (mV)    -70    -80    -70   -110    -70    -50   -110    -50
-         Delta Level (mV)      0      0      0      5      0      0      5      0
- First Duration (samples)   2000   2000   5000   5000   5000   5000   5000   5000
- Delta Duration (samples)      0      0      0      0      0      0      0      0
-   Train Period (samples)      0      0      0      0      0      0      0      0
-    Pulse Width (samples)      0      0      0      0      0      0      0      0
+NOT INIT
 ```
 
 ## ABF2 Header

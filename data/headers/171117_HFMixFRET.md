@@ -40,16 +40,15 @@
 * dataPointsPerMs = `10`
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
-* epochPoints = `[0, 967, 20967, 40967, 60967, 61934]`
-* epochValues = `[-100.0, -100.0, -100.0, -100.0, -100.0, -100.0]`
 * fileGUID = `{A7506B14-2B02-4BE8-B2CB-9E4AA01B8D8D}`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1), ChannelEpochs(ABF, 2), ChannelEpochs(ABF, 3)]`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
 * sweepC = `array (1d) with values like: -100.00000, -100.00000, -100.00000, ..., -100.00000, -100.00000, -100.00000`
 * sweepChannel = `0`
 * sweepCount = `13`
+* sweepEpochs = `Sweep epoch waveform: Step -100.00 [0:967], Step -100.00 [967:20967], Step -100.00 [20967:40967], Step -100.00 [40967:60967], Step -100.00 [60967:61934]`
 * sweepIntervalSec = `66.0`
 * sweepLabelC = `Cmd 0 (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,36 +71,37 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A      B      C
-                     Type   Step   Step   Step
-         First Level (mV)   -100   -100   -100
-         Delta Level (mV)      0     20      0
- First Duration (samples)  20000  20000  20000
- Delta Duration (samples)      0      0      0
-   Train Period (samples)      0      0      0
-    Pulse Width (samples)      0      0      0
+                    EPOCH         A         B         C
+                     Type      Step      Step      Step
+              First Level   -100.00   -100.00   -100.00
+              Delta Level      0.00     20.00      0.00
+  First Duration (points)     20000     20000     20000
+  Delta Duration (points)         0         0         0
+     Digital Pattern #3-0      1000      1000      1000
+     Digital Pattern #7-4      0000      0000      0000
+    Train Period (points)         0         0         0
+     Pulse Width (points)         0         0         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## Epochs for Channel 2
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## Epochs for Channel 3
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## ABF2 Header

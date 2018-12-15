@@ -40,16 +40,15 @@
 * dataPointsPerMs = `0`
 * dataRate = `403`
 * dataSecPerPoint = `0.0024813895781637717`
-* epochPoints = `[0, 25, 1615]`
-* epochValues = `[-80.0, -80.0, -80.0]`
 * fileGUID = `{F0257BE6-17F2-419A-AFE1-AF009E85FAFA}`
 * holdingCommand = `[-80.0, -80.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0)]`
-* sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* sweepC = `array (1d) with values like: -80.00000, -80.00000, -80.00000, ..., -80.00000, -80.00000, -80.00000`
 * sweepChannel = `0`
 * sweepCount = `12`
+* sweepEpochs = `Sweep epoch waveform: Step -80.00 [0:25], Step -80.00 [25:1615]`
 * sweepIntervalSec = `10.0`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
@@ -72,7 +71,7 @@
 
 
 ```
-DAC waveform is not enabled.
+DAC waveform is not enabled
 ```
 
 ## ABF2 Header

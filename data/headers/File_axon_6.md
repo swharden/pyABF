@@ -40,16 +40,15 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* epochPoints = `[0, 312, 4312, 4352, 8352, 20000]`
-* epochValues = `[0.0, 0.0, 0.0, 2000.0, 0.0, 0.0]`
 * fileGUID = `{52EADE86-2DE9-4675-A928-C5FC120F7777}`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * protocol = `step cclamp 2nA for 2ms`
 * protocolPath = `C:\Axon\Params\step cclamp 2nA for 2ms.pro`
-* stimulusByChannel = `[ChannelEpochs(ABF, 0), ChannelEpochs(ABF, 1)]`
+* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `32`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:312], Step 0.00 [312:4312], Step 2000.00 [4312:4352], Step 0.00 [4352:8352], Step 0.00 [8352:20000]`
 * sweepIntervalSec = `20.0`
 * sweepLabelC = `Applied Current (pA)`
 * sweepLabelX = `time (seconds)`
@@ -72,22 +71,23 @@
 
 
 ```
-DAC waveform is controlled by epoch table:
-                Ch0 EPOCH      A      B      C
-                     Type   Step   Step   Step
-         First Level (pA)      0   2000      0
-         Delta Level (pA)      0      0      0
- First Duration (samples)   4000     40   4000
- Delta Duration (samples)      0      0      0
-   Train Period (samples)      0      0      0
-    Pulse Width (samples)      0      0      0
+                    EPOCH         A         B         C
+                     Type      Step      Step      Step
+              First Level      0.00   2000.00      0.00
+              Delta Level      0.00      0.00      0.00
+  First Duration (points)      4000        40      4000
+  Delta Duration (points)         0         0         0
+     Digital Pattern #3-0      1111      0000      0000
+     Digital Pattern #7-4      0000      0000      0000
+    Train Period (points)         0         0         0
+     Pulse Width (points)         0         0         0
 ```
 
 ## Epochs for Channel 1
 
 
 ```
-DAC waveform is not enabled.
+NOT INIT
 ```
 
 ## ABF2 Header
