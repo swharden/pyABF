@@ -102,6 +102,10 @@ ABF (version 2.3.0.0) with 2 channels (V, deg C), sampled at 100.0 kHz, containi
 ABF (version 2.9.0.0) with 2 channels (nA, mV), sampled at 25.0 kHz, containing 1 sweep, having no tags, with a total length of 4.00 minutes, recorded with protocol "11 - 15 pulse AHP w_laser".<br>
 [View the full header](headers/18425108.md)<a href='headers/18425108.png'><img src='headers/18425108.png'></a>
 
+## 18425108_abf1.abf
+ABF (version 1.8.4.0) with 2 channels (nA, mV), sampled at 50.0 kHz, containing 1 sweep, having no tags, with a total length of 0.08 minutes, recorded with protocol "11 - 15 pulse AHP w_laser".<br>
+[View the full header](headers/18425108_abf1.md)<a href='headers/18425108_abf1.png'><img src='headers/18425108_abf1.png'></a>
+
 ## 18702001-biphasicTrain.abf
 ABF (version 2.6.0.0) with 2 channels (pA, A), sampled at 20.0 kHz, containing 3 sweeps, having no tags, with a total length of 0.07 minutes, recorded with protocol "0201 memtest".<br>
 [View the full header](headers/18702001-biphasicTrain.md)<a href='headers/18702001-biphasicTrain.png'><img src='headers/18702001-biphasicTrain.png'></a>
