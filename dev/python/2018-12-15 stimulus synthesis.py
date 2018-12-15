@@ -35,6 +35,7 @@ import glob
 
 _DIGITAL_OUTPUT_COUT = 8
 
+
 class Epoch:
     """
     The Epoch class represents data contained in a single epoch column
@@ -92,8 +93,9 @@ class Epoch:
         txt += "Duration: %.02f (delta %.02f); " % (self.duration,
                                                     self.durationDelta)
         digStr = [str(x) for x in self.digitalPattern]
-        txt += "DigOuts: %s"%("".join(digStr))
+        txt += "DigOuts: %s" % ("".join(digStr))
         return txt
+
 
 class EpochSweepWaveform:
 
@@ -138,7 +140,7 @@ class EpochSweepWaveform:
         self.pulsePeriods.append(pulsePeriod)
 
         assert isinstance(digitalState, list)
-        assert len(digitalState)==_DIGITAL_OUTPUT_COUT
+        assert len(digitalState) == _DIGITAL_OUTPUT_COUT
         self.digitalStates.append(digitalState)
 
     def getDigitalWaveform(self, digitalChannel):
@@ -310,7 +312,6 @@ class EpochTable:
         epochs = []
 
         # the epoch table is stored in _epochPerDacSection
-        # digital output values are in _epochSection
         for i, epochDacNum in enumerate(abf._epochPerDacSection.nDACNum):
             if epochDacNum != channel:
                 continue
@@ -323,10 +324,20 @@ class EpochTable:
             epoch.duration = abf._epochPerDacSection.lEpochInitDuration[i]
             epoch.pulsePeriod = abf._epochPerDacSection.lEpochPulsePeriod[i]
             epoch.pulseWidth = abf._epochPerDacSection.lEpochPulseWidth[i]
-            #TODO: do digital outputs support multi-channel ABFs? how??
-            digitalOutValue = abf._epochSection.nEpochDigitalOutput[i]
-            epoch.digitalPattern = self._valToBitList(digitalOutValue)
+
+            if epochDacNum == abf._protocolSection.nActiveDACChannel:
+                iCh = len(epochs)
+                digitalOutValue = abf._epochSection.nEpochDigitalOutput[iCh]
+                epoch.digitalPattern = self._valToBitList(digitalOutValue)
+            else:
+                epoch.digitalPattern = self._valToBitList(0)
             epochs.append(epoch)
+
+        # digital output values are in _epochSection.
+        # digital outputs are only used for the nActiveDACChannel channel.
+
+        #digitalOutValue = abf._epochSection.nEpochDigitalOutput[i]
+        #epoch.digitalPattern = self._valToBitList(digitalOutValue)
 
         return epochs
 
@@ -472,7 +483,8 @@ def _demo_create_graphs():
 
 def _demo_epoch_table():
     """Demonstrate the text epoch table feature."""
-    for fname in glob.glob(PATH_DATA+"/18702001-*.abf"):
+    abfFiles = glob.glob(PATH_DATA+"/18702001-*.abf")
+    for fname in abfFiles:
         abf = pyabf.ABF(fname)
         print("\n\n", "#"*20, abf.abfID, "(CH 1)", "#"*20)
 
@@ -513,6 +525,15 @@ def _demo_sweepC():
             print("SweepC", sweep, "=", sweepC)
 
 
+def _demo_digOut_by_channel():
+    """Demonstrate that only a single channel commands digital outputs."""
+    abf = pyabf.ABF(PATH_DATA+"/2018_12_15_0000.abf")
+    for channel in abf.channelList:
+        epochTable = EpochTable(abf, channel)
+        print("\n\n", "#"*20, abf.abfID, "(CH %d)" % channel, "#"*20)
+        print(epochTable)
+
+
 def _demo_sweepD():
     """Demonstrate how to access digital outputs."""
     abf = pyabf.ABF(PATH_DATA+"/17o05026_vc_stim.abf")
@@ -527,7 +548,8 @@ def _demo_sweepD():
 if __name__ == "__main__":
     print("DO NOT RUN THIS MODULE DIRECTLY")
     # _demo_create_graphs()
-    _demo_epoch_table()
+    # _demo_epoch_table()
     # _demo_epoch_access()
     # _demo_sweepC()
     # _demo_sweepD()
+    # _demo_digOut_by_channel()
