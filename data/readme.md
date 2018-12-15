@@ -218,6 +218,10 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 50 sw
 ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 20 sweeps, having no tags, with a total length of 0.17 minutes, recorded with protocol "0201 memtest".<br>
 [View the full header](headers/model_vc_step.md)<a href='headers/model_vc_step.png'><img src='headers/model_vc_step.png'></a>
 
+## pclamp11_4ch.abf
+ABF (version 2.9.0.0) with 4 channels (pA, pA, pA, pA), sampled at 20.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
+[View the full header](headers/pclamp11_4ch.md)<a href='headers/pclamp11_4ch.png'><img src='headers/pclamp11_4ch.png'></a>
+
 ## sample trace_0054.abf
 ABF (version 1.6.4.9) with 1 channel (nA), sampled at 50.0 kHz, containing 1 sweep, having no tags, with a total length of 0.74 minutes, recorded with protocol "slaven-Ch1-gapfree".<br>
 [View the full header](headers/sample%20trace_0054.md)<a href='headers/sample%20trace_0054.png'><img src='headers/sample%20trace_0054.png'></a>
