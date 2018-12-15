@@ -170,6 +170,10 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 60 sw
 ABF (version 2.9.0.0) with 1 channel (A), sampled at 10.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
 [View the full header](headers/2018_12_09_pCLAMP11_0001.md)<a href='headers/2018_12_09_pCLAMP11_0001.png'><img src='headers/2018_12_09_pCLAMP11_0001.png'></a>
 
+## 2018_12_15_0000.abf
+ABF (version 2.9.0.0) with 4 channels (pA, pA, pA, pA), sampled at 10.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
+[View the full header](headers/2018_12_15_0000.md)<a href='headers/2018_12_15_0000.png'><img src='headers/2018_12_15_0000.png'></a>
+
 ## File_axon_1.abf
 ABF (version 2.0.0.0) with 1 channel (pA), sampled at 10.0 kHz, containing 1 sweep, having no tags, with a total length of 3.19 minutes, recorded with protocol "VC_cour01G20".<br>
 [View the full header](headers/File_axon_1.md)<a href='headers/File_axon_1.png'><img src='headers/File_axon_1.png'></a>
