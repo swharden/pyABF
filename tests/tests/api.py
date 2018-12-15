@@ -137,21 +137,20 @@ def test_ABF_core_objects(abf):
     dot()
 
     log.debug("holding command levels")
-    # TODO: rename to abf.adcHolding?
     assert (isinstance(abf.holdingCommand, list))
     for value in abf.holdingCommand:
         assert isinstance(value, float)
     dot()
 
-    log.debug("stimulus waveform things")
-    # TODO: rename to abf.adcHolding?
-    assert (isinstance(abf.epochPoints, list))
-    for value in abf.epochPoints:
-        assert isinstance(value, int)
-    assert (isinstance(abf.epochValues, list))
-    for value in abf.epochValues:
-        assert isinstance(value, float)
-    dot()
+    # NOTE: REMOVED 2018-12-15
+    #log.debug("stimulus waveform things")
+    #assert (isinstance(abf.epochPoints, list))
+    #for value in abf.epochPoints:
+        #assert isinstance(value, int)
+    #assert (isinstance(abf.epochValues, list))
+    #for value in abf.epochValues:
+        #assert isinstance(value, float)
+    #dot()
 
 def test_data_access(abf):
     """

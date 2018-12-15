@@ -16,10 +16,8 @@ if sys.version_info >= (3, 6):
     from pyabf.abf import ABF
     from pyabf.atf import ATF
     from pyabf import stats
-    from pyabf import filter
     from pyabf import plot
-    import pyabf.ap
-    import pyabf.memtest
+    from pyabf import filter
 else:
     print("WARNING: pyABF is only partially supported on Python versions <3.6")
     from pyabf.abf import ABF

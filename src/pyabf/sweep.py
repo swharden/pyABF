@@ -14,6 +14,8 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+import pyabf
+import pyabf.waveform
 
 def _timesToPoints(abf, timeSec1=None, timeSec2=None):
     """
@@ -111,6 +113,18 @@ def setSweep(abf, sweepNumber, channel=0, absoluteTime=False):
 
     # make sure sweepPointCount is always accurate
     assert (abf.sweepPointCount == len(abf.sweepY))
+
+    # prepare the stimulus waveform table for this sweep/channel
+    epochTable = pyabf.waveform.EpochTable(abf, channel)
+    abf.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
+
+def sweepD(abf, digOutNumber=0):
+    """Generate a waveform for the given digital output."""
+    assert isinstance(abf, pyabf.ABF)
+    epochTable = pyabf.waveform.EpochTable(abf, abf.sweepChannel)
+    sweepWaveform = epochTable.epochWaveformsBySweep[abf.sweepNumber]
+    sweepD = sweepWaveform.getDigitalWaveform(digOutNumber)
+    return sweepD
 
 @property
 def sweepC(abf):

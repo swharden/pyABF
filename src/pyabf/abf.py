@@ -29,7 +29,8 @@ from pyabf.abfHeader import TagSection
 from pyabf.abfHeader import StringsSection
 from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
-from pyabf.stimulus import Stimulus
+
+import pyabf.stimulus
 
 import pyabf.abfWriter
 
@@ -324,7 +325,7 @@ class ABF:
         # create objects for each channel stimulus
         self.stimulusByChannel = []
         for channel in self.channelList:
-            self.stimulusByChannel.append(Stimulus(self, channel))
+            self.stimulusByChannel.append(pyabf.stimulus.Stimulus(self, channel))
 
         # note if data is float or int
         if self._nDataFormat == 0:
@@ -359,11 +360,9 @@ class ABF:
     # These additional tools are useful add-ons to the ABF class. To add new
     # functionality to the ABF class, make a module and import it like this:
     from pyabf.text import abfInfoPage as getInfoPage
-    from pyabf.stimulus import sweepD
-    from pyabf.stimulus import epochValues2 as epochValues
-    from pyabf.stimulus import epochPoints2 as epochPoints
     from pyabf.sweep import setSweep
     from pyabf.sweep import sweepC
+    from pyabf.sweep import sweepD
     from pyabf.sweep import sweepBaseline
     from pyabf.sweep import sweepMeasureAverage as sweepAvg
     from pyabf.sweep import sweepMeasureArea as sweepArea
@@ -386,6 +385,7 @@ class ABF:
         self.sweepLabelC = ""
         self.sweepX = []
         self.sweepY = []
+        self.sweepEpochs = pyabf.waveform.EpochSweepWaveform()
 
     @property
     def headerText(self):

@@ -495,8 +495,9 @@ class UseCaseManager:
         plt.title("Shade a Specific Epoch")
         plt.axis([1.10, 1.25, -150, 50])
 
-        t1 = abf.sweepX[abf.epochPoints[3]]
-        t2 = abf.sweepX[abf.epochPoints[4]]
+        epochNumber = 3
+        t1 = abf.sweepEpochs.p1s[epochNumber] * abf.dataSecPerPoint
+        t2 = abf.sweepEpochs.p2s[epochNumber] * abf.dataSecPerPoint
         plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
         plt.grid(alpha=.2)
         self.saveAndClose()
@@ -654,18 +655,12 @@ class UseCaseManager:
         This example analyzes 171116sh_0013.abf (a voltage clamp ABF which 
         goes from -110 mV to -50 mV increasing the clamp voltage by 5 mV each
         sweep).
-
-        Currents are the average value of each sweep between the 0.5 and 1 sec
-        mark. Notice our use of the additional module to get the average
-        value between two marks for every sweep. Clamp values are obtained
-        from `abf.epochValues`, a 2d array of DAC command values at each
-        epoch (columns) arranged by sweep (rows).
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
         currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
-        voltages = pyabf.stimulus.epochValues(abf)
+        voltages = range(-110, -45, 5)
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')

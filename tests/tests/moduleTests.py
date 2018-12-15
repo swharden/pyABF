@@ -51,38 +51,38 @@ def test_sweepStats_measureArea(abf):
     assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
 
 
-def test_cm_ramp_withmemtest(abf):
-    """Measure Cm (using step/ramp protocol) of a small cell."""
-    abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
-    cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
-    assert closeEnough(np.mean(cms), 170.899298429)
+# def test_cm_ramp_withmemtest(abf):
+#     """Measure Cm (using step/ramp protocol) of a small cell."""
+#     abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
+#     cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+#     assert closeEnough(np.mean(cms), 170.899298429)
 
 
-def test_memtest_step_withramp(abf):
-    """Measure memtest (using step/ramp 2018_08_23_0009) of a small cell."""
-    abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
-    Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
-    assert closeEnough(np.mean(Ihs), -134.723966408)
-    assert closeEnough(np.mean(Rms), 135.459113043)
-    assert closeEnough(np.mean(Ras), 17.9413483457)
-    assert closeEnough(np.mean(Cms), 129.949702022)
+# def test_memtest_step_withramp(abf):
+#     """Measure memtest (using step/ramp 2018_08_23_0009) of a small cell."""
+#     abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
+#     Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
+#     assert closeEnough(np.mean(Ihs), -134.723966408)
+#     assert closeEnough(np.mean(Rms), 135.459113043)
+#     assert closeEnough(np.mean(Ras), 17.9413483457)
+#     assert closeEnough(np.mean(Cms), 129.949702022)
 
 
-def test_cm_ramp_isolated(abf):
-    """Measure Cm (using ramp protocol) of the 33pF model cell."""
-    abf = pyabf.ABF(PATH_DATA+"/model_vc_ramp.abf")
-    cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
-    assert closeEnough(np.mean(cms), 30.8847047329)
+# def test_cm_ramp_isolated(abf):
+#     """Measure Cm (using ramp protocol) of the 33pF model cell."""
+#     abf = pyabf.ABF(PATH_DATA+"/model_vc_ramp.abf")
+#     cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
+#     assert closeEnough(np.mean(cms), 30.8847047329)
 
 
-def test_memtest_step_isolated(abf):
-    """Measure memtest (using step protocol) of the 33pF model cell."""
-    abf = pyabf.ABF(PATH_DATA+"/model_vc_step.abf")
-    Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
-    assert closeEnough(np.mean(Ihs), -139.308895874)
-    assert closeEnough(np.mean(Rms), 511.624412725)
-    assert closeEnough(np.mean(Ras), 14.8798838785)
-    assert closeEnough(np.mean(Cms), 23.3401051935)
+# def test_memtest_step_isolated(abf):
+#     """Measure memtest (using step protocol) of the 33pF model cell."""
+#     abf = pyabf.ABF(PATH_DATA+"/model_vc_step.abf")
+#     Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
+#     assert closeEnough(np.mean(Ihs), -139.308895874)
+#     assert closeEnough(np.mean(Rms), 511.624412725)
+#     assert closeEnough(np.mean(Ras), 14.8798838785)
+#     assert closeEnough(np.mean(Cms), 23.3401051935)
 
 
 def go():

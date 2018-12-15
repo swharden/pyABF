@@ -11,6 +11,7 @@ import datetime
 import numpy as np
 np.set_printoptions(precision=4, suppress=True, threshold=5)
 
+import pyabf.waveform
 
 def standardNumpyText(data):
     """return a numpy array as a standard string regardless of numpy version."""
@@ -240,7 +241,7 @@ def abfInfoPage(abf):
         thing = getattr(abf, thingName)
         if "method" in str(type(thing)):
             continue
-        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray)):
+        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray, pyabf.waveform.EpochSweepWaveform)):
             page.addThing(thingName, thing)
         elif thing is None or thing is False or thing is True:
             page.addThing(thingName, thing)
