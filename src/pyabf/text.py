@@ -1,5 +1,5 @@
 """
-Code here relates to text parsing and other ninjary
+Code here relates to text parsing and creation of HTML and markdown files.
 """
 
 import tempfile
@@ -13,10 +13,11 @@ np.set_printoptions(precision=4, suppress=True, threshold=5)
 
 import pyabf.waveform
 
+
 def standardNumpyText(data):
-    """return a numpy array as a standard string regardless of numpy version."""
+    """return a numpy array as a standard string regardless of numpy version"""
     if isinstance(data, np.ndarray):
-        if len(data.shape)==0:
+        if len(data.shape) == 0:
             return str(data)
         out = "array (%dd) with values like: " % (len(data.shape))
         data = data.flatten()
@@ -29,7 +30,7 @@ def standardNumpyText(data):
             dataFirst = ", ".join(dataFirst)
             dataLast = ["%.05f" % x for x in data[-3:]]
             dataLast = ", ".join(dataLast)
-            out += "%s, ..., %s"%(dataFirst, dataLast)
+            out += "%s, ..., %s" % (dataFirst, dataLast)
     elif isinstance(data, list):
         if len(data) < 20:
             return str(data)
@@ -38,46 +39,10 @@ def standardNumpyText(data):
             dataFirst = ", ".join(dataFirst)
             dataLast = [str(x) for x in data[-3:]]
             dataLast = ", ".join(dataLast)
-            out = "[%s, ..., %s]"%(dataFirst, dataLast)
+            out = "[%s, ..., %s]" % (dataFirst, dataLast)
     else:
         out = str(data)
     return out
-
-
-def indexFolder(folder, launch=True):
-    """
-    Create a quick and dirty flat-file HTML document to describe all images
-    and HTML files in a folder. This is useful when auto-analysis of ABF(s)
-    produced many matplotlib graphs and/or data output as HTML files, and you
-    want to rapidly see all these outputs at a glance.
-    """
-
-    html = "<html><head><style>"
-    html += "body {background-color: #ddd;}"
-    html += "img {border: 1px solid black; margin: 20px;}"
-    html += "img {box-shadow: 5px 5px 15px rgba(0, 0, 0, .3);}"
-    html += "img {height: 300px; background-color: white;}"
-    html += "</style></head><body>"
-
-    html += "<h1>Images</h1>"
-    pics = []
-    pics += glob.glob(folder+"/*.png")
-    pics += glob.glob(folder+"/*.jpg")
-    for pic in sorted(pics):
-        url = os.path.basename(pic)
-        html += "<a href='%s'><img src='%s'></a> "%(url,url)
-
-    html += "<h1>HTML Files</h1>"
-    for pic in sorted(glob.glob(folder+"/*.html")):
-        url = os.path.basename(pic)
-        html += "<li><a href='%s'>%s</a> "%(url,url)
-
-    html += "</body></html>"
-    fname = folder+"/index-pics.html"
-    with open(fname, 'w') as f:
-        f.write(html)
-    if launch:
-        webbrowser.open(fname)
 
 
 class InfoPage:
@@ -115,16 +80,16 @@ class InfoPage:
         for item in self.things:
             name, value = item
             if value == "~SECTION~":
-                text+="\n### %s ###\n"%name
+                text += "\n### %s ###\n" % name
             elif value == "~DOCS~":
-                text+="\n~~~ %s ~~~\n"%name
+                text += "\n~~~ %s ~~~\n" % name
             elif str(name) == "~CODE~":
-                text+=value+"\n"
+                text += value+"\n"
             else:
                 if value is None:
-                    text+="%s"%(name)+"\n"
+                    text += "%s" % (name)+"\n"
                 else:
-                    text+="%s = %s\n" % (name, value)
+                    text += "%s = %s\n" % (name, value)
         lines = text.split("\n")
         lines = [x.strip() for x in lines]
         text = "\n".join(lines)
@@ -146,7 +111,7 @@ class InfoPage:
                 if value is None:
                     out += "* %s\n" % (name)
                 else:
-                    if type(value) in [list,np.ndarray]:
+                    if type(value) in [list, np.ndarray]:
                         val = standardNumpyText(value)
                     else:
                         val = str(value)
@@ -166,7 +131,7 @@ class InfoPage:
         html += "body {font-family: sans-serif;}"
         html += "code {background-color: #F2F2F2; padding: 2px;}"
         html += ".item {margin-left: 2em; margin-top: .5em;}"
-        html += ".section {font-size: 150%; font-weight: bold; margin-top: 2em; }"
+        html += ".section {font-size: 150%;font-weight:bold;margin-top:2em;}"
         html += ".docs {font-style: italic; font-family: serif;}"
         html += "</style>"
         html += "<title>%s</title>" % (self.title)
@@ -178,7 +143,8 @@ class InfoPage:
             if str(value) == "~SECTION~":
                 html += "\n<div class='section'>%s</div>" % name
             elif str(value) == "~DOCS~":
-                html += "\n<div class='docs'>%s</div>" % name.strip().replace("\n", "<br>")
+                part = "\n<div class='docs'>%s</div>" % name.strip()
+                html += part.replace("\n", "<br>")
             elif str(name) == "~CODE~":
                 if value is None:
                     value = ""
@@ -226,7 +192,7 @@ def abfInfoPage(abf):
     # remove methods that call this function (causing infinite loops)
     thingNames.remove("headerText")
     thingNames.remove("headerLaunch")
-    
+
     for thingName in thingNames:
         if thingName.startswith("_"):
             continue
@@ -241,7 +207,8 @@ def abfInfoPage(abf):
         thing = getattr(abf, thingName)
         if "method" in str(type(thing)):
             continue
-        if isinstance(thing, (int, list, dict, float, datetime.datetime, str, np.ndarray, pyabf.waveform.EpochSweepWaveform)):
+        if isinstance(thing, (int, list, dict, float, datetime.datetime, str,
+                              np.ndarray, pyabf.waveform.EpochSweepWaveform)):
             page.addThing(thingName, thing)
         elif thing is None or thing is False or thing is True:
             page.addThing(thingName, thing)
