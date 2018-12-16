@@ -56,11 +56,7 @@ def test_stimulus_cache():
     abfFiles = sorted(glob.glob(testDirectory+"/cool_*.abf"))
     for i, filename in enumerate(abfFiles):
         abf = pyabf.ABF(filename)
-
-        # indicate that stimulus files may be in an alternate folder
-        abf.stimulusFileFolder = PATH_DATA # new way
-        #abf.stimulusByChannel[0].protocolStorageDir = PATH_DATA # old way
-
+        abf.stimulusFileFolder = PATH_DATA # alternate path for stimulus files
         t1 = time.perf_counter()
         sweepC = abf.sweepC # stimulus file is only read if this is accessed
         t2 = time.perf_counter()
