@@ -521,7 +521,6 @@ class ABF:
             pt1, pt2 = [int(x*self.dataRate) for x in baseline]
             blVal = np.average(self.sweepY[pt1:pt2])            
             self.sweepY = self.sweepY-blVal
-            self.sweepLabelY = "Delta " + self.sweepLabelY
 
         # make sure sweepPointCount is always accurate
         assert (self.sweepPointCount == len(self.sweepY))
