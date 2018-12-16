@@ -255,8 +255,8 @@ class EpochTable:
 
         # populate epochs and other details based on ABF version
         if abf.abfVersion["major"] == 1:
-            if channel>1:
-                channel=0 # use channel 0's stimulus when channel is too high
+            if channel > 1:
+                channel = 0  # use channel 0's stimulus when channel is too high
             self.epochs = self._initABF1(abf, channel)
             nInterEpisodeLevel = abf._headerV1.nInterEpisodeLevel[channel]
         elif abf.abfVersion["major"] == 2:
@@ -470,6 +470,10 @@ class EpochTable:
 
         return epochWaveformsBySweep
 
+
+
+
+
 def _demo_create_graphs():
     """Plot sweepC of ABFs containing waveforms of all types."""
     import matplotlib.pyplot as plt
@@ -552,15 +556,16 @@ def _demo_sweepD():
     plt.plot(sweepD)
     plt.show()
 
+
 def _demo_deltaT():
     """Demonstrate delta duration."""
     import matplotlib.pyplot as plt
     abf = pyabf.ABF(PATH_DATA+"/2018_04_13_0016a_original.abf")
     epochTable = EpochTable(abf, 0)
-    
+
     fig = plt.figure(figsize=(8, 5))
     ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212, sharex = ax1)
+    ax2 = fig.add_subplot(212, sharex=ax1)
     for sweep in abf.sweepList[:20]:
         abf.setSweep(sweep)
         sweepWaveform = epochTable.epochWaveformsBySweep[sweep]
