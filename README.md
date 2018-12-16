@@ -28,15 +28,18 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [pyABF listing on PyPI](https://pypi.org/project/pyabf/)
 
 ## Features
-* To see some of what pyABF can do, review the [simple](/docs/getting-started) and [advanced](/docs/getting-started/advanced.md) example pages
+* To see what pyABF can do, review the [simple](/docs/getting-started) and [advanced](/docs/getting-started/advanced.md) examples
 * No obscure dependencies (just matplotlib and numpy)
-* Actively developed (as of 2018)
+* Actively developed (as of 2019)
 * Pythonic API (methods and data are easy to locate with a predictive IDE)
 * Cross-platform, open-source, 100% Python
 * Supports 32-bit and 64-bit architectures
-* Runs on Python 2.7 and Python 3.6+
-* Supports ABF export (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
-* Supports ABF 2.9 files created by pCLAMP 11
+* Supports Python 3.6+ (partial support for Python 2.7)
+* Confirmed support for ABF 2.9 files created by pCLAMP 11
+* Can write ABF files (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
+* Stimulus waveform generation from epoch information
+* Access to digital output settings and waveforms
+* Can load waveforms from external ABF and ATF stimulus files (with caching)
 
 <p align="center">
   <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
