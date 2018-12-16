@@ -1,5 +1,11 @@
 """
 Code here relates to modification and de-novo creation of ABF files.
+Files are saved as ABF1 format ABFs, which are easy to create because their
+headers are simpler than ABF2 files. 
+
+Many values (e.g., epoch waveform table) are left blank, so when they are read 
+by an ABF reader their values may not make sense (especially when converted to 
+floating-point numbers).
 """
 
 import os
