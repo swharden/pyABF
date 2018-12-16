@@ -335,6 +335,9 @@ class ABF:
         else:
             raise NotImplementedError("unknown data format")
 
+        # alternate to look in for stimulus waveform files
+        self.stimulusFileFolder = None
+
     def _loadAndScaleData(self, fb):
         """Load data from the ABF file and scale it by its scaleFactor."""
 
