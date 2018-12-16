@@ -33,22 +33,22 @@ def closeEnough(val1, val2, percentErrorAllowed=0.1):
         return False
 
 
-def test_sweepStats_measureAverage(abf):
-    """Verified using statistics tab in ClampFit."""
-    m1, m2 = 1, 2
-    assert closeEnough(abf.sweepAvg(m1, m2), -52.2538)
+# def test_sweepStats_measureAverage(abf):
+#     """Verified using statistics tab in ClampFit."""
+#     m1, m2 = 1, 2
+#     assert closeEnough(abf.sweepAvg(m1, m2), -52.2538)
 
 
-def test_sweepStats_measureStdev(abf):
-    """Verified using statistics tab in ClampFit."""
-    m1, m2 = 1, 2
-    assert closeEnough(abf.sweepStdev(m1, m2), 0.559542)
+# def test_sweepStats_measureStdev(abf):
+#     """Verified using statistics tab in ClampFit."""
+#     m1, m2 = 1, 2
+#     assert closeEnough(abf.sweepStdev(m1, m2), 0.559542)
 
 
-def test_sweepStats_measureArea(abf):
-    """Verified using statistics tab in ClampFit."""
-    m1, m2 = 1, 2
-    assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
+# def test_sweepStats_measureArea(abf):
+#     """Verified using statistics tab in ClampFit."""
+#     m1, m2 = 1, 2
+#     assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
 
 
 # def test_cm_ramp_withmemtest(abf):

@@ -8,13 +8,19 @@ are to be written in another file and imported as necessary.
 """
 
 import os
+import sys
 import glob
 import time
 import datetime
 import numpy as np
+
 import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
+
+if __name__ == "__main__":
+    print("DO NOT RUN THIS FILE DIRECTLY!")
+    sys.path.append(os.path.dirname(__file__)+"/../")
 
 import pyabf.abfHeader
 from pyabf.abfHeader import HeaderV1
@@ -30,10 +36,9 @@ from pyabf.abfHeader import StringsSection
 from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
 
+import pyabf.text
 import pyabf.stimulus
-
 import pyabf.abfWriter
-
 
 class ABF:
     """
@@ -98,7 +103,7 @@ class ABF:
         having no tags, 
         with a total length of LENMIN minutes,
         recorded without a protocol file.
-        """.strip().replace("\n"," ")
+        """.strip().replace("\n", " ")
         while "  " in txt:
             txt = txt.replace("  ", " ")
 
@@ -108,29 +113,29 @@ class ABF:
         # channels
         txt = txt.replace("CHNM", str(self.channelCount))
         txt = txt.replace("CHUNITS", ", ".join(self.adcUnits))
-        if self.channelCount==1:
+        if self.channelCount == 1:
             txt = txt.replace(" channels ", " channel ")
 
         # data dimensions
         txt = txt.replace("RATEKHZ", str(self.dataRate/1e3))
         txt = txt.replace("SWCNT", str(self.sweepCount))
-        txt = txt.replace("LENMIN", "%.02f"%(self.dataLengthMin))
-        if self.sweepCount==1:
+        txt = txt.replace("LENMIN", "%.02f" % (self.dataLengthMin))
+        if self.sweepCount == 1:
             txt = txt.replace("sweeps", "sweep")
 
         # protocol
-        if self.protocol and self.protocol!="None":
-            protoMsg = 'with protocol "%s"'%self.protocol
+        if self.protocol and self.protocol != "None":
+            protoMsg = 'with protocol "%s"' % self.protocol
             txt = txt.replace('without a protocol file', protoMsg)
 
         # tags
-        if len(self.tagComments)>0:
+        if len(self.tagComments) > 0:
             tagmsg = ", ".join(self.tagComments)
-            tagmsg = "%d tags (%s)"%(len(self.tagComments), tagmsg)
+            tagmsg = "%d tags (%s)" % (len(self.tagComments), tagmsg)
             tagmsg = tagmsg.replace("no tags", tagmsg)
-            if len(self.tagComments)==1:
+            if len(self.tagComments) == 1:
                 tagmsg = tagmsg.replace(" tags ", " tag ")
-            txt = txt.replace("no tags", tagmsg)    
+            txt = txt.replace("no tags", tagmsg)
 
         return txt
 
@@ -294,12 +299,12 @@ class ABF:
             self.sweepIntervalSec = self.sweepLengthSec
         if self.abfVersion["major"] == 2:
             self.sweepIntervalSec = self._protocolSection.fEpisodeStartToStart
-            if self.sweepIntervalSec==0:
+            if self.sweepIntervalSec == 0:
                 self.sweepIntervalSec = self.sweepLengthSec
 
         # determine total ABF recording length
         self.dataLengthSec = self.sweepIntervalSec*self.sweepCount
-        if self.sweepCount>1:
+        if self.sweepCount > 1:
             self.dataLengthSec += self.sweepLengthSec
         self.dataLengthMin = self.dataLengthSec / 60.0
 
@@ -317,16 +322,17 @@ class ABF:
 
         # fix empty channel units and names
         for i, val in enumerate(self.adcUnits):
-            if val=="" or val==None:
+            if val == "" or val == None:
                 self.adcUnits[i] = "?"
         for i, val in enumerate(self.adcNames):
-            if val=="" or val==None:
+            if val == "" or val == None:
                 self.adcNames[i] = "?"
 
         # create objects for each channel stimulus
         self.stimulusByChannel = []
         for channel in self.channelList:
-            self.stimulusByChannel.append(pyabf.stimulus.Stimulus(self, channel))
+            self.stimulusByChannel.append(
+                pyabf.stimulus.Stimulus(self, channel))
 
         # note if data is float or int
         if self._nDataFormat == 0:
@@ -361,19 +367,6 @@ class ABF:
                 self.data[i] = np.multiply(self.data[i], self._dataGain[i])
                 self.data[i] = np.add(self.data[i], self._dataOffset[i])
 
-    # These additional tools are useful add-ons to the ABF class. To add new
-    # functionality to the ABF class, make a module and import it like this:
-    from pyabf.text import abfInfoPage as getInfoPage
-    from pyabf.sweep import setSweep
-    from pyabf.sweep import sweepC
-    from pyabf.sweep import sweepD
-    from pyabf.sweep import sweepBaseline
-    from pyabf.sweep import sweepMeasureAverage as sweepAvg
-    from pyabf.sweep import sweepMeasureArea as sweepArea
-    from pyabf.sweep import sweepMeasureStdev as sweepStdev
-    from pyabf.sweep import sweepMeasureMax as sweepMax
-    from pyabf.sweep import sweepMeasureMin as sweepMin
-
     def _ide_helper(self):
         """
         Add things here to help auto-complete IDEs aware of things added by
@@ -387,15 +380,24 @@ class ABF:
         self.sweepLabelX = ""
         self.sweepLabelY = ""
         self.sweepLabelC = ""
-        self.sweepX = []
-        self.sweepY = []
+        self.sweepX = np.array([])
+        self.sweepY = np.array([])
         self.sweepEpochs = pyabf.waveform.EpochSweepWaveform()
 
     @property
     def headerText(self):
         """Return all header information as a text-formatted string."""
-        infoPage = self.getInfoPage()
-        return infoPage.getText()
+        return pyabf.text.abfInfoPage(self).getText()
+
+    @property
+    def headerMarkdown(self):
+        """Return all header information as a markdown-formatted string."""
+        return pyabf.text.abfInfoPage(self).generateMarkdown()
+
+    @property
+    def headerHTML(self):
+        """Return all header information as a text-formatted string."""
+        return pyabf.text.abfInfoPage(self).generateHTML()
 
     def headerLaunch(self):
         """Display ABF header information in the web browser."""
@@ -445,3 +447,122 @@ class ABF:
         print("Launching %s.abf in ClampFit..." % (self.abfID))
         print(cmd)
         os.system(cmd)
+
+    def setSweep(self, sweepNumber, channel=0, absoluteTime=False,
+                baseline=[None, None]):
+        """
+        Args:
+            sweepNumber: sweep number to load (starting at 0)
+            channel: ABF channel (starting at 0)
+            absoluteTime: if False, sweepX always starts at 0.
+            baseline: a list of two times (seconds) the sweep will be baseline-
+                      subtraced to. Leave [None, None] to disable.
+        """
+
+        # basic error checking
+        if not sweepNumber in self.sweepList:
+            msg = "Sweep %d not available (must be 0 - %d)" % (
+                sweepNumber, self.sweepCount-1)
+            raise ValueError(msg)
+        if not channel in self.channelList:
+            msg = "Channel %d not available (must be 0 - %d)" % (
+                channel, self.channelCount-1)
+            raise ValueError(msg)
+
+        if not "data" in (dir(self)):
+            log.debug("ABF data not preloaded. Loading now...")
+            with open(self.abfFilePath, 'rb') as fb:
+                self._loadAndScaleData(fb)
+
+        # TODO: prevent re-loading of the same sweep.
+
+        # determine data bounds for that sweep
+        pointStart = self.sweepPointCount*sweepNumber
+        pointEnd = pointStart + self.sweepPointCount
+
+        # start updating class-level variables
+
+        # sweep information
+        self.sweepNumber = sweepNumber
+        self.sweepChannel = channel
+        self.sweepUnitsY = self.adcUnits[channel]
+        self.sweepUnitsC = self.dacUnits[channel]
+        self.sweepUnitsX = "sec"
+
+        # standard labels
+        self.sweepLabelY = "{} ({})".format(
+            self.adcNames[channel], self.adcUnits[channel])
+        self.sweepLabelC = "{} ({})".format(
+            self.dacNames[channel], self.dacUnits[channel])
+        self.sweepLabelX = "time (seconds)"
+
+        # use fancy labels for known units
+        if self.sweepUnitsY == "pA":
+            self.sweepLabelY = "Clamp Current (pA)"
+            self.sweepLabelC = "Membrane Potential (mV)"
+        elif self.sweepUnitsY == "mV":
+            self.sweepLabelY = "Membrane Potential (mV)"
+            self.sweepLabelC = "Applied Current (pA)"
+
+        # load the actual sweep data
+        self.sweepY = self.data[channel, pointStart:pointEnd]
+        self.sweepX = np.arange(len(self.sweepY))*self.dataSecPerPoint
+        if absoluteTime:
+            self.sweepX += sweepNumber * self.sweepIntervalSec
+
+        # default case is disabled
+        if not hasattr(self, '_sweepBaselinePoints'):
+            log.debug("setSweep doesn't see baselinePoints, making False")
+            self._sweepBaselinePoints = False
+
+        # if baseline subtraction is used, apply it
+        assert isinstance(baseline, list) and len(baseline)==2
+        if not None in baseline:
+            log.debug("setSweep is applying baseline subtraction")
+            pt1, pt2 = [int(x*self.dataRate) for x in baseline]
+            blVal = np.average(self.sweepY[pt1:pt2])            
+            self.sweepY = self.sweepY-blVal
+            self.sweepLabelY = "Delta " + self.sweepLabelY
+
+        # make sure sweepPointCount is always accurate
+        assert (self.sweepPointCount == len(self.sweepY))
+
+        # prepare the stimulus waveform table for this sweep/channel
+        epochTable = pyabf.waveform.EpochTable(self, channel)
+        self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
+
+    @property
+    def sweepC(self):
+        """Generate the sweep command waveform."""
+        if hasattr(self, "_sweepC") and isinstance(self._sweepC, np.ndarray):
+            # someone set a custom waveform, so always return it
+            return self._sweepC
+        else:
+            # auto-generate (or auto-load) the waveform using the stimulus module
+            stimulus = self.stimulusByChannel[self.sweepChannel]
+            return stimulus.stimulusWaveform(self.sweepNumber)
+
+    @sweepC.setter
+    def sweepC(self, sweepData=None):
+        """
+        Manually define sweepC so the given sweepData will always be returned as
+        sweepC and the stimulus waveform will no longer be automatically generated
+        or loaded from file. Undo this by deleting "abf._sweepC".
+        """
+        if sweepData is None:
+            del self._sweepC
+            return
+        if not len(sweepData):
+            raise ValueError("an array must be given when setting sweepC")
+        sweepData = np.array(sweepData)
+        if not sweepData.shape == self.sweepY.shape:
+            raise ValueError("sweepC.shape must match sweepY.shape")
+        self._sweepC = sweepData
+        
+    def sweepD(self, digOutNumber=0):
+        """Generate a waveform for the given digital output."""
+        assert isinstance(self, pyabf.ABF)
+        epochTable = pyabf.waveform.EpochTable(self, self.sweepChannel)
+        sweepWaveform = epochTable.epochWaveformsBySweep[self.sweepNumber]
+        sweepD = sweepWaveform.getDigitalWaveform(digOutNumber)
+        return sweepD

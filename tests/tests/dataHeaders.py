@@ -22,7 +22,7 @@ def infoPage(abf, markdown=True, html=False):
     """Create the markdown summary of the ABF header."""
     assert isinstance(abf, pyabf.ABF)
 
-    page = abf.getInfoPage()
+    page = pyabf.text.abfInfoPage(abf)
 
     # make a few things cleaner for display on GitHub
     abfFilePath = f"C:/some/path/to/{abf.abfID}.abf"

@@ -33,7 +33,7 @@ def ensureAbfHeaderDidNotChange(abfFilePath):
     """throw an exception if the abf header markdown file changed"""
     abf = pyabf.ABF(abfFilePath)
     mdHeaderPath = f"{PATH_HEADERS}/{abf.abfID}.md"
-    newMarkdown = abf.getInfoPage().generateMarkdown().split("\n")
+    newMarkdown = abf.headerMarkdown.split("\n")
     with open(mdHeaderPath) as f:
         previousMarkdown = f.read().split("\n")
     for i in range(len(newMarkdown)):

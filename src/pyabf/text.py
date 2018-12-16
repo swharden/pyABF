@@ -191,6 +191,8 @@ def abfInfoPage(abf):
 
     # remove methods that call this function (causing infinite loops)
     thingNames.remove("headerText")
+    thingNames.remove("headerHTML")
+    thingNames.remove("headerMarkdown")
     thingNames.remove("headerLaunch")
 
     for thingName in thingNames:

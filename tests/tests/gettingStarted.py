@@ -577,26 +577,21 @@ class UseCaseManager:
         ## Baseline Subtraction
 
         Sometimes it is worthwhile to center every sweep at 0. This can be done
-        easily by running `abf.baseline(t1, t2)` (where t1 and t2 are both times
-        in seconds). Subsequent `setSweep()` calls will automatically subtract
-        the average data value between these two points from the entire sweep,
-        centering it at zero. To turn off baseline subtraction after it has been
-        enabled, call `abf.baseline()` without arguments.
+        easily giving a time range to baseline subtract to when calling 
+        setSweep().
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
         plt.figure(figsize=self.figsize)
 
-        # enable baseline subtraction
-        abf.sweepBaseline(2.1, 2.15)
-        abf.setSweep(3)
-        plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="subtracted")
-
-        # disable baseline subtraction
-        abf.sweepBaseline()
+        # plot a sweep the regular way
         abf.setSweep(3)
         plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="original")
+
+        # plot a sweep with baseline subtraction
+        abf.setSweep(3, baseline=[2.1, 2.15])
+        plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="subtracted")
 
         # decorate the plot
         plt.title("Sweep Baseline Subtraction")
@@ -687,42 +682,42 @@ class UseCaseManager:
 
         self.saveAndClose()
 
-    def advanced_16_average_sweep(self):
-        """
-        ## Averaging Sweeps
+    # def advanced_16_average_sweep(self):
+    #     """
+    #     ## Averaging Sweeps
 
-        Sometimes you want to analyze a sweep which is the average of several
-        sweeps. Often this is used in conjunction with baseline subtraction.
+    #     Sometimes you want to analyze a sweep which is the average of several
+    #     sweeps. Often this is used in conjunction with baseline subtraction.
 
-        This can be done using the sweep range average function.
-        Although here it's given without arguments, it can take a list of
-        specific sweep numbers.
-        """
+    #     This can be done using the sweep range average function.
+    #     Although here it's given without arguments, it can take a list of
+    #     specific sweep numbers.
+    #     """
 
-        import pyabf
-        abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
-        abf.sweepBaseline(1.10, 1.16)
+    #     import pyabf
+    #     abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
+    #     #abf.sweepBaseline(1.10, 1.16)
 
-        plt.figure(figsize=self.figsize)
-        plt.grid(alpha=.5, ls='--')
-        plt.axhline(0, color='k', ls=':')
+    #     plt.figure(figsize=self.figsize)
+    #     plt.grid(alpha=.5, ls='--')
+    #     plt.axhline(0, color='k', ls=':')
 
-        # plot all individual sweeps
-        for sweep in abf.sweepList:
-            abf.setSweep(sweep)
-            plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
+    #     # plot all individual sweeps
+    #     for sweep in abf.sweepList:
+    #         abf.setSweep(sweep)
+    #         plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
 
-        # calculate and plot the average of all sweeps
-        avgSweep = pyabf.sweep.averageTrace(abf)
-        plt.plot(abf.sweepX, avgSweep, lw=2)
+    #     # calculate and plot the average of all sweeps
+    #     avgSweep = pyabf.sweep.averageTrace(abf)
+    #     plt.plot(abf.sweepX, avgSweep, lw=2)
 
-        # decorate the plot and zoom in on the interesting area
-        plt.title("Average of %d sweeps"%(abf.sweepCount))
-        plt.ylabel(abf.sweepLabelY)
-        plt.xlabel(abf.sweepLabelX)
-        plt.axis([1.10, 1.25, -110, 20])
+    #     # decorate the plot and zoom in on the interesting area
+    #     plt.title("Average of %d sweeps"%(abf.sweepCount))
+    #     plt.ylabel(abf.sweepLabelY)
+    #     plt.xlabel(abf.sweepLabelX)
+    #     plt.axis([1.10, 1.25, -110, 20])
 
-        self.saveAndClose()
+    #    self.saveAndClose()
 
     def advanced_17_atf_plotting(self):
         """
@@ -816,7 +811,8 @@ def generate_demos(match="demo_"):
         if not functionName.startswith(match):
             continue
         func = getattr(uses, functionName)
-        with NoStdStreams():  # silence print statements
+        if True:
+        #with NoStdStreams():  # silence print statements
             log.debug("Running %s" % functionName)
             func()
         print(".", end="")
