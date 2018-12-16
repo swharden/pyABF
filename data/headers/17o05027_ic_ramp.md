@@ -2,17 +2,10 @@
 
 ## ABF Class Methods
 
-* abf.getInfoPage()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
-* abf.sweepArea()
-* abf.sweepAvg()
-* abf.sweepBaseline()
 * abf.sweepD()
-* abf.sweepMax()
-* abf.sweepMin()
-* abf.sweepStdev()
 
 ## ABF Class Variables
 

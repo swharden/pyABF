@@ -167,48 +167,6 @@ plt.show()
 
 ![source/advanced_15a_IV_curve.jpg](source/advanced_15a_IV_curve.jpg)
 
-## Averaging Sweeps
-
-Sometimes you want to analyze a sweep which is the average of several
-sweeps. Often this is used in conjunction with baseline subtraction.
-
-This can be done using the sweep range average function.
-Although here it's given without arguments, it can take a list of
-specific sweep numbers.
-
-**Code:**
-
-```python
-import pyabf
-abf = pyabf.ABF("17o05026_vc_stim.abf")
-abf.sweepBaseline(1.10, 1.16)
-
-plt.figure(figsize=(8, 5))
-plt.grid(alpha=.5, ls='--')
-plt.axhline(0, color='k', ls=':')
-
-# plot all individual sweeps
-for sweep in abf.sweepList:
-    abf.setSweep(sweep)
-    plt.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.1)
-
-# calculate and plot the average of all sweeps
-avgSweep = pyabf.sweep.averageTrace(abf)
-plt.plot(abf.sweepX, avgSweep, lw=2)
-
-# decorate the plot and zoom in on the interesting area
-plt.title("Average of %d sweeps"%(abf.sweepCount))
-plt.ylabel(abf.sweepLabelY)
-plt.xlabel(abf.sweepLabelX)
-plt.axis([1.10, 1.25, -110, 20])
-
-plt.show()
-```
-
-**Output:**
-
-![source/advanced_16_average_sweep.jpg](source/advanced_16_average_sweep.jpg)
-
 ## Plotting Data from ATF Files
 
 Although most of the effort in this project has gone into the ABF class,

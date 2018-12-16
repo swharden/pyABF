@@ -408,11 +408,8 @@ plt.show()
 ## Baseline Subtraction
 
 Sometimes it is worthwhile to center every sweep at 0. This can be done
-easily by running `abf.baseline(t1, t2)` (where t1 and t2 are both times
-in seconds). Subsequent `setSweep()` calls will automatically subtract
-the average data value between these two points from the entire sweep,
-centering it at zero. To turn off baseline subtraction after it has been
-enabled, call `abf.baseline()` without arguments.
+easily giving a time range to baseline subtract to when calling 
+setSweep().
 
 **Code:**
 
@@ -421,15 +418,13 @@ import pyabf
 abf = pyabf.ABF("17o05026_vc_stim.abf")
 plt.figure(figsize=(8, 5))
 
-# enable baseline subtraction
-abf.sweepBaseline(2.1, 2.15)
-abf.setSweep(3)
-plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="subtracted")
-
-# disable baseline subtraction
-abf.sweepBaseline()
+# plot a sweep the regular way
 abf.setSweep(3)
 plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="original")
+
+# plot a sweep with baseline subtraction
+abf.setSweep(3, baseline=[2.1, 2.15])
+plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label="subtracted")
 
 # decorate the plot
 plt.title("Sweep Baseline Subtraction")
