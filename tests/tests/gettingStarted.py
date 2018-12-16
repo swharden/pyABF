@@ -654,17 +654,25 @@ class UseCaseManager:
 
         This example analyzes 171116sh_0013.abf (a voltage clamp ABF which 
         goes from -110 mV to -50 mV increasing the clamp voltage by 5 mV each
-        sweep).
+        sweep). To get the "I" the sweep is averaged between 500ms and 1s, and
+        to get the "V" the second epoch is accessed.
         """
 
         import pyabf
         abf = pyabf.ABF("data/abfs/171116sh_0013.abf")
-        currentsAv = pyabf.stats.rangeAverage(abf, .5, 1)
-        voltages = range(-110, -45, 5)
+        pt1 = int(500 * abf.dataPointsPerMs)
+        pt2 = int(1000 * abf.dataPointsPerMs)
+
+        currents=[]
+        voltages=[]
+        for sweep in abf.sweepList:
+            abf.setSweep(sweep)
+            currents.append(np.average(abf.sweepY[pt1:pt2]))
+            voltages.append(abf.sweepEpochs.levels[2])
 
         plt.figure(figsize=self.figsize)
         plt.grid(alpha=.5, ls='--')
-        plt.plot(voltages, currentsAv, '.-', ms=15)
+        plt.plot(voltages, currents, '.-', ms=15)
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelC)
         plt.title(f"I/V Relationship of {abf.abfID}")
