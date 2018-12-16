@@ -65,6 +65,7 @@ TELEGRAPHS = {
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
+
 def abfFileFormat(fb):
     """
     This function returns 1 or 2 if the ABF file is v1 or v2.    
@@ -90,10 +91,6 @@ def readStruct(fb, structFormat, seek=False, cleanStrings=True):
     Return a structured value in an ABF file as a Python object.
     If cleanStrings is enabled, ascii-safe strings are returned.
     """
-
-    #if not isinstance(fb, io.BufferedReader):
-        # this check only works in Python 3 (python 2 returns a 'file' object)
-        #raise ValueError("require an ABF file open in 'fb' mode")
 
     if seek:
         fb.seek(seek)
@@ -197,7 +194,8 @@ class HeaderV1:
         abfFilePath = fb.name
         self.abfDateTime = round(os.path.getctime(abfFilePath))
         self.abfDateTime = datetime.datetime.fromtimestamp(self.abfDateTime)
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[:-3]
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[
+            :-3]
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
@@ -273,7 +271,8 @@ class HeaderV2:
         startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[:-3]
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[
+            :-3]
 
 
 class SectionMap:
@@ -397,7 +396,6 @@ class ProtocolSection:
             self.sDigitizerType = DIGITIZERS[0]
 
 
-
 class ADCSection:
     """
     Information about the ADC (what gets recorded).
@@ -466,7 +464,7 @@ class ADCSection:
             self.nStatsChannelPolarity[i] = readStruct(fb, "h")  # 72
             self.lADCChannelNameIndex[i] = readStruct(fb, "i")  # 74
             self.lADCUnitsIndex[i] = readStruct(fb, "i")  # 78
-            
+
             # useful information
             nTelegraphInstrument = self.nTelegraphInstrument[i]
             if nTelegraphInstrument in TELEGRAPHS.keys():
@@ -474,6 +472,7 @@ class ADCSection:
             else:
                 log.debug("nTelegraphInstrument not in list of telegraphs")
                 self.sTelegraphInstrument[i] = TELEGRAPHS[0]
+
 
 class DACSection:
     """
