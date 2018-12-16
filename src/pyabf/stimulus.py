@@ -96,22 +96,30 @@ class Stimulus:
         waveform. If the file can't be found, return False.
         """
 
-        # try to find the stimulus file in the obvious places
+        # try to find the stimulus file in these obvious places
         stimFname = self.abf._stringsIndexed.lDACFilePath[self.channel]
         stimBN = os.path.basename(stimFname)
         abfFolder = os.path.dirname(self.abf.abfFilePath)
+
+        # prepare an alternate path protocolStorageDir
+        if self.protocolStorageDir:
+            altStimPath = os.path.join(self.protocolStorageDir, stimBN)
+        else:
+            altStimPath = None
+
+        # try to find the stimulus file
         if os.path.exists(stimFname):
             log.debug("stimulus file found where expected")
             stimFname = os.path.abspath(stimFname)
         elif os.path.exists(os.path.join(abfFolder, stimBN)):
             log.debug("stimulus file found next to ABF")
             stimFname = os.path.join(abfFolder, stimBN)
-        elif Stimulus.protocolStorageDir is not None and \
-                os.path.exists(os.path.join(Stimulus.protocolStorageDir, stimBN)):
+        elif altStimPath and os.path.exists(altStimPath):
             log.debug("stimulus file found in protocolStorageDir")
-            stimFname = os.path.join(Stimulus.protocolStorageDir, stimBN)
+            stimFname = altStimPath
         else:
             log.debug("stimulus file never found: %s" % stimBN)
+            log.debug("not even: %s" % stimBN)
             return False
 
         # get the real path so that not two cache keys point to the same object
