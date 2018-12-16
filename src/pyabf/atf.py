@@ -36,7 +36,7 @@ class ATF():
         signature, file_version = fh.readline().rstrip().split()
         self.atfVersion = file_version
         if signature != 'ATF':
-            log.critical(f"Unexpected file signature {signature}")
+            log.critical("Unexpected file signature "+signature)
 
         # line 2 - contains "# #" (number of header and data items)
         elems = fh.readline().rstrip().split()
@@ -105,13 +105,13 @@ class ATF():
         self.setSweep()
 
     def __str__(self):
-        msg = f"{self.atfID}.atf (ATF {self.atfVersion})"
-        msg += f" has {self.channelCount} channel"
+        msg = "%s.atf (ATF %s)"%(self.atfID, self.atfVersion)
+        msg += " has %d channel"%(self.channelCount)
         if self.channelCount>1:
             msg+="s"
-        msg += f" with {self.sweepCount} sweeps"
-        msg += f" ({self.sweepLengthSec} seconds each)"
-        msg += f" at a sample rate of {self.dataRate/1000} kHz"
+        msg += " with %d sweeps"%(self.sweepCount)
+        msg += " (%.02f seconds each)"%(self.sweepLengthSec)
+        msg += " at a sample rate of %.02f kHz"%(self.dataRate/1000)
         return msg
 
     def setSweep(self, sweepNumber=0, channel=0):
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         print(atf)
         for channel in atf.channelList:
             plt.figure()
-            plt.title(f"{atf.atfID} channel {channel}")
+            plt.title("%s channel %d"%(atf.atfID, channel))
             plt.xlabel(atf.sweepLabelX)
             plt.ylabel(atf.sweepLabelY)
             for sweepNumber in atf.sweepList:
