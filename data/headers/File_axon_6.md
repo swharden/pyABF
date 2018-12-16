@@ -45,6 +45,7 @@
 * protocol = `step cclamp 2nA for 2ms`
 * protocolPath = `C:\Axon\Params\step cclamp 2nA for 2ms.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
+* stimulusFileFolder = `C:/some/alternate/path`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `32`
@@ -87,7 +88,7 @@
 
 
 ```
-NOT INIT
+
 ```
 
 ## ABF2 Header

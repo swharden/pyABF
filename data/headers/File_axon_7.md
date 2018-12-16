@@ -45,6 +45,7 @@
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
+* stimulusFileFolder = `C:/some/alternate/path`
 * sweepC = `array (1d) with values like: -80.00000, -80.00000, -80.00000, ..., -80.00000, -80.00000, -80.00000`
 * sweepChannel = `0`
 * sweepCount = `12`

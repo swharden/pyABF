@@ -30,7 +30,7 @@ class Stimulus:
         assert isinstance(abf, pyabf.ABF)
         self.abf = abf
         self.channel = channel
-        self.text = "NOT INIT"
+        self.text = "" # this is displayed on the markdown info page
 
     def __str__(self):
         return "Stimulus(abf, %d)" % self.channel
@@ -52,23 +52,23 @@ class Stimulus:
             nWaveformSource = self.abf._dacSection.nWaveformSource[self.channel]
 
         if nWaveformEnable == 0 or nWaveformSource == 0:
-            #self.text = "DAC waveform is not enabled"
+            self.text = "DAC waveform is not enabled"
             return np.full(self.abf.sweepPointCount,
                            self.abf.holdingCommand[self.channel])
 
         elif nWaveformSource == 1:
             epochTable = pyabf.waveform.EpochTable(self.abf, self.channel)
-            #self.text = str(epochTable)
+            self.text = str(epochTable)
             sweepWaveform = epochTable.epochWaveformsBySweep[stimulusSweep]
             sweepC = sweepWaveform.getWaveform()
             return sweepC
 
         elif nWaveformSource == 2:
-            #self.text = "DAC waveform is controlled by custom file"
+            self.text = "DAC waveform is controlled by custom file"
             return stimulusWaveformFromFile(self.abf)
 
         else:
-            #self.text = "unknown nWaveformSource (%d)" % nWaveformSource
+            self.text = "unknown nWaveformSource (%d)" % nWaveformSource
             return np.full(self.abf.sweepPointCount, np.nan)
 
     @property
@@ -95,7 +95,7 @@ def stimulusWaveformFromFile(abf, channel=0):
     stimBN = os.path.basename(stimFname)
     abfFolder = os.path.dirname(abf.abfFilePath)
     pathSameFolder = os.path.join(abfFolder, stimBN)
-    pathAlt = os.path.join(abf.stimulusFileFolder, stimBN)
+    pathAlt = os.path.join(str(abf.stimulusFileFolder), stimBN)
 
     # try to find the stimulus file
     if os.path.exists(stimFname):

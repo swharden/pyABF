@@ -45,6 +45,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
+* stimulusFileFolder = `C:/some/alternate/path`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `3`
@@ -87,7 +88,7 @@
 
 
 ```
-NOT INIT
+
 ```
 
 ## ABF2 Header

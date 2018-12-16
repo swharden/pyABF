@@ -45,6 +45,7 @@
 * protocol = `slaven-Ch1-gapfree`
 * protocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
+* stimulusFileFolder = `C:/some/alternate/path`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

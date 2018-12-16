@@ -45,6 +45,7 @@
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
+* stimulusFileFolder = `C:/some/alternate/path`
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `10`
@@ -71,7 +72,7 @@
 
 
 ```
-unknown nWaveformSource
+unknown nWaveformSource (-120)
 ```
 
 ## ABF1 Header
