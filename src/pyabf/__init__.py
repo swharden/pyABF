@@ -15,7 +15,6 @@ if sys.version_info >= (3, 6):
     from ._version import help
     from pyabf.abf import ABF
     from pyabf.atf import ATF
-    from pyabf import stats
     from pyabf import plot
     from pyabf import filter
 else:
