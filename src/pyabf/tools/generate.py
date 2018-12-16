@@ -199,6 +199,7 @@ def _demo_AP():
 
 if __name__ == "__main__":
     print("DO NOT RUN THIS FILE DIRECTLY")
+    import matplotlib.pyplot as plt
     _demo_EPSCs_IPSCs()
     _demo_EPSPs_IPSPs()
     _demo_AP()

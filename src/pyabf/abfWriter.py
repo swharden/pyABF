@@ -11,7 +11,6 @@ floating-point numbers).
 import os
 import time
 import struct
-import pyabf.generate
 import numpy as np
 import logging
 logging.basicConfig(level=logging.INFO)

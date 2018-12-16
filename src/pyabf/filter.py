@@ -1,6 +1,6 @@
 """
-Code here relates to low-pass filering of ABF data.
-
+Code here relates to filering of ABF data.
+Usually this means low-pass filtering to reduce noise.
 """
 import os
 import sys
