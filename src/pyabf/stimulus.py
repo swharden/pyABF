@@ -17,22 +17,18 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+
 class Stimulus:
     """
     The Stimulus class USED to be where all waveform generation happened.
-    It is now being kept just so old code (which manually sets a string to
-    Stimulus.protocolStorageDir) does not break.
+    
+    It's kept here so old code doesn't break, but is getting dismantled.
 
-    Waveform generation from the epoch table occurs in waveform.py.
-    DAC file waveform loading (and caching) is done in this file.
+    Waveform generation from the epoch table now occurs in waveform.py.
     """
 
-    # protocolStorageDir is a file path to the on-disc location where custom
-    # waveforms for the stimset reconstruction are to be searched. It must be
-    # manually assigned to after instantiation of a Stimulus object.
-    protocolStorageDir = None
-
-    waveformCache = {}
+    # keys are stimulus filenames (ABF or ATF), values are the first sweepY
+    stimulusWaveformCache = {}
 
     def __init__(self, abf, channel):
         assert isinstance(abf, pyabf.ABF)
@@ -41,10 +37,10 @@ class Stimulus:
         self.text = "NOT INIT"
 
     def __str__(self):
-        return "Stimulus(abf, %d)"%self.channel
+        return "Stimulus(abf, %d)" % self.channel
 
     def __repr__(self):
-        return "Stimulus(abf, %d)"%self.channel
+        return "Stimulus(abf, %d)" % self.channel
 
     def stimulusWaveform(self, sweepNumber=0):
         """
@@ -78,64 +74,73 @@ class Stimulus:
         elif nWaveformSource == 2:
             log.debug("DAC waveform is controlled by custom file")
             self.text = "DAC waveform is controlled by custom file"
-            stimulusFromFile = self.stimulusWaveformFromFile()
+            stimulusFromFile = stimulusWaveformFromFile(self.abf)
             if stimulusFromFile is False:
                 return np.full(self.abf.sweepPointCount, np.nan)
             else:
                 return stimulusFromFile
-                
+
         else:
             log.debug("unknown nWaveformSource (%d)" % nWaveformSource)
             self.text = "unknown nWaveformSource"
             return np.full(self.abf.sweepPointCount, np.nan)
 
-    def stimulusWaveformFromFile(self):
-        """
-        Attempt to find the file associated with this ABF channel stimulus
-        waveform, read that waveform (whether ABF or ATF), and return its
-        waveform. If the file can't be found, return False.
-        """
+    @property
+    def protocolStorageDir(self):
+        print("WARNING: access abf.stimulusFileFolder instead of Stimulus.protocolStorageDir")
+        return self.abf.stimulusFileFolder
 
-        # try to find the stimulus file in these obvious places
-        stimFname = self.abf._stringsIndexed.lDACFilePath[self.channel]
-        stimBN = os.path.basename(stimFname)
-        abfFolder = os.path.dirname(self.abf.abfFilePath)
+    @protocolStorageDir.setter
+    def protocolStorageDir(self, val=None):
+        print("WARNING: set abf.stimulusFileFolder instead of Stimulus.protocolStorageDir")
+        self.abf.stimulusFileFolder = val
 
-        # prepare an alternate path protocolStorageDir
-        if self.protocolStorageDir:
-            altStimPath = os.path.join(self.protocolStorageDir, stimBN)
-        else:
-            altStimPath = None
+def stimulusWaveformFromFile(abf, channel=0):
+    """
+    Attempt to find the stimulus file used to record an ABF, read the stimulus
+    file (ABF or ATF), and return the stimulus waveform (as a numpy array).
+    
+    Now: If the file can't be found, returns False
+    Soon: If the file can't be found, returns an array of nans.
+    """
 
-        # try to find the stimulus file
-        if os.path.exists(stimFname):
-            log.debug("stimulus file found where expected")
-            stimFname = os.path.abspath(stimFname)
-        elif os.path.exists(os.path.join(abfFolder, stimBN)):
-            log.debug("stimulus file found next to ABF")
-            stimFname = os.path.join(abfFolder, stimBN)
-        elif altStimPath and os.path.exists(altStimPath):
-            log.debug("stimulus file found in protocolStorageDir")
-            stimFname = altStimPath
-        else:
-            log.debug("stimulus file never found: %s" % stimBN)
-            log.debug("not even: %s" % stimBN)
-            return False
+    assert isinstance(abf, pyabf.ABF)
 
-        # get the real path so that not two cache keys point to the same object
-        stimFname = os.path.realpath(stimFname)
+    # try to find the stimulus file in these obvious places
+    stimFname = abf._stringsIndexed.lDACFilePath[channel]
+    stimBN = os.path.basename(stimFname)
+    abfFolder = os.path.dirname(abf.abfFilePath)
+    altPath = os.path.join(abf.stimulusFileFolder, stimBN)
 
-        if Stimulus.waveformCache.get(stimFname):
-            log.debug("stimulus file is already cached")
-        else:
-            # read the ABF or ATF stimulus file
-            if stimFname.upper().endswith(".ABF"):
-                log.debug("stimulus file is an ABF")
-                # TODO: data requires custom stimulus scaling!
-                Stimulus.waveformCache[stimFname] = pyabf.ABF(stimFname)
-            elif stimFname.upper().endswith(".ATF"):
-                log.debug("stimulus file is an ATF")
-                # TODO: data requires custom stimulus scaling!
-                Stimulus.waveformCache[stimFname] = pyabf.ATF(stimFname)
+    # try to find the stimulus file
+    if os.path.exists(stimFname):
+        log.debug("stimulus file found where expected")
+        stimFname = os.path.abspath(stimFname)
+    elif os.path.exists(os.path.join(abfFolder, stimBN)):
+        log.debug("stimulus file found next to ABF")
+        stimFname = os.path.join(abfFolder, stimBN)
+    elif altPath and os.path.exists(altPath):
+        log.debug("stimulus file found in alternate location (altPath)")
+        stimFname = altPath
+    else:
+        log.debug("stimulus file never found: %s" % stimBN)
+        log.debug("not even: %s" % stimBN)
+        return False
 
-        return Stimulus.waveformCache[stimFname].sweepY
+    # get the real path so that not two cache keys point to the same object
+    stimFname = os.path.realpath(stimFname)
+
+    if Stimulus.stimulusWaveformCache.get(stimFname):
+        log.debug("stimulus file is already cached")
+    else:
+        # read the ABF or ATF stimulus file
+        if stimFname.upper().endswith(".ABF"):
+            log.debug("stimulus file is an ABF")
+            # TODO: data requires custom stimulus scaling!
+            Stimulus.stimulusWaveformCache[stimFname] = pyabf.ABF(stimFname)
+        elif stimFname.upper().endswith(".ATF"):
+            log.debug("stimulus file is an ATF")
+            # TODO: data requires custom stimulus scaling!
+            Stimulus.stimulusWaveformCache[stimFname] = pyabf.ATF(stimFname)
+
+    return Stimulus.stimulusWaveformCache[stimFname].sweepY
