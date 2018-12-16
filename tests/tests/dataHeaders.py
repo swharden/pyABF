@@ -17,12 +17,13 @@ logging.basicConfig()
 log = logging.getLogger(__name__)
 #log.setLevel(logging.DEBUG)
 
+from pyabf.tools.text import abfInfoPage
 
 def infoPage(abf, markdown=True, html=False):
     """Create the markdown summary of the ABF header."""
     assert isinstance(abf, pyabf.ABF)
 
-    page = pyabf.text.abfInfoPage(abf)
+    page = abfInfoPage(abf)
 
     # make a few things cleaner for display on GitHub
     abfFilePath = f"C:/some/path/to/{abf.abfID}.abf"

@@ -36,7 +36,7 @@ from pyabf.abfHeader import StringsSection
 from pyabf.abfHeader import StringsIndexed
 from pyabf.abfHeader import BLOCKSIZE
 
-import pyabf.text
+import pyabf.tools.text
 import pyabf.stimulus
 import pyabf.abfWriter
 
@@ -387,22 +387,21 @@ class ABF:
     @property
     def headerText(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.text.abfInfoPage(self).getText()
+        return pyabf.tools.text.abfInfoPage(self).getText()
 
     @property
     def headerMarkdown(self):
         """Return all header information as a markdown-formatted string."""
-        return pyabf.text.abfInfoPage(self).generateMarkdown()
+        return pyabf.tools.text.abfInfoPage(self).generateMarkdown()
 
     @property
     def headerHTML(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.text.abfInfoPage(self).generateHTML()
+        return pyabf.tools.text.abfInfoPage(self).generateHTML()
 
     def headerLaunch(self):
         """Display ABF header information in the web browser."""
-        infoPage = self.getInfoPage()
-        html = infoPage.generateHTML()
+        html = pyabf.tools.text.abfInfoPage(self).generateHTML()
 
         # open a temp file, save HTML, launch it, then delete it
         import tempfile

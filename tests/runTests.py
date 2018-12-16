@@ -23,6 +23,12 @@ import importlib.util
 import warnings
 import glob
 
+# clean old pyc files to prevent magic number errors
+for pycFile in glob.glob(PATH_PROJECT+"/src/pyabf/*.pyc"):
+    os.remove(pycFile)
+for pycFile in glob.glob(PATH_PROJECT+"/src/pyabf/__pycache__/*.pyc"):
+    os.remove(pycFile)
+
 def runFunctionInFile(filename, functionName="go"):
     """
     If a specific python file contains a "go()" function, load that file
