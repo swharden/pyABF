@@ -33,6 +33,7 @@ Notice in this example there is an L-shaped scalebar. Nice!
 
 ```python
 import pyabf
+import pyabf.plot
 abf = pyabf.ABF("171116sh_0018.abf")
 pyabf.plot.sweeps(abf, title=False, 
     offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)

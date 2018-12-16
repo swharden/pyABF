@@ -467,6 +467,8 @@ to be re-read from the ABF file.
 
 ```python
 import pyabf
+import pyabf.filter
+
 abf = pyabf.ABF("17o05026_vc_stim.abf")
 plt.figure(figsize=(8, 5))
 

@@ -424,6 +424,7 @@ class UseCaseManager:
         """
 
         import pyabf
+        import pyabf.plot
         abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
         pyabf.plot.sweeps(abf, title=False, 
             offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
@@ -629,6 +630,8 @@ class UseCaseManager:
         """
 
         import pyabf
+        import pyabf.filter
+
         abf = pyabf.ABF("data/abfs/17o05026_vc_stim.abf")
         plt.figure(figsize=self.figsize)
 
