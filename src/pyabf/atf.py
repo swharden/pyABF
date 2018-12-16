@@ -1,7 +1,10 @@
 """
 This file contains code simplifying access to data in ATF files.
 
-File format description:
+One goal of this module is to produce an ATF class with virtually all the same
+methods as the ABF class.
+
+ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
 import re
