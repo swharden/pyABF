@@ -29,5 +29,5 @@ def increaseVersion(fname):
 
 
 if __name__ == "__main__":
-    versionFile = os.path.abspath(PATH_HERE+"/../../src/pyabf/_version.py")
+    versionFile = os.path.abspath(PATH_HERE+"/../../src/pyabf/__init__.py")
     increaseVersion(versionFile)
