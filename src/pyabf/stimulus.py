@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 class Stimulus:
     """
     The Stimulus class USED to be where all waveform generation happened.
-    
+
     It's kept here so old code doesn't break, but is getting dismantled.
 
     Waveform generation from the epoch table now occurs in waveform.py.
@@ -87,7 +87,8 @@ class Stimulus:
 
     @property
     def protocolStorageDir(self):
-        print("WARNING: access abf.stimulusFileFolder instead of Stimulus.protocolStorageDir")
+        print(
+            "WARNING: access abf.stimulusFileFolder instead of Stimulus.protocolStorageDir")
         return self.abf.stimulusFileFolder
 
     @protocolStorageDir.setter
@@ -95,11 +96,12 @@ class Stimulus:
         print("WARNING: set abf.stimulusFileFolder instead of Stimulus.protocolStorageDir")
         self.abf.stimulusFileFolder = val
 
+
 def stimulusWaveformFromFile(abf, channel=0):
     """
     Attempt to find the stimulus file used to record an ABF, read the stimulus
     file (ABF or ATF), and return the stimulus waveform (as a numpy array).
-    
+
     Now: If the file can't be found, returns False
     Soon: If the file can't be found, returns an array of nans.
     """
@@ -130,7 +132,7 @@ def stimulusWaveformFromFile(abf, channel=0):
     # get the real path so that not two cache keys point to the same object
     stimFname = os.path.realpath(stimFname)
 
-    if Stimulus.stimulusWaveformCache.get(stimFname):
+    if abf._cacheStimulusFiles and Stimulus.stimulusWaveformCache.get(stimFname):
         log.debug("stimulus file is already cached")
     else:
         # read the ABF or ATF stimulus file

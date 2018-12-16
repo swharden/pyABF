@@ -48,10 +48,11 @@ class ABF:
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
-    def __init__(self, abfFilePath, loadData=True):
+    def __init__(self, abfFilePath, loadData=True, cacheStimulusFiles=True):
 
         # assign arguments to the class
         self._preLoadData = loadData
+        self._cacheStimulusFiles = cacheStimulusFiles
 
         # clean-up file paths and filenames, then open the file
         self.abfFilePath = os.path.abspath(abfFilePath)

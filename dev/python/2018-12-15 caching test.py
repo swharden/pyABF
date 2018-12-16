@@ -51,10 +51,11 @@ def setup_test_directory():
         shutil.copy(fnameABF, fname2ABF)
         shutil.copy(fnameATF, fname2ATF)
 
-def test_stimulus_cache():
+def test_stimulus_cache(useCache=True):
     """Load ABFs which use an external ABF and ATF stimulus files"""
     abfFiles = sorted(glob.glob(testDirectory+"/cool_*.abf"))
     for i, filename in enumerate(abfFiles):
+        #abf = pyabf.ABF(filename, cacheStimulusFiles=False)
         abf = pyabf.ABF(filename)
         abf.stimulusFileFolder = PATH_DATA # alternate path for stimulus files
         t1 = time.perf_counter()
