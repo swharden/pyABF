@@ -1,18 +1,9 @@
-from setuptools import setup
-
-# figure out where we are
 import os
-PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-
-# load the version
-with open(os.path.abspath(PATH_HERE+"/pyabf/_version.py")) as f:
-    versionString = f.readlines()[0]
-    assert "__version__" in versionString
-    assert "=" in versionString
-    __version__ = eval(versionString.split("=")[1])
-    print("loaded version:", __version__)
+from setuptools import setup
+import pyabf
 
 # load the descripntion
+PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
     print("loaded description: (%s lines)"%(long_description.count("\n")))
@@ -20,7 +11,7 @@ with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
 # standard pypi stuff
 setup(
     name='pyabf',
-    version=__version__,
+    version=pyabf.__version__,
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
     packages=['pyabf'],
