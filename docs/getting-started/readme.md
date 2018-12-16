@@ -169,7 +169,12 @@ plt.show()
 
 Episodic ABF files can have complex protocols designed with in waveform
 editor. After calling `setSweep()` the command waveform can be accessed
-as `sweep.C`.
+as `sweep.C`. 
+
+To get more information about the epoch table (such as the list of 
+levels for each epoch, specific time points epochs start and stop, etc.)
+check out properties of the `abf.sweepEpochs` object, which represents
+the currently loaded sweep/channel.
 
 **Code:**
 
