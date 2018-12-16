@@ -2,6 +2,9 @@
 Demonstrate how to load many ABFs and use a cached stimulus waveform
 from an ATF file which only gets loaded once. Since the ATF file is kept
 in memory, this is stimulus waveform caching.
+
+NOTE: this type of caching is not actually used! 
+The Stimulus class is used for this!
 """
 
 import os
