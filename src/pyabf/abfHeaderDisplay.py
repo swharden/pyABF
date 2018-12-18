@@ -1,5 +1,6 @@
 """
-Code here relates to text parsing and creation of HTML and markdown files.
+Code here relates to text parsing and creation of HTML and markdown files
+to display the ABF header in a neat and organized way.
 """
 
 import tempfile
