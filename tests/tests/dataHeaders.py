@@ -17,7 +17,7 @@ logging.basicConfig()
 log = logging.getLogger(__name__)
 #log.setLevel(logging.DEBUG)
 
-from pyabf.tools.text import abfInfoPage
+from pyabf.abfHeaderDisplay import abfInfoPage
 
 def infoPage(abf, markdown=True, html=False):
     """Create the markdown summary of the ABF header."""
