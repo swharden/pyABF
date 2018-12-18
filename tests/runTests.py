@@ -47,19 +47,28 @@ def runFunctionInFile(filename, functionName="go"):
 
 def testInterpreter(path_python):
     """Test pyABF against a specific python interpreter."""
-    path_testScript = os.path.dirname(__file__)+"/tests/py2and3.py"
-    print("Testing Python interpreter ... ", end="")
-    cmd = '"%s" "%s"'%(path_python, path_testScript)
-    result = os.popen(cmd).read()
-    if "Traceback" in result:
-        raise Exception("python interpreter error")
-    else:
-        print("OK")
+    testFiles = []
+    testFiles.append(os.path.dirname(__file__)+"/tests/py2and3.py")
+    testFiles.append(os.path.dirname(__file__)+"/../src/setup.py")
+    pyVer=3
+    if "27" in path_python:
+        pyVer=2
+    for path_testScript in testFiles:
+        bn = os.path.basename(path_testScript)
+        print("Testing Python%d interpreter (%s) ... "%(pyVer, bn), end="")
+        cmd = '"%s" "%s"'%(path_python, path_testScript)
+        if "setup.py" in cmd:
+            cmd+= " --name"
+        result = os.popen(cmd).read()
+        if "Traceback" in result:
+            raise Exception("python interpreter error")
+        else:
+            print("OK")
 
 if __name__ == "__main__":
     
     # set this to true and run this test right before releasing
-    testing_for_release = True
+    testing_for_release = False
 
     # run this when new ABF files are added to the data folder (slow)
     generate_data_for_new_abf_files = False
