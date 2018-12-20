@@ -9,7 +9,7 @@ Same goes for simulating membrane tests, then analyzing them.
 
 import numpy as np
 
-def generate_exp(tauMs=100, rateHz=20000, filterHz=4000):
+def generate_exp(tauMs=100, rateHz=20000, filterHz=2000):
     """
     Create a signal similar to an EPSC or IPSC with a sharp rise and 
     exponential decay. Apply a Gaussian convolution (to simulate the low-pass
