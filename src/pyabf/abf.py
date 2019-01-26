@@ -564,3 +564,13 @@ class ABF:
         sweepWaveform = epochTable.epochWaveformsBySweep[self.sweepNumber]
         sweepD = sweepWaveform.getDigitalWaveform(digOutNumber)
         return sweepD
+
+    @property
+    def sweepTimesSec(self):
+        """Numpy array of sweep start times (in seconds)"""
+        return np.arange(self.sweepCount)*self.sweepIntervalSec
+
+    @property
+    def sweepTimesMin(self):
+        """Numpy array of sweep start times (in minutes)"""
+        return self.sweepTimesSec/60
