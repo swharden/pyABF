@@ -68,7 +68,7 @@ def testInterpreter(path_python):
 if __name__ == "__main__":
     
     # set this to true and run this test right before releasing
-    testing_for_release = False
+    testing_for_release = True
 
     # run this when new ABF files are added to the data folder (slow)
     generate_data_for_new_abf_files = False

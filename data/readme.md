@@ -238,3 +238,7 @@ ABF (version 1.6.4.9) with 1 channel (nA), sampled at 50.0 kHz, containing 1 swe
 ABF (version 2.0.0.0) with 1 channel (?), sampled at 10.0 kHz, containing 1 sweep, having no tags, with a total length of 0.17 minutes, recorded without a protocol file.<br>
 [View the full header](headers/sine%20sweep%20magnitude%2020.md)<a href='headers/sine%20sweep%20magnitude%2020.png'><img src='headers/sine%20sweep%20magnitude%2020.png'></a>
 
+## vc_drug_memtest.abf
+ABF (version 2.0.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 482 sweeps, having 2 tags (+TGOT, -TGOT), with a total length of 16.10 minutes, recorded with protocol "0401 VC 2s MT-70".<br>
+[View the full header](headers/vc_drug_memtest.md)<a href='headers/vc_drug_memtest.png'><img src='headers/vc_drug_memtest.png'></a>
+

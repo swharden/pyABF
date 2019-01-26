@@ -51,6 +51,8 @@
 * sweepList = `[0]`
 * sweepNumber = `0`
 * sweepPointCount = `2230000`
+* sweepTimesMin = `array (1d) with values like: 0.00000`
+* sweepTimesSec = `array (1d) with values like: 0.00000`
 * sweepUnitsC = `?`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `nA`
