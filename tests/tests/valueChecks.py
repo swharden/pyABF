@@ -80,6 +80,7 @@ FIRSTVALUES['18425108_abf1'] = ['0.07935', '-71.31958']
 FIRSTVALUES['pclamp11_4ch'] = ['-0.24017', '-0.08545', '-0.00793', '0.27313']
 FIRSTVALUES['pclamp11_4ch_abf1'] = ['-0.23987', '-0.08514', '-0.00763', '0.27313']
 FIRSTVALUES['2018_12_15_0000'] = ['-0.16541', '0.26764', '0.04761', '-0.28351']
+FIRSTVALUES['vc_drug_memtest'] = ['-7.20215']
 
 def go():
     print("Checking first values ", end="")
@@ -105,6 +106,7 @@ def go():
     if valuesNeedUpdating:
         print()
         print("UPDATE FIRSTVALUES TO INCLUDE NEW DATA!")
+        raise NotImplementedError
     print(" OK")
 
 
