@@ -8,6 +8,13 @@ This includes:
   Cm (membrane capacitance)
   Tau (time constant)
 
+Note:
+Expected values for 2018_08_23_0009.abf are:
+    Ih: -134.365 pA
+    Ra: 14.936 MOhm
+    Rm: 122.472 MOhm
+    Cm (step): 135.111 pF
+    Cm (ramp): 170.719 pF
 """
 
 import os
@@ -50,8 +57,15 @@ def cm_ramp_valuesBySweep(abf):
 
 def _cm_ramp_points_and_voltages(abf):
     """
-    Return [rampPoints,rampVoltages] if the sweep contains a ramp
-    suitable for capacitance calculation.
+    Return [points, voltages] if the sweep contains a ramp suitable for 
+    capacitance calculation using a matching doward and upward ramp.
+
+    points is a list of 3 numbers depicting index values important to this
+    ramp. The first number is the index at the start of the downward ramp, the
+    second is the index of its nadir, and the third is the index where it
+    returns to the original level.
+
+    voltages is a list of 2 numbers: voltage before and during the ramp.
     """
     assert isinstance(abf, pyabf.ABF)
 
@@ -59,42 +73,33 @@ def _cm_ramp_points_and_voltages(abf):
         log.critical("must be in voltage clamp configuration")
         return
 
-    epochTypes = abf._epochPerDacSection.nEpochType
-    if epochTypes.count(2) < 2:
-        log.critical("protocol must have at least 2 ramps")
-        return
+    for i, p1 in enumerate(abf.sweepEpochs.p1s):
+        if i==0:
+            continue
 
-    for epochNumber in range(len(epochTypes)-1):
-        if epochTypes[epochNumber] == 2 and epochTypes[epochNumber+1] == 2:
-            log.debug(f"ramp starts at epoch: {epochNumber}")
-            break
-    else:
-        log.critical("protocol must 2 ramps back to back!")
-        return
+        # ensure this sweep and the last are both ramps
+        if abf.sweepEpochs.types[i] != "Ramp":
+            continue
+        if abf.sweepEpochs.types[i-1] != "Ramp":
+            continue
 
-    # determine the voltages at the 3 points of the ramp
-    epochValues = pyabf.stimulus.epochValues(abf)[abf.sweepChannel]
-    rampVoltages = [abf.holdingCommand[abf.sweepChannel]]
-    rampVoltages.append(epochValues[epochNumber])
-    rampVoltages.append(epochValues[epochNumber+1])
-    if epochNumber > 0:
-        rampVoltages[0] = epochValues[epochNumber-1]
-    log.debug(f"ramp voltages (mV): {rampVoltages}")
-    if rampVoltages[0] != rampVoltages[2]:
-        log.critical("ramp must deviate then return to the same voltage")
-        return
-    if rampVoltages[0] == rampVoltages[1]:
-        log.critical("ramp must have magnitude")
-        return
+        # ensure the levels are different
+        if abf.sweepEpochs.levels[i] == abf.sweepEpochs.levels[i-1]:
+            continue
 
-    # determine the data index positions at the 3 points of the ramp
-    epochPoints = pyabf.stimulus.epochPoints(abf)
-    rampPoints = [epochPoints[epochNumber],
-                  epochPoints[epochNumber+1],
-                  epochPoints[epochNumber+2]]
-    log.debug(f"ramp epochs start at (points): {rampPoints}")
+        ptStart = abf.sweepEpochs.p1s[i-1]
+        ptTransition = abf.sweepEpochs.p1s[i]
+        ptEnd = abf.sweepEpochs.p2s[i]
+        points = [ptStart, ptTransition, ptEnd]
 
-    return [rampPoints, rampVoltages]
+        voltageBefore = abf.sweepEpochs.levels[i-1]
+        voltageDuring = abf.sweepEpochs.levels[i]
+        voltages = [voltageBefore, voltageDuring]
+
+        return [points, voltages]
+
+    log.critical("ABF must have at least 2 voltage ramps to use memtest")
+    return None
 
 
 def _cm_ramp_fromThisSweep(abf):
@@ -264,8 +269,12 @@ def _step_fromThisSweep(abf):
 def _step_calculate(abf, trace, traceStepPoint, dV=-10, stepAvgLastFrac=.2,
                        fitToFracUpper=.9):
     """
-    Given a current clamp trace depicting a voltage step, return membrane test
-    information Ih, Rm, Ra, and Cm.
+    Given a current trace depicting the resposne to a hyperpolarizing square 
+    pulse voltage step, return membrane test information Ih, Rm, Ra, and Cm.
+
+    A typical use is to give a trace which starts clamped at -70 mV, then gets
+    clamped to -80 mV. The traceStepPoint is the index value at which the
+    transition between -70 and -80 occurs.
 
     stepAvgLastFrac - defines what percentage of the end of the step to measure
     to calculate resting current.
@@ -347,6 +356,13 @@ def _step_points_and_voltages(abf):
     """
     Return [stepPoints,stepVoltages] if the sweep contains a step suitable for 
     capacitance calculation using the first square step from holding command.
+
+    stepPoints is a list of 3 numbers depicting index values important to this
+    step. Typically the first number is the index of the trace clamped at -70, 
+    the second number is index of the trace where it gets clamped to -80, and
+    the final number is the index after settling at -80 for a while.
+
+    stepVoltages is a list of 2 numbers: voltage before and during the step.
     """
     assert isinstance(abf, pyabf.ABF)
 
@@ -354,33 +370,24 @@ def _step_points_and_voltages(abf):
         log.critical("must be in voltage clamp configuration")
         return
 
-    epochTypes = abf._epochPerDacSection.nEpochType
-    if epochTypes.count(1) == 0:
-        log.critical("protocol must have at least 1 step")
-        return
+    for i, p1 in enumerate(abf.sweepEpochs.p1s):
+        if i==0:
+            continue
+        if abf.sweepEpochs.types[i] != "Step":
+            continue
+        if abf.sweepEpochs.levels[i] == abf.sweepEpochs.levels[i-1]:
+            continue
 
-    # get epoch time and clamp information
-    epochValues = pyabf.stimulus.epochValues(abf)
-    epochValues = epochValues[abf.sweepNumber]
+        ptStart = abf.sweepEpochs.p1s[i-1]
+        ptTransition = abf.sweepEpochs.p1s[i]
+        ptEnd = abf.sweepEpochs.p2s[i]
+        stepPoints = [ptStart, ptTransition, ptEnd]
 
-    # find the first step epoch that deviates from holding voltage
-    voltageBeforeStep = abf.holdingCommand[abf.sweepChannel]
-    for epochNumber, epochType in enumerate(epochTypes):
-        voltageAfterStep = epochValues[epochNumber]
-        if epochType == 1 and voltageAfterStep != voltageBeforeStep:
-            break
-    else:
-        log.critical("no step from holding voltage found")
-        return
-    stepVoltages = [voltageBeforeStep, voltageAfterStep]
-    log.debug(f"step voltages (mV): {stepVoltages}")
+        voltageBeforeStep = abf.sweepEpochs.levels[i-1]
+        voltageDuringStep = abf.sweepEpochs.levels[i]
+        stepVoltages = [voltageBeforeStep, voltageDuringStep]
 
-    # determine the index points encapsulating the step
-    stepPoints = pyabf.stimulus.epochPoints(abf)[:epochNumber+1]
-    if len(stepPoints) == 1:
-        stepPoints = [0, stepPoints[0]]
-    stepDurations = abf._epochPerDacSection.lEpochInitDuration
-    stepPoints.append(stepPoints[-1]+stepDurations[epochNumber])
-    log.debug(f"points encapsulating step: {stepPoints}")
+        return [stepPoints, stepVoltages]
 
-    return [stepPoints, stepVoltages]
+    log.critical("ABF must have at least 1 voltage step to use memtest")
+    return None
