@@ -147,7 +147,7 @@ def _cm_ramp_calculate(rampData, sampleRate, deltaVoltage, centerFrac=.3):
     # ensure our values are of the correct types
     rampData = np.array(rampData)
     sampleRate = int(sampleRate)
-    deltaVoltage = int(deltaVoltage)
+    deltaVoltage = float(deltaVoltage)
 
     # isolate and rearrange the downward vs upward slopes
     trace1 = rampData[:int(len(rampData)/2)][::-1]
@@ -176,6 +176,9 @@ def _cm_ramp_calculate(rampData, sampleRate, deltaVoltage, centerFrac=.3):
 
     # capacitance is isolated capacitive transient divided by the command slope
     cm = deviation/slope
+
+    # capacitance is always positive
+    cm = np.abs(cm)
 
     # units don't require conversion, because pA is appropriately scaled for pF
     return cm
