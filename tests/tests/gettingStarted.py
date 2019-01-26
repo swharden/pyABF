@@ -833,29 +833,28 @@ class UseCaseManager:
 
         # That's it! The rest of the code just plots these 4 numpy arrays.
         fig = plt.figure(figsize=self.figsize)
-        times = np.arange(abf.sweepCount)*abf.sweepIntervalSec/60
 
         ax1 = fig.add_subplot(221)
         ax1.grid(alpha=.2)
-        ax1.plot(times, Ihs, ".", color='C0', alpha=.7, mew=0)
+        ax1.plot(abf.sweepTimesMin, Ihs, ".", color='C0', alpha=.7, mew=0)
         ax1.set_title("Clamp Current")
         ax1.set_ylabel("Current (pA)")
 
         ax2 = fig.add_subplot(222)
         ax2.grid(alpha=.2)
-        ax2.plot(times, Rms, ".", color='C3', alpha=.7, mew=0)
+        ax2.plot(abf.sweepTimesMin, Rms, ".", color='C3', alpha=.7, mew=0)
         ax2.set_title("Membrane Resistance")
         ax2.set_ylabel("Resistance (MOhm)")
 
         ax3 = fig.add_subplot(223)
         ax3.grid(alpha=.2)
-        ax3.plot(times, Ras, ".", color='C1', alpha=.7, mew=0)
+        ax3.plot(abf.sweepTimesMin, Ras, ".", color='C1', alpha=.7, mew=0)
         ax3.set_title("Access Resistance")
         ax3.set_ylabel("Resistance (MOhm)")
 
         ax4 = fig.add_subplot(224)
         ax4.grid(alpha=.2)
-        ax4.plot(times, Cms, ".", color='C2', alpha=.7, mew=0)
+        ax4.plot(abf.sweepTimesMin, Cms, ".", color='C2', alpha=.7, mew=0)
         ax4.set_title("Whole-Cell Capacitance")
         ax4.set_ylabel("Capacitance (pF)")
 
