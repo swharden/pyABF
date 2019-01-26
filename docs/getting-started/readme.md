@@ -491,3 +491,63 @@ plt.show()
 **Output:**
 
 ![source/demo_14a_gaussian_filter.jpg](source/demo_14a_gaussian_filter.jpg)
+
+## Accessing Epoch Information
+
+In some ABFs an epoch table is used to control the command level of the
+DAC to control voltage or current. While the epoch table can be
+confusing to access directly from the header (e.g., the first epoch
+does not start at time 0, but rather 1/64 of the sweep length), a
+simplified way to access epoch types and levels is provided with the
+`abf.sweepEpochs` object, which contains epoch points, levels, and types
+for the currently-loaded sweep.
+
+For example, the output of this script:
+```python
+import pyabf
+abf = pyabf.ABF("2018_08_23_0009.abf")
+for i, p1 in enumerate(abf.sweepEpochs.p1s):
+    epochLevel = abf.sweepEpochs.levels[i]
+    epochType = abf.sweepEpochs.types[i]
+    print(f"epoch index {i}: at point {p1} there is a {epochType} to level {epochLevel}")
+```
+
+looks like this:
+```
+epoch index 0: at point 0 there is a Step to level -70.0
+epoch index 1: at point 187 there is a Step to level -80.0
+epoch index 2: at point 4187 there is a Step to level -70.0
+epoch index 3: at point 8187 there is a Ramp to level -80.0
+epoch index 4: at point 9187 there is a Ramp to level -70.0
+epoch index 5: at point 10187 there is a Step to level -70.0
+```
+
+**Code:**
+
+```python
+import pyabf
+abf = pyabf.ABF("2018_08_23_0009.abf")
+
+fig = plt.figure(figsize=(8, 5))
+
+ax1 = fig.add_subplot(211)
+ax1.plot(abf.sweepY, color='b')
+ax1.set_ylabel("ADC (measurement)")
+ax1.set_xlabel("sweep point (index)")
+
+ax2 = fig.add_subplot(212)
+ax2.plot(abf.sweepC, color='r')
+ax2.set_ylabel("DAC (command)")
+ax2.set_xlabel("sweep point (index)")
+
+for p1 in abf.sweepEpochs.p1s:
+    ax1.axvline(p1, color='k', ls='--', alpha=.5)
+    ax2.axvline(p1, color='k', ls='--', alpha=.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Output:**
+
+![source/demo_15_epochs.jpg](source/demo_15_epochs.jpg)
