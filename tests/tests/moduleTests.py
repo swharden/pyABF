@@ -10,13 +10,13 @@ PATH_PROJECT = os.path.abspath(PATH_HERE+"/../../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
 sys.path.insert(0, PATH_PROJECT+"/src/")
 import pyabf
+import pyabf.tools.memtest
 import glob
 import numpy as np
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
-
 
 def closeEnough(val1, val2, percentErrorAllowed=0.1):
     """
@@ -32,58 +32,38 @@ def closeEnough(val1, val2, percentErrorAllowed=0.1):
         log.debug("%s != %s (error: %.02f%%)" % (val1, val2, err))
         return False
 
-
-# def test_sweepStats_measureAverage(abf):
-#     """Verified using statistics tab in ClampFit."""
-#     m1, m2 = 1, 2
-#     assert closeEnough(abf.sweepAvg(m1, m2), -52.2538)
-
-
-# def test_sweepStats_measureStdev(abf):
-#     """Verified using statistics tab in ClampFit."""
-#     m1, m2 = 1, 2
-#     assert closeEnough(abf.sweepStdev(m1, m2), 0.559542)
+def test_cm_ramp_withmemtest(abf):
+    """Measure Cm (using step/ramp protocol) of a small cell."""
+    abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
+    cms = pyabf.tools.memtest.cm_ramp_valuesBySweep(abf)
+    assert closeEnough(np.mean(cms), 170.899298429)
 
 
-# def test_sweepStats_measureArea(abf):
-#     """Verified using statistics tab in ClampFit."""
-#     m1, m2 = 1, 2
-#     assert closeEnough(abf.sweepArea(m1, m2), -52259.2)
+def test_memtest_step_withramp(abf):
+    """Measure memtest (using step/ramp 2018_08_23_0009) of a small cell."""
+    abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
+    Ihs, Rms, Ras, Cms = pyabf.tools.memtest.step_valuesBySweep(abf)
+    assert closeEnough(np.mean(Ihs), -134.723966408)
+    assert closeEnough(np.mean(Rms), 135.459113043)
+    assert closeEnough(np.mean(Ras), 17.9413483457)
+    assert closeEnough(np.mean(Cms), 129.949702022)
 
 
-# def test_cm_ramp_withmemtest(abf):
-#     """Measure Cm (using step/ramp protocol) of a small cell."""
-#     abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
-#     cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
-#     assert closeEnough(np.mean(cms), 170.899298429)
+def test_cm_ramp_isolated(abf):
+    """Measure Cm (using ramp protocol) of the 33pF model cell."""
+    abf = pyabf.ABF(PATH_DATA+"/model_vc_ramp.abf")
+    cms = pyabf.tools.memtest.cm_ramp_valuesBySweep(abf)
+    assert closeEnough(np.mean(cms), 30.8847047329)
 
 
-# def test_memtest_step_withramp(abf):
-#     """Measure memtest (using step/ramp 2018_08_23_0009) of a small cell."""
-#     abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
-#     Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
-#     assert closeEnough(np.mean(Ihs), -134.723966408)
-#     assert closeEnough(np.mean(Rms), 135.459113043)
-#     assert closeEnough(np.mean(Ras), 17.9413483457)
-#     assert closeEnough(np.mean(Cms), 129.949702022)
-
-
-# def test_cm_ramp_isolated(abf):
-#     """Measure Cm (using ramp protocol) of the 33pF model cell."""
-#     abf = pyabf.ABF(PATH_DATA+"/model_vc_ramp.abf")
-#     cms = pyabf.memtest.cm_ramp_valuesBySweep(abf)
-#     assert closeEnough(np.mean(cms), 30.8847047329)
-
-
-# def test_memtest_step_isolated(abf):
-#     """Measure memtest (using step protocol) of the 33pF model cell."""
-#     abf = pyabf.ABF(PATH_DATA+"/model_vc_step.abf")
-#     Ihs, Rms, Ras, Cms = pyabf.memtest.step_valuesBySweep(abf)
-#     assert closeEnough(np.mean(Ihs), -139.308895874)
-#     assert closeEnough(np.mean(Rms), 511.624412725)
-#     assert closeEnough(np.mean(Ras), 14.8798838785)
-#     assert closeEnough(np.mean(Cms), 23.3401051935)
-
+def test_memtest_step_isolated(abf):
+    """Measure memtest (using step protocol) of the 33pF model cell."""
+    abf = pyabf.ABF(PATH_DATA+"/model_vc_step.abf")
+    Ihs, Rms, Ras, Cms = pyabf.tools.memtest.step_valuesBySweep(abf)
+    assert closeEnough(np.mean(Ihs), -139.308895874)
+    assert closeEnough(np.mean(Rms), 511.624412725)
+    assert closeEnough(np.mean(Ras), 14.8798838785)
+    assert closeEnough(np.mean(Cms), 23.3401051935)
 
 def go():
     print("Testing add-on modules", end=" ")
@@ -101,7 +81,6 @@ def go():
         sys.stdout.flush()
 
     print(" OK")
-
 
 if __name__ == "__main__":
     go()
