@@ -40,19 +40,20 @@ print(abf.sweepC) # displays command waveform (DAC)
 * Stimulus waveform generation from epoch information
 * Access to digital output settings and waveforms
 * Can load waveforms from external ABF and ATF stimulus files (with caching)
+* API is similar to [vsABF](https://github.com/swharden/vsABF) (an ABF reading library for .NET)
 
 <p align="center">
   <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
 </p>
 
-## Porting to Other Programming Languages
-This repository tracks development of the pyABF Python module and also serves as a central site to aggregate ABF file format and analysis information and strategies. Code for this project is written to be easy to read, and efforts are taken to write and maintain documentation, making pyABF easy to port to other programming lanaguges. Some efforts to this end have already begun:
-
-* [vsABF](https://github.com/swharden/vsABF) - A .NET library to interface to files in the Axon Binary Format (ABF)
-* [phpABF](https://github.com/swharden/phpABF) - A PHP interface to files in the Axon Binary Format (ABF)
-
-![](/docs/graphics/spacer_paired_patch.jpg)
 ![](/docs/graphics/2017-11-18-multichannel.png)
+
+## Advanced Topics & Data Experiments
+* [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/readme.md)
+* [Low-pass filtering](/dev/python/2019-06-07%20auto%20detect%20lowpass%20filter.md)
+* [Creating Arbitrary Stimulus Waveforms (from scratch)](/docs/advanced/creating-waveforms/readme.md)
+* [Membrane Test Calculations: Ih, Rm, Ra, and Cm](/docs/advanced/v1%20cookbook/memtest-simulation.ipynb)
+* [Alternative capacitance calculation method: the "vee" protocol](/docs/advanced/v1%20cookbook/memtest-alt.ipynb)
 
 ## Citing pyABF
 If the pyABF module facilitated your research, consider citing this project by name so it can benefit others too:
