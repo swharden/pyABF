@@ -56,8 +56,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 ## Citing pyABF
 If the pyABF module facilitated your research, consider citing this project by name so it can benefit others too:
 
-> _"Computational analysis of electrophysiological recordings was performed with custom software 
-> written for this project using Python 3.6 and the pyABF module."_
+> _"Analysis of electrophysiological recordings was performed with custom software written for this project using Python 3.7 and the pyABF module."_
 
 ![](/docs/graphics/2017-11-18-multichannel.png)
 
