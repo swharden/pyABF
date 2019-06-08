@@ -46,8 +46,6 @@ print(abf.sweepC) # displays command waveform (DAC)
   <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
 </p>
 
-![](/docs/graphics/2017-11-18-multichannel.png)
-
 ## Advanced Topics & Data Experiments
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/readme.md)
 * [Low-pass filtering](/dev/python/2019-06-07%20auto%20detect%20lowpass%20filter.md)
@@ -60,6 +58,8 @@ If the pyABF module facilitated your research, consider citing this project by n
 
 > _"Computational analysis of electrophysiological recordings was performed with custom software 
 > written for this project using Python 3.6 and the pyABF module."_
+
+![](/docs/graphics/2017-11-18-multichannel.png)
 
 ## Feature Requests / Unsupported ABF Files
 If you have ABF files which are unsupported (or read incorrectly) by this software, it is likely due to a use case we have not run across yet, so let us know about it! We can only develop and test this software against ABF files we have access to, so if you're interested in having your ABF file supported send the primary author an email (and the ABF file you are trying to analyze) and we will investigate it. If a solution is reached the pyabf package will be updated so everyone can benefit from the change. We can only develop for (and test against) ABFs we have access to, so we really appreciate your contributions!
