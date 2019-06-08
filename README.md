@@ -35,7 +35,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 * Cross-platform, open-source, 100% Python
 * Supports 32-bit and 64-bit architectures
 * Supports Python 3.6+ (partial support for Python 2.7)
-* Confirmed support for ABF 2.9 files created by pCLAMP 11
+* Can read ABF1 and ABF2 files (including ABF 2.9 files created by pCLAMP 11)
 * Can write ABF files (including conversion from ABF2 to ABF1 format compatible with [MiniAnalysis](http://www.synaptosoft.com/MiniAnalysis/))
 * Stimulus waveform generation from epoch information
 * Access to digital output settings and waveforms
