@@ -162,6 +162,7 @@ class ABF:
         self.protocolPath = self._headerV1.sProtocolPath
         self.abfFileComment = ""
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
+        _tagMult = _tagMult / self._headerV1.nADCNumChannels
         self.tagComments = self._headerV1.sComment
         self.tagTimesSec = self._headerV1.lTagTime
         self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
@@ -173,7 +174,8 @@ class ABF:
         self.dataPointCount = self._headerV1.lActualAcqLength
         self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
         self.channelCount = self._headerV1.nADCNumChannels
-        self.dataRate = int(1e6 / self._headerV1.fADCSampleInterval)
+        self.dataRate = 1e6 / self._headerV1.fADCSampleInterval
+        self.dataRate = int(self.dataRate / self.channelCount)
         self.dataSecPerPoint = 1 / self.dataRate
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV1.lActualEpisodes
