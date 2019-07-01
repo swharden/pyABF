@@ -82,6 +82,9 @@ FIRSTVALUES['pclamp11_4ch'] = ['-0.24017', '-0.08545', '-0.00793', '0.27313']
 FIRSTVALUES['pclamp11_4ch_abf1'] = ['-0.23987', '-0.08514', '-0.00763', '0.27313']
 FIRSTVALUES['2018_12_15_0000'] = ['-0.16541', '0.26764', '0.04761', '-0.28351']
 FIRSTVALUES['vc_drug_memtest'] = ['-7.20215']
+FIRSTVALUES['190619B_0003'] = ['-65.91796', '-18.92090']
+FIRSTVALUES['19212027'] = ['-197.14355', '-70.55664']
+FIRSTVALUES['multichannelAbf1WithTags'] = ['0.85449', '-49.98370']
 
 def go():
     print("Checking first values ", end="")

@@ -23,6 +23,9 @@ import importlib.util
 import warnings
 import glob
 
+if not os.path.exists("LICENSE") and not os.path.exists(".gitignore"):
+    raise Exception("run tests script from the root folder")
+
 # clean old pyc files to prevent magic number errors
 for pycFile in glob.glob(PATH_PROJECT+"/src/pyabf/*.pyc"):
     os.remove(pycFile)

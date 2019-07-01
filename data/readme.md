@@ -3,7 +3,7 @@
 This is a small collection of various ABFs I practice developing with. Many of them were emailed to me by contributors. If you have a unique type of ABF file, email it to me and I will include it here. Note that this page is generated automatically by [dataThumbnails.py](/tests/tests/dataThumbnails.py).
 
 ## 05210017_vc_abf1.abf
-ABF (version 1.8.3.0) with 2 channels (pA, pA), sampled at 40.0 kHz, containing 6 sweeps, having no tags, with a total length of 0.17 minutes, recorded with protocol "Apply ACh with imaging (VC) 2 (no movies)".<br>
+ABF (version 1.8.3.0) with 2 channels (pA, pA), sampled at 20.0 kHz, containing 6 sweeps, having no tags, with a total length of 0.35 minutes, recorded with protocol "Apply ACh with imaging (VC) 2 (no movies)".<br>
 [View the full header](headers/05210017_vc_abf1.md)<a href='headers/05210017_vc_abf1.png'><img src='headers/05210017_vc_abf1.png'></a>
 
 ## 130618-1-12.abf
@@ -103,7 +103,7 @@ ABF (version 2.9.0.0) with 2 channels (nA, mV), sampled at 25.0 kHz, containing 
 [View the full header](headers/18425108.md)<a href='headers/18425108.png'><img src='headers/18425108.png'></a>
 
 ## 18425108_abf1.abf
-ABF (version 1.8.4.0) with 2 channels (nA, mV), sampled at 50.0 kHz, containing 1 sweep, having no tags, with a total length of 0.08 minutes, recorded with protocol "11 - 15 pulse AHP w_laser".<br>
+ABF (version 1.8.4.0) with 2 channels (nA, mV), sampled at 25.0 kHz, containing 1 sweep, having no tags, with a total length of 0.17 minutes, recorded with protocol "11 - 15 pulse AHP w_laser".<br>
 [View the full header](headers/18425108_abf1.md)<a href='headers/18425108_abf1.png'><img src='headers/18425108_abf1.png'></a>
 
 ## 18702001-biphasicTrain.abf
@@ -146,6 +146,14 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 2 swe
 ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 40 sweeps, having no tags, with a total length of 0.41 minutes, recorded with protocol "0201 memtest".<br>
 [View the full header](headers/18808025.md)<a href='headers/18808025.png'><img src='headers/18808025.png'></a>
 
+## 190619B_0003.abf
+ABF (version 1.8.3.0) with 2 channels (mV, pA), sampled at 10.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.56 minutes, recorded with protocol "IV_FI_IN0_saray".<br>
+[View the full header](headers/190619B_0003.md)<a href='headers/190619B_0003.png'><img src='headers/190619B_0003.png'></a>
+
+## 19212027.abf
+ABF (version 2.0.0.0) with 2 channels (pA, mV), sampled at 100.0 kHz, containing 12 sweeps, having no tags, with a total length of 0.26 minutes, recorded with protocol "IH_act_hp-70".<br>
+[View the full header](headers/19212027.md)<a href='headers/19212027.png'><img src='headers/19212027.png'></a>
+
 ## 2018_04_13_0016a_original.abf
 ABF (version 2.0.0.0) with 2 channels (pA, pA), sampled at 250.0 kHz, containing 52 sweeps, having no tags, with a total length of 0.17 minutes, recorded with protocol "ONRec_Hv1".<br>
 [View the full header](headers/2018_04_13_0016a_original.md)<a href='headers/2018_04_13_0016a_original.png'><img src='headers/2018_04_13_0016a_original.png'></a>
@@ -183,7 +191,7 @@ ABF (version 1.8.3.0) with 1 channel (mV), sampled at 1.0 kHz, containing 1 swee
 [View the full header](headers/File_axon_2.md)<a href='headers/File_axon_2.png'><img src='headers/File_axon_2.png'></a>
 
 ## File_axon_3.abf
-ABF (version 1.8.3.0) with 2 channels (mV, pA), sampled at 40.0 kHz, containing 5 sweeps, having no tags, with a total length of 0.05 minutes, recorded with protocol "Cc_stim ONL".<br>
+ABF (version 1.8.3.0) with 2 channels (mV, pA), sampled at 20.0 kHz, containing 5 sweeps, having no tags, with a total length of 0.10 minutes, recorded with protocol "Cc_stim ONL".<br>
 [View the full header](headers/File_axon_3.md)<a href='headers/File_axon_3.png'><img src='headers/File_axon_3.png'></a>
 
 ## File_axon_4.abf
@@ -207,7 +215,7 @@ ABF (version 1.8.3.0) with 1 channel (pA), sampled at 20.0 kHz, containing 1 swe
 [View the full header](headers/abf1_with_tags.md)<a href='headers/abf1_with_tags.png'><img src='headers/abf1_with_tags.png'></a>
 
 ## f1.abf
-ABF (version 1.8.3.0) with 4 channels (pA, pA, mV, mV), sampled at 80.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.11 minutes, recorded with protocol "JAF 1 electrode  ST-EPSC".<br>
+ABF (version 1.8.3.0) with 4 channels (pA, pA, mV, mV), sampled at 20.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.46 minutes, recorded with protocol "JAF 1 electrode  ST-EPSC".<br>
 [View the full header](headers/f1.md)<a href='headers/f1.png'><img src='headers/f1.png'></a>
 
 ## f1_saved.abf
@@ -222,12 +230,16 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 50 sw
 ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 20 sweeps, having no tags, with a total length of 0.17 minutes, recorded with protocol "0201 memtest".<br>
 [View the full header](headers/model_vc_step.md)<a href='headers/model_vc_step.png'><img src='headers/model_vc_step.png'></a>
 
+## multichannelAbf1WithTags.abf
+ABF (version 1.8.4.0) with 2 channels (pA, mV), sampled at 20.0 kHz, containing 187 sweeps, having 2 tags (+TGOT, -TGOT), with a total length of 0.26 minutes, recorded without a protocol file.<br>
+[View the full header](headers/multichannelAbf1WithTags.md)<a href='headers/multichannelAbf1WithTags.png'><img src='headers/multichannelAbf1WithTags.png'></a>
+
 ## pclamp11_4ch.abf
 ABF (version 2.9.0.0) with 4 channels (pA, pA, pA, pA), sampled at 20.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
 [View the full header](headers/pclamp11_4ch.md)<a href='headers/pclamp11_4ch.png'><img src='headers/pclamp11_4ch.png'></a>
 
 ## pclamp11_4ch_abf1.abf
-ABF (version 1.8.4.0) with 4 channels (pA, pA, pA, pA), sampled at 80.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.01 minutes, recorded without a protocol file.<br>
+ABF (version 1.8.4.0) with 4 channels (pA, pA, pA, pA), sampled at 20.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
 [View the full header](headers/pclamp11_4ch_abf1.md)<a href='headers/pclamp11_4ch_abf1.png'><img src='headers/pclamp11_4ch_abf1.png'></a>
 
 ## sample trace_0054.abf
