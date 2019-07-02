@@ -426,7 +426,7 @@ class ABF:
             os.remove(tmpFilePath)
             log.info("deleted %s" % (tmpFilePath))
 
-    def saveABF1(self, filename):
+    def saveABF1(self, filename, sampleRateHz):
         """
         Save this ABF file as an ABF1 file compatible with ClampFit and 
         MiniAnalysis. To create an ABF1 file from scratch (not starting from
@@ -438,7 +438,7 @@ class ABF:
         for sweep in self.sweepList:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
-        pyabf.abfWriter.writeABF1(sweepData, filename)
+        pyabf.abfWriter.writeABF1(sweepData, filename, sampleRateHz)
         log.info("saved ABF1 file: %s" % filename)
 
     def launchInClampFit(self):

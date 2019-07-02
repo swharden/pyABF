@@ -1,5 +1,5 @@
 """
-Test error messages when loading ABFs and ATFs with the wrong methods.
+Allow custom sample rate when writing ABF1 files
 """
 
 import os
@@ -13,13 +13,10 @@ import pyabf
 
 if __name__ == "__main__":
     abfFile = PATH_DATA + "/14o08011_ic_pair.abf"
-    atfFile = PATH_DATA + "/model_vc_step.atf"
 
-    # normal
-    print(pyabf.ABF(abfFile))
-    print(pyabf.ATF(atfFile))
+    abf = pyabf.ABF(abfFile)
+    print(abf)
 
-    # errors
-    #print(pyabf.ABF(atfFile))
-    #print(pyabf.ATF(abfFile))
-
+    # demo saving at 5kHz
+    abf.saveABF1(R"C:\Users\scott\Documents\temp\test.atf", 5000)
+    print("DONE")

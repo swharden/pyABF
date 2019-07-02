@@ -16,7 +16,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
-def writeABF1(sweepData, filename, units='pA'):
+def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     """
     Create an ABF1 file from scratch and write it to disk.
     Files created with this function are compatible with MiniAnalysis.
@@ -49,7 +49,7 @@ def writeABF1(sweepData, filename, units='pA'):
     struct.pack_into('i', data, 40, HEADER_BLOCKS)  # lDataSectionPtr
     struct.pack_into('h', data, 100, 0)  # nDataFormat is 1 for float32
     struct.pack_into('h', data, 120, 1)  # nADCNumChannels
-    struct.pack_into('f', data, 122, 50)  # fADCSampleInterval (CUSTOMIZE!!!)
+    struct.pack_into('f', data, 122, 1e6 / sampleRateHz)  # fADCSampleInterval
     struct.pack_into('i', data, 138, sweepPointCount)  # lNumSamplesPerEpisode
 
     # These ADC adjustments are used for integer conversion. It's a good idea
