@@ -55,6 +55,9 @@ class ABF:
 
     def __init__(self, abfFilePath, loadData=True, cacheStimulusFiles=True):
 
+        if abfFilePath.lower().endswith(".atf"):
+            raise Exception("use pyabf.ATF (not pyabf.ABF) for ATF files")
+
         # assign arguments to the class
         self._preLoadData = loadData
         self._cacheStimulusFiles = cacheStimulusFiles
