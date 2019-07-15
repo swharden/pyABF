@@ -17,6 +17,7 @@ class Memtest:
     def __init__(self, abf, channel=0):
         assert isinstance(abf, pyabf.ABF)
 
+        self.sweepCount = abf.sweepCount
         self.TimeSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
         self.TimeMin = self.TimeSec / 60.0
 
@@ -50,4 +51,4 @@ class Memtest:
         return msg.strip()
 
     def __repr__(self):
-        print(f"membrane test results for {abf.sweepCount} sweeps")
+        return(f"Memtest results for {self.sweepCount} sweeps")

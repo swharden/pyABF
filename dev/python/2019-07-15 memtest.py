@@ -15,5 +15,6 @@ import pyabf.tools
 
 abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
 mt = pyabf.tools.Memtest(abf)
+print(mt)
 print(mt.summary)
 print(mt.CmStep.values)
