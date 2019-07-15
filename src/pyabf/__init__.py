@@ -6,7 +6,7 @@ Documentation and code examples, and more can be found at:
     https://github.com/swharden/pyABF
 """
 
-__version__ = '2.1.7'
+__version__ = '2.1.8'
 
 import sys
 
