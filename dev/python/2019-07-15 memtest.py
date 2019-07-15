@@ -11,9 +11,9 @@ PATH_SRC = os.path.abspath(PATH_HERE+"../../../src/")
 sys.path.insert(0, PATH_SRC)
 
 import pyabf
-import pyabf.tools.memtest
+import pyabf.tools
 
 abf = pyabf.ABF(PATH_DATA+"/2018_08_23_0009.abf")
-memtest = pyabf.Memtest(abf)
-print(memtest.summary)
-print(memtest.CmStep.values)
+mt = pyabf.tools.Memtest(abf)
+print(mt.summary)
+print(mt.CmStep.values)

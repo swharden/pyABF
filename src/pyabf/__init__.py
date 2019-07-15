@@ -15,7 +15,6 @@ if sys.version_info < (3, 6):
 
 from pyabf.abf import ABF
 from pyabf.atf import ATF
-from pyabf.tools.memtest import Memtest
 
 def info():
     """display information about the pyabf package."""
