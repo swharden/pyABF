@@ -14,7 +14,7 @@ setup(
     version=pyabf.__version__,
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
-    packages=['pyabf'],
+    packages=['pyabf', 'pyabf.tools'],
     url='http://github.com/swharden/pyABF',
     license='MIT License',
     platforms='any',
