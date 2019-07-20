@@ -12,6 +12,7 @@ import numpy as np
 import copy
 import os
 import sys
+import warnings
 import pyabf
 import pyabf.waveform
 
@@ -73,12 +74,12 @@ class Stimulus:
 
     @property
     def protocolStorageDir(self):
-        print("WARNING: use abf.stimulusFileFolder (not protocolStorageDir)")
+        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
         return self.abf.stimulusFileFolder
 
     @protocolStorageDir.setter
     def protocolStorageDir(self, val=None):
-        print("WARNING: use abf.stimulusFileFolder (not protocolStorageDir)")
+        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
         self.abf.stimulusFileFolder = val
 
 def stimulusWaveformFromFile(abf, channel=0):
