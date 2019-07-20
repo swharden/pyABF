@@ -23,6 +23,9 @@ import importlib.util
 import warnings
 import glob
 
+import pyabf
+import pyabf.tools.memtest
+
 if not os.path.exists("LICENSE") and not os.path.exists(".gitignore"):
     raise Exception("run tests script from the root folder")
 
@@ -88,7 +91,6 @@ if __name__ == "__main__":
     runFunctionInFile(PATH_PROJECT+"/tests/tests/api.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/valueChecks.py")
     runFunctionInFile(PATH_PROJECT+"/tests/tests/testHeaders.py")
-    #runFunctionInFile(PATH_PROJECT+"/tests/tests/moduleTests.py")
 
     # test against python2 and python3
     testInterpreter(R"C:\Users\scott\Anaconda3\python.exe")

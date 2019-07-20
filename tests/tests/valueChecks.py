@@ -85,6 +85,7 @@ FIRSTVALUES['vc_drug_memtest'] = ['-7.20215']
 FIRSTVALUES['190619B_0003'] = ['-65.91796', '-18.92090']
 FIRSTVALUES['19212027'] = ['-197.14355', '-70.55664']
 FIRSTVALUES['multichannelAbf1WithTags'] = ['0.85449', '-49.98370']
+FIRSTVALUES['H19_29_150_11_21_01_0011'] = ['-67.95654', '-0.48828']
 
 def go():
     print("Checking first values ", end="")

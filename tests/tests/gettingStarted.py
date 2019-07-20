@@ -829,34 +829,34 @@ class UseCaseManager:
         import pyabf.tools.memtest
         
         abf = pyabf.ABF("data/abfs/vc_drug_memtest.abf")
-        Ihs, Rms, Ras, Cms = pyabf.tools.memtest.step_valuesBySweep(abf)
+        memtest = pyabf.tools.memtest.Memtest(abf)
 
         # That's it! The rest of the code just plots these 4 numpy arrays.
         fig = plt.figure(figsize=self.figsize)
 
         ax1 = fig.add_subplot(221)
         ax1.grid(alpha=.2)
-        ax1.plot(abf.sweepTimesMin, Ihs, ".", color='C0', alpha=.7, mew=0)
-        ax1.set_title("Clamp Current")
-        ax1.set_ylabel("Current (pA)")
+        ax1.plot(abf.sweepTimesMin, memtest.Ih.values, ".", color='C0', alpha=.7, mew=0)
+        ax1.set_title(memtest.Ih.name)
+        ax1.set_ylabel(memtest.Ih.units)
 
         ax2 = fig.add_subplot(222)
         ax2.grid(alpha=.2)
-        ax2.plot(abf.sweepTimesMin, Rms, ".", color='C3', alpha=.7, mew=0)
-        ax2.set_title("Membrane Resistance")
-        ax2.set_ylabel("Resistance (MOhm)")
+        ax2.plot(abf.sweepTimesMin, memtest.Rm.values, ".", color='C3', alpha=.7, mew=0)
+        ax2.set_title(memtest.Rm.name)
+        ax2.set_ylabel(memtest.Rm.units)
 
         ax3 = fig.add_subplot(223)
         ax3.grid(alpha=.2)
-        ax3.plot(abf.sweepTimesMin, Ras, ".", color='C1', alpha=.7, mew=0)
-        ax3.set_title("Access Resistance")
-        ax3.set_ylabel("Resistance (MOhm)")
+        ax3.plot(abf.sweepTimesMin, memtest.Ra.values, ".", color='C1', alpha=.7, mew=0)
+        ax3.set_title(memtest.Ra.name)
+        ax3.set_ylabel(memtest.Ra.units)
 
         ax4 = fig.add_subplot(224)
         ax4.grid(alpha=.2)
-        ax4.plot(abf.sweepTimesMin, Cms, ".", color='C2', alpha=.7, mew=0)
-        ax4.set_title("Whole-Cell Capacitance")
-        ax4.set_ylabel("Capacitance (pF)")
+        ax4.plot(abf.sweepTimesMin, memtest.CmStep.values, ".", color='C2', alpha=.7, mew=0)
+        ax4.set_title(memtest.CmStep.name)
+        ax4.set_ylabel(memtest.CmStep.units)
 
         for ax in [ax1, ax2, ax3, ax4]:
             ax.margins(0, .9)
