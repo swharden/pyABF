@@ -15,7 +15,8 @@ import glob
 import logging
 logging.basicConfig()
 log = logging.getLogger(__name__)
-#log.setLevel(logging.DEBUG)
+import warnings
+warnings.simplefilter("ignore")
 
 from pyabf.abfHeaderDisplay import abfInfoPage
 
