@@ -106,6 +106,7 @@ def stimulusWaveformFromFile(abf, channel=0):
     elif pathAlt and os.path.exists(pathAlt):
         stimFname = pathAlt
     else:
+        warnings.warn(f"could not locate stimulus file {stimBN}")
         return np.full(abf.sweepPointCount, np.nan)
 
     # the stimulus waveform file was found, consider caching
