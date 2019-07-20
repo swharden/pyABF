@@ -448,6 +448,7 @@ class EpochTable:
 
             # step through each epoch
             position = preEpochEndPoint
+            level = self.holdingLevel
             for epoch in self.epochs:
                 duration = epoch.duration + epoch.durationDelta * sweep
                 pt1, pt2 = position, position + duration
