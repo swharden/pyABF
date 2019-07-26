@@ -21,7 +21,7 @@ class Memtest:
         self.TimeSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
         self.TimeMin = self.TimeSec / 60.0
 
-        Result = pyabf.tools.SweepMeasurement
+        Result = pyabf.tools.sweep.SweepMeasurement
         self.Ih = Result(abf.sweepCount, "Holding Current", "Ih", "pA")
         self.Rm = Result(abf.sweepCount, "Membrane Resistance", "Rm", "MOhm")
         self.Ra = Result(abf.sweepCount, "Access Resistance", "Ra", "MOhm")

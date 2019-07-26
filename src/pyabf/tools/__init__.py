@@ -1,6 +1,6 @@
 from pyabf.tools.memtest import Memtest
 
-from pyabf.tools.results import SweepMeasurement
+import pyabf.tools.sweep
 import pyabf.tools.memtestMath
 import pyabf.tools.ap
 
