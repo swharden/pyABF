@@ -93,7 +93,7 @@ def stimulusWaveformFromFile(abf, channel=0):
 
     # prepare potential file paths where the stimulus file may exist
     stimFname = abf._stringsIndexed.lDACFilePath[channel]
-    stimBN = os.path.basename(stimFname)
+    stimBN = os.path.basename(stimFname.replace("\\", "/"))
     abfFolder = os.path.dirname(abf.abfFilePath)
     pathSameFolder = os.path.join(abfFolder, stimBN)
     pathAlt = os.path.join(str(abf.stimulusFileFolder), stimBN)
