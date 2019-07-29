@@ -9,8 +9,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-12-03 05:44:39`
-* abfDateTimeString = `2018-12-03T05:44:39.000`
+* abfDateTime = `2018-12-06 09:07:52`
+* abfDateTimeString = `2018-12-06T09:07:52.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/f1_saved.abf`
 * abfID = `f1_saved`
@@ -74,8 +74,8 @@ unknown nWaveformSource (-120)
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-12-03 05:44:39`
-* abfDateTimeString = `2018-12-03T05:44:39.000`
+* abfDateTime = `2018-12-06 09:07:52`
+* abfDateTimeString = `2018-12-06T09:07:52.000`
 * abfVersionDict = `{'major': 1, 'minor': 2, 'bugfix': 9, 'build': 9}`
 * abfVersionFloat = `1.299`
 * abfVersionString = `1.2.9.9`

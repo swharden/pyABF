@@ -9,8 +9,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-11-20 07:41:29`
-* abfDateTimeString = `2018-11-20T07:41:29.000`
+* abfDateTime = `2018-11-20 11:42:56`
+* abfDateTimeString = `2018-11-20T11:42:56.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/sample trace_0054.abf`
 * abfID = `sample trace_0054`
@@ -83,8 +83,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-11-20 07:41:29`
-* abfDateTimeString = `2018-11-20T07:41:29.000`
+* abfDateTime = `2018-11-20 11:42:56`
+* abfDateTimeString = `2018-11-20T11:42:56.000`
 * abfVersionDict = `{'major': 1, 'minor': 6, 'bugfix': 4, 'build': 9}`
 * abfVersionFloat = `1.649`
 * abfVersionString = `1.6.4.9`
