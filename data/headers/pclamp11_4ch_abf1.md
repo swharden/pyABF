@@ -9,8 +9,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-12-17 18:58:48`
-* abfDateTimeString = `2018-12-17T18:58:48.000`
+* abfDateTime = `2018-12-14 20:42:15`
+* abfDateTimeString = `2018-12-14T20:42:15.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/pclamp11_4ch_abf1.abf`
 * abfID = `pclamp11_4ch_abf1`
@@ -104,8 +104,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-12-17 18:58:48`
-* abfDateTimeString = `2018-12-17T18:58:48.000`
+* abfDateTime = `2018-12-14 20:42:15`
+* abfDateTimeString = `2018-12-14T20:42:15.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 4, 'build': 0}`
 * abfVersionFloat = `1.84`
 * abfVersionString = `1.8.4.0`

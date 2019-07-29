@@ -9,8 +9,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2018-09-05 02:02:35`
+* abfDateTimeString = `2018-09-05T02:02:35.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_2.abf`
 * abfID = `File_axon_2`
@@ -74,8 +74,8 @@ DAC waveform is not enabled
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2018-09-05 02:02:35`
+* abfDateTimeString = `2018-09-05T02:02:35.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
