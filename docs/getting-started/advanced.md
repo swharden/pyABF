@@ -300,13 +300,13 @@ abf.stimulusFileFolder = "data/stimulusFiles"
 fig = plt.figure(figsize=(8, 5))
 
 ax1 = fig.add_subplot(211)
-plt.title("ABF Recording")
-plt.ylabel(abf.sweepLabelY)
+ax1.set_title("ABF Recording")
+ax1.set_ylabel(abf.sweepLabelY)
 ax1.plot(abf.sweepX, abf.sweepY, 'b', lw=.5)
 
 ax2 = fig.add_subplot(212)
-plt.title("Stimulus Waveform")
-plt.ylabel(abf.sweepLabelC)
+ax2.set_title("Stimulus Waveform")
+ax2.set_ylabel(abf.sweepLabelC)
 ax2.plot(abf.sweepX, abf.sweepC, 'r', lw=.5)
 
 plt.tight_layout()

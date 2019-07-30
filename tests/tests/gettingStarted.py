@@ -901,13 +901,13 @@ class UseCaseManager:
         fig = plt.figure(figsize=self.figsize)
 
         ax1 = fig.add_subplot(211)
-        plt.title("ABF Recording")
-        plt.ylabel(abf.sweepLabelY)
+        ax1.set_title("ABF Recording")
+        ax1.set_ylabel(abf.sweepLabelY)
         ax1.plot(abf.sweepX, abf.sweepY, 'b', lw=.5)
 
         ax2 = fig.add_subplot(212)
-        plt.title("Stimulus Waveform")
-        plt.ylabel(abf.sweepLabelC)
+        ax2.set_title("Stimulus Waveform")
+        ax2.set_ylabel(abf.sweepLabelC)
         ax2.plot(abf.sweepX, abf.sweepC, 'r', lw=.5)
 
         plt.tight_layout()
@@ -996,7 +996,7 @@ def go():
     """Regenerate all use case examples and figures (simple and advanced)"""
     for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
         os.remove(fname)
-    # generate_demos("demo_")
+    generate_demos("demo_")
     generate_demos("advanced_")
 
 
