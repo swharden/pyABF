@@ -35,8 +35,8 @@ Notice in this example there is an L-shaped scalebar. Nice!
 import pyabf
 import pyabf.plot
 abf = pyabf.ABF("171116sh_0018.abf")
-pyabf.plot.sweeps(abf, title=False, 
-    offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
+pyabf.plot.sweeps(abf, title=False,
+                  offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
 pyabf.plot.scalebar(abf, hideFrame=True)
 plt.tight_layout()
 plt.show()
@@ -146,8 +146,8 @@ abf = pyabf.ABF("171116sh_0013.abf")
 pt1 = int(500 * abf.dataPointsPerMs)
 pt2 = int(1000 * abf.dataPointsPerMs)
 
-currents=[]
-voltages=[]
+currents = []
+voltages = []
 for sweep in abf.sweepList:
     abf.setSweep(sweep)
     currents.append(np.average(abf.sweepY[pt1:pt2]))
@@ -189,7 +189,7 @@ ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122)
 
 for channel, ax in enumerate([ax1, ax2]):
-    ax.set_title("channel %d"%(channel))
+    ax.set_title("channel %d" % (channel))
     ax.set_xlabel(atf.sweepLabelX)
     ax.set_ylabel(atf.sweepLabelY)
     for sweepNumber in atf.sweepList:
@@ -231,25 +231,29 @@ fig = plt.figure(figsize=(8, 5))
 
 ax1 = fig.add_subplot(221)
 ax1.grid(alpha=.2)
-ax1.plot(abf.sweepTimesMin, memtest.Ih.values, ".", color='C0', alpha=.7, mew=0)
+ax1.plot(abf.sweepTimesMin, memtest.Ih.values,
+         ".", color='C0', alpha=.7, mew=0)
 ax1.set_title(memtest.Ih.name)
 ax1.set_ylabel(memtest.Ih.units)
 
 ax2 = fig.add_subplot(222)
 ax2.grid(alpha=.2)
-ax2.plot(abf.sweepTimesMin, memtest.Rm.values, ".", color='C3', alpha=.7, mew=0)
+ax2.plot(abf.sweepTimesMin, memtest.Rm.values,
+         ".", color='C3', alpha=.7, mew=0)
 ax2.set_title(memtest.Rm.name)
 ax2.set_ylabel(memtest.Rm.units)
 
 ax3 = fig.add_subplot(223)
 ax3.grid(alpha=.2)
-ax3.plot(abf.sweepTimesMin, memtest.Ra.values, ".", color='C1', alpha=.7, mew=0)
+ax3.plot(abf.sweepTimesMin, memtest.Ra.values,
+         ".", color='C1', alpha=.7, mew=0)
 ax3.set_title(memtest.Ra.name)
 ax3.set_ylabel(memtest.Ra.units)
 
 ax4 = fig.add_subplot(224)
 ax4.grid(alpha=.2)
-ax4.plot(abf.sweepTimesMin, memtest.CmStep.values, ".", color='C2', alpha=.7, mew=0)
+ax4.plot(abf.sweepTimesMin, memtest.CmStep.values,
+         ".", color='C2', alpha=.7, mew=0)
 ax4.set_title(memtest.CmStep.name)
 ax4.set_ylabel(memtest.CmStep.units)
 
@@ -266,3 +270,49 @@ plt.show()
 **Output:**
 
 ![source/advanced_18_memtestOverTime.jpg](source/advanced_18_memtestOverTime.jpg)
+
+## Stimulus File Folders and Caching
+
+The stimulus waveform (abf.sweepC) is usually generated from the epoch
+table, but if a file was used for the stimlus waveform (abf or atf),
+pyABF will read that file to generate the proper abf.sweepC.
+
+The path to the stimulus file is stored in the header of the ABF, 
+however this path can change between recording and analyis. This is 
+especially true when a recording happens on windows and analysis occurs 
+on Linux. You can tell pyABF which folders to look in to find the
+stimulus waveform by setting `abf.stimulusFileFolder`.
+
+Since reading of stimulus files (especially ATF files) can be slow,
+stimulus files are cached at the module level. This means they're only
+actually read once. To disable this functionality, load the ABF with
+`pyabf.ABF(abfFilePath, cacheStimulusFiles = False)`
+
+**Code:**
+
+```python
+import pyabf
+import pyabf.tools.memtest
+
+abf = pyabf.ABF("H19_29_150_11_21_01_0011.abf")
+abf.stimulusFileFolder = "data/stimulusFiles"
+
+fig = plt.figure(figsize=(8, 5))
+
+ax1 = fig.add_subplot(211)
+plt.title("ABF Recording")
+plt.ylabel(abf.sweepLabelY)
+ax1.plot(abf.sweepX, abf.sweepY, 'b', lw=.5)
+
+ax2 = fig.add_subplot(212)
+plt.title("Stimulus Waveform")
+plt.ylabel(abf.sweepLabelC)
+ax2.plot(abf.sweepX, abf.sweepC, 'r', lw=.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Output:**
+
+![source/advanced_19_stimulusFilesAndCaching.jpg](source/advanced_19_stimulusFilesAndCaching.jpg)

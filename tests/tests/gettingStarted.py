@@ -75,6 +75,7 @@ MARKDOWN_ADVANCED = """
   * These examples will never be removed. Their code will always be updated.
 """
 
+
 class NoStdStreams(object):
     def __init__(self, stdout=None):
         self.devnull = open(os.devnull, 'w')
@@ -150,7 +151,7 @@ class UseCaseManager:
         start at zero, and after setting a sweep you can access that sweep's
         ADC data with `sweepY`, DAC simulus waveform / command signal with 
         `sweepC`, and the time units for the sweep with `sweepX`.
-        
+
         **Code:**
         ```python
         import pyabf
@@ -185,9 +186,9 @@ class UseCaseManager:
         abf.setSweep(14)
         plt.figure(figsize=self.figsize)
         plt.plot(abf.sweepX, abf.sweepY)
-        plt.grid(alpha=.2) #ignore
-        plt.margins(0,.1) #ignore
-        plt.tight_layout() #ignore
+        plt.grid(alpha=.2)  # ignore
+        plt.margins(0, .1)  # ignore
+        plt.tight_layout()  # ignore
         self.saveAndClose()
 
     def demo_03a_decorate_matplotlib_plot(self):
@@ -207,10 +208,10 @@ class UseCaseManager:
         plt.xlabel(abf.sweepLabelX)
         for i in [0, 5, 10, 15]:
             abf.setSweep(i)
-            plt.plot(abf.sweepX, abf.sweepY, alpha=.5, label="sweep %d"%(i))
-        plt.margins(0, .1) #ignore
-        plt.tight_layout() #ignore
-        plt.grid(alpha=.2) #ignore
+            plt.plot(abf.sweepX, abf.sweepY, alpha=.5, label="sweep %d" % (i))
+        plt.margins(0, .1)  # ignore
+        plt.tight_layout()  # ignore
+        plt.grid(alpha=.2)  # ignore
         plt.legend()
         self.saveAndClose()
 
@@ -237,8 +238,8 @@ class UseCaseManager:
         # decorate the plot
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
-        plt.tight_layout() #ignore
-        plt.grid(alpha=.2) #ignore
+        plt.tight_layout()  # ignore
+        plt.grid(alpha=.2)  # ignore
         plt.axis([25, 45, -70, 50])
         plt.legend()
         self.saveAndClose()
@@ -250,7 +251,7 @@ class UseCaseManager:
         Episodic ABF files can have complex protocols designed with in waveform
         editor. After calling `setSweep()` the command waveform can be accessed
         as `sweep.C`. 
-        
+
         To get more information about the epoch table (such as the list of 
         levels for each epoch, specific time points epochs start and stop, etc.)
         check out properties of the `abf.sweepEpochs` object, which represents
@@ -276,11 +277,11 @@ class UseCaseManager:
         ax1.set_ylabel(abf.sweepLabelY)
         ax2.set_xlabel(abf.sweepLabelX)
         ax2.set_ylabel(abf.sweepLabelC)
-        ax1.grid(alpha=.2) #ignore
-        ax2.grid(alpha=.2) #ignore
-        ax1.margins(0,.1) #ignore
-        ax2.margins(0,.1) #ignore
-        fig.subplots_adjust(hspace=.4)  #ignore
+        ax1.grid(alpha=.2)  # ignore
+        ax2.grid(alpha=.2)  # ignore
+        ax1.margins(0, .1)  # ignore
+        ax2.margins(0, .1)  # ignore
+        fig.subplots_adjust(hspace=.4)  # ignore
         self.saveAndClose()
 
     def demo_06a_linking_subplots_and_zooming(self):
@@ -312,9 +313,9 @@ class UseCaseManager:
         ax1.set_ylabel(abf.sweepLabelY)
         ax2.set_xlabel(abf.sweepLabelX)
         ax2.set_ylabel(abf.sweepLabelC)
-        ax1.grid(alpha=.2) #ignore
-        ax2.grid(alpha=.2) #ignore
-        fig.subplots_adjust(hspace=.4)  #ignore
+        ax1.grid(alpha=.2)  # ignore
+        ax2.grid(alpha=.2)  # ignore
+        fig.subplots_adjust(hspace=.4)  # ignore
         ax1.axes.set_xlim(1.25, 2.5)  # <-- adjust axis like this
         self.saveAndClose()
 
@@ -341,8 +342,8 @@ class UseCaseManager:
         # decorate the plot
         plt.gca().get_yaxis().set_visible(False)  # hide Y axis
         plt.xlabel(abf.sweepLabelX)
-        plt.margins(0, .02) #ignore
-        plt.tight_layout() #ignore
+        plt.margins(0, .02)  # ignore
+        plt.tight_layout()  # ignore
         self.saveAndClose()
 
     def demo_08a_xy_offset(self):
@@ -360,14 +361,14 @@ class UseCaseManager:
         plt.figure(figsize=self.figsize)
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
-            i1, i2 = 0, int(abf.dataRate * 1) # plot part of the sweep
+            i1, i2 = 0, int(abf.dataRate * 1)  # plot part of the sweep
             dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
             dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
             plt.plot(dataX, dataY, color='C0', alpha=.5)
 
-        plt.gca().axis('off') # hide axes to enhance floating effect
-        plt.margins(.02, .02) #ignore
-        plt.tight_layout() #ignore
+        plt.gca().axis('off')  # hide axes to enhance floating effect
+        plt.margins(.02, .02)  # ignore
+        plt.tight_layout()  # ignore
         self.saveAndClose()
 
     def demo_08b_custom_colormap(self):
@@ -387,7 +388,7 @@ class UseCaseManager:
         # use a custom colormap to create a different color for every sweep
         cm = plt.get_cmap("winter")
         colors = [cm(x/abf.sweepCount) for x in abf.sweepList]
-        #colors.reverse()
+        # colors.reverse()
 
         plt.figure(figsize=self.figsize)
         for sweepNumber in abf.sweepList:
@@ -398,8 +399,8 @@ class UseCaseManager:
             plt.plot(dataX, dataY, color=colors[sweepNumber], alpha=.5)
 
         plt.gca().axis('off')
-        plt.margins(.02, .02) #ignore
-        plt.tight_layout() #ignore
+        plt.margins(.02, .02)  # ignore
+        plt.tight_layout()  # ignore
         self.saveAndClose()
 
     def advanced_08b_using_plot_module(self):
@@ -426,8 +427,8 @@ class UseCaseManager:
         import pyabf
         import pyabf.plot
         abf = pyabf.ABF("data/abfs/171116sh_0018.abf")
-        pyabf.plot.sweeps(abf, title=False, 
-            offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
+        pyabf.plot.sweeps(abf, title=False,
+                          offsetXsec=.1, offsetYunits=20, startAtSec=0, endAtSec=1.5)
         pyabf.plot.scalebar(abf, hideFrame=True)
         plt.tight_layout()
         self.saveAndClose()
@@ -471,11 +472,11 @@ class UseCaseManager:
         for sweepNumber in abf.sweepList:
             abf.setSweep(sweepNumber)
             ax2.plot(abf.sweepX, abf.sweepY, color='C0', alpha=.8, lw=.5)
-        
+
         # zoom in on an interesting region
         ax2.axes.set_xlim(1.10, 1.25)
         ax2.axes.set_ylim(-150, 50)
-        fig.subplots_adjust(hspace=.4) #ignore
+        fig.subplots_adjust(hspace=.4)  # ignore
         self.saveAndClose()
 
     def advanced_10a_digital_output_shading(self):
@@ -527,8 +528,8 @@ class UseCaseManager:
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
         plt.title("Example Gap Free File")
-        plt.margins(0,.1) #ignore
-        plt.grid(alpha=.2) #ignore
+        plt.margins(0, .1)  # ignore
+        plt.grid(alpha=.2)  # ignore
         self.saveAndClose()
 
     def demo_12a_tags(self):
@@ -553,11 +554,11 @@ class UseCaseManager:
         # create a plot with time on the horizontal axis
         plt.figure(figsize=self.figsize)
         for sweep in abf.sweepList:
-            abf.setSweep(sweep, absoluteTime=True) # <-- relates to sweepX
+            abf.setSweep(sweep, absoluteTime=True)  # <-- relates to sweepX
             abf.sweepY[:int(abf.dataRate*1.0)] = np.nan  # ignore
             plt.plot(abf.sweepX, abf.sweepY, lw=.5, alpha=.5, color='C0')
         plt.margins(0, .5)
-        plt.grid(alpha=.2) #ignore
+        plt.grid(alpha=.2)  # ignore
         plt.ylabel(abf.sweepLabelY)
         plt.xlabel(abf.sweepLabelX)
 
@@ -565,7 +566,7 @@ class UseCaseManager:
         for i, tagTimeSec in enumerate(abf.tagTimesSec):
             posX = abf.tagTimesSec[i]
             comment = abf.tagComments[i]
-            color = "C%d"%(i+1)
+            color = "C%d" % (i+1)
             plt.axvline(posX, label=comment, color=color, ls='--')
         plt.legend()
 
@@ -600,7 +601,7 @@ class UseCaseManager:
         plt.xlabel(abf.sweepLabelX)
         plt.legend()
         plt.axis([2, 2.5, -50, 20])
-        plt.grid(alpha=.2) #ignore
+        plt.grid(alpha=.2)  # ignore
         self.saveAndClose()
 
     def demo_14a_gaussian_filter(self):
@@ -614,7 +615,7 @@ class UseCaseManager:
 
         The degree of smoothing is defined by _sigma_ (milliseconds units), 
         passed as an argument: `abf.filter.gaussian(abf, sigma)`. 
-        
+
         When an ABF file is loaded its entire data is loaded into memory. When
         the gaussian filter is called, the entire data is smoothed in memory.
         This means calling the filter several times with the same sigma will
@@ -636,9 +637,9 @@ class UseCaseManager:
 
         # show multiple degrees of smoothless
         for sigma in [.5, 2, 10]:
-            pyabf.filter.gaussian(abf, 0) # remove old filter
-            pyabf.filter.gaussian(abf, sigma) # apply custom sigma
-            abf.setSweep(3) # reload sweep with new filter
+            pyabf.filter.gaussian(abf, 0)  # remove old filter
+            pyabf.filter.gaussian(abf, sigma)  # apply custom sigma
+            abf.setSweep(3)  # reload sweep with new filter
             label = "sigma: %.02f" % (sigma)
             plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label=label)
 
@@ -648,7 +649,7 @@ class UseCaseManager:
         plt.xlabel(abf.sweepLabelX)
         plt.axis([8.20, 8.30, -45, -5])
         plt.legend()
-        plt.grid(alpha=.2) #ignore
+        plt.grid(alpha=.2)  # ignore
         self.saveAndClose()
 
     def demo_15_epochs(self):
@@ -721,8 +722,8 @@ class UseCaseManager:
         pt1 = int(500 * abf.dataPointsPerMs)
         pt2 = int(1000 * abf.dataPointsPerMs)
 
-        currents=[]
-        voltages=[]
+        currents = []
+        voltages = []
         for sweep in abf.sweepList:
             abf.setSweep(sweep)
             currents.append(np.average(abf.sweepY[pt1:pt2]))
@@ -796,7 +797,7 @@ class UseCaseManager:
         ax2 = fig.add_subplot(122)
 
         for channel, ax in enumerate([ax1, ax2]):
-            ax.set_title("channel %d"%(channel))
+            ax.set_title("channel %d" % (channel))
             ax.set_xlabel(atf.sweepLabelX)
             ax.set_ylabel(atf.sweepLabelY)
             for sweepNumber in atf.sweepList:
@@ -807,7 +808,7 @@ class UseCaseManager:
         ax2.margins(0, .1)
         ax1.grid(alpha=.2)
         ax2.grid(alpha=.2)
-        fig.subplots_adjust(wspace=.4)  #ignore
+        fig.subplots_adjust(wspace=.4)  # ignore
         self.saveAndClose()
 
     plt.show()
@@ -827,7 +828,7 @@ class UseCaseManager:
 
         import pyabf
         import pyabf.tools.memtest
-        
+
         abf = pyabf.ABF("data/abfs/vc_drug_memtest.abf")
         memtest = pyabf.tools.memtest.Memtest(abf)
 
@@ -836,25 +837,29 @@ class UseCaseManager:
 
         ax1 = fig.add_subplot(221)
         ax1.grid(alpha=.2)
-        ax1.plot(abf.sweepTimesMin, memtest.Ih.values, ".", color='C0', alpha=.7, mew=0)
+        ax1.plot(abf.sweepTimesMin, memtest.Ih.values,
+                 ".", color='C0', alpha=.7, mew=0)
         ax1.set_title(memtest.Ih.name)
         ax1.set_ylabel(memtest.Ih.units)
 
         ax2 = fig.add_subplot(222)
         ax2.grid(alpha=.2)
-        ax2.plot(abf.sweepTimesMin, memtest.Rm.values, ".", color='C3', alpha=.7, mew=0)
+        ax2.plot(abf.sweepTimesMin, memtest.Rm.values,
+                 ".", color='C3', alpha=.7, mew=0)
         ax2.set_title(memtest.Rm.name)
         ax2.set_ylabel(memtest.Rm.units)
 
         ax3 = fig.add_subplot(223)
         ax3.grid(alpha=.2)
-        ax3.plot(abf.sweepTimesMin, memtest.Ra.values, ".", color='C1', alpha=.7, mew=0)
+        ax3.plot(abf.sweepTimesMin, memtest.Ra.values,
+                 ".", color='C1', alpha=.7, mew=0)
         ax3.set_title(memtest.Ra.name)
         ax3.set_ylabel(memtest.Ra.units)
 
         ax4 = fig.add_subplot(224)
         ax4.grid(alpha=.2)
-        ax4.plot(abf.sweepTimesMin, memtest.CmStep.values, ".", color='C2', alpha=.7, mew=0)
+        ax4.plot(abf.sweepTimesMin, memtest.CmStep.values,
+                 ".", color='C2', alpha=.7, mew=0)
         ax4.set_title(memtest.CmStep.name)
         ax4.set_ylabel(memtest.CmStep.units)
 
@@ -866,6 +871,48 @@ class UseCaseManager:
 
         plt.tight_layout()
         self.saveAndClose()
+
+    def advanced_19_stimulusFilesAndCaching(self):
+        """
+        ## Stimulus File Folders and Caching
+
+        The stimulus waveform (abf.sweepC) is usually generated from the epoch
+        table, but if a file was used for the stimlus waveform (abf or atf),
+        pyABF will read that file to generate the proper abf.sweepC.
+
+        The path to the stimulus file is stored in the header of the ABF, 
+        however this path can change between recording and analyis. This is 
+        especially true when a recording happens on windows and analysis occurs 
+        on Linux. You can tell pyABF which folders to look in to find the
+        stimulus waveform by setting `abf.stimulusFileFolder`.
+
+        Since reading of stimulus files (especially ATF files) can be slow,
+        stimulus files are cached at the module level. This means they're only
+        actually read once. To disable this functionality, load the ABF with
+        `pyabf.ABF(abfFilePath, cacheStimulusFiles = False)`
+        """
+
+        import pyabf
+        import pyabf.tools.memtest
+
+        abf = pyabf.ABF("data/abfs/H19_29_150_11_21_01_0011.abf")
+        abf.stimulusFileFolder = "data/stimulusFiles"
+
+        fig = plt.figure(figsize=self.figsize)
+
+        ax1 = fig.add_subplot(211)
+        plt.title("ABF Recording")
+        plt.ylabel(abf.sweepLabelY)
+        ax1.plot(abf.sweepX, abf.sweepY, 'b', lw=.5)
+
+        ax2 = fig.add_subplot(212)
+        plt.title("Stimulus Waveform")
+        plt.ylabel(abf.sweepLabelC)
+        ax2.plot(abf.sweepX, abf.sweepC, 'r', lw=.5)
+
+        plt.tight_layout()
+        self.saveAndClose()
+
 
 def cleanDocstrings(s):
     s = s.strip()
@@ -892,6 +939,7 @@ def cleanCode(s):
             continue
         newLines.append(line)
     return "\n".join(newLines)
+
 
 def generate_demos(match="demo_"):
     """
@@ -921,7 +969,7 @@ def generate_demos(match="demo_"):
             continue
         func = getattr(uses, functionName)
         if True:
-        #with NoStdStreams():  # silence print statements
+            # with NoStdStreams():  # silence print statements
             log.debug("Running %s" % functionName)
             func()
         print(".", end="")
@@ -948,8 +996,9 @@ def go():
     """Regenerate all use case examples and figures (simple and advanced)"""
     for fname in glob.glob(os.path.dirname(__file__)+"/source/*.*"):
         os.remove(fname)
-    generate_demos("demo_")
+    # generate_demos("demo_")
     generate_demos("advanced_")
+
 
 if __name__ == "__main__":
     go()
