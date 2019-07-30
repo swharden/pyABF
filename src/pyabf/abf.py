@@ -543,7 +543,10 @@ class ABF:
         else:
             # auto-generate (or auto-load) the waveform using the stimulus module
             stimulus = self.stimulusByChannel[self.sweepChannel]
-            return stimulus.stimulusWaveform(self.sweepNumber)
+            stimulusWaveform = stimulus.stimulusWaveform(self.sweepNumber)
+            if len(stimulusWaveform) > len(self.sweepX):
+                stimulusWaveform = stimulusWaveform[:len(self.sweepX)]
+            return stimulusWaveform
 
     @sweepC.setter
     def sweepC(self, sweepData=None):
