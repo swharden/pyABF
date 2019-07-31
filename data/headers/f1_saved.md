@@ -13,6 +13,7 @@
 * abfDateTimeString = `2018-12-03T05:44:39.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/f1_saved.abf`
+* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * abfID = `f1_saved`
 * abfVersion = `{'major': 1, 'minor': 2, 'bugfix': 9, 'build': 9}`
 * abfVersionString = `1.2.9.9`
@@ -38,7 +39,7 @@
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:/some/alternate/path`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `10`

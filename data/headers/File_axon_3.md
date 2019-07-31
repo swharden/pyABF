@@ -13,6 +13,7 @@
 * abfDateTimeString = `2018-09-05T02:02:35.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_3.abf`
+* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * abfID = `File_axon_3`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -38,7 +39,7 @@
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:/some/alternate/path`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `5`

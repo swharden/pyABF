@@ -13,6 +13,7 @@
 * abfDateTimeString = `2016-08-02T21:39:10.343`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_7.abf`
+* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * abfID = `File_axon_7`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -38,7 +39,7 @@
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:/some/alternate/path`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -80.00000, -80.00000, -80.00000, ..., -80.00000, -80.00000, -80.00000`
 * sweepChannel = `0`
 * sweepCount = `12`

@@ -13,6 +13,7 @@
 * abfDateTimeString = `2018-09-06T20:04:50.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/abf1_with_tags.abf`
+* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * abfID = `abf1_with_tags`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -38,7 +39,7 @@
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:/some/alternate/path`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

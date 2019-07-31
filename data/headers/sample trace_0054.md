@@ -13,6 +13,7 @@
 * abfDateTimeString = `2018-11-20T07:41:29.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/sample trace_0054.abf`
+* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * abfID = `sample trace_0054`
 * abfVersion = `{'major': 1, 'minor': 6, 'bugfix': 4, 'build': 9}`
 * abfVersionString = `1.6.4.9`
@@ -38,7 +39,7 @@
 * protocol = `slaven-Ch1-gapfree`
 * protocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:/some/alternate/path`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
