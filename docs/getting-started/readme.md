@@ -124,7 +124,7 @@ plt.ylabel(abf.sweepLabelY)
 plt.xlabel(abf.sweepLabelX)
 for i in [0, 5, 10, 15]:
     abf.setSweep(i)
-    plt.plot(abf.sweepX, abf.sweepY, alpha=.5, label="sweep %d"%(i))
+    plt.plot(abf.sweepX, abf.sweepY, alpha=.5, label="sweep %d" % (i))
 plt.legend()
 plt.show()
 ```
@@ -287,12 +287,12 @@ abf = pyabf.ABF("171116sh_0018.abf")
 plt.figure(figsize=(8, 5))
 for sweepNumber in abf.sweepList:
     abf.setSweep(sweepNumber)
-    i1, i2 = 0, int(abf.dataRate * 1) # plot part of the sweep
+    i1, i2 = 0, int(abf.dataRate * 1)  # plot part of the sweep
     dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
     dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
     plt.plot(dataX, dataY, color='C0', alpha=.5)
 
-plt.gca().axis('off') # hide axes to enhance floating effect
+plt.gca().axis('off')  # hide axes to enhance floating effect
 plt.show()
 ```
 
@@ -317,7 +317,7 @@ abf = pyabf.ABF("171116sh_0018.abf")
 # use a custom colormap to create a different color for every sweep
 cm = plt.get_cmap("winter")
 colors = [cm(x/abf.sweepCount) for x in abf.sweepList]
-#colors.reverse()
+# colors.reverse()
 
 plt.figure(figsize=(8, 5))
 for sweepNumber in abf.sweepList:
@@ -383,7 +383,7 @@ abf = pyabf.ABF("16d05007_vc_tags.abf")
 # create a plot with time on the horizontal axis
 plt.figure(figsize=(8, 5))
 for sweep in abf.sweepList:
-    abf.setSweep(sweep, absoluteTime=True) # <-- relates to sweepX
+    abf.setSweep(sweep, absoluteTime=True)  # <-- relates to sweepX
     plt.plot(abf.sweepX, abf.sweepY, lw=.5, alpha=.5, color='C0')
 plt.margins(0, .5)
 plt.ylabel(abf.sweepLabelY)
@@ -393,7 +393,7 @@ plt.xlabel(abf.sweepLabelX)
 for i, tagTimeSec in enumerate(abf.tagTimesSec):
     posX = abf.tagTimesSec[i]
     comment = abf.tagComments[i]
-    color = "C%d"%(i+1)
+    color = "C%d" % (i+1)
     plt.axvline(posX, label=comment, color=color, ls='--')
 plt.legend()
 
@@ -473,9 +473,9 @@ plt.plot(abf.sweepX, abf.sweepY, alpha=.3, label="original")
 
 # show multiple degrees of smoothless
 for sigma in [.5, 2, 10]:
-    pyabf.filter.gaussian(abf, 0) # remove old filter
-    pyabf.filter.gaussian(abf, sigma) # apply custom sigma
-    abf.setSweep(3) # reload sweep with new filter
+    pyabf.filter.gaussian(abf, 0)  # remove old filter
+    pyabf.filter.gaussian(abf, sigma)  # apply custom sigma
+    abf.setSweep(3)  # reload sweep with new filter
     label = "sigma: %.02f" % (sigma)
     plt.plot(abf.sweepX, abf.sweepY, alpha=.8, label=label)
 

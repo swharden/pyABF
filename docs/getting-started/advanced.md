@@ -281,7 +281,7 @@ The path to the stimulus file is stored in the header of the ABF,
 however this path can change between recording and analyis. This is 
 especially true when a recording happens on windows and analysis occurs 
 on Linux. You can tell pyABF which folders to look in to find the
-stimulus waveform by setting `abf.stimulusFileFolder`.
+stimulus waveform as an argument when loading the ABF.
 
 Since reading of stimulus files (especially ATF files) can be slow,
 stimulus files are cached at the module level. This means they're only
@@ -294,8 +294,8 @@ actually read once. To disable this functionality, load the ABF with
 import pyabf
 import pyabf.tools.memtest
 
-abf = pyabf.ABF("H19_29_150_11_21_01_0011.abf")
-abf.stimulusFileFolder = "data/stimulusFiles"
+abf = pyabf.ABF("H19_29_150_11_21_01_0011.abf",
+                stimulusFileFolder="data/stimulusFiles")
 
 fig = plt.figure(figsize=(8, 5))
 

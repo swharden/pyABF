@@ -40,6 +40,7 @@ import pyabf.abfHeaderDisplay
 import pyabf.stimulus
 import pyabf.abfWriter
 
+
 class ABF:
     """
     The ABF class provides direct access to the header and signal data of ABF
@@ -53,17 +54,23 @@ class ABF:
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
-    def __init__(self, abfFilePath, loadData=True, cacheStimulusFiles=True):
+    def __init__(self, abfFilePath, loadData=True,
+                 cacheStimulusFiles=True, stimulusFileFolder=None):
 
         if abfFilePath.lower().endswith(".atf"):
             raise Exception("use pyabf.ATF (not pyabf.ABF) for ATF files")
 
-        # assign arguments to the class
         self._preLoadData = loadData
         self._cacheStimulusFiles = cacheStimulusFiles
 
-        # clean-up file paths and filenames, then open the file
         self.abfFilePath = os.path.abspath(abfFilePath)
+        self.abfFolderPath = os.path.dirname(self.abfFilePath)
+
+        if stimulusFileFolder:
+            self.stimulusFileFolder = stimulusFileFolder
+        else:
+            self.stimulusFileFolder = self.abfFolderPath
+
         if not os.path.exists(self.abfFilePath):
             raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
@@ -347,9 +354,6 @@ class ABF:
         else:
             raise NotImplementedError("unknown data format")
 
-        # alternate folder to look in for stimulus waveform files
-        self.stimulusFileFolder = "C:/some/alternate/path"
-
     def _loadAndScaleData(self, fb):
         """Load data from the ABF file and scale it by its scaleFactor."""
 
@@ -453,7 +457,7 @@ class ABF:
         os.system(cmd)
 
     def setSweep(self, sweepNumber, channel=0, absoluteTime=False,
-                baseline=[None, None]):
+                 baseline=[None, None]):
         """
         Args:
             sweepNumber: sweep number to load (starting at 0)
@@ -520,11 +524,11 @@ class ABF:
             self._sweepBaselinePoints = False
 
         # if baseline subtraction is used, apply it
-        assert isinstance(baseline, list) and len(baseline)==2
+        assert isinstance(baseline, list) and len(baseline) == 2
         if not None in baseline:
             log.debug("setSweep is applying baseline subtraction")
             pt1, pt2 = [int(x*self.dataRate) for x in baseline]
-            blVal = np.average(self.sweepY[pt1:pt2])            
+            blVal = np.average(self.sweepY[pt1:pt2])
             self.sweepY = self.sweepY-blVal
 
         # make sure sweepPointCount is always accurate
@@ -564,7 +568,7 @@ class ABF:
         if not sweepData.shape == self.sweepY.shape:
             raise ValueError("sweepC.shape must match sweepY.shape")
         self._sweepC = sweepData
-        
+
     def sweepD(self, digOutNumber=0):
         """Generate a waveform for the given digital output."""
         assert isinstance(self, pyabf.ABF)
