@@ -13,7 +13,7 @@
 * abfDateTimeString = `2007-02-09T12:54:55.828`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_5.abf`
-* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * abfID = `File_axon_5`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `9`

@@ -13,7 +13,7 @@
 * abfDateTimeString = `2013-12-17T15:27:56.218`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/sine sweep magnitude 20.abf`
-* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * abfID = `sine sweep magnitude 20`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

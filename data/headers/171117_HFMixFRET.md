@@ -13,7 +13,7 @@
 * abfDateTimeString = `2017-11-17T12:54:26.816`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/171117_HFMixFRET.abf`
-* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * abfID = `171117_HFMixFRET`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -100.00000, -100.00000, -100.00000, ..., -100.00000, -100.00000, -100.00000`
 * sweepChannel = `0`
 * sweepCount = `13`

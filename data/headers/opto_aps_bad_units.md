@@ -1,4 +1,4 @@
-# 17o05026_vc_stim.abf
+# opto_aps_bad_units.abf
 
 ## ABF Class Methods
 
@@ -9,12 +9,12 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2017-10-05 14:41:11.044000`
-* abfDateTimeString = `2017-10-05T14:41:11.044`
-* abfFileComment = `SWHLab5[0501]`
-* abfFilePath = `C:/some/path/to/17o05026_vc_stim.abf`
+* abfDateTime = `2019-08-14 14:29:38.097000`
+* abfDateTimeString = `2019-08-14T14:29:38.097`
+* abfFileComment = `SWHLab5[0113]`
+* abfFilePath = `C:/some/path/to/opto_aps_bad_units.abf`
 * abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
-* abfID = `17o05026_vc_stim`
+* abfID = `opto_aps_bad_units`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
 * adcNames = `['IN 0']`
@@ -24,41 +24,41 @@
 * creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
 * creatorVersionString = `10.7.0.3`
 * dacNames = `['Cmd 0']`
-* dacUnits = `['mV']`
-* data = `array (2d) with values like: -16.11328, -15.99121, -15.25879, ..., -14.28223, -14.03808, -12.93945`
+* dacUnits = `['pA']`
+* data = `array (2d) with values like: -1586.91406, -1588.74512, -1587.52441, ..., -1592.40723, -1592.40723, -1593.62793`
 * dataByteStart = `6656`
-* dataLengthMin = `1.5`
-* dataLengthSec = `90.0`
+* dataLengthMin = `1.3333333333333333`
+* dataLengthSec = `80.0`
 * dataPointByteSize = `2`
-* dataPointCount = `1600000`
+* dataPointCount = `1200000`
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = `{5EE557A1-5312-4BC4-96A8-5119CB42DBDB}`
-* holdingCommand = `[-50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* protocol = `0501 opto -50`
-* protocolPath = `S:\Protocols\permanent\0501 opto -50.pro`
+* fileGUID = `{3A64A49D-2965-4F2F-89D6-489978507979}`
+* holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
+* protocolPath = `L:\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
 * stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
-* sweepC = `array (1d) with values like: -50.00000, -50.00000, -50.00000, ..., -50.00000, -50.00000, -50.00000`
+* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
-* sweepCount = `8`
-* sweepEpochs = `Sweep epoch waveform: Step -50.00 [0:3125], Step -60.00 [3125:7125], Step -50.00 [7125:23125], Step -50.00 [23125:23145], Step -50.00 [23145:200000]`
-* sweepIntervalSec = `10.0`
+* sweepCount = `3`
+* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:6250], Step 0.00 [6250:106250], Step 0.00 [106250:206250], Step 0.00 [206250:400000]`
+* sweepIntervalSec = `20.0`
 * sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelX = `time (seconds)`
 * sweepLabelY = `Clamp Current (pA)`
-* sweepLengthSec = `10.0`
-* sweepList = `[0, 1, 2, 3, 4, 5, 6, 7]`
+* sweepLengthSec = `20.0`
+* sweepList = `[0, 1, 2]`
 * sweepNumber = `0`
-* sweepPointCount = `200000`
-* sweepTimesMin = `array (1d) with values like: 0.00000, 0.16667, 0.33333, 0.50000, 0.66667, 0.83333, 1.00000, 1.16667`
-* sweepTimesSec = `array (1d) with values like: 0.00000, 10.00000, 20.00000, 30.00000, 40.00000, 50.00000, 60.00000, 70.00000`
-* sweepUnitsC = `mV`
+* sweepPointCount = `400000`
+* sweepTimesMin = `array (1d) with values like: 0.00000, 0.33333, 0.66667`
+* sweepTimesSec = `array (1d) with values like: 0.00000, 20.00000, 40.00000`
+* sweepUnitsC = `pA`
 * sweepUnitsX = `sec`
 * sweepUnitsY = `pA`
-* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 9.99985, 9.99990, 9.99995`
-* sweepY = `array (1d) with values like: -16.11328, -15.99121, -15.25879, ..., -24.78027, -24.90234, -25.51269`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 19.99985, 19.99990, 19.99995`
+* sweepY = `array (1d) with values like: -1586.91406, -1588.74512, -1587.52441, ..., -1585.08301, -1585.69336, -1586.30371`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
@@ -68,24 +68,24 @@
 
 
 ```
-                    EPOCH         A         B         C
-                     Type      Step      Step      Step
-              First Level    -60.00    -50.00    -50.00
-              Delta Level      0.00      0.00      0.00
-  First Duration (points)      4000     16000        20
-  Delta Duration (points)         0         0         0
-     Digital Pattern #3-0      0000      0000      0000
-     Digital Pattern #7-4      0000      0000      1000
-    Train Period (points)         0         0         0
-     Pulse Width (points)         0         0         0
+                    EPOCH         A         B
+                     Type      Step      Step
+              First Level      0.00      0.00
+              Delta Level      0.00      0.00
+  First Duration (points)    100000    100000
+  Delta Duration (points)         0         0
+     Digital Pattern #3-0      0000      0000
+     Digital Pattern #7-4      0000      0000
+    Train Period (points)         0      2000
+     Pulse Width (points)         0        40
 ```
 
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
-* abfDateTime = `2017-10-05 14:41:11.044000`
-* abfDateTimeString = `2017-10-05T14:41:11.044`
+* abfDateTime = `2019-08-14 14:29:38.097000`
+* abfDateTimeString = `2019-08-14T14:29:38.097`
 * abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.6`
 * abfVersionString = `2.6.0.0`
@@ -94,23 +94,23 @@
 * creatorVersionString = `10.7.0.3`
 * fFileSignature = `ABF2`
 * fFileVersionNumber = `[0, 0, 6, 2]`
-* lActualEpisodes = `8`
+* lActualEpisodes = `3`
 * nCRCEnable = `0`
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
-* sFileGUID = `{5EE557A1-5312-4BC4-96A8-5119CB42DBDB}`
+* sFileGUID = `{3A64A49D-2965-4F2F-89D6-489978507979}`
 * uCreatorNameIndex = `1`
 * uCreatorVersion = `[3, 0, 7, 10]`
 * uFileCRC = `0`
-* uFileGUID = `[161, 87, 229, 94, 18, 83, 196, 75, 150, 168, 81, 25, 203, 66, 31, 219]`
+* uFileGUID = `[157, 164, 100, 58, 101, 41, 47, 79, 137, 214, 72, 153, 120, 80, 209, 121]`
 * uFileInfoSize = `512`
-* uFileStartDate = `20171005`
-* uFileStartTimeMS = `52871044`
+* uFileStartDate = `20190814`
+* uFileStartTimeMS = `52178097`
 * uModifierNameIndex = `0`
 * uModifierVersion = `0`
 * uProtocolPathIndex = `2`
-* uStopwatchTime = `8283`
+* uStopwatchTime = `13864`
 
 ## SectionMap
 
@@ -120,17 +120,17 @@
 * ADCSection = `[2, 128, 1]`
 * AnnotationSection = `[0, 0, 0]`
 * DACSection = `[3, 256, 8]`
-* DataSection = `[13, 2, 1600000]`
+* DataSection = `[13, 2, 1200000]`
 * DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[7, 48, 3]`
-* EpochSection = `[8, 32, 3]`
+* EpochPerDACSection = `[7, 48, 2]`
+* EpochSection = `[8, 32, 2]`
 * MathSection = `[0, 0, 0]`
 * ProtocolSection = `[1, 512, 1]`
 * ScopeSection = `[11, 769, 1]`
-* StatsRegionSection = `[9, 128, 2]`
+* StatsRegionSection = `[9, 128, 1]`
 * StatsSection = `[0, 0, 0]`
-* StringsSection = `[10, 187, 21]`
-* SynchArraySection = `[6263, 8, 8]`
+* StringsSection = `[10, 216, 21]`
+* SynchArraySection = `[4701, 8, 3]`
 * TagSection = `[0, 0, 0]`
 * UserListSection = `[0, 0, 0]`
 * VoiceTagSection = `[0, 0, 0]`
@@ -159,8 +159,8 @@
 * lDACResolution = `32768`
 * lEpisodesPerRun = `1000`
 * lFileCommentIndex = `3`
-* lFinishDisplayNum = `200000`
-* lNumSamplesPerEpisode = `200000`
+* lFinishDisplayNum = `400000`
+* lNumSamplesPerEpisode = `400000`
 * lNumberOfTrials = `1`
 * lPreTriggerSamples = `20`
 * lRunsPerTrial = `1`
@@ -217,8 +217,8 @@
 > Information about the ADC (what gets recorded).     There is 1 item per ADC. 
 
 * bEnabledDuringPN = `[0]`
-* fADCDisplayAmplification = `[10.100855827331543]`
-* fADCDisplayOffset = `[-18.0]`
+* fADCDisplayAmplification = `[8.368073463439941]`
+* fADCDisplayOffset = `[5.5]`
 * fADCProgrammableGain = `[1.0]`
 * fInstrumentOffset = `[0.0]`
 * fInstrumentScaleFactor = `[0.0005000000237487257]`
@@ -228,8 +228,8 @@
 * fSignalLowpassFilter = `[5000.0]`
 * fSignalOffset = `[0.0]`
 * fTelegraphAccessResistance = `[0.0]`
-* fTelegraphAdditGain = `[5.0]`
-* fTelegraphFilter = `[2000.0]`
+* fTelegraphAdditGain = `[1.0]`
+* fTelegraphFilter = `[10000.0]`
 * fTelegraphMembraneCap = `[0.0]`
 * lADCChannelNameIndex = `[4]`
 * lADCUnitsIndex = `[5]`
@@ -242,7 +242,7 @@
 * nStatsChannelPolarity = `[1]`
 * nTelegraphEnable = `[1]`
 * nTelegraphInstrument = `[24]`
-* nTelegraphMode = `[0]`
+* nTelegraphMode = `[1]`
 * sTelegraphInstrument = `['MultiClamp 700']`
 
 ## DACSection
@@ -251,12 +251,12 @@
 
 * fBaselineDuration = `[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fBaselineLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACCalibrationFactor = `[1.0008957386016846, 1.0010067224502563, 1.000895619392395, 1.0008400678634644, 1.0, 1.0, 1.0, 1.0]`
-* fDACCalibrationOffset = `[0.0, -2.0, -3.0, 2.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACCalibrationFactor = `[1.0008957386016846, 1.001062273979187, 1.0010067224502563, 1.0009512901306152, 1.0, 1.0, 1.0, 1.0]`
+* fDACCalibrationOffset = `[1.0, -1.0, -3.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fDACFileOffset = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fDACFileScale = `[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]`
-* fDACHoldingLevel = `[-50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACScaleFactor = `[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]`
+* fDACHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACScaleFactor = `[400.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]`
 * fInstrumentHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fMembTestPostSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
 * fMembTestPreSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
@@ -295,22 +295,22 @@
 
 > This section contains waveform protocol information. These are most of     the values set when using the epoch the waveform editor. Note that digital     output signals are not stored here, but are in EpochSection. 
 
-* fEpochInitLevel = `[-60.0, -50.0, -50.0]`
-* fEpochLevelInc = `[0.0, 0.0, 0.0]`
-* lEpochDurationInc = `[0, 0, 0]`
-* lEpochInitDuration = `[4000, 16000, 20]`
-* lEpochPulsePeriod = `[0, 0, 0]`
-* lEpochPulseWidth = `[0, 0, 0]`
-* nDACNum = `[0, 0, 0]`
-* nEpochNum = `[0, 1, 2]`
-* nEpochType = `[1, 1, 1]`
+* fEpochInitLevel = `[0.0, 0.0]`
+* fEpochLevelInc = `[0.0, 0.0]`
+* lEpochDurationInc = `[0, 0]`
+* lEpochInitDuration = `[100000, 100000]`
+* lEpochPulsePeriod = `[0, 2000]`
+* lEpochPulseWidth = `[0, 40]`
+* nDACNum = `[0, 0]`
+* nEpochNum = `[0, 1]`
+* nEpochType = `[1, 1]`
 
 ## EpochSection
 
 > This section contains the digital output signals for each epoch. This     section has been overlooked by some previous open-source ABF-reading     projects. Note that the digital output is a single byte, but represents     8 bits corresponding to 8 outputs (7->0). When working with these bits,     I convert it to a string like "10011101" for easy eyeballing. 
 
-* nEpochDigitalOutput = `[0, 0, 16]`
-* nEpochNum = `[0, 1, 2]`
+* nEpochDigitalOutput = `[0, 0]`
+* nEpochNum = `[0, 1]`
 
 ## TagSection
 
@@ -337,10 +337,10 @@
 * lADCChannelName = `['IN 0']`
 * lADCUnits = `['pA']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
+* lDACChannelUnits = `['pA', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
 * lDACFilePath = `['', '', '', '', '', '', '', '']`
-* lFileComment = `SWHLab5[0501]`
+* lFileComment = `SWHLab5[0113]`
 * nLeakSubtractADC = `['', '', '', '', '', '', '', '']`
 * uCreatorName = `Clampex`
 * uModifierName = ``
-* uProtocolPath = `S:\Protocols\permanent\0501 opto -50.pro`
+* uProtocolPath = `L:\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`

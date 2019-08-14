@@ -19,10 +19,14 @@ import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
+PATH_SRC = os.path.abspath(PATH_PROJECT+"/src/")
+assert os.path.exists(PATH_SRC)
+
 import importlib.util
 import warnings
 import glob
 
+sys.path.insert(0, PATH_SRC)
 import pyabf
 import pyabf.tools.memtest
 

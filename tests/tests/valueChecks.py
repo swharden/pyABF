@@ -90,6 +90,10 @@ FIRSTVALUES['DM1_0000'] = ['-0.91553', '-1.35803']
 FIRSTVALUES['DM1_0001'] = ['-2.13623', '-1.19019']
 FIRSTVALUES['DM1_0002'] = ['-3.66211', '-1.28174']
 FIRSTVALUES['DM1_0003'] = ['-1.52588', '-1.35803']
+FIRSTVALUES['2019_05_02_DIC2_0011'] = ['-67.71851', '16.17432']
+FIRSTVALUES['2019_07_24_0055_fsi'] = ['-53.92456']
+FIRSTVALUES['opto_aps_bad_units'] = ['-1586.91406']
+FIRSTVALUES['opto_aps_good_units'] = ['-75.98877']
 
 def go():
     print("Checking first values ", end="")

@@ -13,7 +13,7 @@
 * abfDateTimeString = `2009-05-12T16:58:06.610`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_4.abf`
-* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * abfID = `File_axon_4`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

@@ -182,6 +182,14 @@ ABF (version 2.9.0.0) with 1 channel (A), sampled at 10.0 kHz, containing 10 swe
 ABF (version 2.9.0.0) with 4 channels (pA, pA, pA, pA), sampled at 10.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>
 [View the full header](headers/2018_12_15_0000.md)<a href='headers/2018_12_15_0000.png'><img src='headers/2018_12_15_0000.png'></a>
 
+## 2019_05_02_DIC2_0011.abf
+ABF (version 2.6.0.0) with 2 channels (mV, pA), sampled at 20.0 kHz, containing 3 sweeps, having no tags, with a total length of 0.67 minutes, recorded with protocol "4s-HALO Current Clamp Pulse".<br>
+[View the full header](headers/2019_05_02_DIC2_0011.md)<a href='headers/2019_05_02_DIC2_0011.png'><img src='headers/2019_05_02_DIC2_0011.png'></a>
+
+## 2019_07_24_0055_fsi.abf
+ABF (version 2.6.0.0) with 1 channel (mV), sampled at 20.0 kHz, containing 17 sweeps, having no tags, with a total length of 0.90 minutes, recorded with protocol "0113 AP gain [-100 to 300]".<br>
+[View the full header](headers/2019_07_24_0055_fsi.md)<a href='headers/2019_07_24_0055_fsi.png'><img src='headers/2019_07_24_0055_fsi.png'></a>
+
 ## DM1_0000.abf
 ABF (version 2.9.0.0) with 2 channels (pA, mmHg), sampled at 20.0 kHz, containing 7 sweeps, having no tags, with a total length of 0.14 minutes, recorded with protocol "10mmHg_pressure_holding-80mV".<br>
 [View the full header](headers/DM1_0000.md)<a href='headers/DM1_0000.png'><img src='headers/DM1_0000.png'></a>
@@ -253,6 +261,14 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 20 sw
 ## multichannelAbf1WithTags.abf
 ABF (version 1.8.4.0) with 2 channels (pA, mV), sampled at 20.0 kHz, containing 187 sweeps, having 2 tags (+TGOT, -TGOT), with a total length of 0.26 minutes, recorded without a protocol file.<br>
 [View the full header](headers/multichannelAbf1WithTags.md)<a href='headers/multichannelAbf1WithTags.png'><img src='headers/multichannelAbf1WithTags.png'></a>
+
+## opto_aps_bad_units.abf
+ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 3 sweeps, having no tags, with a total length of 1.33 minutes, recorded with protocol "0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)".<br>
+[View the full header](headers/opto_aps_bad_units.md)<a href='headers/opto_aps_bad_units.png'><img src='headers/opto_aps_bad_units.png'></a>
+
+## opto_aps_good_units.abf
+ABF (version 2.6.0.0) with 1 channel (mV), sampled at 20.0 kHz, containing 3 sweeps, having no tags, with a total length of 1.33 minutes, recorded with protocol "0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)".<br>
+[View the full header](headers/opto_aps_good_units.md)<a href='headers/opto_aps_good_units.png'><img src='headers/opto_aps_good_units.png'></a>
 
 ## pclamp11_4ch.abf
 ABF (version 2.9.0.0) with 4 channels (pA, pA, pA, pA), sampled at 20.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.04 minutes, recorded without a protocol file.<br>

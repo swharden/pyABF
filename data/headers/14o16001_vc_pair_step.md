@@ -13,7 +13,7 @@
 * abfDateTimeString = `2014-10-16T10:01:35.078`
 * abfFileComment = `SWH[MTIV]`
 * abfFilePath = `C:/some/path/to/14o16001_vc_pair_step.abf`
-* abfFolderPath = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * abfID = `14o16001_vc_pair_step`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `13`
