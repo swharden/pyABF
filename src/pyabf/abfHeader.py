@@ -141,6 +141,7 @@ class HeaderV1:
         self.lEpisodesPerRun = readStruct(fb, "i", 146)
         self.fADCRange = readStruct(fb, "f", 244)
         self.lADCResolution = readStruct(fb, "i", 252)
+        self.nExperimentType = readStruct(fb, "h", 260)
         self.nFileStartMillisecs = readStruct(fb, "h", 366)
         self.nADCPtoLChannelMap = readStruct(fb, "16h", 378)
         self.nADCSamplingSeq = readStruct(fb, "16h", 410)

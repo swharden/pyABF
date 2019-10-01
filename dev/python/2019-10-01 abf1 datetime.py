@@ -22,3 +22,4 @@ if __name__=="__main__":
     print(f"lFileStartDate: {abf._headerV1.lFileStartDate}")
     print(f"abfDateTime: {abf.abfDateTime}")
     print(f"fileGUID: {abf.fileGUID}")
+    print(f"nExperimentType: {abf._headerV1.nExperimentType}")
