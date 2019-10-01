@@ -125,6 +125,7 @@ class HeaderV1:
         self.lActualAcqLength = readStruct(fb, "i", 10)
         self.nNumPointsIgnored = readStruct(fb, "h", 14)
         self.lActualEpisodes = readStruct(fb, "i", 16)
+        self.lFileStartDate = readStruct(fb, "i", 20)
         self.lFileStartTime = readStruct(fb, "i", 24)
         self.lDataSectionPtr = readStruct(fb, "i", 40)
         self.lTagSectionPtr = readStruct(fb, "i", 44)
@@ -190,12 +191,14 @@ class HeaderV1:
         self.creatorVersionDict["build"] = 0
         self.creatorVersionString = '0.0.0.0'
 
-        # format creation date based on when file was created
-        abfFilePath = fb.name
-        self.abfDateTime = round(os.path.getctime(abfFilePath))
-        self.abfDateTime = datetime.datetime.fromtimestamp(self.abfDateTime)
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[
-            :-3]
+        # format creation date from values found in the header
+        startTime = self.lFileStartTime
+        startDate = str(self.lFileStartDate)
+        startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+        timeStamp = startDate + datetime.timedelta(seconds=startTime)
+        self.abfDateTime = timeStamp
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+        self.abfDateTimeString = self.abfDateTimeString[:-3]
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
@@ -271,8 +274,8 @@ class HeaderV2:
         startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)[
-            :-3]
+        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+        self.abfDateTimeString = self.abfDateTimeString[:-3]
 
 
 class SectionMap:
