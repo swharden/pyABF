@@ -150,6 +150,10 @@ ABF (version 2.6.0.0) with 1 channel (pA), sampled at 20.0 kHz, containing 40 sw
 ABF (version 1.8.3.0) with 2 channels (mV, pA), sampled at 10.0 kHz, containing 10 sweeps, having no tags, with a total length of 0.56 minutes, recorded with protocol "IV_FI_IN0_saray".<br>
 [View the full header](headers/190619B_0003.md)<a href='headers/190619B_0003.png'><img src='headers/190619B_0003.png'></a>
 
+## 19122043.abf
+ABF (version 1.8.3.0) with 4 channels (A, A, mV, pA), sampled at 10.0 kHz, containing 16 sweeps, having 1 tag (C9, L3,  RMP -66.8 mv), with a total length of 1.46 minutes, recorded with protocol "I-V curve ,-400 pA".<br>
+[View the full header](headers/19122043.md)<a href='headers/19122043.png'><img src='headers/19122043.png'></a>
+
 ## 19212027.abf
 ABF (version 2.0.0.0) with 2 channels (pA, mV), sampled at 100.0 kHz, containing 12 sweeps, having no tags, with a total length of 0.26 minutes, recorded with protocol "IH_act_hp-70".<br>
 [View the full header](headers/19212027.md)<a href='headers/19212027.png'><img src='headers/19212027.png'></a>
