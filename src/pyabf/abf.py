@@ -163,7 +163,7 @@ class ABF:
         # create useful variables at the class level
         self.abfVersion = self._headerV1.abfVersionDict
         self.abfVersionString = self._headerV1.abfVersionString
-        self.fileGUID = ""
+        self.fileGUID = self._headerV1.sFileGUID
         self.creatorVersion = self._headerV1.creatorVersionDict
         self.creatorVersionString = self._headerV1.creatorVersionString
         self.abfDateTime = self._headerV1.abfDateTime

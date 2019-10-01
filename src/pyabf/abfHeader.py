@@ -191,6 +191,15 @@ class HeaderV1:
         self.creatorVersionDict["build"] = 0
         self.creatorVersionString = '0.0.0.0'
 
+        # format GUID
+        self.uFileGUID = readStruct(fb, "16B", 5282)
+        guid = []
+        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 15, 15]:
+            guid.append("%.2X" % (self.uFileGUID[i]))
+        for i in [4, 7, 10, 13]:
+            guid.insert(i, "-")
+        self.sFileGUID = "{%s}" % ("".join(guid))
+
         # format creation date from values found in the header
         startTime = self.lFileStartTime
         startDate = str(self.lFileStartDate)
