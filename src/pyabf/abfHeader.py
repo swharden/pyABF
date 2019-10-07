@@ -201,11 +201,19 @@ class HeaderV1:
             guid.insert(i, "-")
         self.sFileGUID = "{%s}" % ("".join(guid))
 
-        # format creation date from values found in the header
-        startTime = self.lFileStartTime
-        startDate = str(self.lFileStartDate)
-        startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
-        timeStamp = startDate + datetime.timedelta(seconds=startTime)
+        # format creation date
+        if (self.lFileStartDate == 0):
+            # if the value stored in the header is zero, it means this is a
+            # very old ABF file which does not store creation date.
+            # For files like this use the file creation date.
+            self.abfDateTime = round(os.path.getctime(fb.name))
+            timeStamp = datetime.datetime.fromtimestamp(self.abfDateTime)
+        else:
+            startTime = self.lFileStartTime
+            startDate = str(self.lFileStartDate)
+            startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+            timeStamp = startDate + datetime.timedelta(seconds=startTime)
+
         self.abfDateTime = timeStamp
         self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
         self.abfDateTimeString = self.abfDateTimeString[:-3]
