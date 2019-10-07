@@ -28,7 +28,9 @@ def infoPage(abf, markdown=True, html=False):
 
     # make a few things cleaner for display on GitHub
     abfFilePath = f"C:/some/path/to/{abf.abfID}.abf"
+    abfFolderPath = f"C:/some/path"
     page.replaceThing("abfFilePath",abfFilePath)
+    page.replaceThing("abfFolderPath",abfFolderPath)
     page.replaceThing("strings","not shown due to non-ASCII characters")
     
     if markdown:
