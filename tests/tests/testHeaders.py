@@ -39,6 +39,8 @@ def ensureAbfHeaderDidNotChange(abfFilePath):
     for i in range(len(newMarkdown)):
         if "abfFilePath = " in newMarkdown[i]:
             continue
+        if "abfFolderPath = " in newMarkdown[i]:
+            continue
         if "strings =" in newMarkdown[i]:
             continue
         if newMarkdown[i]!=previousMarkdown[i]:
