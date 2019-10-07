@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-11-20 11:42:56`
-* abfDateTimeString = `2018-11-20T11:42:56.000`
+* abfDateTime = `2009-05-04 16:03:03`
+* abfDateTimeString = `2009-05-04T16:03:03.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/sample trace_0054.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `sample trace_0054`
 * abfVersion = `{'major': 1, 'minor': 6, 'bugfix': 4, 'build': 9}`
 * abfVersionString = `1.6.4.9`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `50`
 * dataRate = `50000`
 * dataSecPerPoint = `2e-05`
-* fileGUID = ``
+* fileGUID = `{00000000-0000-0000-0000-000000000000}`
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `slaven-Ch1-gapfree`
 * protocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
@@ -84,8 +84,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-11-20 11:42:56`
-* abfDateTimeString = `2018-11-20T11:42:56.000`
+* abfDateTime = `2009-05-04 16:03:03`
+* abfDateTimeString = `2009-05-04T16:03:03.000`
 * abfVersionDict = `{'major': 1, 'minor': 6, 'bugfix': 4, 'build': 9}`
 * abfVersionFloat = `1.649`
 * abfVersionString = `1.6.4.9`
@@ -115,6 +115,7 @@
 * lEpisodesPerRun = `1`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[1000, 0, 0, ..., 0, 0, 0]`
+* lFileStartDate = `20090504`
 * lFileStartTime = `57783`
 * lNumSamplesPerEpisode = `2064`
 * lNumTagEntries = `0`
@@ -133,6 +134,7 @@
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[1, 0, 0, ..., 0, 0, 0]`
+* nExperimentType = `2`
 * nFileStartMillisecs = `566`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -144,4 +146,6 @@
 * sADCChannelName = `['IN 0', 'IN 1', 'IN 2', 'IN 3', 'IN 4', 'IN 5', 'IN 6', 'IN 7', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'IN 14', 'IN 15']`
 * sADCUnits = `['nA', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']`
 * sComment = `[]`
+* sFileGUID = `{00000000-0000-0000-0000-000000000000}`
 * sProtocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
+* uFileGUID = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`

@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2005-06-11 14:15:28`
+* abfDateTimeString = `2005-06-11T14:15:28.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_3.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `File_axon_3`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = ``
+* fileGUID = `{F1AA4915-8D35-4CE7-879A-77D66DD5EFEF}`
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `5`
@@ -91,8 +91,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2005-06-11 14:15:28`
+* abfDateTimeString = `2005-06-11T14:15:28.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
@@ -122,6 +122,7 @@
 * lEpisodesPerRun = `40`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[1000, 25, 10, ..., 0, 0, 0]`
+* lFileStartDate = `20050611`
 * lFileStartTime = `51328`
 * lNumSamplesPerEpisode = `41288`
 * lNumTagEntries = `0`
@@ -140,6 +141,7 @@
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[0, 1, 1, ..., 0, 0, 0]`
+* nExperimentType = `0`
 * nFileStartMillisecs = `552`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -151,4 +153,6 @@
 * sADCChannelName = `['10Vm', 'ImRK01G1b', 'IN 2', 'IN 3', 'IN 4', 'stim', 'ImRK01G20', 'VmRK', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'IN 14', 'IN 15']`
 * sADCUnits = `['mV', 'pA', 'V', 'V', 'V', 'V', 'pA', 'mV', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']`
 * sComment = `[]`
+* sFileGUID = `{F1AA4915-8D35-4CE7-879A-77D66DD5EFEF}`
 * sProtocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
+* uFileGUID = `[21, 73, 170, 241, 53, 141, 231, 76, 135, 154, 119, 214, 109, 213, 191, 239]`

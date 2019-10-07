@@ -13,7 +13,7 @@
 * abfDateTimeString = `2017-11-27T08:17:59.810`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/model_vc_ramp.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `model_vc_ramp`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -39,7 +39,7 @@
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `50`

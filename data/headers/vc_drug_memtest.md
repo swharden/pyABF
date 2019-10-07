@@ -13,7 +13,7 @@
 * abfDateTimeString = `2016-09-21T14:43:46.434`
 * abfFileComment = `SWHLab5[0401]`
 * abfFilePath = `C:/some/path/to/vc_drug_memtest.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `vc_drug_memtest`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `0401 VC 2s MT-70`
 * protocolPath = `S:\Protocols\permanent\0401 VC 2s MT-70.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `482`

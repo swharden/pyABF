@@ -13,7 +13,7 @@
 * abfDateTimeString = `2016-12-22T14:39:47.945`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/16d22006_kim_gapfree.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `16d22006_kim_gapfree`
 * abfVersion = `{'major': 2, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.0.0.0`
@@ -39,7 +39,7 @@
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

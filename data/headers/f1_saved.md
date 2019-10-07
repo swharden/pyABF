@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-12-06 09:07:52`
-* abfDateTimeString = `2018-12-06T09:07:52.000`
+* abfDateTime = `2018-12-03 05:44:39`
+* abfDateTimeString = `2018-12-03T05:44:39.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/f1_saved.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `f1_saved`
 * abfVersion = `{'major': 1, 'minor': 2, 'bugfix': 9, 'build': 9}`
 * abfVersionString = `1.2.9.9`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = ``
+* fileGUID = `{FF88FF8A-FF88-FF88-86FF-7CFF9AFFFFFF}`
 * holdingCommand = `[nan, nan, nan, ..., nan, nan, nan]`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: nan, nan, nan, ..., nan, nan, nan`
 * sweepChannel = `0`
 * sweepCount = `10`
@@ -75,8 +75,8 @@ unknown nWaveformSource (-120)
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-12-06 09:07:52`
-* abfDateTimeString = `2018-12-06T09:07:52.000`
+* abfDateTime = `2018-12-03 05:44:39`
+* abfDateTimeString = `2018-12-03T05:44:39.000`
 * abfVersionDict = `{'major': 1, 'minor': 2, 'bugfix': 9, 'build': 9}`
 * abfVersionFloat = `1.299`
 * abfVersionString = `1.2.9.9`
@@ -106,6 +106,7 @@ unknown nWaveformSource (-120)
 * lEpisodesPerRun = `0`
 * lEpochDurationInc = `[-7405670, -7012490, -8192094, ..., -6488180, -8847462, -7536776]`
 * lEpochInitDuration = `[-8061038, -6619252, -8716400, ..., -7536756, -7798916, -8978554]`
+* lFileStartDate = `0`
 * lFileStartTime = `0`
 * lNumSamplesPerEpisode = `50000`
 * lNumTagEntries = `0`
@@ -124,6 +125,7 @@ unknown nWaveformSource (-120)
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[-102, -114, -138, -108, -94, -126, -124, -112, -110, -102]`
 * nEpochType = `[-116, -98, -114, ..., -156, -106, -122]`
+* nExperimentType = `0`
 * nFileStartMillisecs = `0`
 * nInterEpisodeLevel = `[-138, -116]`
 * nNumPointsIgnored = `0`
@@ -135,4 +137,6 @@ unknown nWaveformSource (-120)
 * sADCChannelName = `['\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00']`
 * sADCUnits = `['pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
 * sComment = `[]`
+* sFileGUID = `{FF88FF8A-FF88-FF88-86FF-7CFF9AFFFFFF}`
 * sProtocolPath = `||^tx|rn|~zp|tpndzrzxpzjzzrt~|~ztjvtrphtnlv|lzvvX`
+* uFileGUID = `[138, 255, 136, 255, 136, 255, 136, 255, 134, 255, 124, 255, 154, 255, 128, 255]`

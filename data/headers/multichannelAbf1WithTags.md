@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2019-07-16 11:07:47`
-* abfDateTimeString = `2019-07-16T11:07:47.000`
+* abfDateTime = `2016-12-05 12:40:20`
+* abfDateTimeString = `2016-12-05T12:40:20.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/multichannelAbf1WithTags.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `multichannelAbf1WithTags`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 4, 'build': 0}`
 * abfVersionString = `1.8.4.0`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = ``
+* fileGUID = `{88A977A0-83A4-43FF-AC30-08DEBA3E1C1C}`
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `187`
@@ -82,8 +82,8 @@ DAC waveform is not enabled
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2019-07-16 11:07:47`
-* abfDateTimeString = `2019-07-16T11:07:47.000`
+* abfDateTime = `2016-12-05 12:40:20`
+* abfDateTimeString = `2016-12-05T12:40:20.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 4, 'build': 0}`
 * abfVersionFloat = `1.84`
 * abfVersionString = `1.8.4.0`
@@ -113,6 +113,7 @@ DAC waveform is not enabled
 * lEpisodesPerRun = `187`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[0, 0, 0, ..., 0, 0, 0]`
+* lFileStartDate = `20161205`
 * lFileStartTime = `45620`
 * lNumSamplesPerEpisode = `3306`
 * lNumTagEntries = `2`
@@ -131,6 +132,7 @@ DAC waveform is not enabled
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[0, 0, 0, ..., 0, 0, 0]`
+* nExperimentType = `2`
 * nFileStartMillisecs = `701`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -142,4 +144,6 @@ DAC waveform is not enabled
 * sADCChannelName = `['IN 0', 'AO #0', 'AI #2', 'AI #3', 'AI #4', 'AI #5', 'AI #6', 'AI #7', 'AI #8', 'AI #9', 'AI #10', 'AI #11', 'AI #12', 'AI #13', 'AI #14', 'AI #15']`
 * sADCUnits = `['pA', 'mV', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
 * sComment = `['+TGOT', '-TGOT']`
+* sFileGUID = `{88A977A0-83A4-43FF-AC30-08DEBA3E1C1C}`
 * sProtocolPath = `S:\Protocols\permanent\0402 VC 2s MT-50.pro                                                                                                                                                                                                                     SWHLab5[0402]`
+* uFileGUID = `[160, 119, 169, 136, 164, 131, 255, 67, 172, 48, 8, 222, 186, 62, 177, 28]`

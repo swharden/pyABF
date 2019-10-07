@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2005-06-11 14:15:00`
+* abfDateTimeString = `2005-06-11T14:15:00.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/File_axon_2.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `File_axon_2`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `1`
 * dataRate = `1000`
 * dataSecPerPoint = `0.001`
-* fileGUID = ``
+* fileGUID = `{E88FB723-FA82-4C78-865A-12FE3F669999}`
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `Cc_minidigi`
 * protocolPath = `C:\Axon\rk400\0.1G\minidigi\Cc_minidigi.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
@@ -75,8 +75,8 @@ DAC waveform is not enabled
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 17:23:48`
-* abfDateTimeString = `2018-09-06T17:23:48.000`
+* abfDateTime = `2005-06-11 14:15:00`
+* abfDateTimeString = `2005-06-11T14:15:00.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
@@ -106,6 +106,7 @@ DAC waveform is not enabled
 * lEpisodesPerRun = `1`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[0, 0, 0, ..., 0, 0, 0]`
+* lFileStartDate = `20050611`
 * lFileStartTime = `51300`
 * lNumSamplesPerEpisode = `256`
 * lNumTagEntries = `4`
@@ -124,6 +125,7 @@ DAC waveform is not enabled
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[0, 0, 0, ..., 0, 0, 0]`
+* nExperimentType = `1`
 * nFileStartMillisecs = `712`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -135,4 +137,6 @@ DAC waveform is not enabled
 * sADCChannelName = `['10Vm', 'ImRK01G1b', 'IN 2', 'IN 3', 'IN 4', 'stim', 'ImRK01G1', 'VmRK', 'IN 8', 'IN 9', 'IN 10', 'IN 11', 'IN 12', 'IN 13', 'IN 14', 'IN 15']`
 * sADCUnits = `['mV', 'pA', 'V', 'V', 'V', 'V', 'pA', 'mV', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V']`
 * sComment = `['Clampex start acquisition', 'C:\\Axon\\rsultats\\06-05\\11-06-05\\05611005.abf', 'Clampex end (1)', 'Clampex start acquisition']`
+* sFileGUID = `{E88FB723-FA82-4C78-865A-12FE3F669999}`
 * sProtocolPath = `C:\Axon\rk400\0.1G\minidigi\Cc_minidigi.pro`
+* uFileGUID = `[35, 183, 143, 232, 130, 250, 120, 76, 134, 90, 18, 254, 63, 102, 112, 153]`

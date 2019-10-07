@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-09-06 17:24:00`
-* abfDateTimeString = `2018-09-06T17:24:00.000`
+* abfDateTime = `2012-01-11 13:46:18`
+* abfDateTimeString = `2012-01-11T13:46:18.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/abf1_with_tags.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `abf1_with_tags`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionString = `1.8.3.0`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = ``
+* fileGUID = `{FE9574DE-DF80-4B8F-A1E3-45EE5F249292}`
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`
@@ -84,8 +84,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-09-06 17:24:00`
-* abfDateTimeString = `2018-09-06T17:24:00.000`
+* abfDateTime = `2012-01-11 13:46:18`
+* abfDateTimeString = `2012-01-11T13:46:18.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 3, 'build': 0}`
 * abfVersionFloat = `1.83`
 * abfVersionString = `1.8.3.0`
@@ -115,6 +115,7 @@
 * lEpisodesPerRun = `1`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[1000, 0, 0, ..., 0, 0, 0]`
+* lFileStartDate = `20120111`
 * lFileStartTime = `49578`
 * lNumSamplesPerEpisode = `2064`
 * lNumTagEntries = `1`
@@ -133,6 +134,7 @@
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[1, 0, 0, ..., 0, 0, 0]`
+* nExperimentType = `2`
 * nFileStartMillisecs = `78`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -144,4 +146,6 @@
 * sADCChannelName = `['IN 0', 'ADC1', 'ADC2', 'ADC3', 'ADC4', 'ADC5', 'ADC6', 'ADC7', 'ADC8', 'ADC9', 'ADC10', 'ADC11', 'ADC12', 'ADC13', 'ADC14', 'ADC15']`
 * sADCUnits = `['pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
 * sComment = `['APV+CGP+DNQX+ON@6']`
+* sFileGUID = `{FE9574DE-DF80-4B8F-A1E3-45EE5F249292}`
 * sProtocolPath = `X:\Protocols\DP\15minGapfree.pro`
+* uFileGUID = `[222, 116, 149, 254, 128, 223, 143, 75, 161, 227, 69, 238, 95, 36, 59, 146]`

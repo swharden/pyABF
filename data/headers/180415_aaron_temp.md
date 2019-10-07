@@ -13,7 +13,7 @@
 * abfDateTimeString = `2018-03-13T14:45:56.159`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/180415_aaron_temp.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `180415_aaron_temp`
 * abfVersion = `{'major': 2, 'minor': 3, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.3.0.0`
@@ -39,7 +39,7 @@
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

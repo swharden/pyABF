@@ -13,7 +13,7 @@
 * abfDateTimeString = `2019-08-14T13:29:01.316`
 * abfFileComment = `SWHLab5[0113]`
 * abfFilePath = `C:/some/path/to/opto_aps_good_units.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `opto_aps_good_units`
 * abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionString = `2.6.0.0`
@@ -39,7 +39,7 @@
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `3`

@@ -9,11 +9,11 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-12-17 18:58:48`
-* abfDateTimeString = `2018-12-17T18:58:48.000`
+* abfDateTime = `2018-12-14 20:36:12`
+* abfDateTimeString = `2018-12-14T20:36:12.000`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/pclamp11_4ch_abf1.abf`
-* abfFolderPath = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* abfFolderPath = `C:/some/path`
 * abfID = `pclamp11_4ch_abf1`
 * abfVersion = `{'major': 1, 'minor': 8, 'bugfix': 4, 'build': 0}`
 * abfVersionString = `1.8.4.0`
@@ -34,12 +34,12 @@
 * dataPointsPerMs = `20`
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
-* fileGUID = ``
+* fileGUID = `{CCAF08FC-E624-4191-AFFE-FC6C3B005858}`
 * holdingCommand = `[10.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
-* stimulusFileFolder = `C:\Users\swharden\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
 * sweepC = `array (1d) with values like: 10.00000, 10.00000, 10.00000, ..., 10.00000, 10.00000, 10.00000`
 * sweepChannel = `0`
 * sweepCount = `10`
@@ -105,8 +105,8 @@
 
 > The first several bytes of an ABF1 file contain variables     located at specific byte positions from the start of the file.     All ABF1 header values are read in this single block. 
 
-* abfDateTime = `2018-12-17 18:58:48`
-* abfDateTimeString = `2018-12-17T18:58:48.000`
+* abfDateTime = `2018-12-14 20:36:12`
+* abfDateTimeString = `2018-12-14T20:36:12.000`
 * abfVersionDict = `{'major': 1, 'minor': 8, 'bugfix': 4, 'build': 0}`
 * abfVersionFloat = `1.84`
 * abfVersionString = `1.8.4.0`
@@ -136,6 +136,7 @@
 * lEpisodesPerRun = `10`
 * lEpochDurationInc = `[0, 0, 0, ..., 0, 0, 0]`
 * lEpochInitDuration = `[2000, 0, 0, ..., 0, 0, 0]`
+* lFileStartDate = `20181214`
 * lFileStartTime = `74172`
 * lNumSamplesPerEpisode = `16000`
 * lNumTagEntries = `0`
@@ -154,6 +155,7 @@
 * nDigitalInterEpisode = `0`
 * nDigitalValue = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
 * nEpochType = `[1, 0, 0, ..., 0, 0, 0]`
+* nExperimentType = `2`
 * nFileStartMillisecs = `308`
 * nInterEpisodeLevel = `[0, 0]`
 * nNumPointsIgnored = `0`
@@ -165,4 +167,6 @@
 * sADCChannelName = `['IN 0', 'IN 1', 'IN 2', 'IN 3', 'AI #4', 'AI #5', 'AI #6', 'AI #7', 'AI #8', 'AI #9', 'AI #10', 'AI #11', 'AI #12', 'AI #13', 'AI #14', 'AI #15']`
 * sADCUnits = `['pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA', 'pA']`
 * sComment = `[]`
+* sFileGUID = `{CCAF08FC-E624-4191-AFFE-FC6C3B005858}`
 * sProtocolPath = `(untitled)`
+* uFileGUID = `[252, 8, 175, 204, 36, 230, 145, 65, 175, 254, 252, 108, 59, 0, 216, 88]`
