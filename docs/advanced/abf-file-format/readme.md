@@ -21,6 +21,8 @@ This document contains a blend of information I learned by inspecting the work o
 
 Documentation and development is biased toward my personal use-cases for ABF files: Analysis of 1-2 channel ABF2 fixed-length episodic files (voltage clamp and current clamp) recorded using whole-cell patch-clamp technique in brain slices. Little effort has been invested into documenting features I don't personally use (such as variable-length sweeps and voice tags). If you benefit from the information provided in this document and figure out how to achieve additional functionality or implement your own improvements into this basic framework, please contact me so I can add your contributions to this growing collection of source code examples and documentation!
 
+Note: many ABF2 header variables use confusing names. The [ABF1 file format notes](abf1-file-format.md) are useful in explaining definitions associated with variables listed in this guide.
+
 # Reading the ABF Header
 For the following examples we will be inspecting the content of ABF files in the [/data/](/data/) folder. Note that all header values of all ABFs in the [/data/](/data/) folder are provided in both markdown and HTML formats. I recommend reviewing example ABF headers in that folder while studying this document.
 

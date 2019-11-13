@@ -27,6 +27,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [Advanced examples - automated analysis with pyABFauto](https://github.com/swharden/pyABFauto)
 * [Additional documentation and resources](/docs/)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
+* [ABF1 File Format Notes](/docs/advanced/abf-file-format/abf1-file-format.md)
 * [pyABF listing on PyPI](https://pypi.org/project/pyabf/)
 
 ## Features

@@ -343,11 +343,10 @@ The ABF Synch array is an important array that stores the start time and length 
 
 A Synch array is created and used in the following acquisition modes: ABF_VARLENEVENTS, ABF_FIXLENEVENTS & ABF_HIGHSPEEDOSC. The acquisition modes ABF_GAPFREEFILE and ABF_WAVEFORMFILE do not always use a Synch array.
 
-The ABFSynch Structure
-Offset|Header Entry Name|Type|Description|
+Offset|Header Entry Name|Type|Description
 ---|---|---|---
-0|lStart|long|Start time of sweep in fSynchTimeUnit units.|
-4|lLength|long|Length of the sweep in multiplexed samples.|
+0|lStart|long|Start time of sweep in fSynchTimeUnit units.
+4|lLength|long|Length of the sweep in multiplexed samples.
 
 ### The ABF Tag Section
 
