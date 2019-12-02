@@ -23,6 +23,7 @@ setup(
     install_requires=[
         'matplotlib>=2.1.0',
         'numpy>=1.13.3',
+        'pytest>=3.0.7',
     ],
     classifiers=[
         'Programming Language :: Python :: 2',
