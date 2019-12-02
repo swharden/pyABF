@@ -186,7 +186,7 @@ class ABF:
         self.channelCount = self._headerV1.nADCNumChannels
         self.dataRate = 1e6 / self._headerV1.fADCSampleInterval
         self.dataRate = int(self.dataRate / self.channelCount)
-        self.dataSecPerPoint = 1 / self.dataRate
+        self.dataSecPerPoint = 1.0 / self.dataRate
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV1.lActualEpisodes
 
@@ -254,7 +254,7 @@ class ABF:
         self.channelCount = self._sectionMap.ADCSection[2]
         self.dataRate = self._protocolSection.fADCSequenceInterval
         self.dataRate = int(1e6 / self.dataRate)
-        self.dataSecPerPoint = 1 / self.dataRate
+        self.dataSecPerPoint = 1.0 / self.dataRate
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV2.lActualEpisodes
 
