@@ -215,8 +215,11 @@ class HeaderV1:
             timeStamp = startDate + datetime.timedelta(seconds=startTime)
 
         self.abfDateTime = timeStamp
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
-        self.abfDateTimeString = self.abfDateTimeString[:-3]
+        try:
+            self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+            self.abfDateTimeString = self.abfDateTimeString[:-3]
+        except:
+            self.abfDateTimeString = "ERROR"
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
@@ -292,8 +295,11 @@ class HeaderV2:
         startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
-        self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
-        self.abfDateTimeString = self.abfDateTimeString[:-3]
+        try:
+            self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+            self.abfDateTimeString = self.abfDateTimeString[:-3]
+        except:
+            self.abfDateTimeString = "ERROR"
 
 
 class SectionMap:
