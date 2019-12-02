@@ -170,7 +170,7 @@ class ABF:
         self.abfDateTimeString = self._headerV1.abfDateTimeString
         self.holdingCommand = self._headerV1.fEpochInitLevel
         self.protocolPath = self._headerV1.sProtocolPath
-        self.abfFileComment = ""
+        self.abfFileComment = str("")
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
         self.tagComments = self._headerV1.sComment
@@ -240,7 +240,7 @@ class ABF:
         self.abfDateTimeString = self._headerV2.abfDateTimeString
         self.holdingCommand = self._dacSection.fDACHoldingLevel
         self.protocolPath = self._stringsIndexed.uProtocolPath
-        self.abfFileComment = self._stringsIndexed.lFileComment
+        self.abfFileComment = str(self._stringsIndexed.lFileComment)
         self.tagComments = self._tagSection.sComment
         _tagMult = self._protocolSection.fSynchTimeUnit/1e6
         self.tagTimesSec = self._tagSection.lTagTime
