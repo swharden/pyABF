@@ -1,6 +1,8 @@
 # pyABF
-
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/pyabf?label=Pip%20Installs&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
+[![](https://img.shields.io/azure-devops/build/swharden/swharden/6?label=Build&logo=azure%20pipelines)](https://dev.azure.com/swharden/swharden/_build/latest?definitionId=6&branchName=master)
+[![](https://img.shields.io/azure-devops/tests/swharden/swharden/6?label=Tests&logo=azure%20pipelines)](https://dev.azure.com/swharden/swharden/_build/latest?definitionId=6&branchName=master)
+[![](https://img.shields.io/pypi/dm/pyabf?label=Pip%20Installs&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
+[![](https://img.shields.io/pypi/v/pyabf?label=pyabf&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
 
 **pyABF is a Python module which project simplifies the process of reading electrophysiology data from Axon Binary Format (ABF) files.** It was created with the goal of providing a Pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Flip through the [quickstart guide](https://github.com/swharden/pyABF/tree/master/docs/getting-started) and you'll be analyzing and graphing ABFs in minutes!
 
