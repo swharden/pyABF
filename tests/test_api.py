@@ -20,6 +20,8 @@ except:
 
 allABFs = glob.glob("data/abfs/*.abf")
 
+if sys.version_info[0] < 3:
+    str = basestring # hack to ignore unicode strings in Python 2.7
 
 @pytest.mark.parametrize("abfPath", allABFs)
 def test_Load_headerOnly(abfPath):
