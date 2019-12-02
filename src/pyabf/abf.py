@@ -302,7 +302,7 @@ class ABF:
             self.sweepCount = 1
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
-        self.sweepLengthSec = self.sweepPointCount / self.dataRate
+        self.sweepLengthSec = float(self.sweepPointCount) / self.dataRate
         self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
 
