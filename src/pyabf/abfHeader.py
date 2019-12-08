@@ -116,6 +116,8 @@ class HeaderV1:
     The first several bytes of an ABF1 file contain variables
     located at specific byte positions from the start of the file.
     All ABF1 header values are read in this single block.
+    Arrays which reference ADC entries are shown as read, no physical <-> logical
+    channel mapping and interpretation of the sampling sequence is done.
     """
 
     def __init__(self, fb):
