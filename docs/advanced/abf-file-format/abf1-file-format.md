@@ -3,10 +3,11 @@
 ABF1 files (unlike ABF2 files) use a fixed-length header and values are always
 at the same byte positions in the file. This document was created to simplify
 the task of finding ABF1 byte offsets. It was created from data found in the
-CHM file distributed as part of the ABF1 SDK. While the byte offsets are not
-useful for ABF2 files, the definitions are.
+CHM file distributed as part of the ABF1 SDK and from
+[abfheadr.h](https://github.com/dongzhenye/biosignal-tools/blob/0d0a4e7ca21774138fb1d0c2384a1f610260334d/biosig4c%2B%2B/t210/abfheadr.h).
+While the byte offsets are not useful for ABF2 files, the definitions are.
 
-### File ID and Size Information
+### File ID and Size Information (Group 1, 40 bytes)
 
 Offset | Header Entry Name    | Type  | Description                                                                                                                                                                                               |
 ------ | -------------------- | ----  | -----------
@@ -23,7 +24,7 @@ Offset | Header Entry Name    | Type  | Description                             
 36     | nFileType            | short | Numeric equivalent of file type. 1 = ABF file; 2 = Old FETCHEX file (FTCX); 3 = Old Clampex file (CLPX). See sFileType.                                                                                   |
 38     | nMSBinFormat         | short | Storage method for real numbers in the header. Also see nDataFormat. 0 = IEEE format; 1 = Microsoft Binary format (old files only).                                                                       |
 
-### File Structure
+### File Structure (Group 2, 78 bytes)
 
 Offset | Header Entry Name     | Type  | Description                                                                                                                     |
 ------ | --------------------  | ----  | -----------
@@ -49,7 +50,92 @@ Offset | Header Entry Name     | Type  | Description                            
 112    | lNumAnnotations       | long  | Number of annotations                                                                                                           |
 116    | sUnused004            | 2char | Unused.                                                                                                                         |
 
-### Display Parameters
+```
+   // GROUP #3 - Trial hierarchy information (82 bytes)
+   /**
+   The number of input channels we acquired.
+   Do not access directly - use CABFHeader::get_channel_count_acquired
+   */
+   // 118
+   short    channel_count_acquired;
+
+   /**
+   The number of input channels we recorded.
+   Do not access directly - use CABFHeader::get_channel_count_recorded
+   */
+   // 120
+   short    nADCNumChannels;
+   // 122
+   float    fADCSampleInterval;
+      /*{{
+      The documentation says these two sample intervals are the interval between multiplexed samples, but not all digitisers work like that.
+      Instead, these are the per-channel sample rate divided by the number of channels.
+      If the user chose 100uS and has two channels, this value will be 50uS.
+      }}*/
+   // 126
+   float    fADCSecondSampleInterval;
+      /*{{
+      // The two sample intervals must be an integer multiple (or submultiple) of each other.
+      if (fADCSampleInterval > fADCSecondSampleInterval)
+         ASSERT(fmod(fADCSampleInterval, fADCSecondSampleInterval) == 0.0);
+      if (fADCSecondSampleInterval, fADCSampleInterval)
+         ASSERT(fmod(fADCSecondSampleInterval, fADCSampleInterval) == 0.0);
+      }}*/
+   // 130
+   float    fSynchTimeUnit;
+   // 134
+   float    fSecondsPerRun;
+
+   /**
+   * The total number of samples per episode, for the recorded channels only.
+   * This does not include channels which are acquired but not recorded.
+   *
+   * This is the number of samples per episode per channel, times the number of recorded channels.
+   *
+   * If you want the samples per episode for one channel, you must divide this by get_channel_count_recorded().
+   */
+   // 138
+   ABFLONG     lNumSamplesPerEpisode;
+   // 142
+   ABFLONG     lPreTriggerSamples;
+   // 146
+   ABFLONG     lEpisodesPerRun;
+   // 150
+   ABFLONG     lRunsPerTrial;
+   // 154
+   ABFLONG     lNumberOfTrials;
+   // 158
+   short    nAveragingMode;
+   // 160
+   short    nUndoRunCount;
+   // 162
+   short    nFirstEpisodeInRun;
+   // 164
+   float    fTriggerThreshold;
+   // 168
+   short    nTriggerSource;
+   // 170
+   short    nTriggerAction;
+   // 172
+   short    nTriggerPolarity;
+   // 174
+   float    fScopeOutputInterval;
+   // 178
+   float    fEpisodeStartToStart;
+   // 182
+   float    fRunStartToStart;
+   // 186
+   float    fTrialStartToStart;
+   // 190
+   ABFLONG     lAverageCount;
+   // 194
+   ABFLONG     lClockChange;
+   // 198
+   short    nAutoTriggerStrategy;
+   // 200 = 40 + 78 + 82
+ ```
+
+### Display Parameters (Group 4, 44 bytes)
 
 Offset | Header Entry Name       | Type  | Description                                                                                                                                                                        |
 ------ | --------------------    | ----  | -----------
@@ -69,7 +155,7 @@ Offset | Header Entry Name       | Type  | Description                          
 238    | lStatisticsMeasurements | long  | Bit mask for statistics measurements to display: Above Threshold: 1, Event Frequency: 2, Mean Open Time: 4, Mean Closed Time: 8
 242    | nStatisticsSaveStrategy | short | Strategy used to save statistics: No Auto Save = 0; Auto Save = 1.                                                                                                                 |
 
-### Hardware Information
+### Hardware Information (Group 5, 16 bytes)
 
 Offset | Header Entry Name    | Type  | Description                                                                                                          |
 ------ | -------------------- | ----  | -----------
@@ -78,7 +164,7 @@ Offset | Header Entry Name    | Type  | Description                             
 252    | lADCResolution       | long  | Number of ADC counts corresponding to the positive full-scale voltage in ADCRange (e.g. 2000, 2048, 32000 or 32768). |
 256    | lDACResolution       | long  | Number of DAC counts corresponding to the positive full-scale voltage in DACRange.                                   |
 
-### Environmental Information
+### Environmental Information (Group 6, 118 bytes)
 
 Offset | Header Entry Name        | Type   | Description                                                                                                                                                                                                                    |
 ------ | --------------------     | ----   | -----------
@@ -99,7 +185,7 @@ Offset | Header Entry Name        | Type   | Description                        
 368    | nCommentsEnable          | short  | Enable comments field                                                                                                                                                                                                          |
 370    | sUnused003a              | 8char  | Unused.                                                                                                                                                                                                                        |
 
-### Multi-channel Information
+### Multi-channel Information (Group 7, 1044 bytes)
 
 Offset | Header Entry Name              | Type   | Description                                                                                                                                                                                                                                                                                                                                                   |
 ------ | --------------------           | ----   | -----------
@@ -123,7 +209,7 @@ Offset | Header Entry Name              | Type   | Description                  
 1410   | nSignalType                    | short  | Type of signal conditioner that was used. 0 = None; 1 = CyberAmp 320/380.                                                                                                                                                                                                                                                                                     |
 1412   | sUnused004                     | 10char | Unused.                                                                                                                                                                                                                                                                                                                                                       |
 
-### Synchronous Timer Outputs
+### Synchronous Timer Outputs (Group 8, 14 bytes)
 
 _Synchronous timer outputs were dropped from pCLAMP version 6. These parameters
 have been kept in the ABF 1.0 specification for compatibility when reading old
@@ -140,7 +226,7 @@ Offset | Header Entry Name    | Type  | Description                             
 1432   | nPulseSamplesOUT1    | short | Duration and polarity of pulse on synchronous timer OUT #1 (DAC samples). |
 1434   | nPulseSamplesOUT2    | short | Duration and polarity of pulse on synchronous timer OUT #2 (DAC samples). |
 
-### Epoch Waveform and Pulses
+### Epoch Waveform and Pulses (Group 9, 184 bytes)
 
 Offset | Header Entry Name                      | Type  | Description                                                                                                                                                                   |
 ------ | --------------------                   | ----  | -----------
@@ -160,7 +246,82 @@ Offset | Header Entry Name                      | Type  | Description           
 1612   | nDigitalDACChannel                     | short | Not used.                                                                                                                                                                     |
 1614   | sUnused005                             | 6char | Unused.                                                                                                                                                                       |
 
-### Miscellaneous Parameters
+```
+   // GROUP #10 - DAC Output File (98 bytes)
+   float    _fDACFileScale;
+   float    _fDACFileOffset;
+   char     sUnused006[2];
+   short    _nDACFileEpisodeNum;
+   short    _nDACFileADCNum;
+   char     _sDACFilePath[ABF_DACFILEPATHLEN]; // ABF_DACFILEPATHLEN == 84 (old was 60)
+   // 1718 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98
+
+   // GROUP #11 - Presweep (conditioning) pulse train (44 bytes)
+   short    _nConditEnable;
+   short    _nConditChannel;
+   ABFLONG     _lConditNumPulses;
+   float    _fBaselineDuration;
+   float    _fBaselineLevel;
+   float    _fStepDuration;
+   float    _fStepLevel;
+   float    _fPostTrainPeriod;
+   float    _fPostTrainLevel;
+   char     sUnused007[12];
+   // 1762 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44
+
+   // GROUP #12 - Variable parameter user list ( 82 bytes)
+   short    _nParamToVary;
+   char     _sParamValueList[ABF_VARPARAMLISTLEN]; // ABF_VARPARAMLISTLEN == 80
+   // 1844 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84
+
+   // GROUP #13 - Autopeak measurement (36 bytes)
+   short    _nAutopeakEnable;
+   short    _nAutopeakPolarity;
+   short    _nAutopeakADCNum;
+   short    _nAutopeakSearchMode;
+   ABFLONG     _lAutopeakStart;
+   ABFLONG     _lAutopeakEnd;
+   short    _nAutopeakSmoothing;
+   short    _nAutopeakBaseline;
+   short    _nAutopeakAverage;
+   char     sUnavailable1866[2];     // Was nAutopeakSaveStrategy, use nStatisticsSaveStrategy
+   ABFLONG     _lAutopeakBaselineStart;
+   ABFLONG     _lAutopeakBaselineEnd;
+   ABFLONG     _lAutopeakMeasurements;
+   // 1880 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+
+   // GROUP #14 - Channel Arithmetic (52 bytes)
+   short    nArithmeticEnable;
+   float    fArithmeticUpperLimit;
+   float    fArithmeticLowerLimit;
+   short    nArithmeticADCNumA;
+   short    nArithmeticADCNumB;
+   float    fArithmeticK1;
+   float    fArithmeticK2;
+   float    fArithmeticK3;
+   float    fArithmeticK4;
+   char     sArithmeticOperator[ABF_ARITHMETICOPLEN]; // ABF_ARITHMETICOPLEN == 2
+   char     sArithmeticUnits[ABF_ARITHMETICUNITSLEN]; // ABF_ARITHMETICUNITSLEN == 8
+   float    fArithmeticK5;
+   float    fArithmeticK6;
+   short    nArithmeticExpression;
+   char     sUnused008[2];
+   // 1932 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36 + 52
+
+   // GROUP #15 - On-line subtraction (34 bytes)
+   short    _nPNEnable;
+   short    nPNPosition;
+   short    _nPNPolarity;
+   short    nPNNumPulses;
+   short    _nPNADCNum;
+   float    _fPNHoldingLevel;
+   float    fPNSettlingTime;
+   float    fPNInterpulse;
+   char     sUnused009[12];
+   // 1966 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36 + 52 + 34
+```
+
+### Miscellaneous Parameters (Group 16, 82 bytes)
 
 Offset | Header Entry Name          | Type   | Description                                                                                                                                                                                                                                                                |
 ------ | --------------------       | ----   | -----------
@@ -183,44 +344,51 @@ Offset | Header Entry Name          | Type   | Description                      
 2038   | dFileDuration              | double | Not used.                                                                                                                                                                                                                                                                  |
 2046   | nStatisticsDisplayStrategy | short  | Strategy for displaying statistics: 0 = Display Statistics; 1 = Do Not display Statistics.                                                                                                                                                                                 |
 
-### Extended File Structure
+### Extended File Structure (Extended Group 2, 16 bytes)
 
-Offset | Header Entry Name        | Type   | Description                                                          |
------- | --------------------     | ----   | -----------
-2048   | lDACFilePtr(0-1)         | long   | Block number of start of DAC file section.                           |
-2056   | lDACFileNumEpisodes(0-1) | long   | Number of sweeps in the DAC file section. Sweeps are not multiplexed |
-2064   | sUnused010               | 10char | Unused.                                                              |
+Offset | Header Entry Name        | Type  | Description                                                          |
+------ | --------------------     | ----  | -----------
+2048   | lDACFilePtr(0-1)         | 2long | Block number of start of DAC file section.                           |
+2056   | lDACFileNumEpisodes(0-1) | 2long | Number of sweeps in the DAC file section. Sweeps are not multiplexed |
 
-### Extended Multi-channel Information
+```
+   // EXTENDED GROUP #3 - Trial Hierarchy (10 bytes)
+   // 2064
+   float    fFirstRunDelay;
+   char     sUnused010[6];
+   // 2074 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36 + 52 + 34 + 82 + 16 + 10
+```
+
+### Extended Multi-channel Information (Extended Group 7, 62 bytes)
 
 Offset | Header Entry Name           | Type   | Description                      |
 ------ | --------------------        | ----   | -----------
-2074   | fDACCalibrationFactor (0-3) | float  | Calibration factor for each DAC. |
-2090   | fDACCalibrationOffset (0-3) | float  | Calibration offset for each DAC. |
+2074   | fDACCalibrationFactor (0-3) | 4float | Calibration factor for each DAC. |
+2090   | fDACCalibrationOffset (0-3) | 4float | Calibration offset for each DAC. |
 2106   | sUnused011                  | 30char | Unused.                          |
 
-### Train Parameters
+### Train Parameters (Group 17, 160 bytes)
 
-Offset | Header Entry Name           | Type | Description                                                                 |
------- | --------------------        | ---- | -----------
-2136   | lEpochPulsePeriod(0-1)(0-9) | long | Train period in physical DAC channel order then epoch order (samples).      |
-2216   | lEpochPulseWidth(0-1)(0-9)  | long | Train pulse width in physical DAC channel order then epoch order (samples). |
+Offset | Header Entry Name           | Type   | Description                                                                 |
+------ | --------------------        | ----   | -----------
+2136   | lEpochPulsePeriod(0-1)(0-9) | 80long | Train period in physical DAC channel order then epoch order (samples).      |
+2216   | lEpochPulseWidth(0-1)(0-9)  | 80long | Train pulse width in physical DAC channel order then epoch order (samples). |
 
-### Extended Epoch Waveform and Pulses
+### Extended Epoch Waveform and Pulses (Extended Group 9, 412 bytes)
 
-Offset | Header Entry Name             | Type   | Description                                                                                                                                                                       |
------- | --------------------          | ----   | -----------
-2296   | nWaveformEnable(0-1)          | short  | Analog waveform enabled: 0 = No; 1 = Yes.                                                                                                                                         |
-2300   | nWaveformSource(0-1)          | short  | Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definitions; 2 = Generate waveform from a DAC file.                                                         |
-2304   | nInterEpisodeLevel(0-1)       | short  | Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                                                                                   |
-2308   | nEpochType(0-1) (0-9)         | short  | Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.Indexes: analog out waveform, epoch number.                                                                                          |
-2348   | fEpochInitLevel(0-1) (0-9)    | float  | Epoch initial level (user units).                                                                                                                                                 |
-2428   | fEpochLevelInc(0-1) (0-9)     | float  | Epoch level increment (user units).                                                                                                                                               |
-2508   | lEpochInitDuration(0-1) (0-9) | long   | Epoch initial duration (in sequence counts).                                                                                                                                      |
-2588   | lEpochDurationInc(0-1) (0-9)  | long   | Epoch duration increment (in sequence counts).                                                                                                                                    |
-2668   | nDigitalTrainValue(0-9)       | short  | Epoch duration increment in physical DAC channel order then epoch order (in sequence counts)                                                                                      |
-2688   | nDigitalTrainActiveLogic      | short  | Epoch value for digital train output in epoch order. 0000 = Disabled; 0\*000 = Generates digital train on bit 3. Train period and pulse width can be controlled by the user list. |
-2690   | sUnused012                    | 18char | Unused                                                                                                                                                                            |
+Offset | Header Entry Name             | Type    | Description                                                                                                                                                                       |
+------ | --------------------          | ----    | -----------
+2296   | nWaveformEnable(0-1)          | 2short  | Analog waveform enabled: 0 = No; 1 = Yes.                                                                                                                                         |
+2300   | nWaveformSource(0-1)          | 2short  | Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definitions; 2 = Generate waveform from a DAC file.                                                         |
+2304   | nInterEpisodeLevel(0-1)       | 2short  | Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                                                                                   |
+2308   | nEpochType(0-1) (0-9)         | 20short | Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.Indexes: analog out waveform, epoch number.                                                                                          |
+2348   | fEpochInitLevel(0-1) (0-9)    | 20float | Epoch initial level (user units).                                                                                                                                                 |
+2428   | fEpochLevelInc(0-1) (0-9)     | 20float | Epoch level increment (user units).                                                                                                                                               |
+2508   | lEpochInitDuration(0-1) (0-9) | 20long  | Epoch initial duration (in sequence counts).                                                                                                                                      |
+2588   | lEpochDurationInc(0-1) (0-9)  | 20long  | Epoch duration increment (in sequence counts).                                                                                                                                    |
+2668   | nDigitalTrainValue(0-9)       | 10short | Epoch duration increment in physical DAC channel order then epoch order (in sequence counts)                                                                                      |
+2688   | nDigitalTrainActiveLogic      | short   | Epoch value for digital train output in epoch order. 0000 = Disabled; 0\*000 = Generates digital train on bit 3. Train period and pulse width can be controlled by the user list. |
+2690   | sUnused012                    | 18char  | Unused                                                                                                                                                                            |
 
 ```
 ASCII digital train pattern
@@ -231,40 +399,40 @@ ASCII digital train pattern
 |*000  :0x00000008|
 ```
 
-### Extended DAC Output File
+### Extended DAC Output File (Extended Group 10, 552 bytes)
 
 Offset | Header Entry Name       | Type    | Description                                                                                                                                                     |
 ------ | --------------------    | ----    | -----------
-2708   | fDACFileScale(0-1)      | float   | Scaling factor to apply to DACwaveforms.                                                                                                                        |
-2716   | fDACFileOffset(0-1)     | float   | Offset (in user units) to apply to DAC waveforms.                                                                                                               |
-2724   | lDACFileEpisodeNum(0-1) | long    | Sweep (or column) number to replay from waveforms: -1 = all except the first (which is skipped), repeating last if necessary; 0 = all sweeps; N = sweep number. |
-2732   | nDACFileADCNum(0-1)     | short   | Logical ADC channel number to replay from waveform file.                                                                                                        |
-2736   | sDACFilePath(0-1)       | 256char | File path and name of DAC file containing waveform data. Must be ABF or ATF format.                                                                             |
+2708   | fDACFileScale(0-1)      | 2float  | Scaling factor to apply to DACwaveforms.                                                                                                                        |
+2716   | fDACFileOffset(0-1)     | 2float  | Offset (in user units) to apply to DAC waveforms.                                                                                                               |
+2724   | lDACFileEpisodeNum(0-1) | 2long   | Sweep (or column) number to replay from waveforms: -1 = all except the first (which is skipped), repeating last if necessary; 0 = all sweeps; N = sweep number. |
+2732   | nDACFileADCNum(0-1)     | 2short  | Logical ADC channel number to replay from waveform file.                                                                                                        |
+2736   | sDACFilePath(0-1)       | 412char | File path and name of DAC file containing waveform data. Must be ABF or ATF format.                                                                             |
 3248   | sUnused013              | 12char  | Unused.                                                                                                                                                         |
 
-### Extended Pre-sweep (Conditioning) Pulse Train
+### Extended Pre-sweep (Conditioning) Pulse Train (Extended Group 11, 100 bytes)
 
 Offset | Header Entry Name      | Type   | Description                                                                                                                        |
 ------ | --------------------   | ----   | -----------
-3260   | nConditEnable(0-1)     | short  | Conditioning pulse train activation status: 0 = Disable; 1 = Enable.                                                               |
-3264   | lConditNumPulses(0-1)  | long   | Number of pulses in conditioning pulse train.                                                                                      |
-3272   | fBaselineDuration(0-1) | float  | A single pulse in the conditioning train consists of a baseline followed by a step. This parameter is the baseline duration in ms. |
-3280   | fBaselineLevel(0-1)    | float  | Baseline level (user units).                                                                                                       |
-3288   | fStepDuration(0-1)     | float  | Step duration (ms).                                                                                                                |
-3296   | fStepLevel(0-1)        | float  | Step level (user units).                                                                                                           |
-3304   | fPostTrainPeriod(0-1)  | float  | At the end of the conditioning train there is a post-train steady-state output. This parameter is the post-train duration in ms.   |
-3312   | fPostTrainLevel(0-1)   | float  | Post-train level (user units).                                                                                                     |
+3260   | nConditEnable(0-1)     | 2short | Conditioning pulse train activation status: 0 = Disable; 1 = Enable.                                                               |
+3264   | lConditNumPulses(0-1)  | 2long  | Number of pulses in conditioning pulse train.                                                                                      |
+3272   | fBaselineDuration(0-1) | 2float | A single pulse in the conditioning train consists of a baseline followed by a step. This parameter is the baseline duration in ms. |
+3280   | fBaselineLevel(0-1)    | 2float | Baseline level (user units).                                                                                                       |
+3288   | fStepDuration(0-1)     | 2float | Step duration (ms).                                                                                                                |
+3296   | fStepLevel(0-1)        | 2float | Step level (user units).                                                                                                           |
+3304   | fPostTrainPeriod(0-1)  | 2float | At the end of the conditioning train there is a post-train steady-state output. This parameter is the post-train duration in ms.   |
+3312   | fPostTrainLevel(0-1)   | 2float | Post-train level (user units).                                                                                                     |
 3320   | sUnused014             | 40char | Unused.                                                                                                                            |
 
-### Extended Variable Parameter User List
+### Extended Variable Parameter User List (Extended Group 12, 1096 bytes)
 
-Offset | Header Entry Name       | Type    | Description                                                                                                                                                                                                                  |
------- | --------------------    | ----    | -----------
-3360   | nULEnable (0-3)         | short   | Parameter list activation status: 0 = Disable; 1 = Enable.                                                                                                                                                                   |
-3368   | nULParamToVary (0-3)    | short   | Holds the index of the parameter that varies from sweep to sweep in one run.                                                                                                                                                 |
-3376   | sULParamValueList (0-3) | 256char | List of comma-separated values. If the number of entries in the list is fewer than the requested number of sweeps, the last list value is re-used. If there are more values in the list, the excess list values are ignored. |
-4400   | nULRepeat(0-3)          | short   | Repeat the list when the current sweep exceeds the number of entries in the list. 0 = Disable, 1 = Repeat the list.                                                                                                          |
-4408   | sUnused015              | 36char  | Unused.                                                                                                                                                                                                                      |
+Offset | Header Entry Name       | Type     | Description                                                                                                                                                                                                                  |
+------ | --------------------    | ----     | -----------
+3360   | nULEnable (0-3)         | 4short   | Parameter list activation status: 0 = Disable; 1 = Enable.                                                                                                                                                                   |
+3368   | nULParamToVary (0-3)    | 4short   | Holds the index of the parameter that varies from sweep to sweep in one run.                                                                                                                                                 |
+3376   | sULParamValueList (0-3) | 1024char | List of comma-separated values. If the number of entries in the list is fewer than the requested number of sweeps, the last list value is re-used. If there are more values in the list, the excess list values are ignored. |
+4400   | nULRepeat(0-3)          | 4short   | Repeat the list when the current sweep exceeds the number of entries in the list. 0 = Disable, 1 = Repeat the list.                                                                                                          |
+4408   | sUnused015              | 48char   | Unused.                                                                                                                                                                                                                      |
 
 ```
 nULParamToVary:
@@ -284,24 +452,38 @@ nULParamToVary:
     EPOCHINITDURATION(0-9)=31-40
 ```
 
-### Extended Environmental Information
+```
+   // EXTENDED GROUP #15 - On-line subtraction (56 bytes)
+   short    nPNEnable[ABF_WAVEFORMCOUNT];
+   short    nPNPolarity[ABF_WAVEFORMCOUNT];
+   short    __nPNADCNum[ABF_WAVEFORMCOUNT];
+   float    fPNHoldingLevel[ABF_WAVEFORMCOUNT];
+   short    nPNNumADCChannels[ABF_WAVEFORMCOUNT];
+   char     nPNADCSamplingSeq[ABF_WAVEFORMCOUNT][ABF_ADCCOUNT];
+   // 4512 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36 + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56
+```
+
+### Extended Environmental Information (Extended Group 6, 898 bytes)
 
 Offset | Header Entry Name                   | Type    | Description                                                                                                                                                                |
 ------ | --------------------                | ----    | -----------
-4512   | nTelegraphEnable(0-15)              | short   | Telegraphs enabled in ADC channels: 0 = No; 1 = Yes.Index: ADC channel                                                                                                     |
-4544   | nTelegraphInstrument(0-15)          | short   | Telegraphs instrument identifier. Index: ADC channel                                                                                                                       |
-4576   | fTelegraphAdditGain(0-15)           | float   | Additional gain multiplier of Instrument. (Default = 1.)Index: ADC channel                                                                                                 |
-4640   | fTelegraphFilter(0-15)              | float   | Lowpass filter cutoff frequency of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 100000.)Index: ADC channel |
-4704   | fTelegraphMembraneCap(0-15)         | float   | Patch-clamp membrane capacitance compensation.                                                                                                                             |
-4768   | nTelegraphMode(0-15)                | short   | I-Clamp or V-Clamp mode. Currently this field is supported only for MultiClamp                                                                                             |
-4800   | nTelegraphDACScaleFactorEnable(0-3) | short   | Determines whether fDACScaleFactor was telegraphed: 1 = telegraphed; 0 = not telegraphed                                                                                   |
+4512   | nTelegraphEnable(0-15)              | 16short | Telegraphs enabled in ADC channels: 0 = No; 1 = Yes.Index: ADC channel                                                                                                     |
+4544   | nTelegraphInstrument(0-15)          | 16short | Telegraphs instrument identifier. Index: ADC channel                                                                                                                       |
+4576   | fTelegraphAdditGain(0-15)           | 16float | Additional gain multiplier of Instrument. (Default = 1.)Index: ADC channel                                                                                                 |
+4640   | fTelegraphFilter(0-15)              | 16float | Lowpass filter cutoff frequency of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 100000.)Index: ADC channel |
+4704   | fTelegraphMembraneCap(0-15)         | 16float | Patch-clamp membrane capacitance compensation.                                                                                                                             |
+4768   | nTelegraphMode(0-15)                | 16short | I-Clamp or V-Clamp mode. Currently this field is supported only for MultiClamp                                                                                             |
+4800   | nTelegraphDACScaleFactorEnable(0-3) | 16short | Determines whether fDACScaleFactor was telegraphed: 1 = telegraphed; 0 = not telegraphed                                                                                   |
 4808   | sUnused016a                         | 24char  | Unused.                                                                                                                                                                    |
 4832   | nAutoAnalyseEnable                  | short   | Enable auto-analyze                                                                                                                                                        |
 4834   | sAutoAnalysisMacroName              | 64char  | Name of auto-analysis macro.                                                                                                                                               |
 4898   | sProtocolPath                       | 256char | File path of protocol.                                                                                                                                                     |
 5154   | sFileComment                        | 128char | 128 byte ASCII comment string.                                                                                                                                             |
-5282   | sUnused017                          | 128char | Unused.                                                                                                                                                                    |
-
+5282   | FileGUID                            | 16char  | FileGUID struct.                                                                                                                                                           |
+5298   | fInstrumentHoldingLevel             | 16float | Instrument holding level                                                                                                                                                   |
+5314   | ulFileCRC                           | long    | File CRC value, probably unused for later versions.                                                                                                                        |
+5318   | sModifierInfo                       | 16char  | modifier info                                                                                                                                                              |
+5334   | sUnused17                           | 76char  | Unused                                                                                                                                                                     |
 
 ```
 nTelegraphInstrument codes
@@ -333,11 +515,57 @@ nTelegraphInstrument codes
     25 = Turbo Tec.
 ```
 
+```
+   // EXTENDED GROUP #13 - Statistics measurements (388 bytes)
+   // 5410
+   short    nStatsEnable;
+   // 5412
+   unsigned short nStatsActiveChannels;             // Active stats channel bit flag
+   // 5414
+   unsigned short nStatsSearchRegionFlags;          // Active stats region bit flag
+   // 5416
+   short    nStatsSelectedRegion;
+   // 5418
+   short    _nStatsSearchMode;
+   // 5420
+   short    nStatsSmoothing;
+   // 5422
+   short    nStatsSmoothingEnable;
+   // 5424
+   short    nStatsBaseline;
+   // 5426
+   ABFLONG     lStatsBaselineStart;
+   // 5430
+   ABFLONG     lStatsBaselineEnd;
+   // 5434
+   ABFLONG     lStatsMeasurements[ABF_STATS_REGIONS];  // Measurement bit flag for each region ABF_STATS_REGIONS == 8
+   // 5466
+   ABFLONG     lStatsStart[ABF_STATS_REGIONS];
+   // 5498
+   ABFLONG     lStatsEnd[ABF_STATS_REGIONS];
+   // 5530
+   short    nRiseBottomPercentile[ABF_STATS_REGIONS];
+   // 5546
+   short    nRiseTopPercentile[ABF_STATS_REGIONS];
+   // 5562
+   short    nDecayBottomPercentile[ABF_STATS_REGIONS];
+   // 5578
+   short    nDecayTopPercentile[ABF_STATS_REGIONS];
+   // 5594
+   short    nStatsChannelPolarity[ABF_ADCCOUNT];
+   // 5626
+   short    nStatsSearchMode[ABF_STATS_REGIONS];    // Stats mode per region: mode is cursor region, epoch etc
+   // 5642
+   char     sUnused018[156];
+   // 5798 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388
+```
+
 IHS-1 telegraphs are not supported. Note: for most programs this is an
 information-only field. For example, in Clampex the autosample instrument is
 chosen as a configuration item and copied into this field.
 
-### Application Version Data
+### Application Version Data (Group 18, 16 bytes)
 
 Offset | Header Entry Name    | Type  | Description                              |
 ------ | -------------------- | ----  | -----------
@@ -346,6 +574,61 @@ Offset | Header Entry Name    | Type  | Description                             
 5802   | nBugfixVersion       | short | Bug fix version of application:  0.0.x.0 |
 5804   | nBuildVersion        | short | Build version of application:  0.0.0.x   |
 5806   | sUnused019           | 8char | Unused.                                  |
+
+```
+   // 5806
+   short    nModifierMajorVersion;
+   // 5808
+   short    nModifierMinorVersion;
+   // 5810
+   short    nModifierBugfixVersion;
+   // 5812
+   short    nModifierBuildVersion;
+   // 5814 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16
+
+   // GROUP #19 - LTP protocol (14 bytes)
+   short    nLTPType;
+   short    nLTPUsageOfDAC[ABF_WAVEFORMCOUNT];
+   short    nLTPPresynapticPulses[ABF_WAVEFORMCOUNT];
+   char     sUnused020[4];
+   // 5828 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16 + 14
+
+   // GROUP #20 - Digidata 132x Trigger out flag. (8 bytes)
+   // 5828
+   short    nDD132xTriggerOut;
+   char     sUnused021[6];
+   // 5836 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16 + 14 + 8
+
+   // GROUP #21 - Epoch resistance (56 bytes) // TODO old value of 40 correct??
+   char     sEpochResistanceSignalName[ABF_WAVEFORMCOUNT][ABF_ADCNAMELEN];
+   short    nEpochResistanceState[ABF_WAVEFORMCOUNT];
+   char     sUnused022[16]; // TODO remove??
+   // 5892 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16 + 14 + 8 + 56
+
+   // GROUP #22 - Alternating episodic mode (58 bytes)
+   short    nAlternateDACOutputState;
+   short    nAlternateDigitalValue[ABF_EPOCHCOUNT];
+   short    nAlternateDigitalTrainValue[ABF_EPOCHCOUNT];
+   short    nAlternateDigitalOutputState;
+   char     sUnused023[14];
+   // 5950 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16 + 14 + 8 + 56 + 58
+
+   // GROUP #23 - Post-processing actions (210 bytes)
+   float    fPostProcessLowpassFilter[ABF_ADCCOUNT];
+   char     nPostProcessLowpassFilterType[ABF_ADCCOUNT];
+   // 6030 = 40 + 78 + 82 + 44 + 16 + 118 + 1044 + 14 + 184 + 98 + 44 + 84 + 36
+   //        + 52 + 34 + 82 + 16 + 10 + 62 + 160 + 412 + 552 + 100 + 1096 + 56 + 898 + 388 + 16 + 14 + 8 + 56 + 58 + 80
+
+   // 6014 header bytes allocated + 130 header bytes not allocated
+   char     sUnused2048[130];
+
+};   // Size = 6144
+```
 
 ### The ABF Synch Section
 
@@ -382,6 +665,7 @@ Offset | Header Entry Name    | Type   | Description                            
 62     | nVoiceTagNumber      | short  | If nTagType=ABF\_VOICETAG, this is the number of this voice tag.                                     |
 
 #### The ABFVoiceTagInfo structure
+
 Offset | Header Entry Name    | Type  | Description                                       |
 ------ | -------------------- | ----  | -----------
 0      | lTagNumber           | long  | The tag number that corresponds to this VoiceTag. |
