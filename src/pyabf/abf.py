@@ -212,8 +212,9 @@ class ABF:
             self.adcNames[i]    = self._headerV1.sADCChannelName[physicalChannel]
             self.channelList[i] = i
 
-        self.dacUnits = ["?" for x in self.adcUnits]
-        self.dacNames = ["?" for x in self.adcUnits]
+        # TODO not sure if these lists needs to be reduced
+        self.dacUnits = self._headerV1.sDACChannelUnit
+        self.dacNames = self._headerV1.sDACChannelName
 
         # data scaling
         self._dataGain = [1]*self.channelCount
