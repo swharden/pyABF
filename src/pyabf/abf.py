@@ -182,7 +182,14 @@ class ABF:
         self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
         self.dataByteStart += self._headerV1.nNumPointsIgnored
         self.dataPointCount = self._headerV1.lActualAcqLength
-        self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
+
+        if self._nDataFormat == 0:
+            self.dataPointByteSize = 2
+        elif self._nDataFormat == 1:
+            raise ValueError("Support for float data is not implemented")
+        else:
+            raise ValueError("_nDataFormat={} is invalid".format(self._nDataFormat))
+
         self.channelCount = self._headerV1.nADCNumChannels
         self.dataRate = 1e6 / self._headerV1.fADCSampleInterval
         self.dataRate = int(self.dataRate / self.channelCount)
