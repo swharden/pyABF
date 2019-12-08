@@ -19,7 +19,7 @@ Offset | Header Entry Name    | Type  | Description                             
 20     | lFileStartDate       | long  | Date when data portion of this file was first written to. Stored as YYMMDD. If YY is in the range 80–99, prefix with "19" to get the year. If YY is in the range 00–79, prefix with "20" to get the year. |
 24     | lFileStartTime       | long  | Time of day in seconds past midnight when data portion of this file was first written to.                                                                                                                 |
 28     | lStopwatchTime       | long  | Time since the stopwatch was zeroed that the data portion of this file was first written to. Not supported by all programs. Default = 0.                                                                  |
-32     | fHeaderVersionNumber | float | Version number of the header structure returned by the ABF_ReadOpen function. Currently 1.65. This parameter does not identify the data file format. See fFileVersionNumber above.                        |
+32     | fHeaderVersionNumber | float | Version number of the header structure returned by the ABF\_ReadOpen function. Currently 1.65. This parameter does not identify the data file format. See fFileVersionNumber above.                        |
 36     | nFileType            | short | Numeric equivalent of file type. 1 = ABF file; 2 = Old FETCHEX file (FTCX); 3 = Old Clampex file (CLPX). See sFileType.                                                                                   |
 38     | nMSBinFormat         | short | Storage method for real numbers in the header. Also see nDataFormat. 0 = IEEE format; 1 = Microsoft Binary format (old files only).                                                                       |
 
@@ -32,8 +32,8 @@ Offset | Header Entry Name     | Type  | Description                            
 48     | lNumTagEntries        | long  | Number of Tag entries.                                                                                                          |
 52     | lScopeConfigPtr       | long  | Block number of the ABF Scope Config section (was block number of start of Long Description section).                           |
 56     | lNumScopes            | long  | Number of ABFScopeConfig structures in the ABF Scope Config section (was number of lines of Long Description).                  |
-60     | _lDACFilePtr          | long  | Do not use: see Extended File Structure. Block number of start of DAC file section.                                             |
-64     | _lDACFileNumEpisodes  | long  | Do not use: see Extended File Structure. Number of sweeps in the DAC file section. Sweeps are not multiplexed.                  |
+60     | \_lDACFilePtr         | long  | Do not use: see Extended File Structure. Block number of start of DAC file section.                                             |
+64     | \_lDACFileNumEpisodes | long  | Do not use: see Extended File Structure. Number of sweeps in the DAC file section. Sweeps are not multiplexed.                  |
 68     | sUnused68             | 4char | Unused.                                                                                                                         |
 72     | lDeltaArrayPtr        | long  | Block number of start of Delta Array section.                                                                                   |
 76     | lNumDeltas            | long  | Number of entries in Delta Array section.                                                                                       |
@@ -80,24 +80,24 @@ Offset | Header Entry Name    | Type  | Description                             
 
 ### Environmental Information
 
-Offset | Header Entry Name       | Type   | Description                                                                                                                                                                                                                    |
------- | --------------------    | ----   | -----------
-260    | nExperimentType         | short  | Experiment type: 0 = Voltage Clamp; 1 = Current Clamp.                                                                                                                                                                         |
-262    | _nAutosampleEnable      | short  | Do not use: see Extended Environmental Information. Enable storage of autosample information: 0 = Disabled; 1 = Automatic; 2 = Manual.                                                                                         |
-264    | _nAutosampleADCNum      | short  | Do not use: see Extended Environmental Information. Physical ADC channel number to which autosampled parameters apply.                                                                                                         |
-266    | _nAutosampleInstrument  | short  | Do not use: see Extended Environmental Information. Note: for most programs this is an information-only field. For example, in Clampex the autosample instrument is chosen as a configuration item and copied into this field. |
-268    | _fAutosampleAdditGain   | float  | Do not use: see Extended Environmental Information. Additional gain multiplier of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 1.)                             |
-272    | _fAutosampleFilter      | float  | Do not use: see Extended Environmental Information. Lowpass filter cutoff frequency of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 100000.)                   |
-276    | _fAutosampleMembraneCap | float  | Do not use: see Extended Environmental Information. Patch-clamp membrane capacitance compensation. (Optionally autosampled by some acquisition programs.)                                                                      |
-280    | nManualInfoStrategy     | short  | Strategy for writing the manually entered information: 0 = Do not write; 1 = Write each trial; 2 = Prompt each trial.                                                                                                          |
-282    | fCellID1                | float  | Numeric identifier #1, e.g. cell identifier.                                                                                                                                                                                   |
-286    | fCellID2                | float  | Numeric identifier #2, e.g. temperature in °C.                                                                                                                                                                                 |
-290    | fCellID3                | float  | Numeric identifier #3.                                                                                                                                                                                                         |
-294    | sCreatorInfo            | 16char | Name and version of program used to create the file. For example, "AxoTape 2.0" or "Clampex 6.0".                                                                                                                              |
-310    | _sFileComment           | 56char | Do not use: see Extended Environmental Information. 56 byte ASCII comment string.                                                                                                                                              |
-366    | nFileStartMillisecs     | short  | Milliseconds portion of lFileStartTime                                                                                                                                                                                         |
-368    | nCommentsEnable         | short  | Enable comments field                                                                                                                                                                                                          |
-370    | sUnused003a             | 8char  | Unused.                                                                                                                                                                                                                        |
+Offset | Header Entry Name        | Type   | Description                                                                                                                                                                                                                    |
+------ | --------------------     | ----   | -----------
+260    | nExperimentType          | short  | Experiment type: 0 = Voltage Clamp; 1 = Current Clamp.                                                                                                                                                                         |
+262    | \_nAutosampleEnable      | short  | Do not use: see Extended Environmental Information. Enable storage of autosample information: 0 = Disabled; 1 = Automatic; 2 = Manual.                                                                                         |
+264    | \_nAutosampleADCNum      | short  | Do not use: see Extended Environmental Information. Physical ADC channel number to which autosampled parameters apply.                                                                                                         |
+266    | \_nAutosampleInstrument  | short  | Do not use: see Extended Environmental Information. Note: for most programs this is an information-only field. For example, in Clampex the autosample instrument is chosen as a configuration item and copied into this field. |
+268    | \_fAutosampleAdditGain   | float  | Do not use: see Extended Environmental Information. Additional gain multiplier of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 1.)                             |
+272    | \_fAutosampleFilter      | float  | Do not use: see Extended Environmental Information. Lowpass filter cutoff frequency of Instrument connected to nAutosampleADCNum. (Optionally autosampled by some acquisition programs.) (Default = 100000.)                   |
+276    | \_fAutosampleMembraneCap | float  | Do not use: see Extended Environmental Information. Patch-clamp membrane capacitance compensation. (Optionally autosampled by some acquisition programs.)                                                                      |
+280    | nManualInfoStrategy      | short  | Strategy for writing the manually entered information: 0 = Do not write; 1 = Write each trial; 2 = Prompt each trial.                                                                                                          |
+282    | fCellID1                 | float  | Numeric identifier #1, e.g. cell identifier.                                                                                                                                                                                   |
+286    | fCellID2                 | float  | Numeric identifier #2, e.g. temperature in °C.                                                                                                                                                                                 |
+290    | fCellID3                 | float  | Numeric identifier #3.                                                                                                                                                                                                         |
+294    | sCreatorInfo             | 16char | Name and version of program used to create the file. For example, "AxoTape 2.0" or "Clampex 6.0".                                                                                                                              |
+310    | \_sFileComment           | 56char | Do not use: see Extended Environmental Information. 56 byte ASCII comment string.                                                                                                                                              |
+366    | nFileStartMillisecs      | short  | Milliseconds portion of lFileStartTime                                                                                                                                                                                         |
+368    | nCommentsEnable          | short  | Enable comments field                                                                                                                                                                                                          |
+370    | sUnused003a              | 8char  | Unused.                                                                                                                                                                                                                        |
 
 ### Multi-channel Information
 
@@ -145,14 +145,14 @@ Offset | Header Entry Name    | Type  | Description                             
 Offset | Header Entry Name                      | Type  | Description                                                                                                                                                                   |
 ------ | --------------------                   | ----  | -----------
 1436   | nDigitalEnable                         | short | Enable digital outputs: 0 = No; 1 = Yes.                                                                                                                                      |
-1438   | _nWaveformSource                       | short | Do not use: see Extended Epoch Waveform and Pulses. Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definition; 2 = Generate waveform from a DAC file.  |
+1438   | \_nWaveformSource                      | short | Do not use: see Extended Epoch Waveform and Pulses. Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definition; 2 = Generate waveform from a DAC file.  |
 1440   | nActiveDACChannel                      | short | Active DAC channel, i.e. the one used for waveform generation.                                                                                                                |
-1442   | _nInterEpisodeLevel                    | short | Do not use: see Extended Epoch Waveform and Pulses. Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                           |
-1444   | _nEpochType(0-9)                       | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.                                                                             |
-1464   | _fEpochInitLevel(0-9)                  | float | Do not use: see Extended Epoch Waveform and Pulses. Epoch initial level (user units).                                                                                         |
-1504   | _fEpochLevelInc(0-9)                   | float | Do not use: see Extended Epoch Waveform and Pulses. Epoch level increment (user units).                                                                                       |
-1544   | _nEpochInitDuration(0-9)               | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch initial duration (in sequence counts).                                                                              |
-1564   | _nEpochDurationInc(0-9)                | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch duration increment (in sequence counts).                                                                            |
+1442   | \_nInterEpisodeLevel                   | short | Do not use: see Extended Epoch Waveform and Pulses. Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                           |
+1444   | \_nEpochType(0-9)                      | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.                                                                             |
+1464   | \_fEpochInitLevel(0-9)                 | float | Do not use: see Extended Epoch Waveform and Pulses. Epoch initial level (user units).                                                                                         |
+1504   | \_fEpochLevelInc(0-9)                  | float | Do not use: see Extended Epoch Waveform and Pulses. Epoch level increment (user units).                                                                                       |
+1544   | \_nEpochInitDuration(0-9)              | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch initial duration (in sequence counts).                                                                              |
+1564   | \_nEpochDurationInc(0-9)               | short | Do not use: see Extended Epoch Waveform and Pulses. Epoch duration increment (in sequence counts).                                                                            |
 1584   | nDigitalHolding                        | short | Holding value for digital output.                                                                                                                                             |
 1586   | nDigitalInterEpisode                   | short | Inter-sweep digital holding value: 0 = Use holding value; 1 = Use last epoch value.                                                                                           |
 1588   | nDigitalValue(0-9)                     | short | Epoch value for digital output (0...15).                                                                                                                                      |
@@ -164,7 +164,7 @@ Offset | Header Entry Name                      | Type  | Description           
 
 Offset | Header Entry Name          | Type   | Description                                                                                                                                                                                                                                                                |
 ------ | --------------------       | ----   | -----------
-1966   | _nListEnable               | short  | Do not use: see Extended Variable Parameter User List. Parameter list activation status: 0 = Disable; 1 = Enable.                                                                                                                                                          |
+1966   | \_nListEnable              | short  | Do not use: see Extended Variable Parameter User List. Parameter list activation status: 0 = Disable; 1 = Enable.                                                                                                                                                          |
 1968   | nBellEnable(0-1)           | short  | Auditory tone activation status: 0 = Disable; 1 = Enable.                                                                                                                                                                                                                  |
 1972   | nBellLocation(0-1)         | short  | Location of bell relative to trial: 0 = Before; 1 = After.                                                                                                                                                                                                                 |
 1976   | nBellRepetitions(0-1)      | short  | Number of sounds to produce.                                                                                                                                                                                                                                               |
@@ -208,19 +208,19 @@ Offset | Header Entry Name           | Type | Description                       
 
 ### Extended Epoch Waveform and Pulses
 
-Offset | Header Entry Name             | Type   | Description                                                                                                                                                                      |
+Offset | Header Entry Name             | Type   | Description                                                                                                                                                                       |
 ------ | --------------------          | ----   | -----------
-2296   | nWaveformEnable(0-1)          | short  | Analog waveform enabled: 0 = No; 1 = Yes.                                                                                                                                        |
-2300   | nWaveformSource(0-1)          | short  | Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definitions; 2 = Generate waveform from a DAC file.                                                        |
-2304   | nInterEpisodeLevel(0-1)       | short  | Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                                                                                  |
-2308   | nEpochType(0-1) (0-9)         | short  | Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.Indexes: analog out waveform, epoch number.                                                                                         |
-2348   | fEpochInitLevel(0-1) (0-9)    | float  | Epoch initial level (user units).                                                                                                                                                |
-2428   | fEpochLevelInc(0-1) (0-9)     | float  | Epoch level increment (user units).                                                                                                                                              |
-2508   | lEpochInitDuration(0-1) (0-9) | long   | Epoch initial duration (in sequence counts).                                                                                                                                     |
-2588   | lEpochDurationInc(0-1) (0-9)  | long   | Epoch duration increment (in sequence counts).                                                                                                                                   |
-2668   | nDigitalTrainValue(0-9)       | short  | Epoch duration increment in physical DAC channel order then epoch order (in sequence counts)                                                                                     |
-2688   | nDigitalTrainActiveLogic      | short  | Epoch value for digital train output in epoch order. 0000 = Disabled; 0*000 = Generates digital train on bit 3. Train period and pulse width can be controlled by the user list. |
-2690   | sUnused012                    | 18char | Unused                                                                                                                                                                           |
+2296   | nWaveformEnable(0-1)          | short  | Analog waveform enabled: 0 = No; 1 = Yes.                                                                                                                                         |
+2300   | nWaveformSource(0-1)          | short  | Analog waveform source: 0 = Disable; 1 = Generate waveform from epoch definitions; 2 = Generate waveform from a DAC file.                                                         |
+2304   | nInterEpisodeLevel(0-1)       | short  | Inter-sweep holding level: 0 = Use holding level; 1 = Use last epoch amplitude.                                                                                                   |
+2308   | nEpochType(0-1) (0-9)         | short  | Epoch type: 0 = Disabled; 1 = Step; 2 = Ramp.Indexes: analog out waveform, epoch number.                                                                                          |
+2348   | fEpochInitLevel(0-1) (0-9)    | float  | Epoch initial level (user units).                                                                                                                                                 |
+2428   | fEpochLevelInc(0-1) (0-9)     | float  | Epoch level increment (user units).                                                                                                                                               |
+2508   | lEpochInitDuration(0-1) (0-9) | long   | Epoch initial duration (in sequence counts).                                                                                                                                      |
+2588   | lEpochDurationInc(0-1) (0-9)  | long   | Epoch duration increment (in sequence counts).                                                                                                                                    |
+2668   | nDigitalTrainValue(0-9)       | short  | Epoch duration increment in physical DAC channel order then epoch order (in sequence counts)                                                                                      |
+2688   | nDigitalTrainActiveLogic      | short  | Epoch value for digital train output in epoch order. 0000 = Disabled; 0\*000 = Generates digital train on bit 3. Train period and pulse width can be controlled by the user list. |
+2690   | sUnused012                    | 18char | Unused                                                                                                                                                                            |
 
 ```
 ASCII digital train pattern
@@ -373,12 +373,13 @@ consists of a time stamp, a text comment, and a tag type identifier. If the tag
 is a voice tag, the data is held in an ABFVoiceTagInfo struct.
 
 #### The ABFTag Structure
-Offset | Header Entry Name    | Type   | Description                                                                                      |
+
+Offset | Header Entry Name    | Type   | Description                                                                                          |
 ------ | -------------------- | ----   | -----------
-0      | lTagTime             | long   | Time at which the tag was entered in fSynchTimeUnit units.                                       |
-4      | sComment             | 56char | Optional comment to describe the tag.                                                            |
-60     | nTagType             | short  | Type of tag. Valid types are ABF_TIMETAG=0, ABF_COMMENTTAG=1, ABF_EXTERNALTAG=2, ABF_VOICETAG=3. |
-62     | nVoiceTagNumber      | short  | If nTagType=ABF_VOICETAG, this is the number of this voice tag.                                  |
+0      | lTagTime             | long   | Time at which the tag was entered in fSynchTimeUnit units.                                           |
+4      | sComment             | 56char | Optional comment to describe the tag.                                                                |
+60     | nTagType             | short  | Type of tag. Valid types are ABF\_TIMETAG=0, ABF\_COMMENTTAG=1, ABF\_EXTERNALTAG=2, ABF\_VOICETAG=3. |
+62     | nVoiceTagNumber      | short  | If nTagType=ABF\_VOICETAG, this is the number of this voice tag.                                     |
 
 #### The ABFVoiceTagInfo structure
 Offset | Header Entry Name    | Type  | Description                                       |
@@ -401,8 +402,8 @@ tracked and entered in the ABF deltas section. Each entry is time stamped in
 fSynchTimeUnit units, so that the value of the parameter can be determined at
 any point during the acquisition.
 
-Offset | Header Entry Name             | Type       | Description                                                                           |
+Offset | Header Entry Name             | Type       | Description                                                                             |
 ------ | --------------------          | ----       | -----------
-0      | lDeltaTime                    | long       | Time at which the parameter was changed in fSynchTimeUnit units.                      |
-4      | lParameterID                  | long       | Identifier for the parameter changed. Legal parameter values are: ABF_DELTA_XXXXXXXX. |
-8      | lNewParamValue fNewParamValue | long float | Depending on the value of lParameterID this entry may be either a float or a long.    |
+0      | lDeltaTime                    | long       | Time at which the parameter was changed in fSynchTimeUnit units.                        |
+4      | lParameterID                  | long       | Identifier for the parameter changed. Legal parameter values are: ABF\_DELTA\_XXXXXXXX. |
+8      | lNewParamValue fNewParamValue | long float | Depending on the value of lParameterID this entry may be either a float or a long.      |
