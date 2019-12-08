@@ -7,7 +7,7 @@ files released with the official SDK.
 
 Code here is limited to the looking-up of data from the ABF header and its
 gentle messaging to improve readability. Code related to analysis or dividing
-data into sweeps does not belong in this file. 
+data into sweeps does not belong in this file.
 """
 
 import io
@@ -68,7 +68,7 @@ DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 def abfFileFormat(fb):
     """
-    This function returns 1 or 2 if the ABF file is v1 or v2.    
+    This function returns 1 or 2 if the ABF file is v1 or v2.
     This function returns False if the file is not an ABF file.
 
     The first few characters of an ABF file tell you its format.

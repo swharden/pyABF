@@ -10,8 +10,8 @@ an Epoch object. A single channel (DAC) has a list of Epoch objects, and can
 be considered an epoch table. These epoch tables (Epoch lists) can be passed
 around to be displayed or used to generate signal waveforms.
 
-The epoch table must be built and stepped through (sweep by sweep) before an 
-epoch waveform can be created for a single sweep. This is because levels for 
+The epoch table must be built and stepped through (sweep by sweep) before an
+epoch waveform can be created for a single sweep. This is because levels for
 one sweep can depend on the last level of the previous sweep.
 
 The minimum amount of information actually needed to create a waveform for a
@@ -104,7 +104,7 @@ class EpochSweepWaveform:
         and retrieve information about a sweep's epoch waveform. This object
         can only be populated after the full waveform table is created and
         stepped through sweep-by-sweep (because levels in a sweep can depend
-        on levels of the previous sweep). 
+        on levels of the previous sweep).
 
         Waveform synthesis happens in this class.
         """
@@ -344,7 +344,7 @@ class EpochTable:
 
     def _valToBitList(self, value, bitCount=_DIGITAL_OUTPUT_COUT):
         """
-        Given an integer, return a list of 0s and 1s representing the state of 
+        Given an integer, return a list of 0s and 1s representing the state of
         each of the bit.
         """
         value = int(value)
