@@ -119,7 +119,7 @@ class HeaderV1:
     """
 
     def __init__(self, fb):
-        self.fFileSignature = readStruct(fb, "4s", 0)
+        self.lFileSignature = readStruct(fb, "i", 0)
         self.fFileVersionNumber = readStruct(fb, "f", 4)
         self.nOperationMode = readStruct(fb, "h", 8)
         self.lActualAcqLength = readStruct(fb, "i", 10)
@@ -245,7 +245,7 @@ class HeaderV2:
 
     def __init__(self, fb):
         fb.seek(0)
-        self.fFileSignature = readStruct(fb, "4s")  # 0
+        self.sFileSignature = readStruct(fb, "4s")  # 0
         self.fFileVersionNumber = readStruct(fb, "4b")  # 4
         self.uFileInfoSize = readStruct(fb, "I")  # 8
         self.lActualEpisodes = readStruct(fb, "I")  # 12
