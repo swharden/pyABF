@@ -157,7 +157,7 @@ class HeaderV1:
         self.nActiveDACChannel = readStruct(fb, "h", 1440)
         self.nDigitalHolding = readStruct(fb, "h", 1584)
         self.nDigitalInterEpisode = readStruct(fb, "h", 1586)
-        self.nDigitalValue = readStruct(fb, "10h", 2588)
+        self.nDigitalValue = readStruct(fb, "10h", 1588)
         self.lDACFilePtr = readStruct(fb, "2i", 2048)
         self.lDACFileNumEpisodes = readStruct(fb, "2i", 2056)
         self.fDACCalibrationFactor = readStruct(fb, "4f", 2074)
