@@ -176,7 +176,7 @@ class ABF:
             self.abfFileComment = self._headerV1.sFileCommentOld
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
-        self.tagComments = self._headerV1.sComment
+        self.tagComments = self._headerV1.sTagComment
         self.tagTimesSec = self._headerV1.lTagTime
         self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
