@@ -170,7 +170,10 @@ class ABF:
         self.abfDateTimeString = self._headerV1.abfDateTimeString
         self.holdingCommand = self._headerV1.fEpochInitLevel
         self.protocolPath = self._headerV1.sProtocolPath
-        self.abfFileComment = ""
+        if self._headerV1.sFileCommentNew:
+            self.abfFileComment = self._headerV1.sFileCommentNew
+        else:
+            self.abfFileComment = self._headerV1.sFileCommentOld
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
         self.tagComments = self._headerV1.sComment

@@ -142,6 +142,7 @@ class HeaderV1:
         self.fADCRange = readStruct(fb, "f", 244)
         self.lADCResolution = readStruct(fb, "i", 252)
         self.nExperimentType = readStruct(fb, "h", 260)
+        self.sFileCommentOld = readStruct(fb, "56s", 310)
         self.nFileStartMillisecs = readStruct(fb, "h", 366)
         self.nADCPtoLChannelMap = readStruct(fb, "16h", 378)
         self.nADCSamplingSeq = readStruct(fb, "16h", 410)
@@ -171,7 +172,9 @@ class HeaderV1:
         self.lEpochDurationInc = readStruct(fb, "20i", 2588)
         self.nTelegraphEnable = readStruct(fb, "16h", 4512)
         self.fTelegraphAdditGain = readStruct(fb, "16f", 4576)
-        self.sProtocolPath = readStruct(fb, "384s", 4898)
+        # missing entries
+        self.sProtocolPath = readStruct(fb, "256s", 4898)
+        self.sFileCommentNew = readStruct(fb, "128s", 5154)
         self.uFileGUID = readStruct(fb, "16B", 5282)
 
         # format version number
