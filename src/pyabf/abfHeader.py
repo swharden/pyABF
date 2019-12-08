@@ -142,6 +142,7 @@ class HeaderV1:
         self.fADCRange = readStruct(fb, "f", 244)
         self.lADCResolution = readStruct(fb, "i", 252)
         self.nExperimentType = readStruct(fb, "h", 260)
+        self.sCreatorInfo = readStruct(fb, "16s", 294)
         self.sFileCommentOld = readStruct(fb, "56s", 310)
         self.nFileStartMillisecs = readStruct(fb, "h", 366)
         self.nADCPtoLChannelMap = readStruct(fb, "16h", 378)
@@ -175,6 +176,12 @@ class HeaderV1:
         # missing entries
         self.sProtocolPath = readStruct(fb, "256s", 4898)
         self.sFileCommentNew = readStruct(fb, "128s", 5154)
+        # missing entries
+        self.nCreatorMajorVersion = readStruct(fb, "h", 5798)
+        self.nCreatorMinorVersion = readStruct(fb, "h", 5800)
+        self.nCreatorBugfixVersion = readStruct(fb, "h", 5802)
+        self.nCreatorBuildVersion = readStruct(fb, "h", 5804)
+
         self.uFileGUID = readStruct(fb, "16B", 5282)
 
         # format version number
@@ -190,11 +197,14 @@ class HeaderV1:
 
         # format creator version
         self.creatorVersionDict = {}
-        self.creatorVersionDict["major"] = 0
-        self.creatorVersionDict["minor"] = 0
-        self.creatorVersionDict["bugfix"] = 0
-        self.creatorVersionDict["build"] = 0
-        self.creatorVersionString = '0.0.0.0'
+        self.creatorVersionDict["major"] = self.nCreatorMajorVersion
+        self.creatorVersionDict["minor"] = self.nCreatorMinorVersion
+        self.creatorVersionDict["bugfix"] = self.nCreatorBugfixVersion
+        self.creatorVersionDict["build"] = self.nCreatorBuildVersion
+        self.creatorVersionString = "%d.%d.%d.%d" % (self.creatorVersionDict["major"],
+                                                     self.creatorVersionDict["minor"],
+                                                     self.creatorVersionDict["bugfix"],
+                                                     self.creatorVersionDict["build"])
 
         # format GUID
         guid = []
