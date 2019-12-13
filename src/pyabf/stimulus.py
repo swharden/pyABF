@@ -136,6 +136,6 @@ def stimulusWaveformFromFile(abf, channel=0):
         return cachedStimuli[stimPath].sweepY
     else:
         if stimPath.upper().endswith(".ABF"):
-            return pyabf.ABF(stimPath)
+            return pyabf.ABF(stimPath).sweepY
         elif stimPath.upper().endswith(".ATF"):
-            return pyabf.ATF(stimPath)
+            return pyabf.ATF(stimPath).sweepY
