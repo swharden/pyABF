@@ -12,6 +12,7 @@ import numpy as np
 import copy
 import os
 import sys
+from pathlib import Path, PureWindowsPath
 import warnings
 import pyabf
 import pyabf.waveform
@@ -79,38 +80,36 @@ def findStimulusWaveformFile(abf, channel=0):
     Look for the stimulus waveform file in several places. Return the path
     where it can be found. Return None if it cannot be found.
 
-    The original path is a windows filename stored in the ABF header
+    The original path is an absolute windows filename stored in the ABF header.
     """
 
-    pathsTried = []
+    pathInHeader = Path(abf._stringsIndexed.lDACFilePath[channel])
 
-    pathInHeader = abf._stringsIndexed.lDACFilePath[channel]
-    pathInHeader = os.path.abspath(pathInHeader)
-    if os.path.exists(pathInHeader):
-        return pathInHeader
-    else:
-        pathsTried.append(pathInHeader)
+    if pathInHeader.is_file():
+        return str(pathInHeader)
 
-    linuxSafePath = pathInHeader.replace("\\", "/")
-    stimBasename = os.path.basename(linuxSafePath)
+    stimBasename = PureWindowsPath(pathInHeader).name
 
-    pathUserDefined = os.path.join(str(abf.stimulusFileFolder), stimBasename)
-    pathUserDefined = os.path.abspath(pathUserDefined)
-    if os.path.exists(pathUserDefined):
-        return pathUserDefined
-    else:
-        pathsTried.append(pathUserDefined)
+    pathCurrent = Path(stimBasename).resolve()
+    if pathCurrent.is_file():
+        return str(pathCurrent)
 
-    abfFolder = os.path.dirname(abf.abfFilePath)
-    pathSameFolder = os.path.join(abfFolder, stimBasename)
-    pathSameFolder = os.path.abspath(pathSameFolder)
-    if os.path.exists(pathSameFolder):
-        return pathSameFolder
-    else:
-        pathsTried.append(pathSameFolder)
+    pathUserDefined = Path(str(abf.stimulusFileFolder)).joinpath(stimBasename).resolve()
+    if pathUserDefined.is_file():
+        return str(pathUserDefined)
 
-    pathsTried = ", ".join(pathsTried)
-    warnings.warn("Could not locate stimulus file. Paths tried:\n"+pathsTried)
+    pathSameFolderAsABF = Path(abf.abfFilePath).joinpath(stimBasename).resolve()
+    if pathSameFolderAsABF.is_file():
+        return str(pathSameFolderAsABF)
+
+    warnings.warn(f"We could not locate the stimulus file for channel {channel}\n"
+                  f"of {abf.abfFilePath}.\n"
+                  f"The following locations were tried:\n"
+                  f"Original file path: {pathInHeader}\n"
+                  f"Current directory: {pathCurrent}\n"
+                  f"User defined stimulus location: {pathUserDefined}\n"
+                  f"Same folder as ABF: {(pathSameFolderAsABF)}\n")
+
     return None
 
 
