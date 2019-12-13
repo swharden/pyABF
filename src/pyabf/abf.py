@@ -315,9 +315,7 @@ class ABF:
                 self.sweepIntervalSec = self.sweepLengthSec
 
         # determine total ABF recording length
-        self.dataLengthSec = self.sweepIntervalSec*self.sweepCount
-        if self.sweepCount > 1:
-            self.dataLengthSec += self.sweepLengthSec
+        self.dataLengthSec = self.sweepLengthSec * self.sweepCount
         self.dataLengthMin = self.dataLengthSec / 60.0
 
         # protocol file
