@@ -1,5 +1,5 @@
 """
-ABFs can be created when signals are applied using the DAC. If these "stimulus 
+ABFs can be created when signals are applied using the DAC. If these "stimulus
 waveforms" are used, they either come from an epoch table or from a DAC file.
 Code in this file determines where the stimulus comes from and returns it for
 a given sweep and channel.
