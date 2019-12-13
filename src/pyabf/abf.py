@@ -13,6 +13,7 @@ import glob
 import time
 import datetime
 import numpy as np
+from pathlib import PureWindowsPath
 
 import logging
 logging.basicConfig(level=logging.WARNING)
@@ -322,8 +323,7 @@ class ABF:
 
         # protocol file
         if self.protocolPath.endswith(".pro"):
-            self.protocol = os.path.basename(self.protocolPath)
-            self.protocol = self.protocol.replace(".pro", "")
+            self.protocol = PureWindowsPath(self.protocolPath).stem
         else:
             self.protocolPath = "None"
             self.protocol = "None"
