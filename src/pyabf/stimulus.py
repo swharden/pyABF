@@ -73,16 +73,6 @@ class Stimulus:
             self.text = "unknown nWaveformSource (%d)" % nWaveformSource
             return np.full(self.abf.sweepPointCount, np.nan)
 
-    @property
-    def protocolStorageDir(self):
-        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
-        return self.abf.stimulusFileFolder
-
-    @protocolStorageDir.setter
-    def protocolStorageDir(self, val=None):
-        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
-        self.abf.stimulusFileFolder = val
-
 
 def findStimulusWaveformFile(abf, channel=0):
     """
