@@ -172,6 +172,7 @@ class HeaderV1:
         self.nTelegraphEnable = readStruct(fb, "16h", 4512)
         self.fTelegraphAdditGain = readStruct(fb, "16f", 4576)
         self.sProtocolPath = readStruct(fb, "384s", 4898)
+        self.uFileGUID = readStruct(fb, "16B", 5282)
 
         # format version number
         versionParts = list(str(int(self.fFileVersionNumber*1000)))
@@ -193,9 +194,8 @@ class HeaderV1:
         self.creatorVersionString = '0.0.0.0'
 
         # format GUID
-        self.uFileGUID = readStruct(fb, "16B", 5282)
         guid = []
-        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 15, 15]:
+        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 14, 15]:
             guid.append("%.2X" % (self.uFileGUID[i]))
         for i in [4, 7, 10, 13]:
             guid.insert(i, "-")
@@ -283,7 +283,7 @@ class HeaderV2:
 
         # format GUID
         guid = []
-        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 15, 15]:
+        for i in [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 14, 15]:
             guid.append("%.2X" % (self.uFileGUID[i]))
         for i in [4, 7, 10, 13]:
             guid.insert(i, "-")
