@@ -587,3 +587,11 @@ class ABF:
     def sweepTimesMin(self):
         """Numpy array of sweep start times (in minutes)"""
         return self.sweepTimesSec/60
+
+    @property
+    def sweepDerivative(self):
+        """First derivative of sweepY (delta units / second)"""
+        ddt = np.diff(self.sweepY)
+        ddt = np.append(ddt, [ddt[-1]])
+        ddt *= self.dataRate
+        return ddt
