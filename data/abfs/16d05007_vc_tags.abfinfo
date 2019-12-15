@@ -1,30 +1,30 @@
-Protocol: S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-Data File: 17o05028_ic_steps
-File format: ABF V2.06
-Created: Oct 5, 2017, at 14:42:46.899 [02:19:39]
-Created by: Clampex 10.7
+Protocol: S:\Protocols\permanent\0402 VC 2s MT-50.pro
+Data File: 16d05007_vc_tags
+File format: ABF V2.00
+Created: Dec 5, 2016, at 12:40:20.701 [00:02:36]
+Created by: Clampex 10.3
 Acquisition mode: episodic stimulation.
 Axon binary file (integer)
-960000 samples in this file.
-Comment: n/a
+7480000 samples in this file.
+Comment: SWHLab5[0402]
 
 
 
 nOperationMode =                  5
-fFileVersionNumber =           2.06
-lActualAcqLength =           960000
+fFileVersionNumber =              2
+lActualAcqLength =          7480000
 nNumPointsIgnored =               0
-lActualEpisodes =                16
-uFileStartDate =           20171005
-uFileStartTimeMS =         52966899
-lStopwatchTime =               8379
+lActualEpisodes =               187
+uFileStartDate =           20161205
+uFileStartTimeMS =         45620701
+lStopwatchTime =                156
 fHeaderVersionNumber =         2.09
 nFileType =                       1
 
-lDataSectionPtr =                13
-lTagSectionPtr =                  0
-lNumTagEntries =                  0
-lScopeConfigPtr =                11
+lDataSectionPtr =                11
+lTagSectionPtr =              29233
+lNumTagEntries =                  2
+lScopeConfigPtr =                 9
 lNumScopes =                      1
 lDACFilePtr[0] =                  0
 lDACFileNumEpisodes[0] =          0
@@ -44,8 +44,8 @@ lDACFilePtr[7] =                  0
 lDACFileNumEpisodes[7] =          0
 lDeltaArrayPtr =                  0
 lNumDeltas =                      0
-lSynchArrayPtr =               3763
-lSynchArraySize =                16
+lSynchArrayPtr =              29230
+lSynchArraySize =               187
 nDataFormat =                     0
 nSimultaneousScan =               1
 
@@ -54,9 +54,9 @@ fADCSequenceInterval =           50
 uFileCompressionRatio =           1
 fSynchTimeUnit =               12.5
 fSecondsPerRun =               7200
-lNumSamplesPerEpisode =       60000
+lNumSamplesPerEpisode =       40000
 lPreTriggerSamples =             20
-lEpisodesPerRun =                21
+lEpisodesPerRun =             10000
 lRunsPerTrial =                   1
 lNumberOfTrials =                 1
 nAveragingMode =                  0
@@ -75,11 +75,11 @@ lLegacyClockChange =              0
 nChannelStatsStrategy =           0
 lSamplesPerTrace =            40000
 lStartDisplayNum =                0
-lFinishDisplayNum =           60000
+lFinishDisplayNum =           40000
 nShowPNRawData =                  0
 fStatisticsPeriod =               1
 lStatisticsMeasurements =         5h
-nStatisticsSaveStrategy =         0
+nStatisticsSaveStrategy =         1
 nStatisticsClearStrategy =        1
 
 fADCRange =                      10
@@ -89,16 +89,16 @@ lDACResolution =              32768
 
 nExperimentType =                 2
 
-File GUID:       {307EE462-8A84-41AE-8188-4AB5B73AAAE3}.
+File GUID:       {976F25AA-3C33-4CBA-BF83-FDB2F2720C1A}.
 
 nTelegraphEnable[0] =             1
-nTelegraphMode[0] =               1
+nTelegraphMode[0] =               0
 nTelegraphInstrument[0] =        24
-fTelegraphAdditGain[0] =          1
-fTelegraphFilter[0] =         10000
+fTelegraphAdditGain[0] =          5
+fTelegraphFilter[0] =          2000
 fTelegraphMembraneCap[0] =        0
 
-nCommentsEnable =                 0
+nCommentsEnable =                 1
 nManualInfoStrategy =             1
 fCellID1 =                        0
 fCellID2 =                        0
@@ -107,14 +107,14 @@ nSignalType =                     0
 
 ADC channel information:
 No.  sADCChannelName  sADCUnits
- 0     IN 0           mV      
+ 0     IN 0           pA      
 
 No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
- 0         0.0000         -21.7500           0.0000
+ 0         0.0000        -133.0000           0.0000
 
     fInstrumentScaleFactor             fADCProgrammableGain
 No.               fADCDisplayAmplification                   fSignalGain
- 0         0.0100          12.3075           1.0000            1.0000
+ 0         0.0005           4.4247           1.0000            1.0000
 
 No.  fSignalLowpassFilter  fSignalHighpassFilter
  0         5000.0000                 1.0000
@@ -129,7 +129,7 @@ No.  nPostProcessLowpassFilterType  fPostProcessLowpassFilter
 
 DAC channel information:
 No. sDACChannelName  sDACChannelUnits  fDACScaleFactor  fDACHoldingLevel
- 0      Cmd 0            pA                400.0000            0.0000
+ 0      Cmd 0            mV                 20.0000          -50.0000
 nDigitalHolding =              0
 
 Epoch Output Waveform and Pulses:
@@ -144,11 +144,11 @@ nInterEpisodeLevel[0] =           0
 
   nEpochType[0]      fEpochLevelInc[0]         nEpochDurationInc[0]     lEpochPulsePeriod[0]
 No.      fEpochInitLevel[0]     nEpochInitDuration[0]          nDigitalValue[0]          lEpochPulseWidth[0]
- 0   Step          0.000      0.000       2000             0      0000              0              0
- 1   Step        -50.000     10.000      10000             0      0000              0              0
- 2   Step          0.000      0.000      10000             0      0000              0              0
- 3   Step        -50.000      0.000      10000             0      0000              0              0
- 4   Step        -50.000     10.000      10000             0      0000              0              0
+ 0   Step        -60.000      0.000       4000             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      0000              0              0
+ 2   Off           0.000      0.000          0             0      0000              0              0
+ 3   Off           0.000      0.000          0             0      0000              0              0
+ 4   Off           0.000      0.000          0             0      0000              0              0
  5   Off           0.000      0.000          0             0      0000              0              0
  6   Off           0.000      0.000          0             0      0000              0              0
  7   Off           0.000      0.000          0             0      0000              0              0
@@ -788,23 +788,32 @@ nULRepeat[7] =              FALSE
 Statistics:  Enabled
 Statistics signal:               IN 0.
 Polarity (IN 0) =                  1
-Search Mode =                           1
-Search DAC =                       47863335
-Region 0 Start (sample) =             4444
-Region 0 Start (ms) =            1717986918
-Region 0 End (sample) =              6666
+Search Mode =                          -2
+Region 0 Start (sample) =            11670
+Region 0 Start (ms) =                   0
+Region 0 End (sample) =             34549
 Region 0 End (ms) =              -858993459
-Region 0 Measurements =              290h
+Region 0 Measurements =               10h
 Region 0 RiseBottomPercentile =        10
 Region 0 RiseTopPercentile =           90
 Region 0 DecayBottomPercentile =       10
 Region 0 DecayTopPercentile =          90
+Search Mode =                          -2
+Region 1 Start (sample) =             4069
+Region 1 Start (ms) =            1717986918
+Region 1 End (sample) =              5067
+Region 1 End (ms) =              858993459
+Region 1 Measurements =                1h
+Region 1 RiseBottomPercentile =        10
+Region 1 RiseTopPercentile =           90
+Region 1 DecayBottomPercentile =       10
+Region 1 DecayTopPercentile =          90
 Smoothing window =                      1
 Baseline =                             -2
 Baseline Start (sample) =          0
 Baseline Start (ms) =              0
-Baseline End (sample) =         2222
-Baseline End (ms) =         1717986918
+Baseline End (sample) =          998
+Baseline End (ms) =         858993459
 
 Channel Arithmetic:
 nArithmeticEnable =        FALSE
@@ -932,13 +941,13 @@ sEpochResistanceSignalName[2] =
 nEpochResistanceState[2]      = 0
 sEpochResistanceSignalName[3] =           
 nEpochResistanceState[3]      = 0
-sEpochResistanceSignalName[4] =           
+sEpochResistanceSignalName[4] = IN 4
 nEpochResistanceState[4]      = 0
-sEpochResistanceSignalName[5] =           
+sEpochResistanceSignalName[5] = IN 5
 nEpochResistanceState[5]      = 0
-sEpochResistanceSignalName[6] =           
+sEpochResistanceSignalName[6] = IN 6
 nEpochResistanceState[6]      = 0
-sEpochResistanceSignalName[7] =           
+sEpochResistanceSignalName[7] = IN 7
 nEpochResistanceState[7]      = 0
 
 nAlternateDACOutputState     =  0

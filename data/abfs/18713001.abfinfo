@@ -1,23 +1,23 @@
-Protocol: S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-Data File: 17o05028_ic_steps
+Protocol: C:\Users\patch\Documents\Molecular Devices\pCLAMP\Params\FICurve_Hyperpolarizing_KL.pro
+Data File: 18713001
 File format: ABF V2.06
-Created: Oct 5, 2017, at 14:42:46.899 [02:19:39]
+Created: Jul 13, 2018, at 15:11:44.841 [01:55:35]
 Created by: Clampex 10.7
 Acquisition mode: episodic stimulation.
 Axon binary file (integer)
-960000 samples in this file.
+900000 samples in this file.
 Comment: n/a
 
 
 
 nOperationMode =                  5
 fFileVersionNumber =           2.06
-lActualAcqLength =           960000
+lActualAcqLength =           900000
 nNumPointsIgnored =               0
-lActualEpisodes =                16
-uFileStartDate =           20171005
-uFileStartTimeMS =         52966899
-lStopwatchTime =               8379
+lActualEpisodes =                30
+uFileStartDate =           20180713
+uFileStartTimeMS =         54704841
+lStopwatchTime =               6935
 fHeaderVersionNumber =         2.09
 nFileType =                       1
 
@@ -44,19 +44,19 @@ lDACFilePtr[7] =                  0
 lDACFileNumEpisodes[7] =          0
 lDeltaArrayPtr =                  0
 lNumDeltas =                      0
-lSynchArrayPtr =               3763
-lSynchArraySize =                16
+lSynchArrayPtr =               3529
+lSynchArraySize =                30
 nDataFormat =                     0
 nSimultaneousScan =               1
 
 nADCNumChannels =                 1
 fADCSequenceInterval =           50
 uFileCompressionRatio =           1
-fSynchTimeUnit =               12.5
-fSecondsPerRun =               7200
-lNumSamplesPerEpisode =       60000
+fSynchTimeUnit =                 50
+fSecondsPerRun =                 10
+lNumSamplesPerEpisode =       30000
 lPreTriggerSamples =             20
-lEpisodesPerRun =                21
+lEpisodesPerRun =                30
 lRunsPerTrial =                   1
 lNumberOfTrials =                 1
 nAveragingMode =                  0
@@ -68,19 +68,19 @@ nTriggerSource =                 -3
 nTriggerAction =                  0
 nTriggerPolarity =                0
 fScopeOutputInterval =            0
-fEpisodeStartToStart =            0
+fEpisodeStartToStart =           20
 fRunStartToStart =                0
 fTrialStartToStart =              0
 lLegacyClockChange =              0
 nChannelStatsStrategy =           0
-lSamplesPerTrace =            40000
+lSamplesPerTrace =            16384
 lStartDisplayNum =                0
-lFinishDisplayNum =           60000
+lFinishDisplayNum =           30000
 nShowPNRawData =                  0
 fStatisticsPeriod =               1
 lStatisticsMeasurements =         5h
 nStatisticsSaveStrategy =         0
-nStatisticsClearStrategy =        1
+nStatisticsClearStrategy =        0
 
 fADCRange =                      10
 fDACRange =                      10
@@ -89,17 +89,17 @@ lDACResolution =              32768
 
 nExperimentType =                 2
 
-File GUID:       {307EE462-8A84-41AE-8188-4AB5B73AAAE3}.
+File GUID:       {1EA30A6A-3D32-4F02-BC1A-6829F1494859}.
 
 nTelegraphEnable[0] =             1
 nTelegraphMode[0] =               1
 nTelegraphInstrument[0] =        24
-fTelegraphAdditGain[0] =          1
+fTelegraphAdditGain[0] =          2
 fTelegraphFilter[0] =         10000
 fTelegraphMembraneCap[0] =        0
 
 nCommentsEnable =                 0
-nManualInfoStrategy =             1
+nManualInfoStrategy =             0
 fCellID1 =                        0
 fCellID2 =                        0
 fCellID3 =                        0
@@ -110,14 +110,14 @@ No.  sADCChannelName  sADCUnits
  0     IN 0           mV      
 
 No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
- 0         0.0000         -21.7500           0.0000
+ 0         0.0000         -71.8819           0.0000
 
     fInstrumentScaleFactor             fADCProgrammableGain
 No.               fADCDisplayAmplification                   fSignalGain
- 0         0.0100          12.3075           1.0000            1.0000
+ 0         0.0100          16.0000           1.0000            1.0000
 
 No.  fSignalLowpassFilter  fSignalHighpassFilter
- 0         5000.0000                 1.0000
+ 0        50000.0000               500.0000
 
 ADC channel mapping:
 nADCChannel          0 
@@ -144,11 +144,11 @@ nInterEpisodeLevel[0] =           0
 
   nEpochType[0]      fEpochLevelInc[0]         nEpochDurationInc[0]     lEpochPulsePeriod[0]
 No.      fEpochInitLevel[0]     nEpochInitDuration[0]          nDigitalValue[0]          lEpochPulseWidth[0]
- 0   Step          0.000      0.000       2000             0      0000              0              0
- 1   Step        -50.000     10.000      10000             0      0000              0              0
- 2   Step          0.000      0.000      10000             0      0000              0              0
- 3   Step        -50.000      0.000      10000             0      0000              0              0
- 4   Step        -50.000     10.000      10000             0      0000              0              0
+ 0   Step       -100.000      0.000       6000             0      0000              0              0
+ 1   Step          0.000      0.000      10000             0      0000              0              0
+ 2   Step          0.000     10.000      10000             0      0000              0              0
+ 3   Off           0.000      0.000          0             0      0000              0              0
+ 4   Off           0.000      0.000          0             0      0000              0              0
  5   Off           0.000      0.000          0             0      0000              0              0
  6   Off           0.000      0.000          0             0      0000              0              0
  7   Off           0.000      0.000          0             0      0000              0              0
@@ -463,7 +463,7 @@ nULRepeat[3] =              FALSE
 
 Epoch Output Waveform - Channel 4:
 nWaveformEnable[4] =              0
-nWaveformSource[4] =              0
+nWaveformSource[4] =              1
 nInterEpisodeLevel[4] =           0
 
   nEpochType[4]      fEpochLevelInc[4]         nEpochDurationInc[4]     lEpochPulsePeriod[4]
@@ -529,9 +529,9 @@ sDACFilePath[4] =
 Pre-sweep pulse train 4:
 nConditEnable[4] =            FALSE
 lConditNumPulses[4] =             0
-fBaselineDuration[4] =            0
+fBaselineDuration[4] =            1
 fBaselineLevel[4] =               0
-fStepDuration[4] =                0
+fStepDuration[4] =                1
 fStepLevel[4] =                   0
 fPostTrainPeriod[4] =            10
 fPostTrainLevel[4] =              0
@@ -544,7 +544,7 @@ nULRepeat[4] =              FALSE
 
 Epoch Output Waveform - Channel 5:
 nWaveformEnable[5] =              0
-nWaveformSource[5] =              0
+nWaveformSource[5] =              1
 nInterEpisodeLevel[5] =           0
 
   nEpochType[5]      fEpochLevelInc[5]         nEpochDurationInc[5]     lEpochPulsePeriod[5]
@@ -610,9 +610,9 @@ sDACFilePath[5] =
 Pre-sweep pulse train 5:
 nConditEnable[5] =            FALSE
 lConditNumPulses[5] =             0
-fBaselineDuration[5] =            0
+fBaselineDuration[5] =            1
 fBaselineLevel[5] =               0
-fStepDuration[5] =                0
+fStepDuration[5] =                1
 fStepLevel[5] =                   0
 fPostTrainPeriod[5] =            10
 fPostTrainLevel[5] =              0
@@ -625,7 +625,7 @@ nULRepeat[5] =              FALSE
 
 Epoch Output Waveform - Channel 6:
 nWaveformEnable[6] =              0
-nWaveformSource[6] =              0
+nWaveformSource[6] =              1
 nInterEpisodeLevel[6] =           0
 
   nEpochType[6]      fEpochLevelInc[6]         nEpochDurationInc[6]     lEpochPulsePeriod[6]
@@ -691,9 +691,9 @@ sDACFilePath[6] =
 Pre-sweep pulse train 6:
 nConditEnable[6] =            FALSE
 lConditNumPulses[6] =             0
-fBaselineDuration[6] =            0
+fBaselineDuration[6] =            1
 fBaselineLevel[6] =               0
-fStepDuration[6] =                0
+fStepDuration[6] =                1
 fStepLevel[6] =                   0
 fPostTrainPeriod[6] =            10
 fPostTrainLevel[6] =              0
@@ -706,7 +706,7 @@ nULRepeat[6] =              FALSE
 
 Epoch Output Waveform - Channel 7:
 nWaveformEnable[7] =              0
-nWaveformSource[7] =              0
+nWaveformSource[7] =              1
 nInterEpisodeLevel[7] =           0
 
   nEpochType[7]      fEpochLevelInc[7]         nEpochDurationInc[7]     lEpochPulsePeriod[7]
@@ -772,9 +772,9 @@ sDACFilePath[7] =
 Pre-sweep pulse train 7:
 nConditEnable[7] =            FALSE
 lConditNumPulses[7] =             0
-fBaselineDuration[7] =            0
+fBaselineDuration[7] =            1
 fBaselineLevel[7] =               0
-fStepDuration[7] =                0
+fStepDuration[7] =                1
 fStepLevel[7] =                   0
 fPostTrainPeriod[7] =            10
 fPostTrainLevel[7] =              0
@@ -785,26 +785,7 @@ nULParamToVary[7] =                 0
 sULParamValueList[7] =                                                                                       
 nULRepeat[7] =              FALSE
 
-Statistics:  Enabled
-Statistics signal:               IN 0.
-Polarity (IN 0) =                  1
-Search Mode =                           1
-Search DAC =                       47863335
-Region 0 Start (sample) =             4444
-Region 0 Start (ms) =            1717986918
-Region 0 End (sample) =              6666
-Region 0 End (ms) =              -858993459
-Region 0 Measurements =              290h
-Region 0 RiseBottomPercentile =        10
-Region 0 RiseTopPercentile =           90
-Region 0 DecayBottomPercentile =       10
-Region 0 DecayTopPercentile =          90
-Smoothing window =                      1
-Baseline =                             -2
-Baseline Start (sample) =          0
-Baseline Start (ms) =              0
-Baseline End (sample) =         2222
-Baseline End (ms) =         1717986918
+Statistics: Disabled
 
 Channel Arithmetic:
 nArithmeticEnable =        FALSE

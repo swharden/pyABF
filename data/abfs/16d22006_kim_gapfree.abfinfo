@@ -1,0 +1,220 @@
+Protocol: C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro
+Data File: 16d22006_kim_gapfree
+File format: ABF V2.00
+Created: Dec 22, 2016, at 14:39:47.945 [00:34:48]
+Created by: AxoScope 10.3
+Acquisition mode: gap-free.
+Axon binary file (integer)
+966000 samples in this file.
+Comment: n/a
+
+
+
+nOperationMode =                  3
+fFileVersionNumber =              2
+lActualAcqLength =           966000
+nNumPointsIgnored =               0
+lActualEpisodes =                 0
+uFileStartDate =           20161222
+uFileStartTimeMS =         52787945
+lStopwatchTime =               2088
+fHeaderVersionNumber =         2.09
+nFileType =                       1
+
+lDataSectionPtr =                 9
+lTagSectionPtr =                  0
+lNumTagEntries =                  0
+lScopeConfigPtr =                 7
+lNumScopes =                      1
+lDACFilePtr[0] =                  0
+lDACFileNumEpisodes[0] =          0
+lDACFilePtr[1] =                  0
+lDACFileNumEpisodes[1] =          0
+lDACFilePtr[2] =                  0
+lDACFileNumEpisodes[2] =          0
+lDACFilePtr[3] =                  0
+lDACFileNumEpisodes[3] =          0
+lDACFilePtr[4] =                  0
+lDACFileNumEpisodes[4] =          0
+lDACFilePtr[5] =                  0
+lDACFileNumEpisodes[5] =          0
+lDACFilePtr[6] =                  0
+lDACFileNumEpisodes[6] =          0
+lDACFilePtr[7] =                  0
+lDACFileNumEpisodes[7] =          0
+lDeltaArrayPtr =                  0
+lNumDeltas =                      0
+lSynchArrayPtr =                  0
+lSynchArraySize =                 0
+nDataFormat =                     0
+nSimultaneousScan =               0
+
+nADCNumChannels =                 2
+fADCSequenceInterval =          100
+uFileCompressionRatio =           1
+fSynchTimeUnit =                  0
+fSecondsPerRun =                  0
+lNumSamplesPerEpisode =        4000
+lPreTriggerSamples =             40
+lEpisodesPerRun =                 1
+lRunsPerTrial =                   1
+lNumberOfTrials =                 1
+nAveragingMode =                  0
+lAverageCount =                   0
+nUndoRunCount =                   0
+nFirstEpisodeInRun =              0
+fTriggerThreshold =               0
+nTriggerSource =                 -3
+nTriggerAction =                  0
+nTriggerPolarity =                0
+fScopeOutputInterval =            0
+fEpisodeStartToStart =            0
+fRunStartToStart =                0
+fTrialStartToStart =              0
+lLegacyClockChange =              0
+nChannelStatsStrategy =           0
+lSamplesPerTrace =            20000
+lStartDisplayNum =                0
+lFinishDisplayNum =               0
+nShowPNRawData =                  0
+fStatisticsPeriod =               1
+lStatisticsMeasurements =         5h
+nStatisticsSaveStrategy =         0
+nStatisticsClearStrategy =        0
+
+fADCRange =                      10
+fDACRange =                      10
+lADCResolution =              32768
+lDACResolution =              32768
+
+nExperimentType =                 2
+
+File GUID:       {7125B685-4F50-474D-B53F-AF2D1E9DD734}.
+
+nTelegraphEnable[2] =             0
+nTelegraphMode[2] =               0
+nTelegraphInstrument[2] =         0
+fTelegraphAdditGain[2] =          1
+fTelegraphFilter[2] =             0
+fTelegraphMembraneCap[2] =        0
+nTelegraphEnable[3] =             0
+nTelegraphMode[3] =               0
+nTelegraphInstrument[3] =         0
+fTelegraphAdditGain[3] =          1
+fTelegraphFilter[3] =             0
+fTelegraphMembraneCap[3] =        0
+
+nCommentsEnable =                 0
+nManualInfoStrategy =             0
+fCellID1 =                        0
+fCellID2 =                        0
+fCellID3 =                        0
+nSignalType =                     1
+
+ADC channel information:
+No.  sADCChannelName  sADCUnits
+ 2     IN 2           dB      
+ 3     IN 3           mV      
+
+No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
+ 2         0.0000           0.0000           0.0000
+ 3         0.0000           0.0000           0.0000
+
+    fInstrumentScaleFactor             fADCProgrammableGain
+No.               fADCDisplayAmplification                   fSignalGain
+ 2         1.0000           1.0000           1.0000            1.0000
+ 3         1.0000           1.0000           1.0000            1.0000
+
+No.  fSignalLowpassFilter  fSignalHighpassFilter
+ 2         5000.0000                 1.0000
+ 3         4000.0000                 0.0000
+
+ADC channel mapping:
+nADCChannel          2  3 
+nADCPtoLChannelMap   2  3 
+nADCSamplingSeq      2  3 
+
+No.  nPostProcessLowpassFilterType  fPostProcessLowpassFilter
+ 2                                                     
+ 3                                                     
+
+DAC channel information:
+No. sDACChannelName  sDACChannelUnits  fDACScaleFactor  fDACHoldingLevel
+ 2      Cmd 2            mV                 20.0000            0.0000
+ 3      Cmd 3            mV                 20.0000            0.0000
+nDigitalHolding =              0
+
+Channel Arithmetic:
+nArithmeticEnable =        FALSE
+nArithmeticExpression =        0
+fArithmeticUpperLimit =      100
+fArithmeticLowerLimit =     -100
+nArithmeticADCNumA =           0
+nArithmeticADCNumB =           0
+fArithmeticK1 =                1
+fArithmeticK2 =                0
+fArithmeticK3 =                1
+fArithmeticK4 =                0
+fArithmeticK5 =                0
+fArithmeticK6 =                0
+sArithmeticOperator =   +
+sArithmeticUnits =              
+
+On-line subtraction - Input Channels:
+
+nLevelHysteresis =                 64
+lTimeHysteresis =                   1
+nAllowExternalTags =                0
+nAverageAlgorithm =                 0
+fAverageWeighting =               0.1
+nUndoPromptStrategy =               0
+nTrialTriggerSource =              -1
+nStatisticsDisplayStrategy =        0
+
+nLTPType[0] =                       0
+nLTPUsageOfDAC[0] =                 0
+nLTPPresynapticPulses[0] =          0
+nLTPType[1] =                       0
+nLTPUsageOfDAC[1] =                 0
+nLTPPresynapticPulses[1] =          0
+nLTPType[2] =                       0
+nLTPUsageOfDAC[2] =                 0
+nLTPPresynapticPulses[2] =          0
+nLTPType[3] =                       0
+nLTPUsageOfDAC[3] =                 0
+nLTPPresynapticPulses[3] =          0
+nLTPType[4] =                       0
+nLTPUsageOfDAC[4] =                 0
+nLTPPresynapticPulses[4] =          0
+nLTPType[5] =                       0
+nLTPUsageOfDAC[5] =                 0
+nLTPPresynapticPulses[5] =          0
+nLTPType[6] =                       0
+nLTPUsageOfDAC[6] =                 0
+nLTPPresynapticPulses[6] =          0
+nLTPType[7] =                       0
+nLTPUsageOfDAC[7] =                 0
+nLTPPresynapticPulses[7] =          0
+
+ScopeTriggerOut              =  0
+
+sEpochResistanceSignalName[0] =           
+nEpochResistanceState[0]      = 0
+sEpochResistanceSignalName[1] =           
+nEpochResistanceState[1]      = 0
+sEpochResistanceSignalName[2] =           
+nEpochResistanceState[2]      = 0
+sEpochResistanceSignalName[3] =           
+nEpochResistanceState[3]      = 0
+sEpochResistanceSignalName[4] = IN 4
+nEpochResistanceState[4]      = 0
+sEpochResistanceSignalName[5] = IN 5
+nEpochResistanceState[5]      = 0
+sEpochResistanceSignalName[6] = IN 6
+nEpochResistanceState[6]      = 0
+sEpochResistanceSignalName[7] = IN 7
+nEpochResistanceState[7]      = 0
+
+nAlternateDACOutputState     =  0
+nAlternateDigitalOutputState =  0
+nAutoAnalysisEnable          =  0

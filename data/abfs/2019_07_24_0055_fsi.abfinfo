@@ -1,30 +1,30 @@
-Protocol: S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-Data File: 17o05028_ic_steps
+Protocol: \\Spike\locked\Protocols\permanent\0113 AP gain [-100 to 300].pro
+Data File: 2019_07_24_0055_fsi
 File format: ABF V2.06
-Created: Oct 5, 2017, at 14:42:46.899 [02:19:39]
+Created: Jul 24, 2019, at 16:40:57.927 [06:50:10]
 Created by: Clampex 10.7
 Acquisition mode: episodic stimulation.
 Axon binary file (integer)
-960000 samples in this file.
-Comment: n/a
+1020000 samples in this file.
+Comment: SWHLab5[0113]
 
 
 
 nOperationMode =                  5
 fFileVersionNumber =           2.06
-lActualAcqLength =           960000
+lActualAcqLength =          1020000
 nNumPointsIgnored =               0
-lActualEpisodes =                16
-uFileStartDate =           20171005
-uFileStartTimeMS =         52966899
-lStopwatchTime =               8379
+lActualEpisodes =                17
+uFileStartDate =           20190724
+uFileStartTimeMS =         60057927
+lStopwatchTime =              24610
 fHeaderVersionNumber =         2.09
 nFileType =                       1
 
 lDataSectionPtr =                13
 lTagSectionPtr =                  0
 lNumTagEntries =                  0
-lScopeConfigPtr =                11
+lScopeConfigPtr =                 9
 lNumScopes =                      1
 lDACFilePtr[0] =                  0
 lDACFileNumEpisodes[0] =          0
@@ -44,8 +44,8 @@ lDACFilePtr[7] =                  0
 lDACFileNumEpisodes[7] =          0
 lDeltaArrayPtr =                  0
 lNumDeltas =                      0
-lSynchArrayPtr =               3763
-lSynchArraySize =                16
+lSynchArrayPtr =               3998
+lSynchArraySize =                17
 nDataFormat =                     0
 nSimultaneousScan =               1
 
@@ -56,7 +56,7 @@ fSynchTimeUnit =               12.5
 fSecondsPerRun =               7200
 lNumSamplesPerEpisode =       60000
 lPreTriggerSamples =             20
-lEpisodesPerRun =                21
+lEpisodesPerRun =                17
 lRunsPerTrial =                   1
 lNumberOfTrials =                 1
 nAveragingMode =                  0
@@ -89,7 +89,7 @@ lDACResolution =              32768
 
 nExperimentType =                 2
 
-File GUID:       {307EE462-8A84-41AE-8188-4AB5B73AAAE3}.
+File GUID:       {5689DB34-B07E-456A-811C-44E9BE92FBC6}.
 
 nTelegraphEnable[0] =             1
 nTelegraphMode[0] =               1
@@ -98,7 +98,7 @@ fTelegraphAdditGain[0] =          1
 fTelegraphFilter[0] =         10000
 fTelegraphMembraneCap[0] =        0
 
-nCommentsEnable =                 0
+nCommentsEnable =                 1
 nManualInfoStrategy =             1
 fCellID1 =                        0
 fCellID2 =                        0
@@ -110,11 +110,11 @@ No.  sADCChannelName  sADCUnits
  0     IN 0           mV      
 
 No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
- 0         0.0000         -21.7500           0.0000
+ 0         0.0000           5.5000           0.0000
 
     fInstrumentScaleFactor             fADCProgrammableGain
 No.               fADCDisplayAmplification                   fSignalGain
- 0         0.0100          12.3075           1.0000            1.0000
+ 0         0.0100           8.3681           1.0000            1.0000
 
 No.  fSignalLowpassFilter  fSignalHighpassFilter
  0         5000.0000                 1.0000
@@ -145,10 +145,10 @@ nInterEpisodeLevel[0] =           0
   nEpochType[0]      fEpochLevelInc[0]         nEpochDurationInc[0]     lEpochPulsePeriod[0]
 No.      fEpochInitLevel[0]     nEpochInitDuration[0]          nDigitalValue[0]          lEpochPulseWidth[0]
  0   Step          0.000      0.000       2000             0      0000              0              0
- 1   Step        -50.000     10.000      10000             0      0000              0              0
+ 1   Step       -100.000     25.000      10000             0      0000              0              0
  2   Step          0.000      0.000      10000             0      0000              0              0
- 3   Step        -50.000      0.000      10000             0      0000              0              0
- 4   Step        -50.000     10.000      10000             0      0000              0              0
+ 3   Step       -100.000      0.000      10000             0      0000              0              0
+ 4   Step       -100.000     25.000      10000             0      0000              0              0
  5   Off           0.000      0.000          0             0      0000              0              0
  6   Off           0.000      0.000          0             0      0000              0              0
  7   Off           0.000      0.000          0             0      0000              0              0
@@ -789,7 +789,7 @@ Statistics:  Enabled
 Statistics signal:               IN 0.
 Polarity (IN 0) =                  1
 Search Mode =                           1
-Search DAC =                       47863335
+Search DAC =                       48921375
 Region 0 Start (sample) =             4444
 Region 0 Start (ms) =            1717986918
 Region 0 End (sample) =              6666

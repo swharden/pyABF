@@ -1,23 +1,23 @@
-Protocol: S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-Data File: 17o05028_ic_steps
+Protocol: X:\Data\F344\Aging BLA\halo\data\April-2019\protocols\4s-HALO Current Clamp Pulse.pro
+Data File: 2019_05_02_DIC2_0011
 File format: ABF V2.06
-Created: Oct 5, 2017, at 14:42:46.899 [02:19:39]
+Created: May 2, 2019, at 13:26:57.735 [00:46:00]
 Created by: Clampex 10.7
 Acquisition mode: episodic stimulation.
 Axon binary file (integer)
-960000 samples in this file.
+1200000 samples in this file.
 Comment: n/a
 
 
 
 nOperationMode =                  5
 fFileVersionNumber =           2.06
-lActualAcqLength =           960000
+lActualAcqLength =          1200000
 nNumPointsIgnored =               0
-lActualEpisodes =                16
-uFileStartDate =           20171005
-uFileStartTimeMS =         52966899
-lStopwatchTime =               8379
+lActualEpisodes =                 3
+uFileStartDate =           20190502
+uFileStartTimeMS =         48417735
+lStopwatchTime =               2760
 fHeaderVersionNumber =         2.09
 nFileType =                       1
 
@@ -44,19 +44,19 @@ lDACFilePtr[7] =                  0
 lDACFileNumEpisodes[7] =          0
 lDeltaArrayPtr =                  0
 lNumDeltas =                      0
-lSynchArrayPtr =               3763
-lSynchArraySize =                16
+lSynchArrayPtr =               4701
+lSynchArraySize =                 3
 nDataFormat =                     0
 nSimultaneousScan =               1
 
-nADCNumChannels =                 1
+nADCNumChannels =                 2
 fADCSequenceInterval =           50
 uFileCompressionRatio =           1
-fSynchTimeUnit =               12.5
-fSecondsPerRun =               7200
-lNumSamplesPerEpisode =       60000
-lPreTriggerSamples =             20
-lEpisodesPerRun =                21
+fSynchTimeUnit =               6.25
+fSecondsPerRun =                 10
+lNumSamplesPerEpisode =      400000
+lPreTriggerSamples =             80
+lEpisodesPerRun =                 4
 lRunsPerTrial =                   1
 lNumberOfTrials =                 1
 nAveragingMode =                  0
@@ -73,14 +73,14 @@ fRunStartToStart =                0
 fTrialStartToStart =              0
 lLegacyClockChange =              0
 nChannelStatsStrategy =           0
-lSamplesPerTrace =            40000
+lSamplesPerTrace =            16384
 lStartDisplayNum =                0
-lFinishDisplayNum =           60000
+lFinishDisplayNum =          200000
 nShowPNRawData =                  0
 fStatisticsPeriod =               1
 lStatisticsMeasurements =         5h
 nStatisticsSaveStrategy =         0
-nStatisticsClearStrategy =        1
+nStatisticsClearStrategy =        0
 
 fADCRange =                      10
 fDACRange =                      10
@@ -89,7 +89,7 @@ lDACResolution =              32768
 
 nExperimentType =                 2
 
-File GUID:       {307EE462-8A84-41AE-8188-4AB5B73AAAE3}.
+File GUID:       {80EA003D-4BF5-486B-9FD1-D6FD1F3F63FB}.
 
 nTelegraphEnable[0] =             1
 nTelegraphMode[0] =               1
@@ -97,9 +97,15 @@ nTelegraphInstrument[0] =        24
 fTelegraphAdditGain[0] =          1
 fTelegraphFilter[0] =         10000
 fTelegraphMembraneCap[0] =        0
+nTelegraphEnable[1] =             0
+nTelegraphMode[1] =               0
+nTelegraphInstrument[1] =         0
+fTelegraphAdditGain[1] =          1
+fTelegraphFilter[1] =          1000
+fTelegraphMembraneCap[1] =        0
 
 nCommentsEnable =                 0
-nManualInfoStrategy =             1
+nManualInfoStrategy =             0
 fCellID1 =                        0
 fCellID2 =                        0
 fCellID3 =                        0
@@ -108,32 +114,38 @@ nSignalType =                     0
 ADC channel information:
 No.  sADCChannelName  sADCUnits
  0     IN 0           mV      
+ 1     I_MTest 1      pA      
 
 No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
- 0         0.0000         -21.7500           0.0000
+ 0         0.0000         599.9746           0.0000
+ 1         0.0000           0.0000           0.0000
 
     fInstrumentScaleFactor             fADCProgrammableGain
 No.               fADCDisplayAmplification                   fSignalGain
- 0         0.0100          12.3075           1.0000            1.0000
+ 0         0.0100           1.0000           1.0000            1.0000
+ 1         0.0010           1.0000           1.0000            1.0000
 
 No.  fSignalLowpassFilter  fSignalHighpassFilter
  0         5000.0000                 1.0000
+ 1       5000000000.0000                 1.0000
 
 ADC channel mapping:
-nADCChannel          0 
-nADCPtoLChannelMap   0 
-nADCSamplingSeq      0 
+nADCChannel          0  1 
+nADCPtoLChannelMap   0  1 
+nADCSamplingSeq      0  1 
 
 No.  nPostProcessLowpassFilterType  fPostProcessLowpassFilter
  0                   Disabled                       n/a
+ 1                   Disabled                       n/a
 
 DAC channel information:
 No. sDACChannelName  sDACChannelUnits  fDACScaleFactor  fDACHoldingLevel
- 0      Cmd 0            pA                400.0000            0.0000
+ 0      Cmd 0            pA                400.0000          -35.0000
+ 1      Cmd 1            mV                 20.0000            0.0000
 nDigitalHolding =              0
 
 Epoch Output Waveform and Pulses:
-nDigitalEnable =           FALSE
+nDigitalEnable =            TRUE
 nActiveDACChannel =            0
 nDigitalInterEpisode =         0
 
@@ -144,11 +156,11 @@ nInterEpisodeLevel[0] =           0
 
   nEpochType[0]      fEpochLevelInc[0]         nEpochDurationInc[0]     lEpochPulsePeriod[0]
 No.      fEpochInitLevel[0]     nEpochInitDuration[0]          nDigitalValue[0]          lEpochPulseWidth[0]
- 0   Step          0.000      0.000       2000             0      0000              0              0
- 1   Step        -50.000     10.000      10000             0      0000              0              0
- 2   Step          0.000      0.000      10000             0      0000              0              0
- 3   Step        -50.000      0.000      10000             0      0000              0              0
- 4   Step        -50.000     10.000      10000             0      0000              0              0
+ 0   Step        -35.000      0.000      20000             0      0000              0              0
+ 1   Step        -35.000      0.000      80000             0      0000              0              0
+ 2   Off           0.000      0.000          0             0      0000              0              0
+ 3   Off           0.000      0.000          0             0      0000              0              0
+ 4   Off           0.000      0.000          0             0      0000              0              0
  5   Off           0.000      0.000          0             0      0000              0              0
  6   Off           0.000      0.000          0             0      0000              0              0
  7   Off           0.000      0.000          0             0      0000              0              0
@@ -204,7 +216,7 @@ sDACFilePath[0] =
 
 Pre-sweep pulse train 0:
 nConditEnable[0] =            FALSE
-lConditNumPulses[0] =             1
+lConditNumPulses[0] =             0
 fBaselineDuration[0] =            1
 fBaselineLevel[0] =               0
 fStepDuration[0] =                1
@@ -785,26 +797,7 @@ nULParamToVary[7] =                 0
 sULParamValueList[7] =                                                                                       
 nULRepeat[7] =              FALSE
 
-Statistics:  Enabled
-Statistics signal:               IN 0.
-Polarity (IN 0) =                  1
-Search Mode =                           1
-Search DAC =                       47863335
-Region 0 Start (sample) =             4444
-Region 0 Start (ms) =            1717986918
-Region 0 End (sample) =              6666
-Region 0 End (ms) =              -858993459
-Region 0 Measurements =              290h
-Region 0 RiseBottomPercentile =        10
-Region 0 RiseTopPercentile =           90
-Region 0 DecayBottomPercentile =       10
-Region 0 DecayTopPercentile =          90
-Smoothing window =                      1
-Baseline =                             -2
-Baseline Start (sample) =          0
-Baseline Start (ms) =              0
-Baseline End (sample) =         2222
-Baseline End (ms) =         1717986918
+Statistics: Disabled
 
 Channel Arithmetic:
 nArithmeticEnable =        FALSE
@@ -889,7 +882,7 @@ fPNSettlingTime =        100.00
 fPNInterpulse =          0.00
 
 nLevelHysteresis =                 64
-lTimeHysteresis =                   1
+lTimeHysteresis =                   2
 nAllowExternalTags =                0
 nAverageAlgorithm =                 0
 fAverageWeighting =               0.1

@@ -1,23 +1,23 @@
-Protocol: S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-Data File: 17o05028_ic_steps
+Protocol: \\Spike\locked\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro
+Data File: opto_aps_good_units
 File format: ABF V2.06
-Created: Oct 5, 2017, at 14:42:46.899 [02:19:39]
+Created: Aug 14, 2019, at 13:29:01.316 [03:33:59]
 Created by: Clampex 10.7
 Acquisition mode: episodic stimulation.
 Axon binary file (integer)
-960000 samples in this file.
-Comment: n/a
+1200000 samples in this file.
+Comment: SWHLab5[0113]
 
 
 
 nOperationMode =                  5
 fFileVersionNumber =           2.06
-lActualAcqLength =           960000
+lActualAcqLength =          1200000
 nNumPointsIgnored =               0
-lActualEpisodes =                16
-uFileStartDate =           20171005
-uFileStartTimeMS =         52966899
-lStopwatchTime =               8379
+lActualEpisodes =                 3
+uFileStartDate =           20190814
+uFileStartTimeMS =         48541316
+lStopwatchTime =              12839
 fHeaderVersionNumber =         2.09
 nFileType =                       1
 
@@ -44,8 +44,8 @@ lDACFilePtr[7] =                  0
 lDACFileNumEpisodes[7] =          0
 lDeltaArrayPtr =                  0
 lNumDeltas =                      0
-lSynchArrayPtr =               3763
-lSynchArraySize =                16
+lSynchArrayPtr =               4701
+lSynchArraySize =                 3
 nDataFormat =                     0
 nSimultaneousScan =               1
 
@@ -54,9 +54,9 @@ fADCSequenceInterval =           50
 uFileCompressionRatio =           1
 fSynchTimeUnit =               12.5
 fSecondsPerRun =               7200
-lNumSamplesPerEpisode =       60000
+lNumSamplesPerEpisode =      400000
 lPreTriggerSamples =             20
-lEpisodesPerRun =                21
+lEpisodesPerRun =              1000
 lRunsPerTrial =                   1
 lNumberOfTrials =                 1
 nAveragingMode =                  0
@@ -75,7 +75,7 @@ lLegacyClockChange =              0
 nChannelStatsStrategy =           0
 lSamplesPerTrace =            40000
 lStartDisplayNum =                0
-lFinishDisplayNum =           60000
+lFinishDisplayNum =          400000
 nShowPNRawData =                  0
 fStatisticsPeriod =               1
 lStatisticsMeasurements =         5h
@@ -89,7 +89,7 @@ lDACResolution =              32768
 
 nExperimentType =                 2
 
-File GUID:       {307EE462-8A84-41AE-8188-4AB5B73AAAE3}.
+File GUID:       {3A64A49D-2965-4F2F-89D6-48997850D179}.
 
 nTelegraphEnable[0] =             1
 nTelegraphMode[0] =               1
@@ -98,7 +98,7 @@ fTelegraphAdditGain[0] =          1
 fTelegraphFilter[0] =         10000
 fTelegraphMembraneCap[0] =        0
 
-nCommentsEnable =                 0
+nCommentsEnable =                 1
 nManualInfoStrategy =             1
 fCellID1 =                        0
 fCellID2 =                        0
@@ -110,11 +110,11 @@ No.  sADCChannelName  sADCUnits
  0     IN 0           mV      
 
 No.  fInstrumentOffset  fADCDisplayOffset  fSignalOffset
- 0         0.0000         -21.7500           0.0000
+ 0         0.0000           5.5000           0.0000
 
     fInstrumentScaleFactor             fADCProgrammableGain
 No.               fADCDisplayAmplification                   fSignalGain
- 0         0.0100          12.3075           1.0000            1.0000
+ 0         0.0100           8.3681           1.0000            1.0000
 
 No.  fSignalLowpassFilter  fSignalHighpassFilter
  0         5000.0000                 1.0000
@@ -133,7 +133,7 @@ No. sDACChannelName  sDACChannelUnits  fDACScaleFactor  fDACHoldingLevel
 nDigitalHolding =              0
 
 Epoch Output Waveform and Pulses:
-nDigitalEnable =           FALSE
+nDigitalEnable =            TRUE
 nActiveDACChannel =            0
 nDigitalInterEpisode =         0
 
@@ -144,11 +144,11 @@ nInterEpisodeLevel[0] =           0
 
   nEpochType[0]      fEpochLevelInc[0]         nEpochDurationInc[0]     lEpochPulsePeriod[0]
 No.      fEpochInitLevel[0]     nEpochInitDuration[0]          nDigitalValue[0]          lEpochPulseWidth[0]
- 0   Step          0.000      0.000       2000             0      0000              0              0
- 1   Step        -50.000     10.000      10000             0      0000              0              0
- 2   Step          0.000      0.000      10000             0      0000              0              0
- 3   Step        -50.000      0.000      10000             0      0000              0              0
- 4   Step        -50.000     10.000      10000             0      0000              0              0
+ 0   Step          0.000      0.000     100000             0      0000              0              0
+ 1   Step          0.000      0.000     100000             0      000*           2000             40
+ 2   Off           0.000      0.000          0             0      0000              0              0
+ 3   Off           0.000      0.000          0             0      0000              0              0
+ 4   Off           0.000      0.000          0             0      0000              0              0
  5   Off           0.000      0.000          0             0      0000              0              0
  6   Off           0.000      0.000          0             0      0000              0              0
  7   Off           0.000      0.000          0             0      0000              0              0
@@ -226,7 +226,7 @@ nInterEpisodeLevel[1] =           0
   nEpochType[1]      fEpochLevelInc[1]         nEpochDurationInc[1]     lEpochPulsePeriod[1]
 No.      fEpochInitLevel[1]     nEpochInitDuration[1]          nDigitalValue[1]          lEpochPulseWidth[1]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -307,7 +307,7 @@ nInterEpisodeLevel[2] =           0
   nEpochType[2]      fEpochLevelInc[2]         nEpochDurationInc[2]     lEpochPulsePeriod[2]
 No.      fEpochInitLevel[2]     nEpochInitDuration[2]          nDigitalValue[2]          lEpochPulseWidth[2]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -388,7 +388,7 @@ nInterEpisodeLevel[3] =           0
   nEpochType[3]      fEpochLevelInc[3]         nEpochDurationInc[3]     lEpochPulsePeriod[3]
 No.      fEpochInitLevel[3]     nEpochInitDuration[3]          nDigitalValue[3]          lEpochPulseWidth[3]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -469,7 +469,7 @@ nInterEpisodeLevel[4] =           0
   nEpochType[4]      fEpochLevelInc[4]         nEpochDurationInc[4]     lEpochPulsePeriod[4]
 No.      fEpochInitLevel[4]     nEpochInitDuration[4]          nDigitalValue[4]          lEpochPulseWidth[4]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -550,7 +550,7 @@ nInterEpisodeLevel[5] =           0
   nEpochType[5]      fEpochLevelInc[5]         nEpochDurationInc[5]     lEpochPulsePeriod[5]
 No.      fEpochInitLevel[5]     nEpochInitDuration[5]          nDigitalValue[5]          lEpochPulseWidth[5]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -631,7 +631,7 @@ nInterEpisodeLevel[6] =           0
   nEpochType[6]      fEpochLevelInc[6]         nEpochDurationInc[6]     lEpochPulsePeriod[6]
 No.      fEpochInitLevel[6]     nEpochInitDuration[6]          nDigitalValue[6]          lEpochPulseWidth[6]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -712,7 +712,7 @@ nInterEpisodeLevel[7] =           0
   nEpochType[7]      fEpochLevelInc[7]         nEpochDurationInc[7]     lEpochPulsePeriod[7]
 No.      fEpochInitLevel[7]     nEpochInitDuration[7]          nDigitalValue[7]          lEpochPulseWidth[7]
  0   Off           0.000      0.000          0             0      0000              0              0
- 1   Off           0.000      0.000          0             0      0000              0              0
+ 1   Off           0.000      0.000          0             0      000*              0              0
  2   Off           0.000      0.000          0             0      0000              0              0
  3   Off           0.000      0.000          0             0      0000              0              0
  4   Off           0.000      0.000          0             0      0000              0              0
@@ -789,7 +789,7 @@ Statistics:  Enabled
 Statistics signal:               IN 0.
 Polarity (IN 0) =                  1
 Search Mode =                           1
-Search DAC =                       47863335
+Search DAC =                       49770095
 Region 0 Start (sample) =             4444
 Region 0 Start (ms) =            1717986918
 Region 0 End (sample) =              6666
