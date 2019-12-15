@@ -64,15 +64,6 @@ def test_abfinfo_abfDateTime(abfID):
     # compare to value from pyABF
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
     abf = pyabf.ABF(abfFilePath, loadData=False)
-
-    # format it like: Feb 10, 2005, at 15:52:55.328
-    #abfinfoTimeFormat = "%b %d, %Y, at %H:%M:%S.%f"
-
-    print()
-    print(f"    ABF: {abf.abfID} (version: {abf.abfVersionString})")
-    print(f"ABFINFO: {abfinfoDateTime}")
-    print(f"  pyABF: {abf.abfDateTime}")
-    print()
     assert(abf.abfDateTime == abfinfoDateTime)
 
 
