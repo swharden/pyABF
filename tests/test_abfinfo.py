@@ -55,7 +55,7 @@ def test_abfinfo_abfDateTime(abfID):
             day = int(dateParts[1])
             year = int(dateParts[2])
 
-            # Notice that ABFFIO/ClampFit/ABFINFO has a bug that removes 
+            # Notice that ABFFIO/ClampFit/ABFINFO has a bug that removes
             # left-padded zeros after the decimal point seconds (DOH!)
 
             timestamp = dateParts[4].replace(".", ":")
@@ -65,7 +65,11 @@ def test_abfinfo_abfDateTime(abfID):
             seconds = int(seconds)
             milliseconds = int(milliseconds)
             microseconds = milliseconds * 1000
-            
+
+            # ignore microseconds in Python2
+            if sys.version_info[0] == 2:
+                microseconds = 0
+
             abfinfoDateTime = datetime.datetime(
                 year, month, day, hours,
                 minutes, seconds, microseconds
@@ -76,11 +80,6 @@ def test_abfinfo_abfDateTime(abfID):
     # compare to value from pyABF
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
     abf = pyabf.ABF(abfFilePath, loadData=False)
-
-    # ignore microseconds in Python2
-    if sys.version_info[0] == 2:
-        abfinfoDateTime.microsecond = 0
-
     assert(abf.abfDateTime == abfinfoDateTime)
 
 
