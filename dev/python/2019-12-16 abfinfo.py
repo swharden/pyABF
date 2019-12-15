@@ -37,9 +37,22 @@ def guidFromInfo(text):
 
 with open("2019-12-16 all.abfinfo") as f:
     raw = f.read()
-    infos = raw.split("Protocol:")
-    infos = ["Protocol:"+x for x in infos][1:]
+    infos2 = raw.split("Protocol:")
+    infos2 = ["Protocol:"+x for x in infos2][1:]
+    infos = []
+    for info in infos2:
+        if info.count("Data File:") == 1:
+            infos.append(info)
+        elif info.count("Data File:") == 2:
+            infoAA, infoAB, infoB = info.split("Data File:")
+            infoA = infoAA+"Data File:"+infoAB
+            infoB = "Data File:"+infoB
+            infos.append(infoA)
+            infos.append(infoB)
+        else:
+            raise NotImplementedError()
     infos = [x.strip() for x in infos]
+
     for info in infos:
         guid = guidFromInfo(info)
         if guid in ABF_GUIDS.keys():
