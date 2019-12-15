@@ -199,7 +199,7 @@ class HeaderV1:
             guid.append("%.2X" % (self.uFileGUID[i]))
         for i in [4, 7, 10, 13]:
             guid.insert(i, "-")
-        self.sFileGUID = "{%s}" % ("".join(guid))
+        self.sFileGUID = "".join(guid)
 
         # format creation date
         if (self.lFileStartDate == 0):
@@ -287,7 +287,7 @@ class HeaderV2:
             guid.append("%.2X" % (self.uFileGUID[i]))
         for i in [4, 7, 10, 13]:
             guid.insert(i, "-")
-        self.sFileGUID = "{%s}" % ("".join(guid))
+        self.sFileGUID = "".join(guid)
 
         # format creation date from values found in the header
         startDate = str(self.uFileStartDate)
