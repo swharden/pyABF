@@ -43,7 +43,6 @@ def test_abfinfo_GUID(abfID):
     for line in abfInfoLines:
         if "GUID" in line:
             abfinfoGUID = line.split("{")[1].split("}")[0]
-            abfinfoGUID = "{"+abfinfoGUID+"}"
 
     # read GUID using pyABF
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
