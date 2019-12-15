@@ -66,10 +66,6 @@ def test_abfinfo_abfDateTime(abfID):
             milliseconds = int(milliseconds)
             microseconds = milliseconds * 1000
 
-            # ignore microseconds in Python2
-            if sys.version_info[0] == 2:
-                microseconds = 0
-
             abfinfoDateTime = datetime.datetime(
                 year, month, day, hours,
                 minutes, seconds, microseconds
@@ -80,7 +76,17 @@ def test_abfinfo_abfDateTime(abfID):
     # compare to value from pyABF
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
     abf = pyabf.ABF(abfFilePath, loadData=False)
-    assert(abf.abfDateTime == abfinfoDateTime)
+
+    assert(abf.abfDateTime.year == abfinfoDateTime.year)
+    assert(abf.abfDateTime.month == abfinfoDateTime.month)
+    assert(abf.abfDateTime.day == abfinfoDateTime.day)
+    assert(abf.abfDateTime.hour == abfinfoDateTime.hour)
+    assert(abf.abfDateTime.minute == abfinfoDateTime.minute)
+    assert(abf.abfDateTime.second == abfinfoDateTime.second)
+
+    # ignore microseconds in Python2
+    if sys.version_info[0] >= 3:
+        assert(abf.abfDateTime.microsecond == abfinfoDateTime.microsecond)
 
 
 # NEED TEST FOR: abfVersionString = 2.6.0.0
