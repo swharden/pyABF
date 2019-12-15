@@ -503,6 +503,7 @@ class ABF:
         self.sweepLabelC = "{} ({})".format(
             self.dacNames[channel], self.dacUnits[channel])
         self.sweepLabelX = "Time (seconds)"
+        self.sweepLabelD = "Digital Output (V)"
 
         # use fancy labels for known units
         if self.sweepUnitsY == "pA":
