@@ -7,6 +7,7 @@ import sys
 import pytest
 import glob
 import os
+import datetime
 
 try:
     # this ensures pyABF is imported from this specific path
@@ -36,15 +37,74 @@ ABFINFOS = abfInfoText()
 
 
 @pytest.mark.parametrize("abfID", ABFINFOS.keys())
-def test_abfinfo_GUID(abfID):
+def test_abfinfo_abfDateTime(abfID):
 
-    # look up GUID from abfinfo text
+    # look up value from abfinfo text
+    abfInfoLines = ABFINFOS[abfID]
+    for line in abfInfoLines:
+        if line.startswith("Created: "):
+            # clampfit doesn't use a standard date format, so do this manually
+            line = line.split(":", 1)[1]
+            line = line.split("[")[0]
+            line = line.strip()
+            line = line.replace(",", " ")
+            dateParts = line.split(" ")
+            dateParts = [x for x in dateParts if len(x)]
+
+            month = int(datetime.datetime.strptime(dateParts[0], '%b').month)
+            day = int(dateParts[1])
+            year = int(dateParts[2])
+            time = datetime.datetime.strptime(dateParts[4], "%H:%M:%S.%f")
+            abfinfoDateTime = datetime.datetime(
+                year, month, day, time.hour,
+                time.minute, time.second, time.microsecond
+            )
+            break
+
+    # compare to value from pyABF
+    abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
+    abf = pyabf.ABF(abfFilePath, loadData=False)
+
+    # format it like: Feb 10, 2005, at 15:52:55.328
+    #abfinfoTimeFormat = "%b %d, %Y, at %H:%M:%S.%f"
+
+    print()
+    print(f"    ABF: {abf.abfID} (version: {abf.abfVersionString})")
+    print(f"ABFINFO: {abfinfoDateTime}")
+    print(f"  pyABF: {abf.abfDateTime}")
+    print()
+    assert(abf.abfDateTime == abfinfoDateTime)
+
+
+# NEED TEST FOR: abfVersionString = 2.6.0.0
+# NEED TEST FOR: channelCount = 2
+# NEED TEST FOR: creatorVersionString = 10.7.0.3
+# NEED TEST FOR: dataByteStart = 6656
+# NEED TEST FOR: dataLengthMin = 0.06666666666666667
+# NEED TEST FOR: dataLengthSec = 4.0
+# NEED TEST FOR: dataPointByteSize = 2
+# NEED TEST FOR: dataPointCount = 120000
+# NEED TEST FOR: dataPointsPerMs = 20
+# NEED TEST FOR: dataRate = 20000
+# NEED TEST FOR: dataSecPerPoint = 5e-05
+
+@pytest.mark.parametrize("abfID", ABFINFOS.keys())
+def test_abfinfo_fileGUID(abfID):
+
+    # look up value from abfinfo text
     abfInfoLines = ABFINFOS[abfID]
     for line in abfInfoLines:
         if "GUID" in line:
             abfinfoGUID = line.split("{")[1].split("}")[0]
+            break
 
     # read GUID using pyABF
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
-    abf = pyabf.ABF(abfFilePath)
+    abf = pyabf.ABF(abfFilePath, loadData=False)
     assert(abf.fileGUID == abfinfoGUID)
+
+# NEED TEST FOR: holdingCommand = [-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+# NEED TEST FOR: protocolPath = S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
+# NEED TEST FOR: sweepIntervalSec = 1.0
+# NEED TEST FOR: sweepLengthSec = 1.0
+# NEED TEST FOR: sweepPointCount = 20000

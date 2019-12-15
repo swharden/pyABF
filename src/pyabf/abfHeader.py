@@ -213,6 +213,8 @@ class HeaderV1:
             startDate = str(self.lFileStartDate)
             startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
             timeStamp = startDate + datetime.timedelta(seconds=startTime)
+            timeStamp += datetime.timedelta(
+                milliseconds=self.nFileStartMillisecs)
 
         self.abfDateTime = timeStamp
         try:
