@@ -77,9 +77,9 @@ def test_abfinfo_abfDateTime(abfID):
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
     abf = pyabf.ABF(abfFilePath, loadData=False)
 
-    # if sys.version_info[0] == 2:
-    #     # TODO: python2 fails to properly read microseconds. Figure out why.
-    #     return
+    # ignore microseconds in Python2
+    if sys.version_info[0] == 2:
+        abfinfoDateTime.microsecond = 0
 
     assert(abf.abfDateTime == abfinfoDateTime)
 
