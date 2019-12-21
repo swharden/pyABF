@@ -98,7 +98,7 @@ def findStimulusWaveformFile(abf, channel=0):
     if pathUserDefined.is_file():
         return str(pathUserDefined)
 
-    pathSameFolderAsABF = Path(abf.abfFilePath).joinpath(stimBasename).resolve()
+    pathSameFolderAsABF = Path(abf.abfFilePath).parent.joinpath(stimBasename).resolve()
     if pathSameFolderAsABF.is_file():
         return str(pathSameFolderAsABF)
 
