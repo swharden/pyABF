@@ -8,14 +8,6 @@ If the stimulus waveform comes from a file, code here also assists in caching
 the data from that file so the file only needs to be read from disk once.
 """
 
-import sys
-if sys.version_info < (3, 6):
-    sys.stdout.write(
-        "ABF stimulus features can only be used with Python 3.6+ "
-        "due to its reliance on pathlib and f-strings.\n"
-    )
-    sys.exit(1)
-
 import numpy as np
 import copy
 import os
