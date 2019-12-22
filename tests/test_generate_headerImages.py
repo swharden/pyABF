@@ -1,5 +1,5 @@
 """
-This script loads every ABF in the data folder and generates a summary of its 
+This script loads every ABF in the data folder and generates a summary of its
 header (in both HTML and markdown format).
 """
 
@@ -41,7 +41,7 @@ def test_cookbook_createImageIndexPage():
 
         abf = pyabf.ABF(fname)
         abfIDsafe = abf.abfID.replace(" ", "%20")
-        md += "## {abf.abfID}.abf\n{abf}"
+        md += f"## {abf.abfID}.abf\n{abf}"
         md += f"<br>\n[View the full header](headers/{abfIDsafe}.md)"
         md += f"<a href='headers/{abfIDsafe}.png'><img src='headers/{abfIDsafe}.png'></a>"
         md += "\n\n"
@@ -87,8 +87,7 @@ def test_cookbook_createHeaderImages(abfPath):
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
 
     # decorate plot and save it
-    ax1.set_title("{}.abf [channel: {}/{}] [sweeps: {}]".format(
-        abf.abfID, abf.sweepChannel+1, abf.channelCount, abf.sweepNumber+1))
+    ax1.set_title(f"{abf.abfID}.abf [channel: {abf.sweepChannel+1}/{abf.channelCount}] [sweeps: {abf.sweepNumber+1}]")
     ax1.set_ylabel(abf.sweepLabelY)
     ax1.set_xlabel(abf.sweepLabelX)
     ax2.set_ylabel(abf.sweepLabelC)
