@@ -35,7 +35,7 @@ def test_cookbook_createImageIndexPage():
     md += "This is a small collection of various ABFs I practice developing with. "
     md += "Many of them were emailed to me by contributors. If you have a unique type "
     md += "of ABF file, email it to me and I will include it here. Note that this page "
-    md += "is generated automatically by [dataThumbnails.py](/tests/tests/dataThumbnails.py).\n\n"
+    md += "is [generated automatically](/tests/test_generate_headerImages.py).\n\n"
 
     md += "ABF Description | Thumbnail\n"
     md += "---|---\n"
