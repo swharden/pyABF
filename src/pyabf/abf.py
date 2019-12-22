@@ -568,7 +568,7 @@ class ABF:
             return self._sweepC
         else:
             # auto-generate (or auto-load) the waveform using the stimulus module
-            if not 'sweepChannel' in locals():
+            if not hasattr(self, 'sweepChannel'):
                 self.setSweep(0) # call setsweep if it hasn't been called before
             stimulus = self.stimulusByChannel[self.sweepChannel]
             stimulusWaveform = stimulus.stimulusWaveform(self.sweepNumber)
