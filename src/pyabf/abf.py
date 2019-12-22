@@ -171,10 +171,13 @@ class ABF:
         self.abfDateTimeString = self._headerV1.abfDateTimeString
         self.holdingCommand = self._headerV1.fEpochInitLevel
         self.protocolPath = self._headerV1.sProtocolPath
-        self.abfFileComment = ""
+        if self._headerV1.sFileCommentNew:
+            self.abfFileComment = self._headerV1.sFileCommentNew
+        else:
+            self.abfFileComment = self._headerV1.sFileCommentOld
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
-        self.tagComments = self._headerV1.sComment
+        self.tagComments = self._headerV1.sTagComment
         self.tagTimesSec = self._headerV1.lTagTime
         self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
@@ -183,7 +186,14 @@ class ABF:
         self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
         self.dataByteStart += self._headerV1.nNumPointsIgnored
         self.dataPointCount = self._headerV1.lActualAcqLength
-        self.dataPointByteSize = 2  # ABF 1 files always have int16 points?
+
+        if self._nDataFormat == 0:
+            self.dataPointByteSize = 2
+        elif self._nDataFormat == 1:
+            raise ValueError("Support for float data is not implemented")
+        else:
+            raise ValueError("_nDataFormat={} is invalid".format(self._nDataFormat))
+
         self.channelCount = self._headerV1.nADCNumChannels
         self.dataRate = 1e6 / self._headerV1.fADCSampleInterval
         self.dataRate = int(self.dataRate / self.channelCount)
@@ -191,25 +201,36 @@ class ABF:
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV1.lActualEpisodes
 
+        self.adcUnits = [""] * self.channelCount
+        self.adcNames = [""] * self.channelCount
+        self.channelList = [-1] * self.channelCount
+
         # channel names
-        self.adcUnits = self._headerV1.sADCUnits[:self.channelCount]
-        self.adcNames = self._headerV1.sADCChannelName[:self.channelCount]
-        self.dacUnits = ["?" for x in self.adcUnits]
-        self.dacNames = ["?" for x in self.adcUnits]
+        for i in range(self.channelCount):
+            physicalChannel     = self._headerV1.nADCSamplingSeq[i]
+            logicalChannel      = self._headerV1.nADCPtoLChannelMap[physicalChannel]
+            self.adcUnits[i]    = self._headerV1.sADCUnits[physicalChannel]
+            self.adcNames[i]    = self._headerV1.sADCChannelName[physicalChannel]
+            self.channelList[i] = i
+
+        # TODO not sure if these lists needs to be reduced
+        self.dacUnits = self._headerV1.sDACChannelUnit
+        self.dacNames = self._headerV1.sDACChannelName
 
         # data scaling
         self._dataGain = [1]*self.channelCount
         self._dataOffset = [0]*self.channelCount
-        for i in range(self.channelCount):
-            self._dataGain[i] /= self._headerV1.fInstrumentScaleFactor[i]
-            self._dataGain[i] /= self._headerV1.fSignalGain[i]
-            self._dataGain[i] /= self._headerV1.fADCProgrammableGain[i]
-            if self._headerV1.nTelegraphEnable[i] == 1:
-                self._dataGain[i] /= self._headerV1.fTelegraphAdditGain[i]
-            self._dataGain[i] *= self._headerV1.fADCRange
-            self._dataGain[i] /= self._headerV1.lADCResolution
-            self._dataOffset[i] += self._headerV1.fInstrumentOffset[i]
-            self._dataOffset[i] -= self._headerV1.fSignalOffset[i]
+
+        for index, channel in enumerate(self.channelList):
+            self._dataGain[index] /= self._headerV1.fInstrumentScaleFactor[channel]
+            self._dataGain[index] /= self._headerV1.fSignalGain[channel]
+            self._dataGain[index] /= self._headerV1.fADCProgrammableGain[channel]
+            if self._headerV1.nTelegraphEnable[channel] == 1:
+                self._dataGain[index] /= self._headerV1.fTelegraphAdditGain[channel]
+            self._dataGain[index] *= self._headerV1.fADCRange
+            self._dataGain[index] /= self._headerV1.lADCResolution
+            self._dataOffset[index] += self._headerV1.fInstrumentOffset[channel]
+            self._dataOffset[index] -= self._headerV1.fSignalOffset[channel]
 
     def _readHeadersV2(self, fb):
         """Populate class variables from the ABF2 header."""
@@ -258,6 +279,7 @@ class ABF:
         self.dataSecPerPoint = 1.0 / self.dataRate
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV2.lActualEpisodes
+        self.channelList = list(range(self.channelCount))
 
         # channel names
         self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
@@ -304,7 +326,6 @@ class ABF:
         self.sweepPointCount = int(
             self.dataPointCount / self.sweepCount / self.channelCount)
         self.sweepLengthSec = float(self.sweepPointCount) / self.dataRate
-        self.channelList = list(range(self.channelCount))
         self.sweepList = list(range(self.sweepCount))
 
         # set sweepIntervalSec (can be different than sweepLengthSec)
