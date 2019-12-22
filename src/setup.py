@@ -26,7 +26,6 @@ setup(
         'pytest>=3.0.7',
     ],
     classifiers=[
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',

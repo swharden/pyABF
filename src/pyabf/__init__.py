@@ -6,12 +6,14 @@ Documentation and code examples, and more can be found at:
     https://github.com/swharden/pyABF
 """
 
-__version__ = '2.1.10'
+__version__ = '2.2.0'
 
 import sys
 
 if sys.version_info < (3, 6):
-    print("WARNING: pyABF is only partially supported on Python versions <3.6")
+    sys.stdout.write("ERROR: pyabf "+__version__+" requires Python 3.6 or newer.\n")
+    sys.stdout.write("pyabf 2.1.10 was the last version to support Python 2.7 and Python 3.5\n")
+    sys.exit(1)
 
 from pyabf.abf import ABF
 from pyabf.atf import ATF

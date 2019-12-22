@@ -13,6 +13,7 @@ import glob
 import time
 import datetime
 import numpy as np
+from pathlib import PureWindowsPath
 
 import logging
 logging.basicConfig(level=logging.WARNING)
@@ -110,7 +111,7 @@ class ABF:
         with CHNM channels (CHUNITS),
         sampled at RATEKHZ kHz,
         containing SWCNT sweeps,
-        having no tags, 
+        having no tags,
         with a total length of LENMIN minutes,
         recorded without a protocol file.
         """.strip().replace("\n", " ")
@@ -322,8 +323,7 @@ class ABF:
 
         # protocol file
         if self.protocolPath.endswith(".pro"):
-            self.protocol = os.path.basename(self.protocolPath)
-            self.protocol = self.protocol.replace(".pro", "")
+            self.protocol = PureWindowsPath(self.protocolPath).stem
         else:
             self.protocolPath = "None"
             self.protocol = "None"
@@ -432,7 +432,7 @@ class ABF:
 
     def saveABF1(self, filename, sampleRateHz):
         """
-        Save this ABF file as an ABF1 file compatible with ClampFit and 
+        Save this ABF file as an ABF1 file compatible with ClampFit and
         MiniAnalysis. To create an ABF1 file from scratch (not starting from
         an existing ABF file), see methods in the pyabf.abfWriter module.
         """

@@ -1,5 +1,5 @@
 """
-ABFs can be created when signals are applied using the DAC. If these "stimulus 
+ABFs can be created when signals are applied using the DAC. If these "stimulus
 waveforms" are used, they either come from an epoch table or from a DAC file.
 Code in this file determines where the stimulus comes from and returns it for
 a given sweep and channel.
@@ -11,7 +11,7 @@ the data from that file so the file only needs to be read from disk once.
 import numpy as np
 import copy
 import os
-import sys
+from pathlib import Path, PureWindowsPath
 import warnings
 import pyabf
 import pyabf.waveform
@@ -73,54 +73,47 @@ class Stimulus:
             self.text = "unknown nWaveformSource (%d)" % nWaveformSource
             return np.full(self.abf.sweepPointCount, np.nan)
 
-    @property
-    def protocolStorageDir(self):
-        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
-        return self.abf.stimulusFileFolder
-
-    @protocolStorageDir.setter
-    def protocolStorageDir(self, val=None):
-        warnings.warn("set abf.stimulusFileFolder (not protocolStorageDir)")
-        self.abf.stimulusFileFolder = val
-
 
 def findStimulusWaveformFile(abf, channel=0):
     """
     Look for the stimulus waveform file in several places. Return the path
     where it can be found. Return None if it cannot be found.
 
-    The original path is a windows filename stored in the ABF header
+    The original path is an absolute windows filename stored in the ABF header.
     """
 
-    pathsTried = []
+    # first try looking at the path stored in the header
+    pathInHeader = Path(abf._stringsIndexed.lDACFilePath[channel])
+    if pathInHeader.is_file():
+        return str(pathInHeader)
 
-    pathInHeader = abf._stringsIndexed.lDACFilePath[channel]
-    pathInHeader = os.path.abspath(pathInHeader)
-    if os.path.exists(pathInHeader):
-        return pathInHeader
-    else:
-        pathsTried.append(pathInHeader)
+    # try the current working directory of the Python interpreter
+    stimBasename = PureWindowsPath(pathInHeader).name
+    pathCurrent = Path(stimBasename).resolve().absolute()
+    if pathCurrent.is_file():
+        return str(pathCurrent)
 
-    linuxSafePath = pathInHeader.replace("\\", "/")
-    stimBasename = os.path.basename(linuxSafePath)
+    # try path defined by the stimulusFileFolder argument of the ABF constructor
+    pathUserDefined = Path(str(abf.stimulusFileFolder)).joinpath(stimBasename).resolve()
+    if pathUserDefined.is_file():
+        return str(pathUserDefined)
 
-    pathUserDefined = os.path.join(str(abf.stimulusFileFolder), stimBasename)
-    pathUserDefined = os.path.abspath(pathUserDefined)
-    if os.path.exists(pathUserDefined):
-        return pathUserDefined
-    else:
-        pathsTried.append(pathUserDefined)
+    # try the same folder that houses the ABF file
+    pathSameFolderAsABF = Path(abf.abfFilePath).parent.joinpath(stimBasename).resolve()
+    if pathSameFolderAsABF.is_file():
+        return str(pathSameFolderAsABF)
 
-    abfFolder = os.path.dirname(abf.abfFilePath)
-    pathSameFolder = os.path.join(abfFolder, stimBasename)
-    pathSameFolder = os.path.abspath(pathSameFolder)
-    if os.path.exists(pathSameFolder):
-        return pathSameFolder
-    else:
-        pathsTried.append(pathSameFolder)
+    # warn if stimulus file was never found
+    warnings.warn(
+            f"Could not locate stimulus file for channel {channel}.\n"
+            f"ABF file path: {abf.abfFilePath}.\n"
+            f"The following paths were searched:\n"
+            f"* Path in the ABF header: {pathInHeader}\n"
+            f"* Current working directory: {pathCurrent}\n"
+            f"* User-defined stimulus folder: {pathUserDefined}\n"
+            f"* Same folder as ABF: {(pathSameFolderAsABF)}\n"
+        )
 
-    pathsTried = ", ".join(pathsTried)
-    warnings.warn("Could not locate stimulus file. Paths tried:\n"+pathsTried)
     return None
 
 
@@ -147,6 +140,6 @@ def stimulusWaveformFromFile(abf, channel=0):
         return cachedStimuli[stimPath].sweepY
     else:
         if stimPath.upper().endswith(".ABF"):
-            return pyabf.ABF(stimPath)
+            return pyabf.ABF(stimPath).sweepY
         elif stimPath.upper().endswith(".ATF"):
-            return pyabf.ATF(stimPath)
+            return pyabf.ATF(stimPath).sweepY

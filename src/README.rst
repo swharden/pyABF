@@ -2,7 +2,7 @@ pyABF: a pure-Python ABF file reader
 ====================================
 
 **pyABF** provides a Python interface to electrophysiology files in the Axon Binary Format (ABF).
-pyABF supports Python 2.7 and Python 3.6+ and does not use obscure libraries
+pyABF supports Python versions 3.6 and newer and does not use obscure libraries
 (just the standard libraries plus numpy and matplotlib). pyABF supports reading
 of ABF1 and ABF2 files, and can write ABF1 files.
 
