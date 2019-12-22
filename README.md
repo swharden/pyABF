@@ -45,7 +45,6 @@ print(abf.sweepC) # displays command waveform (DAC)
 * Stimulus waveform generation from epoch information
 * Access to digital output settings and waveforms
 * Can load waveforms from external ABF and ATF stimulus files (with caching)
-* API is similar to [vsABF](https://github.com/swharden/vsABF) (an ABF reading library for .NET)
 
 <p align="center">
   <img src="https://github.com/swharden/pyABF/blob/master/docs/getting-started/source/advanced_08b_using_plot_module.jpg">
