@@ -37,14 +37,16 @@ def test_cookbook_createImageIndexPage():
     md += "of ABF file, email it to me and I will include it here. Note that this page "
     md += "is generated automatically by [dataThumbnails.py](/tests/tests/dataThumbnails.py).\n\n"
 
-    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
+    md += "ABF Description | Thumbnail\n"
+    md += "---|---\n"
 
+    for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
         abf = pyabf.ABF(fname)
         abfIDsafe = abf.abfID.replace(" ", "%20")
-        md += f"## {abf.abfID}.abf\n{abf}"
-        md += f"<br>\n[View the full header](headers/{abfIDsafe}.md)"
-        md += f"<a href='headers/{abfIDsafe}.png'><img src='headers/{abfIDsafe}.png'></a>"
-        md += "\n\n"
+
+        md += f"**{abf.abfID}.abf** is an {abf} "
+        md += f"<br>[View the full header](headers/{abfIDsafe}.md) | "
+        md += f"[![](headers/{abfIDsafe}.png)](headers/{abfIDsafe}.png)\n"
 
     with open(PATH_PROJECT+"/data/readme.md", 'w') as f:
         f.write(md)
@@ -87,7 +89,8 @@ def test_cookbook_createHeaderImages(abfPath):
         ax2.plot(abf.sweepX, abf.sweepC, color='r')
 
     # decorate plot and save it
-    ax1.set_title(f"{abf.abfID}.abf [channel: {abf.sweepChannel+1}/{abf.channelCount}] [sweeps: {abf.sweepNumber+1}]")
+    ax1.set_title(
+        f"{abf.abfID}.abf [channel: {abf.sweepChannel+1}/{abf.channelCount}] [sweeps: {abf.sweepNumber+1}]")
     ax1.set_ylabel(abf.sweepLabelY)
     ax1.set_xlabel(abf.sweepLabelX)
     ax2.set_ylabel(abf.sweepLabelC)
