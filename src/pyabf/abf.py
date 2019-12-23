@@ -257,6 +257,7 @@ class ABF:
         self.fileGUID = self._headerV2.sFileGUID
         self.creator = self._stringsIndexed.uCreatorName + \
             " " + self._headerV2.creatorVersionString
+        self.creatorVersion = self._headerV2.creatorVersionDict
         self.creatorVersionString = self._headerV2.creatorVersionString
         self.abfDateTime = self._headerV2.abfDateTime
         self.abfDateTimeString = self._headerV2.abfDateTimeString
