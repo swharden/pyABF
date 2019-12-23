@@ -15,7 +15,7 @@ try:
     sys.path.insert(0, "src")
     import pyabf
 except:
-    pass
+    raise ImportError("couldn't import local pyABF")
 
 
 allABFs = glob.glob("data/abfs/*.abf")

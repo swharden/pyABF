@@ -14,7 +14,7 @@ try:
     sys.path.insert(0, "src")
     import pyabf
 except:
-    pass
+    raise ImportError("couldn't import local pyABF")
 
 DATA_PATH = os.path.abspath("data/abfs")
 

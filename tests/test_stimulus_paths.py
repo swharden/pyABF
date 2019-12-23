@@ -14,7 +14,7 @@ try:
     sys.path.insert(0, "src")
     import pyabf
 except:
-    pass
+    raise ImportError("couldn't import local pyABF")
 
 ABF_PATH = os.path.abspath("data/abfs/H19_29_150_11_21_01_0011.abf")
 STIM_FOLDER = os.path.abspath("data/stimulusFiles")
