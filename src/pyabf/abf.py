@@ -7,6 +7,24 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
+import pyabf.abfWriter
+import pyabf.stimulus
+import pyabf.abfHeaderDisplay
+
+from pyabf.abfHeader import BLOCKSIZE
+from pyabf.abfHeader import StringsIndexed
+from pyabf.abfHeader import StringsSection
+from pyabf.abfHeader import TagSection
+from pyabf.abfHeader import EpochSection
+from pyabf.abfHeader import EpochPerDACSection
+from pyabf.abfHeader import DACSection
+from pyabf.abfHeader import ADCSection
+from pyabf.abfHeader import ProtocolSection
+from pyabf.abfHeader import SectionMap
+from pyabf.abfHeader import HeaderV2
+from pyabf.abfHeader import HeaderV1
+
+import pyabf.abfHeader
 import os
 import sys
 import glob
@@ -18,28 +36,6 @@ from pathlib import PureWindowsPath
 import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
-
-if __name__ == "__main__":
-    print("DO NOT RUN THIS FILE DIRECTLY!")
-    sys.path.append(os.path.dirname(__file__)+"/../")
-
-import pyabf.abfHeader
-from pyabf.abfHeader import HeaderV1
-from pyabf.abfHeader import HeaderV2
-from pyabf.abfHeader import SectionMap
-from pyabf.abfHeader import ProtocolSection
-from pyabf.abfHeader import ADCSection
-from pyabf.abfHeader import DACSection
-from pyabf.abfHeader import EpochPerDACSection
-from pyabf.abfHeader import EpochSection
-from pyabf.abfHeader import TagSection
-from pyabf.abfHeader import StringsSection
-from pyabf.abfHeader import StringsIndexed
-from pyabf.abfHeader import BLOCKSIZE
-
-import pyabf.abfHeaderDisplay
-import pyabf.stimulus
-import pyabf.abfWriter
 
 
 class ABF:
@@ -165,6 +161,8 @@ class ABF:
         self.abfVersion = self._headerV1.abfVersionDict
         self.abfVersionString = self._headerV1.abfVersionString
         self.fileGUID = self._headerV1.sFileGUID
+        self.creator = self._headerV1.sCreatorInfo + \
+            " " + self._headerV1.creatorVersionString
         self.creatorVersion = self._headerV1.creatorVersionDict
         self.creatorVersionString = self._headerV1.creatorVersionString
         self.abfDateTime = self._headerV1.abfDateTime
@@ -192,7 +190,8 @@ class ABF:
         elif self._nDataFormat == 1:
             raise ValueError("Support for float data is not implemented")
         else:
-            raise ValueError("_nDataFormat={} is invalid".format(self._nDataFormat))
+            raise ValueError(
+                "_nDataFormat={} is invalid".format(self._nDataFormat))
 
         self.channelCount = self._headerV1.nADCNumChannels
         self.dataRate = 1e6 / self._headerV1.fADCSampleInterval
@@ -207,10 +206,10 @@ class ABF:
 
         # channel names
         for i in range(self.channelCount):
-            physicalChannel     = self._headerV1.nADCSamplingSeq[i]
-            logicalChannel      = self._headerV1.nADCPtoLChannelMap[physicalChannel]
-            self.adcUnits[i]    = self._headerV1.sADCUnits[physicalChannel]
-            self.adcNames[i]    = self._headerV1.sADCChannelName[physicalChannel]
+            physicalChannel = self._headerV1.nADCSamplingSeq[i]
+            logicalChannel = self._headerV1.nADCPtoLChannelMap[physicalChannel]
+            self.adcUnits[i] = self._headerV1.sADCUnits[physicalChannel]
+            self.adcNames[i] = self._headerV1.sADCChannelName[physicalChannel]
             self.channelList[i] = i
 
         # TODO not sure if these lists needs to be reduced
@@ -256,7 +255,8 @@ class ABF:
         self.abfVersion = self._headerV2.abfVersionDict
         self.abfVersionString = self._headerV2.abfVersionString
         self.fileGUID = self._headerV2.sFileGUID
-        self.creatorVersion = self._headerV2.creatorVersionDict
+        self.creator = self._stringsIndexed.uCreatorName + \
+            " " + self._headerV2.creatorVersionString
         self.creatorVersionString = self._headerV2.creatorVersionString
         self.abfDateTime = self._headerV2.abfDateTime
         self.abfDateTimeString = self._headerV2.abfDateTimeString
@@ -569,7 +569,8 @@ class ABF:
         else:
             # auto-generate (or auto-load) the waveform using the stimulus module
             if not hasattr(self, 'sweepChannel'):
-                self.setSweep(0) # call setsweep if it hasn't been called before
+                # call setsweep if it hasn't been called before
+                self.setSweep(0)
             stimulus = self.stimulusByChannel[self.sweepChannel]
             stimulusWaveform = stimulus.stimulusWaveform(self.sweepNumber)
             if len(stimulusWaveform) > len(self.sweepX):
