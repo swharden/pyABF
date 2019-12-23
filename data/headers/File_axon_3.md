@@ -21,6 +21,7 @@
 * adcUnits = `['V', 'mV']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creator = `Clampex 9.2.0.9`
 * creatorVersion = `{'major': 9, 'minor': 2, 'bugfix': 0, 'build': 9}`
 * creatorVersionString = `9.2.0.9`
 * dacNames = `['Iimp RK01G', 'VimpRK', '', '']`

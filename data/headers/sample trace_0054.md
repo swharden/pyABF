@@ -21,6 +21,7 @@
 * adcUnits = `['nA']`
 * channelCount = `1`
 * channelList = `[0]`
+* creator = `AXENGN 2.0.2.2 0.0.0.0`
 * creatorVersion = `{'major': 0, 'minor': 0, 'bugfix': 0, 'build': 0}`
 * creatorVersionString = `0.0.0.0`
 * dacNames = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`

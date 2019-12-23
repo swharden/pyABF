@@ -21,6 +21,7 @@
 * adcUnits = `['dB', 'mV']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creator = `AxoScope 10.3.2.1`
 * creatorVersion = `{'major': 10, 'minor': 3, 'bugfix': 2, 'build': 1}`
 * creatorVersionString = `10.3.2.1`
 * dacNames = `['Cmd 0', 'Cmd 1']`

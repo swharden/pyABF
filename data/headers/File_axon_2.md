@@ -21,6 +21,7 @@
 * adcUnits = `['mV']`
 * channelCount = `1`
 * channelList = `[0]`
+* creator = `AxoScope 9.2.0.9`
 * creatorVersion = `{'major': 9, 'minor': 2, 'bugfix': 0, 'build': 9}`
 * creatorVersionString = `9.2.0.9`
 * dacNames = `['Iimp RK01G', 'VimpRK', '', '']`

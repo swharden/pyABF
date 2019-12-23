@@ -21,6 +21,7 @@
 * adcUnits = `['mV', 'nA']`
 * channelCount = `2`
 * channelList = `[0, 1]`
+* creator = `clampex 10.1.0.13`
 * creatorVersion = `{'major': 10, 'minor': 1, 'bugfix': 0, 'build': 13}`
 * creatorVersionString = `10.1.0.13`
 * dacNames = `['Cmd 0', 'Cmd 1']`
