@@ -30,94 +30,139 @@ def abfInfoText():
         if (abfFile in dataFiles):
             with open(os.path.join(DATA_PATH, abfInfoFile)) as f:
                 abfinfos[abfID] = f.readlines()
+        # break # only read one ABF
     return abfinfos
 
 
 ABFINFOS = abfInfoText()
 
 
+def getFirstLineContaining(lines, keyLineStart):
+    """
+    Given a split abfinfo text, return a stripped value for the given key.
+    """
+    for line in lines:
+        if line.startswith(keyLineStart):
+            line = line.replace(keyLineStart, "")
+            line = line.strip()
+            return line
+    return None
+
+
+def datetimeFromABFtime(line):
+    """
+    Convert the abfinfo created string to a python datetime.
+    """
+
+    # clampfit doesn't use a standard date format, so do this manually
+    line = line.split("[")[0]
+    line = line.strip()
+    line = line.replace(",", " ")
+    dateParts = line.split(" ")
+    dateParts = [x for x in dateParts if len(x)]
+
+    month = int(datetime.datetime.strptime(dateParts[0], '%b').month)
+    day = int(dateParts[1])
+    year = int(dateParts[2])
+
+    # Notice that ABFFIO/ClampFit/ABFINFO has a bug that removes
+    # left-padded zeros after the decimal point seconds (DOH!)
+
+    timestamp = dateParts[4].replace(".", ":")
+    hours, minutes, seconds, milliseconds = timestamp.split(":")
+    hours = int(hours)
+    minutes = int(minutes)
+    seconds = int(seconds)
+    us = int(milliseconds) * 1000
+
+    return datetime.datetime(year, month, day, hours, minutes, seconds, us)
+
+
 @pytest.mark.parametrize("abfID", ABFINFOS.keys())
 def test_abfinfo_abfDateTime(abfID):
 
-    # look up value from abfinfo text
-    abfInfoLines = ABFINFOS[abfID]
-    for line in abfInfoLines:
-        if line.startswith("Created: "):
-            # clampfit doesn't use a standard date format, so do this manually
-            line = line.split(":", 1)[1]
-            line = line.split("[")[0]
-            line = line.strip()
-            line = line.replace(",", " ")
-            dateParts = line.split(" ")
-            dateParts = [x for x in dateParts if len(x)]
-
-            month = int(datetime.datetime.strptime(dateParts[0], '%b').month)
-            day = int(dateParts[1])
-            year = int(dateParts[2])
-
-            # Notice that ABFFIO/ClampFit/ABFINFO has a bug that removes
-            # left-padded zeros after the decimal point seconds (DOH!)
-
-            timestamp = dateParts[4].replace(".", ":")
-            hours, minutes, seconds, milliseconds = timestamp.split(":")
-            hours = int(hours)
-            minutes = int(minutes)
-            seconds = int(seconds)
-            milliseconds = int(milliseconds)
-            microseconds = milliseconds * 1000
-
-            abfinfoDateTime = datetime.datetime(
-                year, month, day, hours,
-                minutes, seconds, microseconds
-            )
-
-            break
-
-    # compare to value from pyABF
+    # read the ABF header into memory
     abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
     abf = pyabf.ABF(abfFilePath, loadData=False)
 
-    assert(abf.abfDateTime.year == abfinfoDateTime.year)
-    assert(abf.abfDateTime.month == abfinfoDateTime.month)
-    assert(abf.abfDateTime.day == abfinfoDateTime.day)
-    assert(abf.abfDateTime.hour == abfinfoDateTime.hour)
-    assert(abf.abfDateTime.minute == abfinfoDateTime.minute)
-    assert(abf.abfDateTime.second == abfinfoDateTime.second)
+    # read the ABFINFO text into memory
+    infoLines = ABFINFOS[abfID]
 
-    # ignore microseconds in Python2
-    if sys.version_info[0] >= 3:
-        assert(abf.abfDateTime.microsecond == abfinfoDateTime.microsecond)
+    # abfDateTime
+    abfInfoDateTime = getFirstLineContaining(infoLines, "Created:")
+    if abfInfoDateTime:
+        abfInfoDateTime = datetimeFromABFtime(abfInfoDateTime)
+        assert(abf.abfDateTime.year == abfInfoDateTime.year)
+        assert(abf.abfDateTime.month == abfInfoDateTime.month)
+        assert(abf.abfDateTime.day == abfInfoDateTime.day)
+        assert(abf.abfDateTime.hour == abfInfoDateTime.hour)
+        assert(abf.abfDateTime.minute == abfInfoDateTime.minute)
+        assert(abf.abfDateTime.second == abfInfoDateTime.second)
 
+    # abfFileComment
+    abfInfoComment = getFirstLineContaining(infoLines, "Comment:")
+    if abfInfoComment == 'n/a':
+        abfInfoComment = ''
+    if abfInfoComment:
+        assert(abf.abfFileComment == abfInfoComment)
 
-# NEED TEST FOR: abfVersionString = 2.6.0.0
-# NEED TEST FOR: channelCount = 2
-# NEED TEST FOR: creatorVersionString = 10.7.0.3
-# NEED TEST FOR: dataByteStart = 6656
-# NEED TEST FOR: dataLengthMin = 0.06666666666666667
-# NEED TEST FOR: dataLengthSec = 4.0
-# NEED TEST FOR: dataPointByteSize = 2
-# NEED TEST FOR: dataPointCount = 120000
-# NEED TEST FOR: dataPointsPerMs = 20
-# NEED TEST FOR: dataRate = 20000
-# NEED TEST FOR: dataSecPerPoint = 5e-05
+    # abfVersion
+    infoVersion = getFirstLineContaining(infoLines, "File format: ABF V")
 
-@pytest.mark.parametrize("abfID", ABFINFOS.keys())
-def test_abfinfo_fileGUID(abfID):
+    if abf.abfVersion["major"] == 1:
+        version = "%d.%d%d" % (
+            abf.abfVersion["major"],
+            abf.abfVersion["minor"],
+            abf.abfVersion["bugfix"]
+        )
+        assert(infoVersion == version)
 
-    # look up value from abfinfo text
-    abfInfoLines = ABFINFOS[abfID]
-    for line in abfInfoLines:
-        if "GUID" in line:
-            abfinfoGUID = line.split("{")[1].split("}")[0]
-            break
+    elif abf.abfVersion["major"] == 2:
+        version = "%d.%02d" % (
+            abf.abfVersion["major"],
+            abf.abfVersion["minor"]
+        )
+        assert(infoVersion == version)
 
-    # read GUID using pyABF
-    abfFilePath = os.path.join(DATA_PATH, abfID+".abf")
-    abf = pyabf.ABF(abfFilePath, loadData=False)
-    assert(abf.fileGUID == abfinfoGUID)
+    else:
+        raise NotImplementedError()
 
-# NEED TEST FOR: holdingCommand = [-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-# NEED TEST FOR: protocolPath = S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-# NEED TEST FOR: sweepIntervalSec = 1.0
-# NEED TEST FOR: sweepLengthSec = 1.0
-# NEED TEST FOR: sweepPointCount = 20000
+    # channel count (verify this two ways)
+    channelCount = getFirstLineContaining(infoLines, "nADCNumChannels =")
+    channelCount = int(channelCount)
+    assert (channelCount == abf.channelCount)
+
+    channelMap = getFirstLineContaining(infoLines, "nADCChannel")
+    channelMap = channelMap.split(" ")
+    channelMap = [x for x in channelMap if x]
+    assert (len(channelMap) == abf.channelCount)
+
+    # creator version
+    creator = getFirstLineContaining(infoLines, "Created by:")
+    if creator != "clampex pre-9.0":
+        assert (creator in abf.creator)
+
+    # data dimensions
+    for line in infoLines:
+        if "samples in this file" in line:
+            sampleCount = int(line.split(" ")[0])
+    assert(sampleCount == abf.dataPointCount)
+
+    # GUID
+    abfInfoGUID = getFirstLineContaining(infoLines, "File GUID:")
+    if abfInfoGUID:
+        abfInfoGUID = abfInfoGUID[1:-2]
+    assert(abf.fileGUID == abfInfoGUID)
+
+    # protocol
+    protocol = getFirstLineContaining(infoLines, "Protocol:")
+    if protocol == "(untitled)":
+        protocol = None
+    if protocol:
+        assert(protocol == abf.protocolPath)
+
+    # tags
+    tagCount = getFirstLineContaining(infoLines, "lNumTagEntries =")
+    if tagCount:
+        tagCount = int(tagCount)
+        assert(tagCount == len(abf.tagTimesMin))
