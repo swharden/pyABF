@@ -264,10 +264,6 @@ class ABF:
         self.holdingCommand = self._dacSection.fDACHoldingLevel
         self.protocolPath = self._stringsIndexed.uProtocolPath
         self.abfFileComment = self._stringsIndexed.lFileComment
-        self.tagComments = self._tagSection.sComment
-        _tagMult = self._protocolSection.fSynchTimeUnit/1e6
-        self.tagTimesSec = self._tagSection.lTagTime
-        self.tagTimesSec = [_tagMult*x for x in self.tagTimesSec]
 
         # data info
         self._nDataFormat = self._headerV2.nDataFormat
@@ -281,6 +277,17 @@ class ABF:
         self.dataPointsPerMs = int(self.dataRate/1000)
         self.sweepCount = self._headerV2.lActualEpisodes
         self.channelList = list(range(self.channelCount))
+
+        # tags
+        self.tagComments = self._tagSection.sComment
+        self.tagTimesSec = self._tagSection.lTagTime
+        for i in range(len(self.tagTimesSec)):
+            if self._tagSection.nTagType[i] == 2:
+                _tagMult = 1.0/self.dataRate/self.channelCount
+            else:
+                _tagMult = self._protocolSection.fSynchTimeUnit/1e6
+            self.tagTimesSec[i] = self.tagTimesSec[i] * _tagMult
+            self.tagTimesSec[i] = round(self.tagTimesSec[i], 5)
 
         # channel names
         self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
