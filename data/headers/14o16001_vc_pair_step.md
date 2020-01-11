@@ -40,7 +40,7 @@
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/14o16001_vc_pair_step.abf`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `13`

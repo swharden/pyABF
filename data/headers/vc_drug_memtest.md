@@ -40,7 +40,7 @@
 * protocol = `0401 VC 2s MT-70`
 * protocolPath = `S:\Protocols\permanent\0401 VC 2s MT-70.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/vc_drug_memtest.abf`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `482`

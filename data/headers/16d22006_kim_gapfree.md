@@ -40,7 +40,7 @@
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/16d22006_kim_gapfree.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

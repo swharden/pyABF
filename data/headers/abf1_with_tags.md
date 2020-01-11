@@ -40,7 +40,7 @@
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/abf1_with_tags.abf`
 * sweepC = `array (1d) with values like: 112.00000, 112.00000, 112.00000, ..., 112.00000, 112.00000, 112.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

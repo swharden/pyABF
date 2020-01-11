@@ -40,7 +40,7 @@
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/opto_aps_good_units.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `3`

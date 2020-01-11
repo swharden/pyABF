@@ -40,7 +40,7 @@
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/pclamp11_4ch.abf`
 * sweepC = `array (1d) with values like: -10.00000, -10.00000, -10.00000, ..., -10.00000, -10.00000, -10.00000`
 * sweepChannel = `0`
 * sweepCount = `10`

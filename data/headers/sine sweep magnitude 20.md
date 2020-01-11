@@ -40,7 +40,7 @@
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/sine sweep magnitude 20.abf`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `1`

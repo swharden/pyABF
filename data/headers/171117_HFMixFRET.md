@@ -40,7 +40,7 @@
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/171117_HFMixFRET.abf`
 * sweepC = `array (1d) with values like: -100.00000, -100.00000, -100.00000, ..., -100.00000, -100.00000, -100.00000`
 * sweepChannel = `0`
 * sweepCount = `13`

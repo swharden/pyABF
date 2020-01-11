@@ -40,7 +40,7 @@
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/17o05028_ic_steps.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
 * sweepChannel = `0`
 * sweepCount = `16`

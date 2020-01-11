@@ -40,7 +40,7 @@
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
-* stimulusFileFolder = `C:\Users\scott\Documents\GitHub\pyABF\data\abfs`
+* stimulusFileFolder = `C:/some/path/to/model_vc_step.abf`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
 * sweepCount = `20`
