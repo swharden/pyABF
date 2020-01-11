@@ -310,7 +310,7 @@ DAC waveform is not enabled
 
 > Tags are comments placed in ABF files during the recording. Physically     they are located at the end of the file (after the data).      Later we will populate the times and sweeps (human-understandable units)     by multiplying the lTagTime by fSynchTimeUnit from the protocol section. 
 
-* lTagTime = `[1464320]`
+* lTagTime = `[0.0]`
 * nTagType = `[1]`
 * nVoiceTagNumberorAnnotationIndex = `[0]`
 * sComment = `['drogue on']`

@@ -63,9 +63,9 @@
 * sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 1.99985, 1.99990, 1.99995`
 * sweepY = `array (1d) with values like: -7.20215, -6.71387, -5.73730, ..., -7.81250, -7.56836, -6.59180`
 * tagComments = `['+TGOT', '-TGOT']`
-* tagSweeps = `[199.83360000000002, 260.4288]`
-* tagTimesMin = `[6.66112, 8.68096]`
-* tagTimesSec = `[399.66720000000004, 520.8576]`
+* tagSweeps = `[199.8336, 260.4288]`
+* tagTimesMin = `[6.6611199999999995, 8.68096]`
+* tagTimesSec = `[399.6672, 520.8576]`
 
 ## Epochs for Channel 0
 
@@ -319,7 +319,7 @@
 
 > Tags are comments placed in ABF files during the recording. Physically     they are located at the end of the file (after the data).      Later we will populate the times and sweeps (human-understandable units)     by multiplying the lTagTime by fSynchTimeUnit from the protocol section. 
 
-* lTagTime = `[31973376, 41668608]`
+* lTagTime = `[399.6672, 520.8576]`
 * nTagType = `[1, 1]`
 * nVoiceTagNumberorAnnotationIndex = `[0, 0]`
 * sComment = `['+TGOT', '-TGOT']`
