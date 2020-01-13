@@ -94,6 +94,8 @@ FIRSTVALUES['opto_aps_bad_units'] = ['-1586.91406']
 FIRSTVALUES['opto_aps_good_units'] = ['-75.98877']
 FIRSTVALUES['19122043'] = ['-0.00031', '0.00031', '-173.88916', '4.88281']
 FIRSTVALUES['ch121219_1_0001'] = ['-42.75513', '36.62109']
+FIRSTVALUES['invalidDate-abf1'] = ['-138.39722']
+FIRSTVALUES['invalidDate-abf2'] = ['-138.42772']
 
 
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
