@@ -324,7 +324,11 @@ class HeaderV1:
         else:
             startTime = self.lFileStartTime
             startDate = str(self.lFileStartDate)
-            startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+            try:
+                startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+            except:
+                log.warn("ABF file contains invalid date")
+                startDate = datetime.datetime.fromtimestamp(0)
             timeStamp = startDate + datetime.timedelta(seconds=startTime)
             timeStamp += datetime.timedelta(
                 milliseconds=self.nFileStartMillisecs)
@@ -407,7 +411,11 @@ class HeaderV2:
         # format creation date from values found in the header
         startDate = str(self.uFileStartDate)
         startTime = self.uFileStartTimeMS / 1000
-        startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+        try:
+            startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+        except:
+            log.warn("ABF file contains invalid date")
+            startDate = datetime.datetime.fromtimestamp(0)
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
         try:
