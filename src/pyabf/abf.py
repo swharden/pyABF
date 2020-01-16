@@ -34,7 +34,7 @@ import numpy as np
 from pathlib import PureWindowsPath
 
 import logging
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.WARN)
 log = logging.getLogger(__name__)
 
 
@@ -160,7 +160,7 @@ class ABF:
         # create useful variables at the class level
         self.abfVersion = self._headerV1.abfVersionDict
         self.abfVersionString = self._headerV1.abfVersionString
-        self.fileGUID = self._headerV1.sFileGUID
+        self._fileGUID = self._headerV1.sFileGUID
         self.creator = self._headerV1.sCreatorInfo + \
             " " + self._headerV1.creatorVersionString
         self.creatorVersion = self._headerV1.creatorVersionDict
@@ -254,7 +254,7 @@ class ABF:
         # create useful variables at the class level
         self.abfVersion = self._headerV2.abfVersionDict
         self.abfVersionString = self._headerV2.abfVersionString
-        self.fileGUID = self._headerV2.sFileGUID
+        self._fileGUID = self._headerV2.sFileGUID
         self.creator = self._stringsIndexed.uCreatorName + \
             " " + self._headerV2.creatorVersionString
         self.creatorVersion = self._headerV2.creatorVersionDict
@@ -627,3 +627,8 @@ class ABF:
         ddt = np.append(ddt, [ddt[-1]])
         ddt *= self.dataRate
         return ddt
+
+    @property
+    def fileGUID(self):
+        log.warn("fileGUID isn't truly unique (fileGUID2 is)")
+        return self._fileGUID
