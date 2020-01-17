@@ -32,6 +32,7 @@ import time
 import datetime
 import numpy as np
 from pathlib import PureWindowsPath
+import hashlib
 
 import logging
 logging.basicConfig(level=logging.WARN)
@@ -630,5 +631,22 @@ class ABF:
 
     @property
     def fileGUID(self):
-        log.warn("fileGUID isn't truly unique (fileGUID2 is)")
+        log.warn("fileGUID isn't truly unique (fileUUID is)")
         return self._fileGUID
+
+    @property
+    def md5(self):
+        """MD5 hash string of the whole ABF file."""
+        if not hasattr(self, "_md5"):
+            with open(self.abfFilePath, 'rb') as f:
+                hasher = hashlib.md5(f.read())
+                self._md5 = hasher.hexdigest().upper()
+        return self._md5
+
+    @property
+    def fileUUID(self):
+        """Create a unique ABF file ID using the MD5 of the whole file."""
+        uuid = list(self.md5)
+        for index in [8, 13, 18, 23]:
+            uuid.insert(index, "-")
+        return "".join(uuid)
