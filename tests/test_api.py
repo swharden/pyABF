@@ -125,3 +125,9 @@ def test_ABF_properties(abfPath):
 
             sweepD = abf.sweepD(0)  # digital output generation
             assert isinstance(sweepD, np.ndarray)
+
+def test_uuid_isExpectedValue():
+    abf = pyabf.ABF("data/abfs/2019_07_24_0055_fsi.abf")
+    assert abf.fileGUID == "5689DB34-B07E-456A-811C-44E9BE92FBC6"
+    assert abf.fileUUID == "834CBF1D-372E-3D19-225E-31E718BCD04D"
+    assert abf.md5 == "834CBF1D372E3D19225E31E718BCD04D"
