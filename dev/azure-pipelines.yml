@@ -1,20 +1,34 @@
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - master
-
-pool:
-  vmImage: 'ubuntu-latest'
+      
 strategy:
   matrix:
-    Python36:
-      python.version: '3.6'
-    Python37:
-      python.version: '3.7'
+  
+    MacOS Python36:
+      imageName: 'macOS-latest'
+      pyVersion: '3.6'
+    MacOS Python37:
+      imageName: 'macOS-latest'
+      pyVersion: '3.7'
+      
+    Linux Python36:
+      imageName: 'ubuntu-latest'
+      pyVersion: '3.6'
+    Linux Python37:
+      imageName: 'ubuntu-latest'
+      pyVersion: '3.7'
+      
+    Windows Python36:
+      imageName: 'windows-latest'
+      pyVersion: '3.6'
+    Windows Python37:
+      imageName: 'windows-latest'
+      pyVersion: '3.7'
 
+pool:
+  vmImage: $(imageName)
+  python.version: $(pyVersion)
+      
 steps:
 - task: UsePythonVersion@0
   inputs:
