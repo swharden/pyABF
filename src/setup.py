@@ -1,6 +1,5 @@
 import os
 from setuptools import setup
-import pyabf
 
 # load the descripntion
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
