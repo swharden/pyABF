@@ -5,21 +5,17 @@ import os
 def increaseVersion(fname):
     assert os.path.exists(fname)
     with open(fname) as f:
-        lines = f.read().split("\n")
-    for i, line in enumerate(lines):
-        if line.startswith("__version__"):
-            oldVersionString = line.split("'")[1]
-            newVersion = [int(x) for x in oldVersionString.split(".")]
-            newVersion[-1] += 1
-            newVersionString = ".".join([str(x) for x in newVersion])
-            lines[i] = lines[i].replace(oldVersionString, newVersionString)
+        oldVersionString = f.read().strip()
+    oldVersion = oldVersionString.split(".")
+    oldVersion = [int(x) for x in oldVersion]
+    newVersionString = "%d.%d.%d" % (oldVersion[0], oldVersion[1], oldVersion[2] + 1)	
     with open(fname, 'w') as f:
-        f.write("\n".join(lines))
+        f.write(newVersionString)
     print(f"Upgraded: {oldVersionString} -> {newVersionString}")
     return
 
 
 if __name__ == "__main__":
     PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-    versionFile = os.path.abspath(PATH_HERE+"/../../src/pyabf/__init__.py")
+    versionFile = os.path.abspath(PATH_HERE+"/../../src/pyabf/version.txt")
     increaseVersion(versionFile)
