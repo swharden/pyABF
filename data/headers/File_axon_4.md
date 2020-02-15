@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `DEF0C2D9-9817-42F7-B139-526A4AA9397A`
+* fileUUID = `E5CD4485-57D6-5D0C-ADFF-C99788082FB6`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
+* md5 = `E5CD448557D65D0CADFFC99788082FB6`
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

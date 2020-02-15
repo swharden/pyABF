@@ -36,7 +36,9 @@
 * dataRate = `403`
 * dataSecPerPoint = `0.0024813895781637717`
 * fileGUID = `F0257BE6-17F2-419A-AFE1-AF009E853DFA`
+* fileUUID = `DB6886F9-9174-61B1-4DBE-1E1BC140EEF9`
 * holdingCommand = `[-80.0, -80.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `DB6886F9917461B14DBE1E1BC140EEF9`
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

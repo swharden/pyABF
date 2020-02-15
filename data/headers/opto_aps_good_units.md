@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `3A64A49D-2965-4F2F-89D6-48997850D179`
+* fileUUID = `3068828D-D1AB-058D-5027-DBC046B6FC6B`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `3068828DD1AB058D5027DBC046B6FC6B`
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

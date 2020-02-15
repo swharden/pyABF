@@ -1,4 +1,4 @@
-# 18425108.abf
+# invalidDate-abf2.abf
 
 ## ABF Class Methods
 
@@ -9,61 +9,61 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `2018-04-25 15:47:51.040000`
-* abfDateTimeString = `2018-04-25T15:47:51.040`
+* abfDateTime = `1970-02-19 12:02:47.295000`
+* abfDateTimeString = `1970-02-19T12:02:47.295`
 * abfFileComment = ``
-* abfFilePath = `C:/some/path/to/18425108.abf`
+* abfFilePath = `C:/some/path/to/invalidDate-abf2.abf`
 * abfFolderPath = `C:/some/path`
-* abfID = `18425108`
-* abfVersion = `{'major': 2, 'minor': 9, 'bugfix': 0, 'build': 0}`
-* abfVersionString = `2.9.0.0`
-* adcNames = `['Imemb', '10_Vm']`
-* adcUnits = `['nA', 'mV']`
-* channelCount = `2`
-* channelList = `[0, 1]`
-* creator = `Clampex 11.0.0.120`
-* creatorVersion = `{'major': 11, 'minor': 0, 'bugfix': 0, 'build': 120}`
-* creatorVersionString = `11.0.0.120`
-* dacNames = `['Cmd 0', 'ME1']`
-* dacUnits = `['mV', 'nA']`
-* data = `array (2d) with values like: 0.07935, 0.07629, 0.08240, ..., -70.95337, -70.98389, -70.98389`
-* dataByteStart = `19456`
-* dataLengthMin = `4.0`
-* dataLengthSec = `240.0`
+* abfID = `invalidDate-abf2`
+* abfVersion = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionString = `2.6.0.0`
+* adcNames = `['IN 0']`
+* adcUnits = `['pA']`
+* channelCount = `1`
+* channelList = `[0]`
+* creator = `Clampex 10.7.0.3`
+* creatorVersion = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionString = `10.7.0.3`
+* dacNames = `['Cmd 0']`
+* dacUnits = `['mV']`
+* data = `array (2d) with values like: -138.42772, -139.03807, -140.25877, ..., -137.81737, -136.84081, -136.23045`
+* dataByteStart = `6656`
+* dataLengthMin = `0.10200000000000001`
+* dataLengthSec = `6.12`
 * dataPointByteSize = `2`
-* dataPointCount = `500000`
-* dataPointsPerMs = `25`
-* dataRate = `25000`
-* dataSecPerPoint = `4e-05`
-* fileGUID = `D6B89566-44F1-44ED-8D80-02774561D182`
-* fileUUID = `DFF0D686-A9FC-B49F-0091-86E57EEE5281`
-* holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* md5 = `DFF0D686A9FCB49F009186E57EEE5281`
-* protocol = `11 - 15 pulse AHP w_laser`
-* protocolPath = `C:\Users\Scanimage\Documents\Molecular Devices\pCLAMP\Params\11 - 15 pulse AHP w_laser.pro`
-* stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
-* stimulusFileFolder = `C:/some/path/to/18425108.abf`
-* sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
+* dataPointCount = `120000`
+* dataPointsPerMs = `20`
+* dataRate = `20000`
+* dataSecPerPoint = `5e-05`
+* fileGUID = `3529074B-C6D9-4B5E-AB13-C9A9B4F09065`
+* fileUUID = `A9F9A479-A3C5-AFA2-FE61-2A7F0C18BACC`
+* holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `A9F9A479A3C5AFA2FE612A7F0C18BACC`
+* protocol = `0204 Cm ramp`
+* protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
+* stimulusByChannel = `[Stimulus(abf, 0)]`
+* stimulusFileFolder = `C:/some/path/to/invalidDate-abf2.abf`
+* sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`
 * sweepChannel = `0`
-* sweepCount = `1`
-* sweepDerivative = `array (1d) with values like: -76.29395, 152.58789, 0.00000, ..., 0.00000, -76.29395, -76.29395`
-* sweepEpochs = `Sweep epoch waveform: Step 0.00 [0:3906], Step 0.00 [3906:7501], Pulse 1.80 [7501:15001], Step 0.00 [15001:250000]`
-* sweepIntervalSec = `240.0`
-* sweepLabelC = `Cmd 0 (mV)`
+* sweepCount = `50`
+* sweepDerivative = `array (1d) with values like: -12207.03125, -24414.06250, -24414.06250, ..., 24414.06250, 21972.65625, 21972.65625`
+* sweepEpochs = `Sweep epoch waveform: Step -70.00 [0:37], Ramp -80.00 [37:1037], Ramp -70.00 [1037:2037], Step -70.00 [2037:2400]`
+* sweepIntervalSec = `0.12`
+* sweepLabelC = `Membrane Potential (mV)`
 * sweepLabelD = `Digital Output (V)`
 * sweepLabelX = `Time (seconds)`
-* sweepLabelY = `Imemb (nA)`
-* sweepLengthSec = `10.0`
-* sweepList = `[0]`
+* sweepLabelY = `Clamp Current (pA)`
+* sweepLengthSec = `0.12`
+* sweepList = `[0, 1, 2, ..., 47, 48, 49]`
 * sweepNumber = `0`
-* sweepPointCount = `250000`
-* sweepTimesMin = `array (1d) with values like: 0.00000`
-* sweepTimesSec = `array (1d) with values like: 0.00000`
+* sweepPointCount = `2400`
+* sweepTimesMin = `array (1d) with values like: 0.00000, 0.00200, 0.00400, ..., 0.09400, 0.09600, 0.09800`
+* sweepTimesSec = `array (1d) with values like: 0.00000, 0.12000, 0.24000, ..., 5.64000, 5.76000, 5.88000`
 * sweepUnitsC = `mV`
 * sweepUnitsX = `sec`
-* sweepUnitsY = `nA`
-* sweepX = `array (1d) with values like: 0.00000, 0.00004, 0.00008, ..., 9.99988, 9.99992, 9.99996`
-* sweepY = `array (1d) with values like: 0.07935, 0.07629, 0.08240, ..., 0.07935, 0.07935, 0.07629`
+* sweepUnitsY = `pA`
+* sweepX = `array (1d) with values like: 0.00000, 0.00005, 0.00010, ..., 0.11985, 0.11990, 0.11995`
+* sweepY = `array (1d) with values like: -138.42772, -139.03807, -140.25877, ..., -138.42772, -137.20702, -136.10838`
 * tagComments = `[]`
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
@@ -73,67 +73,69 @@
 
 
 ```
-DAC waveform is not enabled
-```
-
-## Epochs for Channel 1
-
-
-```
-
+                    EPOCH         A         B
+                     Type      Ramp      Ramp
+              First Level    -80.00    -70.00
+              Delta Level      0.00      0.00
+  First Duration (points)      1000      1000
+  Delta Duration (points)         0         0
+     Digital Pattern #3-0      0000      0000
+     Digital Pattern #7-4      0000      0000
+    Train Period (points)         0         0
+     Pulse Width (points)         0         0
 ```
 
 ## ABF2 Header
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
-* abfDateTime = `2018-04-25 15:47:51.040000`
-* abfDateTimeString = `2018-04-25T15:47:51.040`
-* abfVersionDict = `{'major': 2, 'minor': 9, 'bugfix': 0, 'build': 0}`
-* abfVersionFloat = `2.9`
-* abfVersionString = `2.9.0.0`
-* creatorVersionDict = `{'major': 11, 'minor': 0, 'bugfix': 0, 'build': 120}`
-* creatorVersionFloat = `1100.12`
-* creatorVersionString = `11.0.0.120`
-* fFileVersionNumber = `[0, 0, 9, 2]`
-* lActualEpisodes = `1`
+* abfDateTime = `1970-02-19 12:02:47.295000`
+* abfDateTimeString = `1970-02-19T12:02:47.295`
+* abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
+* abfVersionFloat = `2.6`
+* abfVersionString = `2.6.0.0`
+* creatorVersionDict = `{'major': 10, 'minor': 7, 'bugfix': 0, 'build': 3}`
+* creatorVersionFloat = `10.703`
+* creatorVersionString = `10.7.0.3`
+* fFileVersionNumber = `[0, 0, 6, 2]`
+* lActualEpisodes = `50`
 * nCRCEnable = `0`
 * nDataFormat = `0`
 * nFileType = `1`
 * nSimultaneousScan = `1`
-* sFileGUID = `D6B89566-44F1-44ED-8D80-02774561D182`
+* sFileGUID = `3529074B-C6D9-4B5E-AB13-C9A9B4F09065`
 * sFileSignature = `ABF2`
 * uCreatorNameIndex = `1`
-* uCreatorVersion = `[120, 0, 0, 11]`
+* uCreatorVersion = `[3, 0, 7, 10]`
 * uFileCRC = `0`
-* uFileGUID = `[102, 149, 184, 214, 241, 68, 237, 68, 141, 128, 2, 119, 69, 97, 209, 130]`
+* uFileGUID = `[75, 7, 41, 53, 217, 198, 94, 75, 171, 19, 201, 169, 180, 240, 144, 101]`
 * uFileInfoSize = `512`
-* uFileStartDate = `20180425`
-* uFileStartTimeMS = `56871040`
+* uFileStartDate = `4294967295`
+* uFileStartTimeMS = `4294967295`
 * uModifierNameIndex = `0`
 * uModifierVersion = `0`
 * uProtocolPathIndex = `2`
-* uStopwatchTime = `1128`
+* uStopwatchTime = `359`
 
 ## SectionMap
 
 > Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
 
 * ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 2]`
+* ADCSection = `[2, 128, 1]`
 * AnnotationSection = `[0, 0, 0]`
 * DACSection = `[3, 256, 8]`
-* DataSection = `[38, 2, 500000]`
+* DataSection = `[13, 2, 120000]`
 * DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[7, 48, 8]`
-* EpochSection = `[8, 32, 6]`
+* EpochPerDACSection = `[7, 48, 2]`
+* EpochSection = `[8, 32, 2]`
 * MathSection = `[0, 0, 0]`
 * ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[36, 769, 1]`
+* ScopeSection = `[11, 769, 1]`
 * StatsRegionSection = `[9, 128, 1]`
 * StatsSection = `[0, 0, 0]`
-* StringsSection = `[35, 233, 23]`
-* SynchArraySection = `[1992, 8, 1]`
+* StringsSection = `[10, 185, 20]`
+* SynchArraySection = `[482, 8, 50]`
 * TagSection = `[0, 0, 0]`
 * UserListSection = `[0, 0, 0]`
 * VoiceTagSection = `[0, 0, 0]`
@@ -144,34 +146,34 @@ DAC waveform is not enabled
 
 * bEnableFileCompression = `0`
 * fADCRange = `10.0`
-* fADCSequenceInterval = `40.0`
+* fADCSequenceInterval = `50.0`
 * fAverageWeighting = `0.10000000149011612`
 * fCellID = `[0.0, 0.0, 0.0]`
 * fDACRange = `10.0`
-* fEpisodeStartToStart = `240.0`
+* fEpisodeStartToStart = `0.0`
 * fFirstRunDelayS = `0.0`
 * fRunStartToStart = `0.0`
 * fScopeOutputInterval = `0.0`
-* fSecondsPerRun = `10.0`
+* fSecondsPerRun = `7200.0`
 * fStatisticsPeriod = `1.0`
-* fSynchTimeUnit = `10.0`
+* fSynchTimeUnit = `12.5`
 * fTrialStartToStart = `0.0`
 * fTriggerThreshold = `0.0`
 * lADCResolution = `32768`
 * lAverageCount = `1`
 * lDACResolution = `32768`
-* lEpisodesPerRun = `1`
+* lEpisodesPerRun = `50`
 * lFileCommentIndex = `0`
-* lFinishDisplayNum = `250000`
-* lNumSamplesPerEpisode = `500000`
+* lFinishDisplayNum = `2400`
+* lNumSamplesPerEpisode = `2400`
 * lNumberOfTrials = `1`
-* lPreTriggerSamples = `32`
+* lPreTriggerSamples = `20`
 * lRunsPerTrial = `1`
-* lSamplesPerTrace = `16384`
+* lSamplesPerTrace = `40000`
 * lStartDisplayNum = `0`
 * lStatisticsMeasurements = `5`
 * lTimeHysteresis = `1`
-* nActiveDACChannel = `1`
+* nActiveDACChannel = `0`
 * nAllowExternalTags = `0`
 * nAlternateDACOutputState = `0`
 * nAlternateDigitalOutputState = `0`
@@ -182,7 +184,7 @@ DAC waveform is not enabled
 * nChannelStatsStrategy = `0`
 * nCommentsEnable = `0`
 * nDigitalDACChannel = `0`
-* nDigitalEnable = `1`
+* nDigitalEnable = `0`
 * nDigitalHolding = `0`
 * nDigitalInterEpisode = `0`
 * nDigitalTrainActiveLogic = `1`
@@ -196,15 +198,15 @@ DAC waveform is not enabled
 * nFirstEpisodeInRun = `0`
 * nLTPType = `0`
 * nLevelHysteresis = `64`
-* nManualInfoStrategy = `0`
+* nManualInfoStrategy = `1`
 * nOperationMode = `5`
 * nScopeTriggerOut = `0`
 * nShowPNRawData = `0`
 * nSignalType = `0`
-* nStatisticsClearStrategy = `0`
+* nStatisticsClearStrategy = `1`
 * nStatisticsDisplayStrategy = `0`
 * nStatisticsSaveStrategy = `0`
-* nStatsEnable = `0`
+* nStatsEnable = `1`
 * nTrialTriggerSource = `-1`
 * nTriggerAction = `0`
 * nTriggerPolarity = `0`
@@ -219,60 +221,60 @@ DAC waveform is not enabled
 
 > Information about the ADC (what gets recorded).     There is 1 item per ADC. 
 
-* bEnabledDuringPN = `[0, 0]`
-* fADCDisplayAmplification = `[74.07295227050781, 19.99969482421875]`
-* fADCDisplayOffset = `[1.1500244140625, -30.0]`
-* fADCProgrammableGain = `[1.0, 1.0]`
-* fInstrumentOffset = `[0.0, 0.0]`
-* fInstrumentScaleFactor = `[0.10000000149011612, 0.009999999776482582]`
-* fPostProcessLowpassFilter = `[100000.0, 100000.0]`
-* fSignalGain = `[1.0, 1.0]`
-* fSignalHighpassFilter = `[1.0, 1.0]`
-* fSignalLowpassFilter = `[5000.0, 50000.0]`
-* fSignalOffset = `[0.0, 0.0]`
-* fTelegraphAccessResistance = `[0.0, 0.0]`
-* fTelegraphAdditGain = `[1.0, 1.0]`
-* fTelegraphFilter = `[0.0, 0.0]`
-* fTelegraphMembraneCap = `[0.0, 0.0]`
-* lADCChannelNameIndex = `[3, 5]`
-* lADCUnitsIndex = `[4, 6]`
-* nADCNum = `[0, 1]`
-* nADCPtoLChannelMap = `[0, 1]`
-* nADCSamplingSeq = `[0, 0]`
-* nHighpassFilterType = `[0, 0]`
-* nLowpassFilterType = `[0, 0]`
-* nPostProcessLowpassFilterType = `['\x00', '\x00']`
-* nStatsChannelPolarity = `[0, 0]`
-* nTelegraphEnable = `[0, 0]`
-* nTelegraphInstrument = `[0, 0]`
-* nTelegraphMode = `[0, 0]`
-* sTelegraphInstrument = `['Unknown instrument (manual or user defined telegraph table).', 'Unknown instrument (manual or user defined telegraph table).']`
+* bEnabledDuringPN = `[0]`
+* fADCDisplayAmplification = `[25.47731590270996]`
+* fADCDisplayOffset = `[-7.0]`
+* fADCProgrammableGain = `[1.0]`
+* fInstrumentOffset = `[0.0]`
+* fInstrumentScaleFactor = `[0.0005000000237487257]`
+* fPostProcessLowpassFilter = `[100000.0]`
+* fSignalGain = `[1.0]`
+* fSignalHighpassFilter = `[1.0]`
+* fSignalLowpassFilter = `[5000.0]`
+* fSignalOffset = `[0.0]`
+* fTelegraphAccessResistance = `[0.0]`
+* fTelegraphAdditGain = `[5.0]`
+* fTelegraphFilter = `[2000.0]`
+* fTelegraphMembraneCap = `[0.0]`
+* lADCChannelNameIndex = `[3]`
+* lADCUnitsIndex = `[4]`
+* nADCNum = `[0]`
+* nADCPtoLChannelMap = `[0]`
+* nADCSamplingSeq = `[0]`
+* nHighpassFilterType = `[0]`
+* nLowpassFilterType = `[0]`
+* nPostProcessLowpassFilterType = `['\x00']`
+* nStatsChannelPolarity = `[1]`
+* nTelegraphEnable = `[1]`
+* nTelegraphInstrument = `[24]`
+* nTelegraphMode = `[0]`
+* sTelegraphInstrument = `['MultiClamp 700']`
 
 ## DACSection
 
 > Information about the DAC (what gets clamped).     There is 1 item per DAC. 
 
-* fBaselineDuration = `[1.0, 1.0, 0.009999999776482582, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fBaselineDuration = `[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fBaselineLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACCalibrationFactor = `[1.0005067586898804, 1.0006178617477417, 1.000562310218811, 1.000562310218811, 1.0, 1.0, 1.0, 1.0]`
-* fDACCalibrationOffset = `[-5.0, 1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACCalibrationFactor = `[1.001173496246338, 1.0012290477752686, 1.001173496246338, 1.001173496246338, 1.0, 1.0, 1.0, 1.0]`
+* fDACCalibrationOffset = `[-4.0, -4.0, -7.0, -6.0, 0.0, 0.0, 0.0, 0.0]`
 * fDACFileOffset = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fDACFileScale = `[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]`
-* fDACHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fDACScaleFactor = `[20.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]`
+* fDACHoldingLevel = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fDACScaleFactor = `[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]`
 * fInstrumentHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fMembTestPostSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
 * fMembTestPreSettlingTimeMS = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
 * fPNHoldingLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fPNInterpulse = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* fPNSettlingTime = `[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]`
+* fPNSettlingTime = `[100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]`
 * fPostTrainLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * fPostTrainPeriod = `[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]`
-* fStepDuration = `[1.0, 1.0, 0.009999999776482582, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* fStepDuration = `[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]`
 * fStepLevel = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* lConditNumPulses = `[1, 1, 0, 0, 0, 0, 0, 0]`
-* lDACChannelNameIndex = `[7, 9, 12, 14, 16, 18, 20, 22]`
-* lDACChannelUnitsIndex = `[8, 10, 13, 15, 17, 19, 21, 23]`
+* lConditNumPulses = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* lDACChannelNameIndex = `[5, 7, 9, 11, 13, 15, 17, 19]`
+* lDACChannelUnitsIndex = `[6, 8, 10, 12, 14, 16, 18, 20]`
 * lDACFileEpisodeNum = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * lDACFileNumEpisodes = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * lDACFilePathIndex = `[0, 0, 0, 0, 0, 0, 0, 0]`
@@ -287,33 +289,33 @@ DAC waveform is not enabled
 * nLeakSubtractType = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * nMembTestEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
 * nPNNumADCChannels = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nPNNumPulses = `[2, 2, 2, 2, 2, 2, 2, 2]`
+* nPNNumPulses = `[4, 4, 4, 4, 4, 4, 4, 4]`
 * nPNPolarity = `[1, 1, 1, 1, 1, 1, 1, 1]`
 * nPNPosition = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nTelegraphDACScaleFactorEnable = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* nWaveformEnable = `[0, 1, 0, 0, 0, 0, 0, 0]`
-* nWaveformSource = `[1, 1, 0, 0, 0, 0, 0, 0]`
+* nTelegraphDACScaleFactorEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* nWaveformEnable = `[1, 0, 0, 0, 0, 0, 0, 0]`
+* nWaveformSource = `[1, 1, 1, 1, 0, 0, 0, 0]`
 
 ## EpochPerDACSection
 
 > This section contains waveform protocol information. These are most of     the values set when using the epoch the waveform editor. Note that digital     output signals are not stored here, but are in EpochSection. 
 
-* fEpochInitLevel = `[0.0, 1.7999999523162842, 0.0, -0.05000000074505806, 0.0, 0.0, 0.0, 2.5]`
-* fEpochLevelInc = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
-* lEpochDurationInc = `[0, 0, 0, 0, 0, 0, 0, 0]`
-* lEpochInitDuration = `[3595, 7500, 2344, 6250, 7500, 25, 4975, 5000]`
-* lEpochPulsePeriod = `[0, 500, 0, 500, 0, 0, 500, 250]`
-* lEpochPulseWidth = `[0, 50, 0, 50, 0, 0, 50, 50]`
-* nDACNum = `[0, 0, 1, 1, 1, 1, 1, 1]`
-* nEpochNum = `[0, 3, 0, 1, 2, 3, 4, 5]`
-* nEpochType = `[1, 3, 1, 1, 1, 1, 1, 3]`
+* fEpochInitLevel = `[-80.0, -70.0]`
+* fEpochLevelInc = `[0.0, 0.0]`
+* lEpochDurationInc = `[0, 0]`
+* lEpochInitDuration = `[1000, 1000]`
+* lEpochPulsePeriod = `[0, 0]`
+* lEpochPulseWidth = `[0, 0]`
+* nDACNum = `[0, 0]`
+* nEpochNum = `[0, 1]`
+* nEpochType = `[2, 2]`
 
 ## EpochSection
 
 > This section contains the digital output signals for each epoch. This     section has been overlooked by some previous open-source ABF-reading     projects. Note that the digital output is a single byte, but represents     8 bits corresponding to 8 outputs (7->0). When working with these bits,     I convert it to a string like "10011101" for easy eyeballing. 
 
-* nEpochDigitalOutput = `[0, 0, 0, 1, 0, 0]`
-* nEpochNum = `[0, 1, 2, 3, 4, 5]`
+* nEpochDigitalOutput = `[0, 0]`
+* nEpochNum = `[0, 1]`
 
 ## TagSection
 
@@ -337,13 +339,13 @@ DAC waveform is not enabled
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
-* lADCChannelName = `['Imemb', '10_Vm']`
-* lADCUnits = `['nA', 'mV']`
-* lDACChannelName = `['Cmd 0', 'ME1', 'OUT 2', 'OUT 3', 'OUT 4', 'OUT 5', 'OUT 6', 'OUT 7']`
-* lDACChannelUnits = `['mV', 'nA', 'V', 'V', 'V', 'V', 'V', 'V']`
+* lADCChannelName = `['IN 0']`
+* lADCUnits = `['pA']`
+* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
+* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
 * lDACFilePath = `['', '', '', '', '', '', '', '']`
 * lFileComment = ``
 * nLeakSubtractADC = `['', '', '', '', '', '', '', '']`
 * uCreatorName = `Clampex`
 * uModifierName = ``
-* uProtocolPath = `C:\Users\Scanimage\Documents\Molecular Devices\pCLAMP\Params\11 - 15 pulse AHP w_laser.pro`
+* uProtocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`

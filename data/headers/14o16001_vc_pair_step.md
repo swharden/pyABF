@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `7468FC35-C797-4101-8212-7E5BF83B3FF9`
+* fileUUID = `E24DF2FA-B820-BAE9-E24C-416B6DF1A4B2`
 * holdingCommand = `[-70.0, -70.0, 0.0, 0.0]`
+* md5 = `E24DF2FAB820BAE9E24C416B6DF1A4B2`
 * protocol = `pair-MTIV`
 * protocolPath = `X:\Protocols\Scott\SWHlab\paired\pair-MTIV.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

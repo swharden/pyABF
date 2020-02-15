@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `1A6008BD-FC47-4D06-948D-AC67988CCF00`
+* fileUUID = `CEE9DA14-E140-3C30-17FA-9C095C47A622`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
+* md5 = `CEE9DA14E1403C3017FA9C095C47A622`
 * protocol = `0401 VC 2s MT-70`
 * protocolPath = `S:\Protocols\permanent\0401 VC 2s MT-70.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

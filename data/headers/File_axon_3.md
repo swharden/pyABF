@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `F1AA4915-8D35-4CE7-879A-77D66DD5BFEF`
+* fileUUID = `3F6D913C-85EF-0008-E26F-1400B77EF158`
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
+* md5 = `3F6D913C85EF0008E26F1400B77EF158`
 * protocol = `Cc_stim ONL`
 * protocolPath = `C:\Axon\rk400\0.1G\Cc_stim ONL.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

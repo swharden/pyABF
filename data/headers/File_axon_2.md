@@ -36,7 +36,9 @@
 * dataRate = `1000`
 * dataSecPerPoint = `0.001`
 * fileGUID = `E88FB723-FA82-4C78-865A-12FE3F667099`
+* fileUUID = `E7C06015-FD26-AEF8-329A-1A0F18598935`
 * holdingCommand = `[0.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
+* md5 = `E7C06015FD26AEF8329A1A0F18598935`
 * protocol = `Cc_minidigi`
 * protocolPath = `C:\Axon\rk400\0.1G\minidigi\Cc_minidigi.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

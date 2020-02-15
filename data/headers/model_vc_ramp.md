@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `3529074B-C6D9-4B5E-AB13-C9A9B4F09065`
+* fileUUID = `92D8134D-7ACF-1FBE-C283-4F08EF06CA96`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `92D8134D7ACF1FBEC2834F08EF06CA96`
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

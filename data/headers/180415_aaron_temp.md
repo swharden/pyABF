@@ -36,7 +36,9 @@
 * dataRate = `100000`
 * dataSecPerPoint = `1e-05`
 * fileGUID = `40392588-482D-4FB4-AEE0-820FF5221D88`
+* fileUUID = `33B6F2EA-2022-0CE9-849F-062DAA7B317F`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `33B6F2EA20220CE9849F062DAA7B317F`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

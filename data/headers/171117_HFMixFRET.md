@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `A7506B14-2B02-4BE8-B2CB-9E4AA01B058D`
+* fileUUID = `3B137E15-7DC5-E728-C64F-02D8C1FF5E94`
 * holdingCommand = `[-100.0, 0.0, 0.0, 0.0]`
+* md5 = `3B137E157DC5E728C64F02D8C1FF5E94`
 * protocol = `fret_fv_2s`
 * protocolPath = `C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`

@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `452C5D61-DBF2-4EC4-B403-D74EBE8FE65D`
+* fileUUID = `4180080E-B43D-2569-94A3-5FC5559C93E4`
 * holdingCommand = `[-70.0, -10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `4180080EB43D256994A35FC5559C93E4`
 * protocol = `0201 memtest`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0201 memtest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

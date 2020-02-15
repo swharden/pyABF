@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `7125B685-4F50-474D-B53F-AF2D1E9DD734`
+* fileUUID = `B0825A01-8B4A-F327-920B-A5FE6D145043`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
+* md5 = `B0825A018B4AF327920BA5FE6D145043`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

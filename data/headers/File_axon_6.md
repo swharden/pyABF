@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `52EADE86-2DE9-4675-A928-C5FC120FA377`
+* fileUUID = `9272C6FF-7989-A04E-3F0C-FBC57A169D98`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
+* md5 = `9272C6FF7989A04E3F0CFBC57A169D98`
 * protocol = `step cclamp 2nA for 2ms`
 * protocolPath = `C:\Axon\Params\step cclamp 2nA for 2ms.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

@@ -36,7 +36,9 @@
 * dataRate = `50000`
 * dataSecPerPoint = `2e-05`
 * fileGUID = `00000000-0000-0000-0000-000000000000`
+* fileUUID = `FC4EC1A1-2D4D-CD7A-8087-1CD9DD761615`
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
+* md5 = `FC4EC1A12D4DCD7A80871CD9DD761615`
 * protocol = `slaven-Ch1-gapfree`
 * protocolPath = `C:\Axon\Params\slaven-Ch1-gapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

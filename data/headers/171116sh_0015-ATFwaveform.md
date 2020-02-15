@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `6820CD72-752A-410F-8E09-121CF9BA18FA`
+* fileUUID = `8C3C5736-AA67-E48F-FC74-D09A9025A029`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `8C3C5736AA67E48FFC74D09A9025A029`
 * protocol = `0221 VC sine sweep 70 +- 5 mV`
 * protocolPath = `L:\Protocols\permanent\0221 VC sine sweep 70 +- 5 mV.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

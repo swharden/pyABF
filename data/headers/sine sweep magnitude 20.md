@@ -36,7 +36,9 @@
 * dataRate = `10000`
 * dataSecPerPoint = `0.0001`
 * fileGUID = `FA90BECA-056E-4757-9776-ADFD6095348D`
+* fileUUID = `B6743DB6-39EC-4F7B-E616-3F90C65DD941`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0]`
+* md5 = `B6743DB639EC4F7BE6163F90C65DD941`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `FE9574DE-DF80-4B8F-A1E3-45EE5F243B92`
+* fileUUID = `11877A9C-BA67-856D-EBD5-FC1F59E67660`
 * holdingCommand = `[112.0, 0.0, 0.0, ..., 0.0, 0.0, 0.0]`
+* md5 = `11877A9CBA67856DEBD5FC1F59E67660`
 * protocol = `15minGapfree`
 * protocolPath = `X:\Protocols\DP\15minGapfree.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

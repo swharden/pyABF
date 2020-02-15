@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `3A64A49D-2965-4F2F-89D6-48997850D179`
+* fileUUID = `E694D882-C519-3568-6189-609A107A84BA`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `E694D882C51935686189609A107A84BA`
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `L:\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

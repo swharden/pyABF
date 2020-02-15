@@ -36,7 +36,9 @@
 * dataRate = `20000`
 * dataSecPerPoint = `5e-05`
 * fileGUID = `0F7B8F44-BAF3-495F-9477-03B4FF3B76CE`
+* fileUUID = `41DB0512-535D-AEAA-1622-68BB694F4DCA`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
+* md5 = `41DB0512535DAEAA162268BB694F4DCA`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
