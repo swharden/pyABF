@@ -65,4 +65,4 @@ If the pyABF module facilitated your research, consider citing this project by n
 > _"Analysis of electrophysiological recordings was performed with custom software written for this project using Python 3.7 and the pyABF module."_
 
 ## Author
-pyABF was written by [Scott W Harden, DMD, PhD](https://www.swharden.com/wp/about-scott/) with many contributions from the open-source community
+pyABF was created by [Scott W Harden, DMD, PhD](https://www.swharden.com/wp/about-scott/) with many contributions from the open-source community
