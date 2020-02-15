@@ -46,5 +46,5 @@ def test_cookbook_createHeaderPages(abfPath):
     with open(f"{PATH_HEADERS}/{abf.abfID}.md", 'w') as f:
         f.write(page.generateMarkdown())
 
-    with open(f"{PATH_HEADERS}/{abf.abfID}.html", 'w') as f:
-        f.write(page.generateHTML())
+    #with open(f"{PATH_HEADERS}/{abf.abfID}.html", 'w') as f:
+        #f.write(page.generateHTML())
