@@ -64,10 +64,5 @@ If the pyABF module facilitated your research, consider citing this project by n
 
 > _"Analysis of electrophysiological recordings was performed with custom software written for this project using Python 3.7 and the pyABF module."_
 
-## Feature Requests / Unsupported ABF Files
-If you have ABF files which are unsupported (or read incorrectly) by this software, it is likely due to a use case we have not run across yet, so let us know about it! We can only develop and test this software against ABF files we have access to, so if you're interested in having your ABF file supported send the primary author an email (and the ABF file you are trying to analyze) and we will investigate it. If a solution is reached the pyabf package will be updated so everyone can benefit from the change. We can only develop for (and test against) ABFs we have access to, so we really appreciate your contributions!
-
-**Scott W Harden, DMD, PhD**\
-[Harden Technologies, LLC](http://tech.SWHarden.com)\
-[www.SWHarden.com](http://www.SWHarden.com)\
-[SWHarden@gmail.com](mailto:swharden@gmail.com)
+## Author
+pyABF was written by [Scott W Harden, DMD, PhD](https://www.swharden.com/wp/about-scott/) with many contributions from the open-source community
