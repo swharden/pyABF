@@ -1,5 +1,5 @@
 """
-Test the new ABF.userList property
+big file test (64-bit numpy required)
 """
 
 import glob
@@ -17,10 +17,7 @@ except:
     raise EnvironmentError()
 
 if __name__ == "__main__":
-
-    print("ABF | User List")
-    print("----|----------")
-    for abfFilePath in glob.glob(PATH_DATA+"/*.abf"):
-        abf = pyabf.ABF(abfFilePath)
-        if (abf.userList):
-            print(f"{abf.abfID}|`{abf.userList}`")
+    abf = pyabf.ABF(DATA_FOLDER + "/vc_drug_memtest.abf")
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber)
+        print(abf.sweepY)
