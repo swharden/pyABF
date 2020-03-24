@@ -68,6 +68,7 @@
 * tagSweeps = `[]`
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
+* userList = `[-100.0, 180.0, 160.0, 140.0, 120.0, 100.0, 80.0, 60.0, 40.0, 20.0, 0.0, -20.0, -60.0]`
 
 ## Epochs for Channel 0
 

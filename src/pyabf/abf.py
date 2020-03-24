@@ -640,7 +640,7 @@ class ABF:
 
     @property
     def fileGUID(self):
-        log.warn("fileGUID isn't truly unique (fileUUID is)")
+        log.warning("fileGUID isn't truly unique (fileUUID is)")
         return self._fileGUID
 
     @property

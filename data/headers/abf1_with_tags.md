@@ -68,6 +68,7 @@
 * tagSweeps = `[0.41661111111111115]`
 * tagTimesMin = `[6.249166666666667]`
 * tagTimesSec = `[374.95000000000005]`
+* userList = `None`
 
 ## Epochs for Channel 0
 
