@@ -58,9 +58,8 @@ def test_cookbook_createHeaderImages(abfPath):
     abf = pyabf.ABF(abfPath)
     assert isinstance(abf, pyabf.ABF)
 
-    # matplotlib can't plot big ABFs on 32-bit systems so this test fails
     if platform.architecture()[0] == "32bit":
-        return
+        raise Exception("ABF plotting with matplotlib requires 64-bit")
 
     # create figure and subplots
     fig = plt.figure(figsize=(8, 6))
