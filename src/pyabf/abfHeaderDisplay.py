@@ -110,7 +110,10 @@ class InfoPage:
                 out += "\n```\n"+value.strip("\n")+"\n```\n"
             else:
                 if value is None:
-                    out += "* %s = `None`\n" % (name)
+                    if "()" in name:
+                        out += "* %s\n" % (name)
+                    else:
+                        out += "* %s = `None`\n" % (name)
                 else:
                     if type(value) in [list, np.ndarray]:
                         val = standardNumpyText(value)
