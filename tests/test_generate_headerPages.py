@@ -21,14 +21,6 @@ except:
     raise ImportError("couldn't import local pyABF")
 
 
-@pytest.mark.first
-def test_cookbook_deleteOldHeaderPages():
-    for fname in glob.glob(PATH_HEADERS+'/*.html'):
-        os.remove(fname)
-    for fname in glob.glob(PATH_HEADERS+'/*.md'):
-        os.remove(fname)
-
-
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_cookbook_createHeaderPages(abfPath):
     abf = pyabf.ABF(abfPath)
@@ -46,5 +38,5 @@ def test_cookbook_createHeaderPages(abfPath):
     with open(f"{PATH_HEADERS}/{abf.abfID}.md", 'w') as f:
         f.write(page.generateMarkdown())
 
-    #with open(f"{PATH_HEADERS}/{abf.abfID}.html", 'w') as f:
-        #f.write(page.generateHTML())
+    # with open(f"{PATH_HEADERS}/{abf.abfID}.html", 'w') as f:
+        # f.write(page.generateHTML())

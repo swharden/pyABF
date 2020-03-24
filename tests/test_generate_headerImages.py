@@ -23,13 +23,6 @@ except:
     raise ImportError("couldn't import local pyABF")
 
 
-@pytest.mark.first
-def test_cookbook_deleteOldHeaderImages():
-    for fname in glob.glob(PATH_HEADERS+'/*.png'):
-        os.remove(fname)
-
-
-@pytest.mark.last
 def test_cookbook_createImageIndexPage():
 
     md = "# Sample ABFs\n\n"
