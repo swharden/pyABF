@@ -21,7 +21,8 @@ except:
 allABFs = glob.glob("data/abfs/*.abf")
 
 if sys.version_info[0] < 3:
-    str = basestring # hack to ignore unicode strings in Python 2.7
+    str = basestring  # hack to ignore unicode strings in Python 2.7
+
 
 @pytest.mark.parametrize("abfPath", allABFs)
 def test_Load_headerOnly(abfPath):
@@ -126,8 +127,21 @@ def test_ABF_properties(abfPath):
             sweepD = abf.sweepD(0)  # digital output generation
             assert isinstance(sweepD, np.ndarray)
 
+
 def test_uuid_isExpectedValue():
     abf = pyabf.ABF("data/abfs/2019_07_24_0055_fsi.abf")
     assert abf.fileGUID == "5689DB34-B07E-456A-811C-44E9BE92FBC6"
     assert abf.fileUUID == "834CBF1D-372E-3D19-225E-31E718BCD04D"
     assert abf.md5 == "834CBF1D372E3D19225E31E718BCD04D"
+
+
+def test_userList_isExpectedValue():
+
+    assert pyabf.ABF("data/abfs/171117_HFMixFRET.abf").userList == [
+        -100.0, 180.0, 160.0, 140.0, 120.0, 100.0, 80.0, 60.0, 40.0, 20.0, 0.0, -20.0, -60.0]
+
+    assert pyabf.ABF("data/abfs/19212027.abf").userList == [
+        -50.0, -55.0, -60.0, -65.0, -70.0, -75.0, -80.0, -85.0, -90.0, -95.0, -100.0, -105.0, -110.0, -115.0, -120.0]
+
+    assert pyabf.ABF("data/abfs/2020_03_02_0000.abf").userList == [
+        -200.0, -150.0, -100.0, -50.0, 0.0, 25.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 500.0, 600.0]
