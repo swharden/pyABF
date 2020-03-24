@@ -3,6 +3,7 @@ This script loads every ABF in the data folder and generates a summary of its
 header (in both HTML and markdown format).
 """
 
+import platform
 import matplotlib.pyplot as plt
 import pytest
 import glob
@@ -56,6 +57,10 @@ def test_cookbook_createImageIndexPage():
 def test_cookbook_createHeaderImages(abfPath):
     abf = pyabf.ABF(abfPath)
     assert isinstance(abf, pyabf.ABF)
+
+    # matplotlib can't plot big ABFs on 32-bit systems so this test fails
+    if platform.architecture()[0] == "32bit":
+        return
 
     # create figure and subplots
     fig = plt.figure(figsize=(8, 6))
