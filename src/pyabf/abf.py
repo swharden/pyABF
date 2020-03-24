@@ -173,7 +173,8 @@ class ABF:
         if self._headerV1.sFileCommentNew:
             self.abfFileComment = self._headerV1.sFileCommentNew
         else:
-            self.abfFileComment = self._headerV1.sFileCommentOld
+            self.abfFileComment = self._headerV1.sFileCommentOld    
+        self.userList = None
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
         self.tagComments = self._headerV1.sTagComment
@@ -265,6 +266,14 @@ class ABF:
         self.holdingCommand = self._dacSection.fDACHoldingLevel
         self.protocolPath = self._stringsIndexed.uProtocolPath
         self.abfFileComment = self._stringsIndexed.lFileComment
+
+        # attempt to populate the user list
+        firstBlockStrings = self._stringsSection.strings[0].split(b'\x00')
+        self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
+        try:
+            self.userList = [float(x) for x in self.userList if x]
+        except:
+            self.userList = None
 
         # data info
         self._nDataFormat = self._headerV2.nDataFormat
