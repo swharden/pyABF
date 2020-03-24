@@ -29,6 +29,8 @@ def GetUserList(abf):
     or return None if the ABF has no user list.
     """
     assert isinstance(abf, pyabf.ABF)
+    if not hasattr(abf, '_stringsSection'):
+        return None
     firstBlock = abf._stringsSection.strings[0]
     firstBlockStrings = firstBlock.split(b'\x00')
     userList = firstBlockStrings[-2].decode("utf-8")
@@ -41,10 +43,10 @@ def GetUserList(abf):
 
 if __name__ == "__main__":
 
-    abfWithUserList = pyabf.ABF(PATH_DATA+"/2020_03_02_0000.abf")
-    abfWithoutUserList = pyabf.ABF(PATH_DATA+"/171116sh_0020.abf")
-
-    print(GetUserList(abfWithUserList))
-    print(GetUserList(abfWithoutUserList))
-
-    # abf.headerLaunch()
+    print("ABF | User List")
+    print("----|----------")
+    for abfFilePath in glob.glob(PATH_DATA+"/*.abf"):
+        abf = pyabf.ABF(abfFilePath)
+        userList = GetUserList(abf)
+        if (userList):
+            print(f"{abf.abfID}|`{userList}`")
