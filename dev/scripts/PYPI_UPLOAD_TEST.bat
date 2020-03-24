@@ -7,26 +7,6 @@
 :: make commands silent
 @echo off
 
-:: activate anaconda (home)
-echo.
-echo activating Anaconda in user folder...
-set root=C:\%HOMEPATH%\Anaconda3
-call %root%\Scripts\activate.bat %root%
-
-:: activate anaconda (work)
-echo.
-echo activating Anaconda in AppData...
-set root=%HOMEPATH%\AppData\Local\Continuum\Anaconda3
-call %root%\Scripts\activate.bat %root%
-
-echo.
-echo testing activation by running conda...
-call conda -V
-
-echo.
-echo press ENTER to continue if one activation worked!
-PAUSE
-
 :: perform a version increase
 python versionIncrease.py
 

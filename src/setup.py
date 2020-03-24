@@ -5,7 +5,7 @@ from setuptools import setup
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
-    print("loaded description: (%s lines)"%(long_description.count("\n")))
+    print("loaded description: (%s lines)" % (long_description.count("\n")))
 
 version_path = os.path.join(PATH_HERE, "pyabf", "version.txt")
 with open(version_path, "r") as version_file:
@@ -20,7 +20,7 @@ setup(
     author_email='SWHarden@gmail.com',
     packages=['pyabf', 'pyabf.tools'],
     include_package_data=True,
-    url='http://github.com/swharden/pyABF',
+    url='http://swharden.com/pyabf',
     license='MIT License',
     platforms='any',
     description='Python library for reading files in Axon Binary Format (ABF)',
@@ -43,5 +43,9 @@ setup(
         'Topic :: Scientific/Engineering :: Visualization',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
-    ]
+    ],
+    project_urls={
+        'Bug Reports': 'https://github.com/swharden/pyABF/issues',
+        'Source': 'https://github.com/swharden/pyABF',
+    },
 )
