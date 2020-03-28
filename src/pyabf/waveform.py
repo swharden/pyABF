@@ -139,7 +139,9 @@ class EpochSweepWaveform:
         self.pulsePeriods.append(pulsePeriod)
 
         assert isinstance(digitalState, list)
-        assert len(digitalState) == _DIGITAL_OUTPUT_COUNT
+        numberOfDigitalStates = len(digitalState)
+        if (numberOfDigitalStates != _DIGITAL_OUTPUT_COUNT)
+            warnings.warn("Number of digital states (%d) is different than expected (%d)" % (numberOfDigitalStates, _DIGITAL_OUTPUT_COUNT))
         self.digitalStates.append(digitalState)
 
     def getDigitalWaveform(self, digitalChannel):
