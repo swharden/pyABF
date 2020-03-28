@@ -20,17 +20,17 @@ and epochType. The EpochSweepWaveform holds this minimum amount of information
 for every sweep, and contains the code necessary to generate waveforms from it.
 """
 
+import glob
+import warnings
+import time
+import numpy as np
+import pyabf
 import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_DATA = os.path.abspath(PATH_HERE+"../../../data/abfs/")
 PATH_SRC = os.path.abspath(PATH_HERE+"../../../src/")
 sys.path.insert(0, PATH_SRC)
-import pyabf
-import numpy as np
-import time
-import warnings
-import glob
 
 _DIGITAL_OUTPUT_COUNT = 8
 
@@ -470,9 +470,6 @@ class EpochTable:
             epochWaveformsBySweep.append(ep)
 
         return epochWaveformsBySweep
-
-
-
 
 
 def _demo_create_graphs():
