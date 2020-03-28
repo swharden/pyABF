@@ -24,9 +24,19 @@ from pyabf.atf import ATF
 
 def info():
     """display information about the pyabf package."""
-    import os
-    _pyabfFolder = os.path.abspath(os.path.dirname(__file__))
-    print("pyabf %s was imported from %s" % (__version__, _pyabfFolder))
+    import platform
+    import numpy
+    print()
+    print("### pyABF Information ###")
+    print("Python", sys.version)
+    print("System:", platform.system(), platform.release())
+    print("numpy version:", numpy.__version__)
+    print("pyabf version:", __version__)
+    print("pyabf path:" , os.path.abspath(os.path.dirname(__file__)))
+    print()
+    
+def showInfo():
+    info()
 
 def help():
     """launch the pyABF project page in a browser."""
