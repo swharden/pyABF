@@ -9,6 +9,7 @@ import pytest
 import os
 import numpy as np
 import time
+import warnings
 
 try:
     # this ensures pyABF is imported from this specific path
@@ -24,6 +25,7 @@ STIM_FOLDER = os.path.abspath("data/stimulusFiles")
 def test_findStimulusFile_NansIfNotFound():
     """When the stimulus file isn't found the waveform should be all NANs."""
 
+    warnings.simplefilter("ignore")
     abf = pyabf.ABF(ABF_PATH)
     stimulus = abf.stimulusByChannel[0]
     waveform = stimulus.stimulusWaveform(stimulusSweep=0)

@@ -9,6 +9,7 @@ import pytest
 import glob
 import os
 import sys
+import warnings
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
@@ -35,6 +36,7 @@ def test_cookbook_createImageIndexPage():
     md += "---|---\n"
 
     for fname in sorted(glob.glob(PATH_DATA+"/*.abf")):
+        warnings.simplefilter("ignore")
         abf = pyabf.ABF(fname)
         abfIDsafe = abf.abfID.replace(" ", "%20")
 
@@ -48,6 +50,7 @@ def test_cookbook_createImageIndexPage():
 
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_cookbook_createHeaderImages(abfPath):
+    warnings.simplefilter("ignore")
     abf = pyabf.ABF(abfPath)
     assert isinstance(abf, pyabf.ABF)
 
