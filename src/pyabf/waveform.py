@@ -140,8 +140,9 @@ class EpochSweepWaveform:
 
         assert isinstance(digitalState, list)
         numberOfDigitalStates = len(digitalState)
-        if (numberOfDigitalStates != _DIGITAL_OUTPUT_COUNT)
-            warnings.warn("Number of digital states (%d) is different than expected (%d)" % (numberOfDigitalStates, _DIGITAL_OUTPUT_COUNT))
+        if (numberOfDigitalStates != _DIGITAL_OUTPUT_COUNT):
+            warnings.warn("Number of digital states (%d) is different than expected (%d)" % (
+                numberOfDigitalStates, _DIGITAL_OUTPUT_COUNT))
         self.digitalStates.append(digitalState)
 
     def getDigitalWaveform(self, digitalChannel):
