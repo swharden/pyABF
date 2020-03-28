@@ -32,7 +32,7 @@ import time
 import warnings
 import glob
 
-_DIGITAL_OUTPUT_COUT = 8
+_DIGITAL_OUTPUT_COUNT = 8
 
 
 class Epoch:
@@ -49,7 +49,7 @@ class Epoch:
     levelDelta = -1
     duration = -1
     durationDelta = -1
-    digitalPattern = [0]*_DIGITAL_OUTPUT_COUT
+    digitalPattern = [0]*_DIGITAL_OUTPUT_COUNT
     pulsePeriod = -1
     pulseWidth = -1
     dacNum = -1
@@ -139,7 +139,7 @@ class EpochSweepWaveform:
         self.pulsePeriods.append(pulsePeriod)
 
         assert isinstance(digitalState, list)
-        assert len(digitalState) == _DIGITAL_OUTPUT_COUT
+        assert len(digitalState) == _DIGITAL_OUTPUT_COUNT
         self.digitalStates.append(digitalState)
 
     def getDigitalWaveform(self, digitalChannel):
@@ -342,7 +342,7 @@ class EpochTable:
 
         return epochs
 
-    def _valToBitList(self, value, bitCount=_DIGITAL_OUTPUT_COUT):
+    def _valToBitList(self, value, bitCount=_DIGITAL_OUTPUT_COUNT):
         """
         Given an integer, return a list of 0s and 1s representing the state of
         each of the bit.
@@ -444,7 +444,7 @@ class EpochTable:
             preEpochEndPoint = int(self.sweepPointCount/64)
             pt2 = preEpochEndPoint
             ep.addEpoch(0, preEpochEndPoint, lastSweepLastLevel, "Step",
-                        0, 0, [0]*_DIGITAL_OUTPUT_COUT)
+                        0, 0, [0]*_DIGITAL_OUTPUT_COUNT)
 
             # step through each epoch
             position = preEpochEndPoint
@@ -464,7 +464,7 @@ class EpochTable:
             else:
                 lastSweepLastLevel = self.holdingLevel
             ep.addEpoch(pt2, self.sweepPointCount, lastSweepLastLevel, "Step",
-                        0, 0, [0]*_DIGITAL_OUTPUT_COUT)
+                        0, 0, [0]*_DIGITAL_OUTPUT_COUNT)
 
             # add this sweep waveform to the list
             epochWaveformsBySweep.append(ep)
