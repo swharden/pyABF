@@ -23,13 +23,10 @@ print(abf.sweepX) # displays sweep times (seconds)
 print(abf.sweepC) # displays command waveform (DAC)
 ```
 
-### Tutorial
-The **[pyABF Tutorial](https://swharden.com/pyabf/tutorial.php)** contains numerous examples to help you get started with pyABF
-
-
 ### Resources
 * [pyABF website](http://swharden.com/pyabf/)
-* [Advanced documentation and resources](https://swharden.com/pyabf/advanced.php)
+* [pyABF tutorial](https://swharden.com/pyabf/tutorial)
+* [Advanced examples](https://swharden.com/pyabf/advanced)
 * [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
 
 ![](docs/getting-started/source/advanced_08b_using_plot_module.jpg)
