@@ -27,6 +27,6 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [pyABF website](http://swharden.com/pyabf/)
 * [pyABF tutorial](https://swharden.com/pyabf/tutorial)
 * [Advanced examples](https://swharden.com/pyabf/advanced)
-* [Unofficial Guide to the ABF File Format](/docs/advanced/abf-file-format/)
+* [Unofficial Guide to the ABF File Format](https://swharden.com/pyabf/abf-file-format.md.html)
 
 ![](docs/getting-started/source/advanced_08b_using_plot_module.jpg)
