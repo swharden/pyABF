@@ -130,7 +130,7 @@ class HeaderV1:
         self.lActualEpisodes = readStruct(fb, "i", 16)
         self.lFileStartDate = readStruct(fb, "i", 20)
         self.lFileStartTime = readStruct(fb, "i", 24)
-        self.lStopwatchTime =  readStruct(fb, "i", 28)
+        self.lStopwatchTime = readStruct(fb, "i", 28)
         self.fHeaderVersionNumber = readStruct(fb, "f", 32)
         self.nFileType = readStruct(fb, "h", 36)
         self.nMSBinFormat = readStruct(fb, "h", 38)
@@ -346,9 +346,9 @@ class HeaderV1:
         self.nTagType = [None]*self.lNumTagEntries
         for i in range(self.lNumTagEntries):
             fb.seek(self.lTagSectionPtr*BLOCKSIZE + i * 64)
-            self.lTagTime[i]    = readStruct(fb, "i")
+            self.lTagTime[i] = readStruct(fb, "i")
             self.sTagComment[i] = readStruct(fb, "56s")
-            self.nTagType[i]    = readStruct(fb, "h")
+            self.nTagType[i] = readStruct(fb, "h")
 
 
 class HeaderV2:
@@ -878,3 +878,23 @@ class StringsIndexed:
                 indexedStrings[dacSection.lDACFilePathIndex[i]])
             self.nLeakSubtractADC.append(
                 indexedStrings[dacSection.nLeakSubtractADCIndex[i]])
+
+
+class SynchArraySection:
+    """
+    Contains start time (in fSynchTimeUnit units) and length (in 
+    multiplexed samples) of each portion of the data if the data 
+    are not part of a continuous gap-free acquisition. 
+    """
+
+    def __init__(self, fb, sectionMap):
+        blockStart, entrySize, entryCount = sectionMap.SynchArraySection
+        byteStart = blockStart*BLOCKSIZE
+
+        self.lStart = [None]*entryCount
+        self.lLength = [None]*entryCount
+
+        for i in range(entryCount):
+            fb.seek(byteStart + i*entrySize)
+            self.lStart[i] = readStruct(fb, "i")
+            self.lLength[i] = readStruct(fb, "i")

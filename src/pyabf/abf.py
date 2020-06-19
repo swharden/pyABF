@@ -20,6 +20,7 @@ from pyabf.abfHeader import EpochPerDACSection
 from pyabf.abfHeader import DACSection
 from pyabf.abfHeader import ADCSection
 from pyabf.abfHeader import ProtocolSection
+from pyabf.abfHeader import SynchArraySection
 from pyabf.abfHeader import SectionMap
 from pyabf.abfHeader import HeaderV2
 from pyabf.abfHeader import HeaderV1
@@ -173,7 +174,7 @@ class ABF:
         if self._headerV1.sFileCommentNew:
             self.abfFileComment = self._headerV1.sFileCommentNew
         else:
-            self.abfFileComment = self._headerV1.sFileCommentOld    
+            self.abfFileComment = self._headerV1.sFileCommentOld
         self.userList = None
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
@@ -252,6 +253,7 @@ class ABF:
         self._stringsIndexed = StringsIndexed(
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
+        self._syncArraySection = SynchArraySection(fb, self._sectionMap)
 
         # create useful variables at the class level
         self.abfVersion = self._headerV2.abfVersionDict
@@ -521,14 +523,6 @@ class ABF:
             with open(self.abfFilePath, 'rb') as fb:
                 self._loadAndScaleData(fb)
 
-        # TODO: prevent re-loading of the same sweep.
-
-        # determine data bounds for that sweep
-        pointStart = self.sweepPointCount*sweepNumber
-        pointEnd = pointStart + self.sweepPointCount
-
-        # start updating class-level variables
-
         # sweep information
         self.sweepNumber = sweepNumber
         self.sweepChannel = channel
@@ -551,6 +545,11 @@ class ABF:
         elif self.sweepUnitsY == "mV":
             self.sweepLabelY = "Membrane Potential (mV)"
             self.sweepLabelC = "Applied Current (pA)"
+
+        # TODO: different for variable length arrays
+        # determine data bounds for that sweep
+        pointStart = self.sweepPointCount*sweepNumber
+        pointEnd = pointStart + self.sweepPointCount
 
         # load the actual sweep data
         self.sweepY = self.data[channel, pointStart:pointEnd]

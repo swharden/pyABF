@@ -21,10 +21,12 @@ if __name__ == "__main__":
     abf = pyabf.ABF(DATA_FOLDER + "/2020_06_16_0000.abf")
 
     for sweepIndex in abf.sweepList:
-        abf.setSweep(sweepIndex)
-        print(f"Sweep ({len(abf.sweepY)} points): {abf.sweepY}")
-        plt.figure()
-        plt.title(f"Sweep {sweepIndex + 1}")
-        plt.plot(abf.sweepX, abf.sweepY)
+        sweepStart = abf._syncArraySection.lStart[sweepIndex]
+        sweepStartSec = sweepStart / abf.dataRate
 
-    plt.show()
+        sweepLength = abf._syncArraySection.lLength[sweepIndex]
+        sweepPointCount = sweepLength / abf.channelCount
+        sweepLengthSec = sweepPointCount / abf.dataRate
+        print(f"sweep {sweepIndex + 1} " +
+              f"starts at {sweepStartSec} sec " +
+              f"and lasts {sweepLengthSec} sec")
