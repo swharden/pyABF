@@ -321,6 +321,13 @@ DAC waveform is not enabled
 * timesMin = `[]`
 * timesSec = `[]`
 
+## SynchArraySection
+
+> Contains start time (in fSynchTimeUnit units) and length (in      multiplexed samples) of each portion of the data if the data      are not part of a continuous gap-free acquisition. 
+
+* lLength = `[1615, 1615, 1615, 1615, 1615, 1615, 1615, 1615, 1615, 1615, 1615, 1615]`
+* lStart = `[16940681, 17084682, 17228683, 17372684, 17516685, 17660686, 17804687, 17948688, 18092689, 18236690, 18380691, 18524692]`
+
 ## StringsSection
 
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 

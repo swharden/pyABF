@@ -351,6 +351,13 @@
 * timesMin = `[]`
 * timesSec = `[]`
 
+## SynchArraySection
+
+> Contains start time (in fSynchTimeUnit units) and length (in      multiplexed samples) of each portion of the data if the data      are not part of a continuous gap-free acquisition. 
+
+* lLength = `[247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736, 247736]`
+* lStart = `[0, 13200000, 26400000, 39600000, 52800000, 66000000, 79200000, 92400000, 105600000, 118800000, 132000000, 145200000, 158400000]`
+
 ## StringsSection
 
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 

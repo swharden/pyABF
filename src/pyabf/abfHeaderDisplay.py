@@ -241,6 +241,7 @@ def abfInfoPage(abf):
             ["EpochPerDACSection", abf._epochPerDacSection])
         headerParts.append(["EpochSection", abf._epochSection])
         headerParts.append(["TagSection", abf._tagSection])
+        headerParts.append(["SynchArraySection", abf._synchArraySection])
         headerParts.append(["StringsSection", abf._stringsSection])
         headerParts.append(["StringsIndexed", abf._stringsIndexed])
     for headerItem in headerParts:
