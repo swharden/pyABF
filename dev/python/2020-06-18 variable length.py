@@ -6,6 +6,7 @@ import glob
 import os
 import sys
 import matplotlib.pyplot as plt
+import numpy as np
 
 try:
     PATH_HERE = os.path.abspath(os.path.dirname(__file__))
@@ -18,15 +19,28 @@ except:
     raise EnvironmentError()
 
 if __name__ == "__main__":
-    abf = pyabf.ABF(DATA_FOLDER + "/2020_06_16_0000.abf")
 
-    for sweepIndex in abf.sweepList:
-        sweepStart = abf._syncArraySection.lStart[sweepIndex]
-        sweepStartSec = sweepStart / abf.dataRate
+    ### THIS EXAMPLE ASSUMES A SINGLE CHANNEL ###
 
-        sweepLength = abf._syncArraySection.lLength[sweepIndex]
-        sweepPointCount = sweepLength / abf.channelCount
-        sweepLengthSec = sweepPointCount / abf.dataRate
-        print(f"sweep {sweepIndex + 1} " +
-              f"starts at {sweepStartSec} sec " +
-              f"and lasts {sweepLengthSec} sec")
+    filePath = DATA_FOLDER + "/2020_06_16_0000.abf"
+    abf = pyabf.ABF(filePath)
+
+    sweepYs = []
+    sweepXs = []
+    with open(filePath, 'rb') as fb:
+        for sweepIndex in abf.sweepList:
+            firstPoint = abf._syncArraySection.lStart[sweepIndex]
+            pointCount = abf._syncArraySection.lLength[sweepIndex]
+            fb.seek(abf.dataByteStart)
+            sweepY = np.fromfile(fb, dtype=abf._dtype, count=pointCount)
+            sweepY = np.multiply(sweepY, abf._dataGain)
+            sweepY = np.add(sweepY, abf._dataOffset)
+            sweepYs.append(sweepY)
+            offsetSec = firstPoint / abf.dataRate
+            sweepX = np.arange(len(sweepY)) / abf.dataRate + offsetSec
+            sweepXs.append(sweepX)
+
+    plt.figure()
+    for i in abf.sweepList:
+        plt.plot(sweepXs[i], sweepYs[i])
+    plt.show()
