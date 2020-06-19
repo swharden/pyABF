@@ -546,16 +546,35 @@ class ABF:
             self.sweepLabelY = "Membrane Potential (mV)"
             self.sweepLabelC = "Applied Current (pA)"
 
-        # TODO: different for variable length arrays
-        # determine data bounds for that sweep
-        pointStart = self.sweepPointCount*sweepNumber
-        pointEnd = pointStart + self.sweepPointCount
+        # determine if this ABF uses variable-length sweeps
+        hasMultipleSweeps = self.sweepCount > 1
+        if hasMultipleSweeps and hasattr(self, "_synchArraySection"):
+            uniqueSweepLengths = set(self._synchArraySection.lLength)
+            isFixedLengthSweeps = len(uniqueSweepLengths) == 1
+        else:
+            isFixedLengthSweeps = True
+
+        # determine data bounds for this sweep
+        if (isFixedLengthSweeps):
+            pointStart = self.sweepPointCount*sweepNumber
+            pointCount = self.sweepPointCount
+        else:
+            pointStart = 0
+            for i in range(1, sweepNumber):
+                pointStart += self._synchArraySection.lLength[i-1]
+            pointCount = self._synchArraySection.lLength[sweepNumber]
+        pointEnd = pointStart + pointCount
 
         # load the actual sweep data
         self.sweepY = self.data[channel, pointStart:pointEnd]
         self.sweepX = np.arange(len(self.sweepY))*self.dataSecPerPoint
         if absoluteTime:
-            self.sweepX += sweepNumber * self.sweepIntervalSec
+            if isFixedLengthSweeps:
+                self.sweepX += sweepNumber * self.sweepIntervalSec
+            else:
+                sweepOffsetPoints = self._synchArraySection.lStart[sweepNumber]
+                sweepOffsetSec = sweepOffsetPoints / self.dataRate
+                self.sweepX += sweepOffsetSec
 
         # default case is disabled
         if not hasattr(self, '_sweepBaselinePoints'):
@@ -571,7 +590,8 @@ class ABF:
             self.sweepY = self.sweepY-blVal
 
         # make sure sweepPointCount is always accurate
-        assert (self.sweepPointCount == len(self.sweepY))
+        if isFixedLengthSweeps:
+            assert (self.sweepPointCount == len(self.sweepY))
 
         # prepare the stimulus waveform table for this sweep/channel
         epochTable = pyabf.waveform.EpochTable(self, channel)
