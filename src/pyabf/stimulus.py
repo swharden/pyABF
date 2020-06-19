@@ -46,6 +46,13 @@ class Stimulus:
         waveform of the DAC for the given channel.
         """
 
+        if hasattr(self.abf, "_synchArraySection"):
+            uniqueSweepLengths = set(self.abf._synchArraySection.lLength)
+            if len(uniqueSweepLengths) > 1:
+                self.text = "variable-length sweeps do not support DAC waveform"
+                return np.full(self.abf._synchArraySection.lLength[stimulusSweep],
+                               self.abf.holdingCommand[self.channel])
+
         if self.abf.abfVersion["major"] == 1:
             nWaveformEnable = self.abf._headerV1.nWaveformEnable[self.channel]
             nWaveformSource = self.abf._headerV1.nWaveformSource[self.channel]
