@@ -28,10 +28,10 @@ if __name__ == "__main__":
     sweepYs = []
     sweepXs = []
     with open(filePath, 'rb') as fb:
+        fb.seek(abf.dataByteStart)
         for sweepIndex in abf.sweepList:
             firstPoint = abf._syncArraySection.lStart[sweepIndex]
             pointCount = abf._syncArraySection.lLength[sweepIndex]
-            fb.seek(abf.dataByteStart)
             sweepY = np.fromfile(fb, dtype=abf._dtype, count=pointCount)
             sweepY = np.multiply(sweepY, abf._dataGain)
             sweepY = np.add(sweepY, abf._dataOffset)
