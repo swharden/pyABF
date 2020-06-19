@@ -20,25 +20,29 @@ except:
 
 if __name__ == "__main__":
 
-    ### THIS EXAMPLE ASSUMES A SINGLE CHANNEL ###
-
     filePath = DATA_FOLDER + "/2020_06_16_0000.abf"
     abf = pyabf.ABF(filePath)
 
     sweepYs = []
     sweepXs = []
-    with open(filePath, 'rb') as fb:
-        fb.seek(abf.dataByteStart)
-        for sweepIndex in abf.sweepList:
-            firstPoint = abf._synchArraySection.lStart[sweepIndex]
-            pointCount = abf._synchArraySection.lLength[sweepIndex]
-            sweepY = np.fromfile(fb, dtype=abf._dtype, count=pointCount)
-            sweepY = np.multiply(sweepY, abf._dataGain)
-            sweepY = np.add(sweepY, abf._dataOffset)
-            sweepYs.append(sweepY)
-            offsetSec = firstPoint / abf.dataRate
-            sweepX = np.arange(len(sweepY)) / abf.dataRate + offsetSec
-            sweepXs.append(sweepX)
+
+    # with open(filePath, 'rb') as fb:
+    #     fb.seek(abf.dataByteStart)
+    #     for sweepIndex in abf.sweepList:
+    #         firstPoint = abf._synchArraySection.lStart[sweepIndex]
+    #         pointCount = abf._synchArraySection.lLength[sweepIndex]
+    #         sweepY = np.fromfile(fb, dtype=abf._dtype, count=pointCount) # assumes single channel
+    #         sweepY = np.multiply(sweepY, abf._dataGain)
+    #         sweepY = np.add(sweepY, abf._dataOffset)
+    #         sweepYs.append(sweepY)
+    #         offsetSec = firstPoint / abf.dataRate
+    #         sweepX = np.arange(len(sweepY)) / abf.dataRate + offsetSec
+    #         sweepXs.append(sweepX)
+
+    for sweepIndex in abf.sweepList:
+        abf.setSweep(sweepIndex, absoluteTime=True)
+        sweepYs.append(abf.sweepY)
+        sweepXs.append(abf.sweepX)
 
     plt.figure()
     for i in abf.sweepList:
