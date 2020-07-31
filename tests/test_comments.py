@@ -24,7 +24,7 @@ COMMENT_TAGS['19122043.abf'] = [['C9, L3,  RMP -66.8 mv'], [0.9], [0.17437805161
 COMMENT_TAGS['2018_11_16_sh_0006.abf'] = [['+drug at 3min'], [180.3776], [1803.7759999999998]]
 COMMENT_TAGS['abf1_with_tags.abf'] = [['APV+CGP+DNQX+ON@6'], [374.95000000000005], [0.41661111111111115]]
 COMMENT_TAGS['File_axon_2.abf'] = [['Clampex start acquisition', 'C:\\Axon\\rsultats\\06-05\\11-06-05\\05611005.abf', 'Clampex end (1)', 'Clampex start acquisition'], [26.765, 426.701, 426.701, 625.373], [0.022304166666666667, 0.3555841666666667, 0.3555841666666667, 0.5211441666666667]]
-COMMENT_TAGS['File_axon_4.abf'] = [['drogue on'], [0.0], [0.0]]
+COMMENT_TAGS['File_axon_4.abf'] = [['drogue on'], [146.432], [0.672782874617737]]
 COMMENT_TAGS['multichannelAbf1WithTags.abf'] = [['+TGOT', '-TGOT'], [173.9776, 294.86080000000004], [2104.9921355111915, 3567.583787053842]]
 COMMENT_TAGS['vc_drug_memtest.abf'] = [['+TGOT', '-TGOT'], [399.6672, 520.8576], [199.8336, 260.4288]]
 
