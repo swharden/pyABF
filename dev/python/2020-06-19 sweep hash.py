@@ -34,11 +34,14 @@ def sweepKeyAndInfo(abf, sweepIndex, channelIndex):
 
 
 if __name__ == "__main__":
-    txt = "\"\"\"ABF sweep hashes generated automatically by 2020-06-19 script in dev folder.\"\"\"\n\n"
-    txt += "# key = ABFID, sweep, and channel\n"
-    txt += "# value = sweep point count, first value, last value, and stdev\n"
-    txt += "knownAbfSweepValues = {}\n"
+    txt=""
+    #txt = "\"\"\"ABF sweep hashes generated automatically by 2020-06-19 script in dev folder.\"\"\"\n\n"
+    #txt += "# key = ABFID, sweep, and channel\n"
+    #txt += "# value = sweep point count, first value, last value, and stdev\n"
+    #txt += "knownAbfSweepValues = {}\n"
     for abfPath in glob.glob(DATA_FOLDER + "/*.abf"):
+        if not "2020_07" in abfPath:
+            continue
         abf = pyabf.ABF(abfPath)
         print(f"generating sweep hashes for {abf.abfID}.abf...")
         txt += "\n"
@@ -47,5 +50,6 @@ if __name__ == "__main__":
                 key, info = sweepKeyAndInfo(abf, sweepIndex, channelIndex)
                 txt += f'knownAbfSweepValues["{key}"] = "{info}"\n'
 
-    with open(PATH_SRC+"/../tests/test_sweepHashes.py", 'w') as f:
-        f.write(txt)
+    #with open(PATH_SRC+"/../tests/test_sweepHashes.py", 'w') as f:
+        #f.write(txt)
+    print(txt)
