@@ -100,7 +100,7 @@ FIRSTVALUES['2020_03_02_0000'] = ['-3.20435', '3.66211']
 FIRSTVALUES['2015_09_10_0001'] = ['-106.81152', '-80.20020', '0.44556']
 FIRSTVALUES['2020_06_16_0000'] = ['0.91553']
 FIRSTVALUES['2020_06_16_0001'] = ['0.61035']
-
+FIRSTVALUES['2020_07_29_0062'] = ['-42.11426', '-4.27246']
 
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_valuesMatch_firstValue(abfPath):

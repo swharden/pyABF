@@ -2633,3 +2633,6 @@ knownAbfSweepValues["vc_drug_memtest.abf SW478 CH0"] = "40000, -25.39062309, -26
 knownAbfSweepValues["vc_drug_memtest.abf SW479 CH0"] = "40000, -26.24511528, -24.78027153, 17.92840385"
 knownAbfSweepValues["vc_drug_memtest.abf SW480 CH0"] = "40000, -25.02441216, -24.65820122, 17.94648170"
 knownAbfSweepValues["vc_drug_memtest.abf SW481 CH0"] = "40000, -24.65820122, -26.00097466, 17.51873779"
+
+knownAbfSweepValues["2020_07_29_0062.abf SW0 CH0"] = "184320, -42.11425781, -47.60742188, 3.17729402"
+knownAbfSweepValues["2020_07_29_0062.abf SW0 CH1"] = "184320, -4.27246094, -7.93457031, 4.24865818"
