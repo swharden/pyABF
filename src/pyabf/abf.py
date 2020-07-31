@@ -294,7 +294,7 @@ class ABF:
         self.tagComments = self._tagSection.sComment
         self.tagTimesSec = self._tagSection.lTagTime
         for i in range(len(self.tagTimesSec)):
-            if self._tagSection.nTagType[i] == 2:
+            if self._protocolSection.fSynchTimeUnit == 0:
                 _tagMult = 1.0/self.dataRate/self.channelCount
             else:
                 _tagMult = self._protocolSection.fSynchTimeUnit/1e6
