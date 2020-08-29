@@ -37,7 +37,7 @@ plt.show()
 ![png](output_4_0.png)
 
 
-We start by creating a histogram using 1mV bins spanning the range of expected values
+We start by creating a histogram using 0.25 mV bins spanning the range of expected values
 
 
 ```python
