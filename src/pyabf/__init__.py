@@ -5,14 +5,10 @@ pyABF - A Python interface to files in the Axon Binary Format (ABF)
 Documentation and code examples, and more can be found at:
     https://github.com/swharden/pyABF
 """
+__version__ = '2.2.8'
 
 import sys
 import os
-
-dirname = os.path.abspath(os.path.dirname(__file__))
-version_path = os.path.join(dirname, "version.txt")
-with open(version_path) as version_file:
-    __version__ = version_file.read().strip()
 
 if sys.version_info < (3, 6):
     sys.stdout.write("ERROR: pyabf "+__version__+" requires Python 3.6 or newer.\n")

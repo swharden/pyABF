@@ -7,15 +7,10 @@ with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
     print("loaded description: (%s lines)" % (long_description.count("\n")))
 
-version_path = os.path.join(PATH_HERE, "pyabf", "version.txt")
-with open(version_path, "r") as version_file:
-    version = version_file.read().strip()
-
-
 # standard pypi stuff
 setup(
     name='pyabf',
-    version=version,
+    version='2.2.8',
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
     packages=['pyabf', 'pyabf.tools'],
