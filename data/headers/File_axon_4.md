@@ -65,9 +65,9 @@
 * sweepX = `array (1d) with values like: 0.00000, 0.00010, 0.00020, ..., 217.65090, 217.65100, 217.65110`
 * sweepY = `array (1d) with values like: -0.00610, -0.00916, -0.00305, ..., 0.00000, 0.00000, 0.00000`
 * tagComments = `['drogue on']`
-* tagSweeps = `[0.0]`
-* tagTimesMin = `[0.0]`
-* tagTimesSec = `[0.0]`
+* tagSweeps = `[0.672782874617737]`
+* tagTimesMin = `[2.440533333333333]`
+* tagTimesSec = `[146.432]`
 * userList = `None`
 
 ## Epochs for Channel 0
@@ -313,7 +313,7 @@ DAC waveform is not enabled
 
 > Tags are comments placed in ABF files during the recording. Physically     they are located at the end of the file (after the data).      Later we will populate the times and sweeps (human-understandable units)     by multiplying the lTagTime by fSynchTimeUnit from the protocol section. 
 
-* lTagTime = `[0.0]`
+* lTagTime = `[146.432]`
 * nTagType = `[1]`
 * nVoiceTagNumberorAnnotationIndex = `[0]`
 * sComment = `['drogue on']`
