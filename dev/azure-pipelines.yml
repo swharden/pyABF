@@ -7,32 +7,23 @@ strategy:
     MacOS Python36:
       imageName: 'macOS-latest'
       pyVersion: '3.6.x'
-    MacOS Python37:
+    MacOS Latest:
       imageName: 'macOS-latest'
-      pyVersion: '3.7.x'
-    MacOS Python38:
-      imageName: 'macOS-latest'
-      pyVersion: '3.8.x'
+      pyVersion: '3.x'
       
     Linux Python36:
       imageName: 'ubuntu-latest'
       pyVersion: '3.6.x'
-    Linux Python37:
+    Linux Latest:
       imageName: 'ubuntu-latest'
-      pyVersion: '3.7.x'
-    Linux Python38:
-      imageName: 'ubuntu-latest'
-      pyVersion: '3.8.x'
+      pyVersion: '3.x'
       
     Windows Python36:
       imageName: 'windows-latest'
       pyVersion: '3.6.x'
-    Windows Python37:
+    Windows Latest:
       imageName: 'windows-latest'
-      pyVersion: '3.7.x'
-    Windows Python38:
-      imageName: 'windows-latest'
-      pyVersion: '3.8.x'
+      pyVersion: '3.x'
 
 pool:
   vmImage: $(imageName)
