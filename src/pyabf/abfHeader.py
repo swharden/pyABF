@@ -391,7 +391,6 @@ class HeaderV1:
             try:
                 startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
             except:
-                log.warning("ABF file contains invalid date")
                 startDate = datetime.datetime.fromtimestamp(0)
             timeStamp = startDate + datetime.timedelta(seconds=startTime)
             timeStamp += datetime.timedelta(
@@ -478,7 +477,6 @@ class HeaderV2:
         try:
             startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
         except:
-            log.warning("ABF file contains invalid date")
             startDate = datetime.datetime.fromtimestamp(0)
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
