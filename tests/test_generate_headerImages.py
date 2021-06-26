@@ -23,7 +23,7 @@ try:
 except:
     raise ImportError("couldn't import local pyABF")
 
-
+@pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
 def test_cookbook_createImageIndexPage():
 
     md = "# Sample ABFs\n\n"
@@ -47,7 +47,7 @@ def test_cookbook_createImageIndexPage():
     with open(PATH_PROJECT+"/data/readme.md", 'w') as f:
         f.write(md)
 
-
+@pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_cookbook_createHeaderImages(abfPath):
     warnings.simplefilter("ignore")
