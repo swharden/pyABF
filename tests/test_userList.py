@@ -35,3 +35,15 @@ except:
 def test_userList_values(abfPath, listValues):
     abf = pyabf.ABF(abfPath)
     assert listValues == abf.userList
+
+
+@pytest.mark.parametrize("abfPath, firstType", [
+    ("data/abfs/171117_HFMixFRET.abf", 22),
+    ("data/abfs/19212027.abf", 24),
+    ("data/abfs/user-list-durations.abf", 35),
+    ("data/abfs/2020_03_02_0000.abf", 62),
+
+])
+def test_userList_types(abfPath, firstType):
+    abf = pyabf.ABF(abfPath)
+    assert firstType == abf.userListParamToVary[0]
