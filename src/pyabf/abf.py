@@ -7,6 +7,7 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
+from pyabf import abfHeader
 import pyabf.abfWriter
 import pyabf.stimulus
 import pyabf.abfHeaderDisplay
@@ -21,6 +22,7 @@ from pyabf.abfHeader import DACSection
 from pyabf.abfHeader import ADCSection
 from pyabf.abfHeader import ProtocolSection
 from pyabf.abfHeader import SynchArraySection
+from pyabf.abfHeader import UserListSection
 from pyabf.abfHeader import SectionMap
 from pyabf.abfHeader import HeaderV2
 from pyabf.abfHeader import HeaderV1
@@ -175,7 +177,16 @@ class ABF:
             self.abfFileComment = self._headerV1.sFileCommentNew
         else:
             self.abfFileComment = self._headerV1.sFileCommentOld
-        self.userList = None
+        try:
+            self.userList = [float(x)
+                             for x in self._headerV1.sULParamValueList if x]
+        except:
+            self.userList = self._headerV1.sULParamValueList
+        self.userListEnable = self._headerV1.nULEnable
+        self.userListParamToVary = self._headerV1.nULParamToVary
+        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+                                        for x in self.userListParamToVary]
+        self.userListRepeat = self._headerV1.nULRepeat
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
         _tagMult = _tagMult / self._headerV1.nADCNumChannels
         self.tagComments = self._headerV1.sTagComment
@@ -254,6 +265,7 @@ class ABF:
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
         self._synchArraySection = SynchArraySection(fb, self._sectionMap)
+        self._userListSection = UserListSection(fb, self._sectionMap)
 
         # create useful variables at the class level
         self.abfVersion = self._headerV2.abfVersionDict
@@ -269,10 +281,23 @@ class ABF:
         self.protocolPath = self._stringsIndexed.uProtocolPath
         self.abfFileComment = self._stringsIndexed.lFileComment
 
-        # attempt to populate the user list
-        firstBlockStrings = self._stringsSection.strings[0].split(b'\x00')
-        self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
+        # populate the user list
+        self.userList = None
+        self.userListEnable = self._userListSection.nULEnable
+        self.userListParamToVary = self._userListSection.nULParamToVary
+        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+                                        for x in self.userListParamToVary]
+        self.userListRepeat = self._userListSection.nULRepeat
+
         try:
+            # This is the correct way, but it doesn't seem to work for every ABF.
+            # I think this is because there is a bug in the string indexer.
+            #self.userList = self._stringsIndexed.indexedStrings[self._userListSection.nStringIndex[0]]
+            #self.userList = [float(x) for x in self.userList.split(",")]
+
+            # This is weird but it's been in the code for a while and seems to work.
+            firstBlockStrings = self._stringsSection.strings[0].split(b'\x00')
+            self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
             self.userList = [float(x) for x in self.userList if x]
         except:
             self.userList = None

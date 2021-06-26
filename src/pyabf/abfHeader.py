@@ -66,6 +66,61 @@ TELEGRAPHS = {
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
+def getUserListParameterName(paramNumber, epochCount=50):
+    """
+    Given an epoch paramater number return a human readable description
+    of what it's supposed to modify in the epoch table.
+    Based on: ABFHEADR.H#L530-L549
+    """
+    if paramNumber == 0:
+        return "CONDITNUMPULSES"
+    if paramNumber == 1:
+        return "CONDITBASELINEDURATION"
+    if paramNumber == 2:
+        return "CONDITBASELINELEVEL"
+    if paramNumber == 3:
+        return "CONDITSTEPDURATION"
+    if paramNumber == 4:
+        return "CONDITSTEPLEVEL"
+    if paramNumber == 5:
+        return "CONDITPOSTTRAINDURATION"
+    if paramNumber == 6:
+        return "CONDITPOSTTRAINLEVEL"
+    if paramNumber == 7:
+        return "EPISODESTARTTOSTART"
+    if paramNumber == 8:
+        return "INACTIVEHOLDING"
+    if paramNumber == 9:
+        return "DIGITALHOLDING"
+    if paramNumber == 10:
+        return "PNNUMPULSES"
+    if paramNumber == 11:
+        return "PARALLELVALUE"
+    paramRemainder = paramNumber - 11
+
+    if (paramRemainder < epochCount):
+        return f"EPOCHINITLEVEL"
+    paramRemainder -= epochCount
+
+    if (paramRemainder < epochCount):
+        return f"EPOCHINITDURATION"
+    paramRemainder -= epochCount
+
+    if (paramRemainder < epochCount):
+        return f"EPOCHTRAINPERIOD"
+    paramRemainder -= epochCount
+
+    if (paramRemainder < epochCount):
+        return f"EPOCHTRAINPULSEWIDTH"
+    paramRemainder -= epochCount
+
+    if (paramRemainder < epochCount):
+        return f"EPOCHINITDURATION"
+    paramRemainder -= epochCount
+
+    return f"UNKNOWN {paramNumber}"
+
+
 def abfFileFormat(fb):
     """
     This function returns 1 or 2 if the ABF file is v1 or v2.
@@ -246,7 +301,16 @@ class HeaderV1:
         # EXTENDED GROUP 11 - Presweep (conditioning) pulse train (100 bytes)
         # missing entries
         # EXTENDED GROUP 12 - Variable parameter user list (1096 bytes)
-        # missing entries
+        if self.fFileVersionNumber > 1.6:
+            self.nULEnable = readStruct(fb, "4i", 3360)
+            self.nULParamToVary = readStruct(fb, "4i", 3360)
+            self.sULParamValueList = readStruct(fb, "1024s", 3360)
+            self.nULRepeat = readStruct(fb, "1024s", 4400)
+        else:
+            self.nULEnable = []
+            self.nULParamToVary = []
+            self.sULParamValueList = []
+            self.nULRepeat = []
         # EXTENDED GROUP 15 - On-line subtraction (56 bytes)
         # missing entries
         # EXTENDED GROUP 6 Environmental Information  (898 bytes)
@@ -846,6 +910,7 @@ class StringsIndexed:
         indexedStrings = indexedStrings.split(b'\x00')[1:]
         indexedStrings = [x.decode("ascii", errors='replace').strip()
                           for x in indexedStrings]
+        self.indexedStrings = indexedStrings
 
         # headerv2
         self.uCreatorName = indexedStrings[headerV2.uCreatorNameIndex]
@@ -898,3 +963,34 @@ class SynchArraySection:
             fb.seek(byteStart + i*entrySize)
             self.lStart[i] = readStruct(fb, "i")
             self.lLength[i] = readStruct(fb, "i")
+
+
+class UserListSection:
+    """
+    Contains elements of the ABF2 user list.
+    The user list allows custom values to be used as part of the epoch table.
+    """
+
+    def __init__(self, fb, sectionMap):
+        blockStart, entrySize, entryCount = sectionMap.UserListSection
+        byteStart = blockStart*BLOCKSIZE
+
+        self.nULEnable = [None]*entryCount
+        self.nULParamToVary = [None]*entryCount
+        self.nULParamToVaryName = [None]*entryCount
+        self.nULRepeat = [None]*entryCount
+        self.nStringIndex = [None]*entryCount
+
+        for i in range(entryCount):
+            fb.seek(byteStart + i*entrySize)
+            _ = readStruct(fb, "h")
+            _ = readStruct(fb, "h")
+            param = readStruct(fb, "h")
+            repeat = readStruct(fb, "h")
+            stringIndex = readStruct(fb, "h")
+
+            if (param > 0):
+                self.nULEnable[i] = 1
+                self.nULParamToVary[i] = param
+                self.nULRepeat[i] = repeat
+                self.nStringIndex[i] = stringIndex
