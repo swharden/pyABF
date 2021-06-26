@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `[4000.0, 6000.0, 6000.0, 10000.0, 20000.0, 30000.0, 30000.0, 30000.0, 30000.0]`
+* userListEnable = `[1]`
+* userListParamToVary = `[35]`
+* userListParamToVaryName = `['EPOCHINITLEVEL']`
+* userListRepeat = `[0]`
 
 ## Epochs for Channel 0
 
@@ -354,6 +358,7 @@
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `['', 'AXENGN 2.0.1.69', 'clampfit', 'C:\\Delbert\\Protocols\\HCN2\\WT_mHCN2\\new_staggered\\WT_act with ramp_reversed_env.pro', 'IN 0', 'pA', 'AO #0', 'mV', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'AO #2', 'mV', 'AO #3', 'mV', '4000, 6000, 6000, 10000, 20000, 30000, 30000, 30000, 30000', '']`
 * lADCChannelName = `['IN 0', 'AO #0']`
 * lADCUnits = `['pA', 'mV']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`

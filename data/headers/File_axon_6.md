@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `None`
+* userListEnable = `[]`
+* userListParamToVary = `[]`
+* userListParamToVaryName = `[]`
+* userListRepeat = `[]`
 
 ## Epochs for Channel 0
 
@@ -354,6 +358,7 @@
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `['', 'clampex', 'C:\\Axon\\Params\\step cclamp 2nA for 2ms.pro', '_Ipatch', 'mV', 'IN 1', 'nA', 'Cmd 0', 'pA', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
 * lADCChannelName = `['_Ipatch', 'IN 1']`
 * lADCUnits = `['mV', 'nA']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`

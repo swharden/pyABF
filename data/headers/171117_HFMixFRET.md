@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `[-100.0, 180.0, 160.0, 140.0, 120.0, 100.0, 80.0, 60.0, 40.0, 20.0, 0.0, -20.0, -60.0]`
+* userListEnable = `[1]`
+* userListParamToVary = `[22]`
+* userListParamToVaryName = `['EPOCHINITLEVEL']`
+* userListRepeat = `[0]`
 
 ## Epochs for Channel 0
 
@@ -368,6 +372,7 @@
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `[, Clampex, C:\Data Second Wind\Vamsee\Protocols\fret_fv_2s.pro, ..., 6     A, -100, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0, -20, -60, ]`
 * lADCChannelName = `['Current', 'Voltage', 'YFP', 'CFP']`
 * lADCUnits = `['uA', 'mV', 'V', 'V']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`

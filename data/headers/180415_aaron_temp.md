@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `None`
+* userListEnable = `[]`
+* userListParamToVary = `[]`
+* userListParamToVaryName = `[]`
+* userListRepeat = `[]`
 
 ## Epochs for Channel 0
 
@@ -345,6 +349,7 @@ DAC waveform is not enabled
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `[, Clampex, D:\Axon DATA\EXPT test\PacemakerTempTest.pro, ..., Cmd 7, mV, ]`
 * lADCChannelName = `['IN 0', 'IN 1']`
 * lADCUnits = `['V', 'deg C']`
 * lDACChannelName = `['OUT 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'Cmd 4', 'Cmd 5', 'Cmd 6', 'Cmd 7']`

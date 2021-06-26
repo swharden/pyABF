@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `None`
+* userListEnable = `[]`
+* userListParamToVary = `[]`
+* userListParamToVaryName = `[]`
+* userListRepeat = `[]`
 
 ## Epochs for Channel 0
 
@@ -338,6 +342,7 @@ DAC waveform is controlled by custom file
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `[, Clampex, L:\Protocols\permanent\0221 VC sine sweep 70 +- 5 mV.pro, ..., AO #7, mV, ]`
 * lADCChannelName = `['IN 0']`
 * lADCUnits = `['pA']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`

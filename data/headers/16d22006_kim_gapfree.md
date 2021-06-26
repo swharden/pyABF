@@ -69,6 +69,10 @@
 * tagTimesMin = `[]`
 * tagTimesSec = `[]`
 * userList = `None`
+* userListEnable = `[]`
+* userListParamToVary = `[]`
+* userListParamToVaryName = `[]`
+* userListRepeat = `[]`
 
 ## Epochs for Channel 0
 
@@ -345,6 +349,7 @@ DAC waveform is not enabled
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `['', 'AxoScope', 'C:\\Users\\kim\\Documents\\Molecular Devices\\pCLAMP\\Params\\mapping.pro', 'IN 2', 'dB', 'IN 3', 'mV', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
 * lADCChannelName = `['IN 2', 'IN 3']`
 * lADCUnits = `['dB', 'mV']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`

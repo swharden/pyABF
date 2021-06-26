@@ -69,6 +69,10 @@
 * tagTimesMin = `[6.6611199999999995, 8.68096]`
 * tagTimesSec = `[399.6672, 520.8576]`
 * userList = `None`
+* userListEnable = `[]`
+* userListParamToVary = `[]`
+* userListParamToVaryName = `[]`
+* userListRepeat = `[]`
 
 ## Epochs for Channel 0
 
@@ -347,6 +351,7 @@
 
 > This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
 
+* indexedStrings = `['', 'Clampex', 'S:\\Protocols\\permanent\\0401 VC 2s MT-70.pro', 'SWHLab5[0401]', 'IN 0', 'pA', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
 * lADCChannelName = `['IN 0']`
 * lADCUnits = `['pA']`
 * lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
