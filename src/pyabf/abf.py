@@ -13,26 +13,26 @@ import pyabf.stimulus
 import pyabf.abfHeaderDisplay
 
 from pyabf.abfHeader import BLOCKSIZE
-from pyabf.abfHeader import StringsIndexed
-from pyabf.abfHeader import StringsSection
-from pyabf.abfHeader import TagSection
-from pyabf.abfHeader import EpochSection
-from pyabf.abfHeader import EpochPerDACSection
-from pyabf.abfHeader import DACSection
-from pyabf.abfHeader import ADCSection
-from pyabf.abfHeader import ProtocolSection
-from pyabf.abfHeader import SynchArraySection
-from pyabf.abfHeader import UserListSection
-from pyabf.abfHeader import SectionMap
-from pyabf.abfHeader import HeaderV2
-from pyabf.abfHeader import HeaderV1
+from pyabf.abf2.stringsIndexed import StringsIndexed
+from pyabf.abf2.stringsSection import StringsSection
+from pyabf.abf2.tagSection import TagSection
+from pyabf.abf2.epochSection import EpochSection
+from pyabf.abf2.epochPerDacSection import EpochPerDACSection
+from pyabf.abf2.dacSection import DACSection
+from pyabf.abf2.adcSection import ADCSection
+from pyabf.abf2.protocolSection import ProtocolSection
+from pyabf.abf2.synchArraySection import SynchArraySection
+from pyabf.abf2.userListSection import UserListSection
+from pyabf.abf2.sectionMap import SectionMap
+from pyabf.abf2.headerV2 import HeaderV2
+from pyabf.abf1.headerV1 import HeaderV1
+
+from pyabf.abfReader import readStruct
+from pyabf.abfReader import abfFileFormat
 
 import pyabf.abfHeader
 import os
-import sys
-import glob
 import time
-import datetime
 import numpy as np
 from pathlib import PureWindowsPath
 import hashlib
@@ -81,7 +81,7 @@ class ABF:
 
             # get a preliminary ABF version from the ABF file itself
             self.abfVersion = {}
-            self.abfVersion["major"] = pyabf.abfHeader.abfFileFormat(fb)
+            self.abfVersion["major"] = abfFileFormat(fb)
             if not self.abfVersion["major"] in [1, 2]:
                 raise NotImplementedError("Invalid ABF file format")
 
