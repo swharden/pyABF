@@ -7,10 +7,10 @@ methods as the ABF class.
 ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
-import re
 import numpy as np
 import os
 import pathlib
+from typing import Union
 
 
 class ATF():
@@ -20,23 +20,30 @@ class ATF():
     channel data and has a setSweep() function similar to the ABF class.
     """
 
-    def __init__(self, file_path, loadData=True):
+    def __init__(self, atfFilePath: Union[str, pathlib.Path], loadData: bool = True):
+        """
+        Load header and sweep data from an ATF file.
+        
+        ### Parameters
+        1. atfFilePath -- path to the ATF file
+        2. loadData -- whether or not to parse sweep data values on instantiation
+        """
 
-        if (isinstance(file_path, pathlib.Path)):
-            file_path = str(file_path)
+        if (isinstance(atfFilePath, pathlib.Path)):
+            atfFilePath = str(atfFilePath)
 
-        if file_path.lower().endswith(".abf"):
+        if atfFilePath.lower().endswith(".abf"):
             raise Exception("use pyabf.ABF (not pyabf.ATF) for ABF files")
 
-        if (os.path.isdir(file_path)):
+        if (os.path.isdir(atfFilePath)):
             raise Exception("path must be a path to a FILE not a FOLDER.")
 
         # ensure the file exists and open it
-        if not os.path.isfile(file_path):
+        if not os.path.isfile(atfFilePath):
             raise Exception("file does not exist")
-        self.atfFilePath = file_path
+        self.atfFilePath = atfFilePath
         self.atfID = os.path.basename(self.atfFilePath).replace(".atf", "")
-        fh = open(file_path, 'r')
+        fh = open(atfFilePath, 'r')
 
         # line 1 - contains "ATF" and a version number
         signature, file_version = fh.readline().rstrip().split()
@@ -92,12 +99,12 @@ class ATF():
 
         if (loadData == False):
             return
-            
+
         # read data values as a numpy array
-        self.data = np.genfromtxt(file_path, dtype=np.float32,
-                                    skip_header=3 + nHeaderItems,
-                                    invalid_raise=True,
-                                    usecols=range(0, nDataCols))
+        self.data = np.genfromtxt(atfFilePath, dtype=np.float32,
+                                  skip_header=3 + nHeaderItems,
+                                  invalid_raise=True,
+                                  usecols=range(0, nDataCols))
 
         # adjust it so it is sweepCount rows and sweepPointCount columns
         self.data = np.rot90(self.data, -1)
@@ -124,6 +131,14 @@ class ATF():
         return msg
 
     def setSweep(self, sweepNumber=0, channel=0):
+        """
+        Update the ATF class to hold data, labels, and units for the given sweep.
+        
+        ### Parameters
+        1. sweepNumber -- zero-indexed sweep number
+        2. channel -- zero-indexed channel number
+        """
+
         if not sweepNumber in self.sweepList:
             raise ValueError("invalid sweep number")
         columnNumber = sweepNumber*self.channelCount+channel

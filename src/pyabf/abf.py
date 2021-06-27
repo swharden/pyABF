@@ -7,6 +7,7 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
+from io import BufferedReader
 import pathlib
 from pyabf.abf2.dataSection import DataSection
 import pyabf.abfWriter
@@ -31,6 +32,7 @@ import time
 import numpy as np
 from pathlib import PureWindowsPath
 import hashlib
+from typing import Union, List
 
 
 class ABF:
@@ -46,8 +48,33 @@ class ABF:
     abf.setSweep() then access abf.sweepX and abf.sweepY and similar values.
     """
 
-    def __init__(self, abfFilePath, loadData=True,
-                 cacheStimulusFiles=True, stimulusFileFolder=None):
+    def __init__(self,
+                 abfFilePath: Union[str, pathlib.Path],
+                 loadData: bool = True,
+                 cacheStimulusFiles: bool = True,
+                 stimulusFileFolder: bool = None):
+        """
+        Load header and sweep data from an ABF file.
+
+        ### Parameters
+
+        1. abfFilePath -- path to the ABF file
+
+        2. loadData -- whether or not to load sweep data values from the file immediately on instantiation.
+        Set this to False if you intent to iterate many ABF files rapidly and only inspect their headers.
+
+        3. cacheStimulusFiles -- Some ABF files use a source ABF as a stimulus file to control its DAC.
+        This module automatically loads the stimulus waveform from disk if it is available.
+        This parameter controls whether stimulus files should be stored in memory at the module level.
+        Set to False to prevent memory issues if you intend to iterate very large numbers of ABFs with
+        unique stimulus waveforms.
+
+        4. stimulusFileFolder -- Some ABF files use a source ABF as a stimulus file to control its DAC.
+        This module automatically loads the stimulus waveform from disk if it is available.
+        The ABF header contains an absolute file path to the stimulus file used to control the DAC.
+        If supplied, this path is used as an alternate search path to look for stimulus files with the same filename
+        in the case the original path does not exist on the machine loading the ABF.
+        """
 
         if (isinstance(abfFilePath, pathlib.Path)):
             abfFilePath = str(abfFilePath)
@@ -101,10 +128,12 @@ class ABF:
                 self.setSweep(0)
 
     def __str__(self):
-        """Return a string describing basic properties of the loaded ABF."""
+        """
+        Return a string describing basic properties of the loaded ABF.
+        """
 
         txt = """
-        ABF (version VERSN)
+        ABF (vVERSN)
         with CHNM channels (CHUNITS),
         sampled at RATEKHZ kHz,
         containing SWCNT sweeps,
@@ -116,7 +145,16 @@ class ABF:
             txt = txt.replace("  ", " ")
 
         # ABF version
-        txt = txt.replace("VERSN", self.abfVersionString)
+        # NOTE: self.versionString is improperly implemented but left to maintain back compatibility
+        realVersion = self.abfVersionString.replace(".", "")
+        realVersion = list(realVersion)
+        realVersion.insert(1, ".")
+        realVersion = "".join(realVersion)
+        if (realVersion[-1] == "0"):
+            realVersion = realVersion[:-1]
+        if (realVersion[-1] == "0"):
+            realVersion = realVersion[:-1]
+        txt = txt.replace("VERSN", realVersion)
 
         # channels
         txt = txt.replace("CHNM", str(self.channelCount))
@@ -148,10 +186,9 @@ class ABF:
         return txt
 
     def __repr__(self):
-        return 'ABFcore(abf="%s", loadData=%s)' % \
-            (self.abfFilePath, self._preLoadData)
+        return self.__str__() + f" path={self.abfFilePath}"
 
-    def _readHeadersV1(self, fb):
+    def _readHeadersV1(self, fb: BufferedReader):
         """Populate class variables from the ABF1 header."""
         assert self.abfVersion["major"] == 1
 
@@ -243,7 +280,7 @@ class ABF:
             self._dataOffset[index] += self._headerV1.fInstrumentOffset[channel]
             self._dataOffset[index] -= self._headerV1.fSignalOffset[channel]
 
-    def _readHeadersV2(self, fb):
+    def _readHeadersV2(self, fb: BufferedReader):
         """Populate class variables from the ABF2 header."""
 
         assert self.abfVersion["major"] == 2
@@ -422,13 +459,12 @@ class ABF:
         else:
             raise NotImplementedError("unknown data format")
 
-    def _loadAndScaleData(self, fb):
+    def _loadAndScaleData(self, fb: BufferedReader):
         """Load data from the ABF file and scale it by its scaleFactor."""
 
         # read the data from the ABF file
         fb.seek(self.dataByteStart)
-        raw = np.fromfile(fb, dtype=self._dtype,
-                          count=self.dataPointCount)
+        raw = np.fromfile(fb, dtype=self._dtype, count=self.dataPointCount)
         nRows = self.channelCount
         nCols = int(self.dataPointCount/self.channelCount)
         raw = np.reshape(raw, (nCols, nRows))
@@ -494,45 +530,60 @@ class ABF:
             time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
 
-    def saveABF1(self, filename, sampleRateHz=None):
+    def saveABF1(self, filePath: Union[str, pathlib.Path]):
         """
-        Save this ABF file as an ABF1 file compatible with ClampFit and
-        MiniAnalysis. To create an ABF1 file from scratch (not starting from
-        an existing ABF file), see methods in the pyabf.abfWriter module.
+        Save this ABF file as an ABF1 file compatible with ClampFit and MiniAnalysis.
+        Not all header values are saved, but the minimum necessary are to read sweep data.
+
+        ### Parameters
+        1. filePath -- path of the ABF1 file to create
         """
         if (self.nOperationMode == 1):
             raise Exception(
                 "saving ABFs with variable-length sweeps is not supported")
 
-        filename = os.path.abspath(filename)
+        if isinstance(filePath, pathlib.Path):
+            filePath = str(filePath)
+
+        filePath = os.path.abspath(filePath)
         sweepData = np.empty((self.sweepCount, self.sweepPointCount))
         for sweep in self.sweepList:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
-        if not sampleRateHz:
-            sampleRateHz = self.dataRate
-        pyabf.abfWriter.writeABF1(sweepData, filename, sampleRateHz)
+        pyabf.abfWriter.writeABF1(sweepData, filePath, self.dataRate)
 
     def launchInClampFit(self):
         """
         Launch the ABF in the default ABF viewing program (usually ClampFit) as
-        if it were double-clicked in the windows explorer. This will fail is
-        ClampFit is already open.
+        if it were double-clicked in the windows explorer. 
+
+        This assumes ClampFit is installed on your system and the default application
+        for opening ABF files.
+
+        This will fail is ClampFit is already open.
         """
         cmd = 'explorer.exe "%s"' % (self.abfFilePath)
         print("Launching %s.abf in ClampFit..." % (self.abfID))
         print(cmd)
         os.system(cmd)
 
-    def setSweep(self, sweepNumber, channel=0, absoluteTime=False,
-                 baseline=[None, None]):
+    def setSweep(self,
+                 sweepNumber: int,
+                 channel: int = 0,
+                 absoluteTime: bool = False,
+                 baseline: List[float] = [None, None]):
         """
         Args:
-            sweepNumber: sweep number to load (starting at 0)
-            channel: ABF channel (starting at 0)
-            absoluteTime: if False, sweepX always starts at 0.
-            baseline: a list of two times (seconds) the sweep will be baseline-
-                      subtraced to. Leave [None, None] to disable.
+
+        ### Parameters
+        1. sweepNumber -- sweep number to load (starting at 0)
+        2. channel -- ABF channel (starting at 0)
+        3. absoluteTime -- Whether sweepX should represent time in sweep or time in file.
+            If False, the first value of sweepX will always be 0.
+            If True, sweepX of successive sweeps will start at larger and larger values.
+        4. baseline -- If two times are provided (in seconds), the entire sweep will be subtracted
+            to the mean of the sweep between those two times (baseline subtraction).
+            Use [None, None] to disable automatic baseline subtraction.
         """
 
         # basic error checking
