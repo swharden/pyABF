@@ -48,6 +48,7 @@ def test_cookbook_createImageIndexPage():
         f.write(md)
 
 @pytest.mark.slow
+@pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_cookbook_createHeaderImages(abfPath):
     warnings.simplefilter("ignore")
