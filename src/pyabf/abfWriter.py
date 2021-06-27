@@ -10,9 +10,6 @@ floating-point numbers).
 
 import struct
 import numpy as np
-import logging
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
 
 
 def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
@@ -37,7 +34,6 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     bytesPerPoint = 2
     dataBlocks = int(dataPointCount * bytesPerPoint / BLOCKSIZE) + 1
     data = bytearray((dataBlocks + HEADER_BLOCKS) * BLOCKSIZE)
-    log.info("Creating an ABF1 file %.02f MB in size ..." % (len(data)/1e6))
 
     # populate only the useful header data values
     struct.pack_into('4s', data, 0, b'ABF ')  # fFileSignature
@@ -61,7 +57,6 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
 
     # determine the peak data deviation from zero
     maxVal = np.max(np.abs(sweepData))
-    log.debug("maximum data value: %f" % (maxVal))
 
     # set the scaling factor to be the biggest allowable to accommodate the data
     fInstrumentScaleFactor = 100
@@ -70,17 +65,8 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
         fADCRange = 10
         valueScale = lADCResolution / fADCRange * fInstrumentScaleFactor
         maxDeviationFromZero = 32767 / valueScale
-        if (maxDeviationFromZero < maxVal):
-            log.debug("scaling factor %f is too small (max %f)" % (valueScale,
-                                                                   maxDeviationFromZero))
-        else:
-            log.debug("scaling factor %f will be used" % (valueScale))
+        if (maxDeviationFromZero >= maxVal):
             break
-
-    log.debug("maximum allowed data value: %f" % (maxDeviationFromZero))
-    log.debug("first value (float): %f" % (sweepData[0][0]))
-    log.debug("first value (scaled int): %f" %
-              (int(sweepData[0][0]*valueScale)))
 
     # prepare units as a space-padded 8-byte string
     unitString = units
@@ -108,5 +94,4 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     # save the byte array to disk
     with open(filename, 'wb') as f:
         f.write(data)
-        log.info("wrote %s" % (filename))
     return

@@ -33,10 +33,6 @@ import numpy as np
 from pathlib import PureWindowsPath
 import hashlib
 
-import logging
-logging.basicConfig(level=logging.WARN)
-log = logging.getLogger(__name__)
-
 
 class ABF:
     """
@@ -71,7 +67,6 @@ class ABF:
         if not os.path.exists(self.abfFilePath):
             raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
-        log.debug(self.__repr__())
 
         with open(self.abfFilePath, 'rb') as fb:
 
@@ -484,15 +479,11 @@ class ABF:
 
         try:
             with open(tmpFilePath, 'w') as f:
-                log.info("creating a temporary webpage %s ..." % (tmpFilePath))
                 f.write(html)
-            log.info("launching file in a web browser ...")
             os.system(tmpFilePath)
         finally:
-            log.info("waiting a few seconds for the browser to launch...")
             time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
-            log.info("deleted %s" % (tmpFilePath))
 
     def saveABF1(self, filename, sampleRateHz=None):
         """
@@ -505,7 +496,6 @@ class ABF:
                 "saving ABFs with variable-length sweeps is not supported")
 
         filename = os.path.abspath(filename)
-        log.info("Saving ABF as ABF1 file: %s" % filename)
         sweepData = np.empty((self.sweepCount, self.sweepPointCount))
         for sweep in self.sweepList:
             self.setSweep(sweep)
@@ -513,7 +503,6 @@ class ABF:
         if not sampleRateHz:
             sampleRateHz = self.dataRate
         pyabf.abfWriter.writeABF1(sweepData, filename, sampleRateHz)
-        log.info("saved ABF1 file: %s" % filename)
 
     def launchInClampFit(self):
         """
@@ -548,7 +537,6 @@ class ABF:
             raise ValueError(msg)
 
         if not "data" in (dir(self)):
-            log.debug("ABF data not preloaded. Loading now...")
             with open(self.abfFilePath, 'rb') as fb:
                 self._loadAndScaleData(fb)
 
@@ -607,13 +595,11 @@ class ABF:
 
         # default case is disabled
         if not hasattr(self, '_sweepBaselinePoints'):
-            log.debug("setSweep doesn't see baselinePoints, making False")
             self._sweepBaselinePoints = False
 
         # if baseline subtraction is used, apply it
         assert isinstance(baseline, list) and len(baseline) == 2
         if not None in baseline:
-            log.debug("setSweep is applying baseline subtraction")
             pt1, pt2 = [int(x*self.dataRate) for x in baseline]
             blVal = np.average(self.sweepY[pt1:pt2])
             self.sweepY = self.sweepY-blVal
@@ -688,7 +674,6 @@ class ABF:
 
     @property
     def fileGUID(self):
-        log.warning("fileGUID isn't truly unique (fileUUID is)")
         return self._fileGUID
 
     @property

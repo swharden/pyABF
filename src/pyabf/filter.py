@@ -7,10 +7,6 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-import logging
-logging.basicConfig(level=logging.WARNING)
-log = logging.getLogger(__name__)
-
 
 def _kernelGaussian(size=100, sigma=None):
     """

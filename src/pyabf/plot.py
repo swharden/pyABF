@@ -11,11 +11,6 @@ Code in this module is mostly for testing and it is not actively developed.
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
-
-import logging
-logging.basicConfig(level=logging.WARNING)
-log = logging.getLogger(__name__)
-
 warnings.warn("abf.plot is obsolete and should not be used")
 
 
