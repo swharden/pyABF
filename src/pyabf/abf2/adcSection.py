@@ -1,75 +1,74 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 from pyabf.names import getTelegraphName
 
 
-class ADCSection:
+class ADCSection(Section):
     """
     Information about the ADC (what gets recorded).
     There is 1 item per ADC.
     """
 
-    def __init__(self, fb, sectionMap):
-        blockStart, entrySize, entryCount = sectionMap.ADCSection
-        byteStart = blockStart*512
+    def __init__(self, fb):
+        Section.__init__(self, fb, 92)
 
-        self.nADCNum = [None]*entryCount
-        self.nTelegraphEnable = [None]*entryCount
-        self.nTelegraphInstrument = [None]*entryCount
-        self.sTelegraphInstrument = [None]*entryCount
-        self.fTelegraphAdditGain = [None]*entryCount
-        self.fTelegraphFilter = [None]*entryCount
-        self.fTelegraphMembraneCap = [None]*entryCount
-        self.nTelegraphMode = [None]*entryCount
-        self.fTelegraphAccessResistance = [None]*entryCount
-        self.nADCPtoLChannelMap = [None]*entryCount
-        self.nADCSamplingSeq = [None]*entryCount
-        self.fADCProgrammableGain = [None]*entryCount
-        self.fADCDisplayAmplification = [None]*entryCount
-        self.fADCDisplayOffset = [None]*entryCount
-        self.fInstrumentScaleFactor = [None]*entryCount
-        self.fInstrumentOffset = [None]*entryCount
-        self.fSignalGain = [None]*entryCount
-        self.fSignalOffset = [None]*entryCount
-        self.fSignalLowpassFilter = [None]*entryCount
-        self.fSignalHighpassFilter = [None]*entryCount
-        self.nLowpassFilterType = [None]*entryCount
-        self.nHighpassFilterType = [None]*entryCount
-        self.fPostProcessLowpassFilter = [None]*entryCount
-        self.nPostProcessLowpassFilterType = [None]*entryCount
-        self.bEnabledDuringPN = [None]*entryCount
-        self.nStatsChannelPolarity = [None]*entryCount
-        self.lADCChannelNameIndex = [None]*entryCount
-        self.lADCUnitsIndex = [None]*entryCount
+        self.nADCNum = [None]*self._entryCount
+        self.nTelegraphEnable = [None]*self._entryCount
+        self.nTelegraphInstrument = [None]*self._entryCount
+        self.sTelegraphInstrument = [None]*self._entryCount
+        self.fTelegraphAdditGain = [None]*self._entryCount
+        self.fTelegraphFilter = [None]*self._entryCount
+        self.fTelegraphMembraneCap = [None]*self._entryCount
+        self.nTelegraphMode = [None]*self._entryCount
+        self.fTelegraphAccessResistance = [None]*self._entryCount
+        self.nADCPtoLChannelMap = [None]*self._entryCount
+        self.nADCSamplingSeq = [None]*self._entryCount
+        self.fADCProgrammableGain = [None]*self._entryCount
+        self.fADCDisplayAmplification = [None]*self._entryCount
+        self.fADCDisplayOffset = [None]*self._entryCount
+        self.fInstrumentScaleFactor = [None]*self._entryCount
+        self.fInstrumentOffset = [None]*self._entryCount
+        self.fSignalGain = [None]*self._entryCount
+        self.fSignalOffset = [None]*self._entryCount
+        self.fSignalLowpassFilter = [None]*self._entryCount
+        self.fSignalHighpassFilter = [None]*self._entryCount
+        self.nLowpassFilterType = [None]*self._entryCount
+        self.nHighpassFilterType = [None]*self._entryCount
+        self.fPostProcessLowpassFilter = [None]*self._entryCount
+        self.nPostProcessLowpassFilterType = [None]*self._entryCount
+        self.bEnabledDuringPN = [None]*self._entryCount
+        self.nStatsChannelPolarity = [None]*self._entryCount
+        self.lADCChannelNameIndex = [None]*self._entryCount
+        self.lADCUnitsIndex = [None]*self._entryCount
 
-        for i in range(entryCount):
-            fb.seek(byteStart + i*entrySize)
-            self.nADCNum[i] = readStruct(fb, "h")  # 0
-            self.nTelegraphEnable[i] = readStruct(fb, "h")  # 2
-            self.nTelegraphInstrument[i] = readStruct(fb, "h")  # 4
-            self.fTelegraphAdditGain[i] = readStruct(fb, "f")  # 6
-            self.fTelegraphFilter[i] = readStruct(fb, "f")  # 10
-            self.fTelegraphMembraneCap[i] = readStruct(fb, "f")  # 14
-            self.nTelegraphMode[i] = readStruct(fb, "h")  # 18
-            self.fTelegraphAccessResistance[i] = readStruct(fb, "f")  # 20
-            self.nADCPtoLChannelMap[i] = readStruct(fb, "h")  # 24
-            self.nADCSamplingSeq[i] = readStruct(fb, "h")  # 26
-            self.fADCProgrammableGain[i] = readStruct(fb, "f")  # 28
-            self.fADCDisplayAmplification[i] = readStruct(fb, "f")  # 32
-            self.fADCDisplayOffset[i] = readStruct(fb, "f")  # 36
-            self.fInstrumentScaleFactor[i] = readStruct(fb, "f")  # 40
-            self.fInstrumentOffset[i] = readStruct(fb, "f")  # 44
-            self.fSignalGain[i] = readStruct(fb, "f")  # 48
-            self.fSignalOffset[i] = readStruct(fb, "f")  # 52
-            self.fSignalLowpassFilter[i] = readStruct(fb, "f")  # 56
-            self.fSignalHighpassFilter[i] = readStruct(fb, "f")  # 60
-            self.nLowpassFilterType[i] = readStruct(fb, "b")  # 64
-            self.nHighpassFilterType[i] = readStruct(fb, "b")  # 65
-            self.fPostProcessLowpassFilter[i] = readStruct(fb, "f")  # 66
-            self.nPostProcessLowpassFilterType[i] = readStruct(fb, "c")  # 70
-            self.bEnabledDuringPN[i] = readStruct(fb, "b")  # 71
-            self.nStatsChannelPolarity[i] = readStruct(fb, "h")  # 72
-            self.lADCChannelNameIndex[i] = readStruct(fb, "i")  # 74
-            self.lADCUnitsIndex[i] = readStruct(fb, "i")  # 78
-            
+        for i in range(self._entryCount):
+            fb.seek(self._byteStart + i*self._entrySize)
+            self.nADCNum[i] = self.readInt16()  # 0
+            self.nTelegraphEnable[i] = self.readInt16()  # 2
+            self.nTelegraphInstrument[i] = self.readInt16()  # 4
+            self.fTelegraphAdditGain[i] = self.readShort()  # 6
+            self.fTelegraphFilter[i] = self.readShort()  # 10
+            self.fTelegraphMembraneCap[i] = self.readShort()  # 14
+            self.nTelegraphMode[i] = self.readInt16()  # 18
+            self.fTelegraphAccessResistance[i] = self.readShort()  # 20
+            self.nADCPtoLChannelMap[i] = self.readInt16()  # 24
+            self.nADCSamplingSeq[i] = self.readInt16()  # 26
+            self.fADCProgrammableGain[i] = self.readShort()  # 28
+            self.fADCDisplayAmplification[i] = self.readShort()  # 32
+            self.fADCDisplayOffset[i] = self.readShort()  # 36
+            self.fInstrumentScaleFactor[i] = self.readShort()  # 40
+            self.fInstrumentOffset[i] = self.readShort()  # 44
+            self.fSignalGain[i] = self.readShort()  # 48
+            self.fSignalOffset[i] = self.readShort()  # 52
+            self.fSignalLowpassFilter[i] = self.readShort()  # 56
+            self.fSignalHighpassFilter[i] = self.readShort()  # 60
+            self.nLowpassFilterType[i] = self.readByte()  # 64
+            self.nHighpassFilterType[i] = self.readByte()  # 65
+            self.fPostProcessLowpassFilter[i] = self.readShort()  # 66
+            self.nPostProcessLowpassFilterType[i] = self.readChar()  # 70
+            self.bEnabledDuringPN[i] = self.readByte()  # 71
+            self.nStatsChannelPolarity[i] = self.readInt16()  # 72
+            self.lADCChannelNameIndex[i] = self.readInt32()  # 74
+            self.lADCUnitsIndex[i] = self.readInt32()  # 78
+
             self.sTelegraphInstrument[i] =\
                 getTelegraphName(self.nTelegraphInstrument[i])

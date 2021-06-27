@@ -246,7 +246,7 @@ class ABF:
         self._headerV2 = HeaderV2(fb)
         self._sectionMap = SectionMap(fb)
         self._protocolSection = ProtocolSection(fb, self._sectionMap)
-        self._adcSection = ADCSection(fb, self._sectionMap)
+        self._adcSection = ADCSection(fb)
         self._dacSection = DACSection(fb, self._sectionMap)
         self._epochPerDacSection = EpochPerDACSection(
             fb, self._sectionMap)

@@ -34,6 +34,21 @@ class Section:
         values = struct.unpack("h", bytes)
         return values[0]
 
+    def readShort(self):
+        bytes = self._fb.read(4)
+        values = struct.unpack("f", bytes)
+        return values[0]
+
+    def readByte(self):
+        bytes = self._fb.read(1)
+        values = struct.unpack("b", bytes)
+        return int(values[0])
+
+    def readChar(self):
+        bytes = self._fb.read(1)
+        values = struct.unpack("c", bytes)
+        return values[0].decode("ascii", errors='ignore')
+
     def readStruct(self, structFormat, seek=False, cleanStrings=True):
         """
         Return a structured value in an ABF file as a Python object.
