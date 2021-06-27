@@ -28,6 +28,9 @@ class ATF():
         if file_path.lower().endswith(".abf"):
             raise Exception("use pyabf.ABF (not pyabf.ATF) for ABF files")
 
+        if (os.path.isdir(file_path)):
+            raise Exception("path must be a path to a FILE not a FOLDER.")
+
         # ensure the file exists and open it
         if not os.path.isfile(file_path):
             raise Exception("file does not exist")

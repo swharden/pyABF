@@ -20,9 +20,22 @@ except:
 def test_pathlib_ABFs(abfPath):
     abf1 = pyabf.ABF(abfPath, loadData=False)
     abf2 = pyabf.ABF(pathlib.Path(abfPath), loadData=False)
+    assert abf1.sweepCount == abf2.sweepCount
 
 
 @pytest.mark.parametrize("atfPath", glob.glob("data/abfs/*.atf"))
 def test_pathlib_ATFs(atfPath):
-    abf1 = pyabf.ATF(atfPath, loadData=False)
-    abf2 = pyabf.ATF(pathlib.Path(atfPath), loadData=False)
+    atf1 = pyabf.ATF(atfPath, loadData=False)
+    atf2 = pyabf.ATF(pathlib.Path(atfPath), loadData=False)
+    assert atf1.sweepCount == atf2.sweepCount
+
+def test_pathThrowsIfFolder_ABFs():
+    with pytest.raises(Exception) as excinfo:
+        abf = pyabf.ABF("data/abfs", loadData=False)
+    assert "FILE not a FOLDER" in str(excinfo.value)
+
+
+def test_pathMustBeFile_ATFs():
+    with pytest.raises(Exception) as excinfo:
+        atf = pyabf.ATF("data/abfs", loadData=False)
+    assert "FILE not a FOLDER" in str(excinfo.value)

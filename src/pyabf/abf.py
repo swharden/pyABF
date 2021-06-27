@@ -55,6 +55,9 @@ class ABF:
         if abfFilePath.lower().endswith(".atf"):
             raise Exception("use pyabf.ATF (not pyabf.ABF) for ATF files")
 
+        if (os.path.isdir(abfFilePath)):
+            raise Exception("path must be a path to a FILE not a FOLDER.")
+
         self._preLoadData = loadData
         self._cacheStimulusFiles = cacheStimulusFiles
 
