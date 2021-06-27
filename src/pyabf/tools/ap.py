@@ -3,20 +3,22 @@ Code related to detection and analysis of action potentials (APs).
 Currently it only does a really bad job, and would benefit from a recode.
 """
 
+import warnings
+import logging
+import numpy as np
+import pyabf
 import os
 import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_DATA = os.path.abspath(PATH_HERE+"../../../../data/abfs/")
 PATH_SRC = os.path.abspath(PATH_HERE+"../../../")
 sys.path.insert(0, PATH_SRC)
-import pyabf
 
-import numpy as np
-import pyabf
 
-import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
+
+warnings.warn("AP module is experimental (its API may change)")
 
 
 def _where_cross(data, threshold):

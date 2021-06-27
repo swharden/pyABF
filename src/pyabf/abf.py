@@ -7,12 +7,9 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
-from pyabf import abfHeader
 import pyabf.abfWriter
 import pyabf.stimulus
-import pyabf.abfHeaderDisplay
 
-from pyabf.abfHeader import BLOCKSIZE
 from pyabf.abf2.stringsIndexed import StringsIndexed
 from pyabf.abf2.stringsSection import StringsSection
 from pyabf.abf2.tagSection import TagSection
@@ -27,10 +24,9 @@ from pyabf.abf2.sectionMap import SectionMap
 from pyabf.abf2.headerV2 import HeaderV2
 from pyabf.abf1.headerV1 import HeaderV1
 
-from pyabf.abfReader import readStruct
 from pyabf.abfReader import abfFileFormat
+from pyabf.tools.abfHeaderDisplay import abfInfoPage
 
-import pyabf.abfHeader
 import os
 import time
 import numpy as np
@@ -184,7 +180,7 @@ class ABF:
             self.userList = self._headerV1.sULParamValueList
         self.userListEnable = self._headerV1.nULEnable
         self.userListParamToVary = self._headerV1.nULParamToVary
-        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+        self.userListParamToVaryName = [pyabf.names.getUserListParameterName(x)
                                         for x in self.userListParamToVary]
         self.userListRepeat = self._headerV1.nULRepeat
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
@@ -195,7 +191,7 @@ class ABF:
 
         # data info
         self._nDataFormat = self._headerV1.nDataFormat
-        self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
+        self.dataByteStart = self._headerV1.lDataSectionPtr*512
         self.dataByteStart += self._headerV1.nNumPointsIgnored
         self.dataPointCount = self._headerV1.lActualAcqLength
 
@@ -285,7 +281,7 @@ class ABF:
         self.userList = None
         self.userListEnable = self._userListSection.nULEnable
         self.userListParamToVary = self._userListSection.nULParamToVary
-        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+        self.userListParamToVaryName = [pyabf.names.getUserListParameterName(x)
                                         for x in self.userListParamToVary]
         self.userListRepeat = self._userListSection.nULRepeat
 
@@ -304,7 +300,7 @@ class ABF:
 
         # data info
         self._nDataFormat = self._headerV2.nDataFormat
-        self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
+        self.dataByteStart = self._sectionMap.DataSection[0]*512
         self.dataPointCount = self._sectionMap.DataSection[2]
         self.dataPointByteSize = self._sectionMap.DataSection[1]
         self.channelCount = self._sectionMap.ADCSection[2]
@@ -462,21 +458,21 @@ class ABF:
     @property
     def headerText(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).getText()
+        return abfInfoPage(self).getText()
 
     @property
     def headerMarkdown(self):
         """Return all header information as a markdown-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).generateMarkdown()
+        return abfInfoPage(self).generateMarkdown()
 
     @property
     def headerHTML(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).generateHTML()
+        return abfInfoPage(self).generateHTML()
 
     def headerLaunch(self):
         """Display ABF header information in the web browser."""
-        html = pyabf.abfHeaderDisplay.abfInfoPage(self).generateHTML()
+        html = abfInfoPage(self).generateHTML()
 
         # open a temp file, save HTML, launch it, then delete it
         import tempfile

@@ -1,5 +1,4 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
 
 class DACSection:
     """
@@ -9,7 +8,7 @@ class DACSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.DACSection
-        byteStart = blockStart*BLOCKSIZE
+        byteStart = blockStart*512
 
         self.nDACNum = [None]*entryCount
         self.nTelegraphDACScaleFactorEnable = [None]*entryCount

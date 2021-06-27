@@ -1,6 +1,6 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
-from pyabf.abfHeader import TELEGRAPHS
+from pyabf.names import getTelegraphName
+
 
 class ADCSection:
     """
@@ -10,7 +10,7 @@ class ADCSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.ADCSection
-        byteStart = blockStart*BLOCKSIZE
+        byteStart = blockStart*512
 
         self.nADCNum = [None]*entryCount
         self.nTelegraphEnable = [None]*entryCount
@@ -70,12 +70,6 @@ class ADCSection:
             self.nStatsChannelPolarity[i] = readStruct(fb, "h")  # 72
             self.lADCChannelNameIndex[i] = readStruct(fb, "i")  # 74
             self.lADCUnitsIndex[i] = readStruct(fb, "i")  # 78
-
-            # useful information
-            nTelegraphInstrument = self.nTelegraphInstrument[i]
-            if nTelegraphInstrument in TELEGRAPHS.keys():
-                self.sTelegraphInstrument[i] = TELEGRAPHS[nTelegraphInstrument]
-            else:
-                log.debug("nTelegraphInstrument not in list of telegraphs")
-                self.sTelegraphInstrument[i] = TELEGRAPHS[0]
-
+            
+            self.sTelegraphInstrument[i] =\
+                getTelegraphName(self.nTelegraphInstrument[i])

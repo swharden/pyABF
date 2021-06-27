@@ -9,8 +9,6 @@ the data from that file so the file only needs to be read from disk once.
 """
 
 import numpy as np
-import copy
-import os
 from pathlib import Path, PureWindowsPath
 import warnings
 import pyabf

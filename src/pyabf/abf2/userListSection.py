@@ -1,5 +1,4 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
 
 
 class UserListSection:
@@ -10,7 +9,7 @@ class UserListSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.UserListSection
-        byteStart = blockStart*BLOCKSIZE
+        byteStart = blockStart*512
 
         self.nULEnable = [None]*entryCount
         self.nULParamToVary = [None]*entryCount

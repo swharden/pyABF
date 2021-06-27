@@ -1,5 +1,5 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
+
 
 class StringsSection:
     """
@@ -16,7 +16,7 @@ class StringsSection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.StringsSection
-        byteStart = blockStart*BLOCKSIZE
+        byteStart = blockStart*512
         self.strings = [None]*entryCount
         for i in range(entryCount):
             fb.seek(byteStart + i*entrySize)

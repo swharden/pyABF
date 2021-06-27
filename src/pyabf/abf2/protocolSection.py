@@ -1,6 +1,5 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
-from pyabf.abfHeader import DIGITIZERS
+from pyabf.names import getDigitizerName
 
 
 class ProtocolSection:
@@ -11,7 +10,7 @@ class ProtocolSection:
     """
 
     def __init__(self, fb, sectionMap):
-        seekTo = sectionMap.ProtocolSection[0]*BLOCKSIZE
+        seekTo = sectionMap.ProtocolSection[0]*512
         fb.seek(seekTo)
         self.nOperationMode = readStruct(fb, "h")  # 0
         self.fADCSequenceInterval = readStruct(fb, "f")  # 2
@@ -84,9 +83,4 @@ class ProtocolSection:
         self.nDigitizerTotalDigitalOuts = readStruct(fb, "h")  # 202
         self.nDigitizerSynchDigitalOuts = readStruct(fb, "h")  # 204
         self.nDigitizerType = readStruct(fb, "h")  # 206
-
-        # additional useful information
-        if self.nDigitizerType in DIGITIZERS.keys():
-            self.sDigitizerType = DIGITIZERS[self.nDigitizerType]
-        else:
-            self.sDigitizerType = DIGITIZERS[0]
+        self.sDigitizerType = getDigitizerName(self.nDigitizerType)

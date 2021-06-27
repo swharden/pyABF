@@ -19,7 +19,7 @@ try:
     # this ensures pyABF is imported from this specific path
     sys.path.insert(0, "src")
     import pyabf
-    from pyabf.abfHeaderDisplay import abfInfoPage
+    from pyabf.tools.abfHeaderDisplay import abfInfoPage
 except:
     raise ImportError("couldn't import local pyABF")
 

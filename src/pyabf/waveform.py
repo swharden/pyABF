@@ -574,14 +574,3 @@ def _demo_deltaT():
         ax1.plot(abf.sweepX, abf.sweepY, color='b', lw=.5)
         ax2.plot(abf.sweepX, sweepC, color='r', lw=.5)
     plt.show()
-
-
-if __name__ == "__main__":
-    print("DO NOT RUN THIS MODULE DIRECTLY")
-    # _demo_create_graphs()
-    # _demo_epoch_table()
-    # _demo_epoch_access()
-    # _demo_sweepC()
-    # _demo_sweepD()
-    # _demo_digOut_by_channel()
-    _demo_deltaT()

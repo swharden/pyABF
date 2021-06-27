@@ -7,8 +7,6 @@ methods as the ABF class.
 ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
-import re
-import pprint
 import numpy as np
 import os
 import sys

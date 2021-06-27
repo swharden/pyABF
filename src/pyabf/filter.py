@@ -11,6 +11,7 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
+
 def _kernelGaussian(size=100, sigma=None):
     """
     Return a 1d array shaped like a Gaussian curve with area of 1.
@@ -86,10 +87,3 @@ def _test_01_different_sigmas():
     plt.axis([8.20, 8.30, -45, -5])
     plt.legend()
     plt.show()
-
-
-if __name__ == "__main__":
-    print("DEVELOPER TESTING ONLY")
-    sys.path.append(os.path.dirname(__file__)+"/../")
-    import pyabf
-    _test_01_different_sigmas()

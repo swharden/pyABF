@@ -1,5 +1,4 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import BLOCKSIZE
 
 
 class SynchArraySection:
@@ -11,7 +10,7 @@ class SynchArraySection:
 
     def __init__(self, fb, sectionMap):
         blockStart, entrySize, entryCount = sectionMap.SynchArraySection
-        byteStart = blockStart*BLOCKSIZE
+        byteStart = blockStart*512
 
         self.lStart = [None]*entryCount
         self.lLength = [None]*entryCount

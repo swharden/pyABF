@@ -1,6 +1,5 @@
 from pyabf.abfReader import readStruct
 import datetime
-from pyabf.abfHeader import DATETIME_FORMAT
 
 
 class HeaderV2:
@@ -70,7 +69,7 @@ class HeaderV2:
         timeStamp = startDate + datetime.timedelta(seconds=startTime)
         self.abfDateTime = timeStamp
         try:
-            self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+            self.abfDateTimeString = self.abfDateTime.strftime('%Y-%m-%dT%H:%M:%S.%f')
             self.abfDateTimeString = self.abfDateTimeString[:-3]
         except:
             self.abfDateTimeString = "ERROR"

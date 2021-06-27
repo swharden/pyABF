@@ -1,6 +1,4 @@
 from pyabf.abfReader import readStruct
-from pyabf.abfHeader import DATETIME_FORMAT
-from pyabf.abfHeader import BLOCKSIZE
 import datetime
 import os  # TODO: replace with pathutil
 
@@ -237,7 +235,8 @@ class HeaderV1:
 
         self.abfDateTime = timeStamp
         try:
-            self.abfDateTimeString = self.abfDateTime.strftime(DATETIME_FORMAT)
+            self.abfDateTimeString = self.abfDateTime.strftime(
+                '%Y-%m-%dT%H:%M:%S.%f')
             self.abfDateTimeString = self.abfDateTimeString[:-3]
         except:
             self.abfDateTimeString = "ERROR"
@@ -247,7 +246,7 @@ class HeaderV1:
         self.sTagComment = [None]*self.lNumTagEntries
         self.nTagType = [None]*self.lNumTagEntries
         for i in range(self.lNumTagEntries):
-            fb.seek(self.lTagSectionPtr*BLOCKSIZE + i * 64)
+            fb.seek(self.lTagSectionPtr*512 + i * 64)
             self.lTagTime[i] = readStruct(fb, "i")
             self.sTagComment[i] = readStruct(fb, "56s")
             self.nTagType[i] = readStruct(fb, "h")
