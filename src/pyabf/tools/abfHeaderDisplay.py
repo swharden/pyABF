@@ -251,7 +251,12 @@ def abfInfoPage(abf):
         for subItemName in sorted(dir(thingItself)):
             if subItemName.startswith("_"):
                 continue
-            page.addThing(subItemName, getattr(thingItself, subItemName))
+            thing = getattr(thingItself, subItemName)
+            if callable(thing):
+                continue
+            if hasattr(thing, "seek"):
+                continue
+            page.addThing(subItemName, thing)
 
     return page
 
