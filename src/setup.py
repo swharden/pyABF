@@ -42,5 +42,6 @@ setup(
     project_urls={
         'Bug Reports': 'https://github.com/swharden/pyABF/issues',
         'Source': 'https://github.com/swharden/pyABF',
+        'Documentation': 'https://swharden.com/pyabf/tutorial',
     },
 )
