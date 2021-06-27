@@ -1,9 +1,9 @@
-from pyabf.abfReader import readStruct
+from pyabf.abfReader import AbfReader
 import datetime
 import os  # TODO: replace with pathutil
 
 
-class HeaderV1:
+class HeaderV1(AbfReader):
     """
     The first several bytes of an ABF1 file contain variables
     located at specific byte positions from the start of the file.
@@ -13,87 +13,89 @@ class HeaderV1:
     """
 
     def __init__(self, fb):
+        AbfReader.__init__(self, fb)
+
         # GROUP 1 - File ID and size information. (40 bytes)
-        self.lFileSignature = readStruct(fb, "i", 0)
-        self.fFileVersionNumber = readStruct(fb, "f", 4)
-        self.nOperationMode = readStruct(fb, "h", 8)
-        self.lActualAcqLength = readStruct(fb, "i", 10)
-        self.nNumPointsIgnored = readStruct(fb, "h", 14)
-        self.lActualEpisodes = readStruct(fb, "i", 16)
-        self.lFileStartDate = readStruct(fb, "i", 20)
-        self.lFileStartTime = readStruct(fb, "i", 24)
-        self.lStopwatchTime = readStruct(fb, "i", 28)
-        self.fHeaderVersionNumber = readStruct(fb, "f", 32)
-        self.nFileType = readStruct(fb, "h", 36)
-        self.nMSBinFormat = readStruct(fb, "h", 38)
+        self.lFileSignature = self.readStruct("i", 0)
+        self.fFileVersionNumber = self.readStruct("f", 4)
+        self.nOperationMode = self.readStruct("h", 8)
+        self.lActualAcqLength = self.readStruct("i", 10)
+        self.nNumPointsIgnored = self.readStruct("h", 14)
+        self.lActualEpisodes = self.readStruct("i", 16)
+        self.lFileStartDate = self.readStruct("i", 20)
+        self.lFileStartTime = self.readStruct("i", 24)
+        self.lStopwatchTime = self.readStruct("i", 28)
+        self.fHeaderVersionNumber = self.readStruct("f", 32)
+        self.nFileType = self.readStruct("h", 36)
+        self.nMSBinFormat = self.readStruct("h", 38)
 
         # GROUP 2 - File Structure (78 bytes)
-        self.lDataSectionPtr = readStruct(fb, "i", 40)
-        self.lTagSectionPtr = readStruct(fb, "i", 44)
-        self.lNumTagEntries = readStruct(fb, "i", 48)
+        self.lDataSectionPtr = self.readStruct("i", 40)
+        self.lTagSectionPtr = self.readStruct("i", 44)
+        self.lNumTagEntries = self.readStruct("i", 48)
 
         # missing entries
 
-        self.lSynchArrayPtr = readStruct(fb, "i", 92)
-        self.lSynchArraySize = readStruct(fb, "i", 96)
-        self.nDataFormat = readStruct(fb, "h", 100)
+        self.lSynchArrayPtr = self.readStruct("i", 92)
+        self.lSynchArraySize = self.readStruct("i", 96)
+        self.nDataFormat = self.readStruct("h", 100)
 
         # missing entries
 
         # GROUP 3 - Trial hierarchy information (82 bytes)
-        self.nADCNumChannels = readStruct(fb, "h", 120)
-        self.fADCSampleInterval = readStruct(fb, "f", 122)
+        self.nADCNumChannels = self.readStruct("h", 120)
+        self.fADCSampleInterval = self.readStruct("f", 122)
         # missing entries
-        self.fSynchTimeUnit = readStruct(fb, "f", 130)
+        self.fSynchTimeUnit = self.readStruct("f", 130)
         # missing entries
-        self.lNumSamplesPerEpisode = readStruct(fb, "i", 138)
-        self.lPreTriggerSamples = readStruct(fb, "i", 142)
-        self.lEpisodesPerRun = readStruct(fb, "i", 146)
+        self.lNumSamplesPerEpisode = self.readStruct("i", 138)
+        self.lPreTriggerSamples = self.readStruct("i", 142)
+        self.lEpisodesPerRun = self.readStruct("i", 146)
         # missing entries
 
         # GROUP 4 - Display Parameters (44 bytes)
         # missing entries
 
         # GROUP 5 - Hardware information (16 bytes)
-        self.fADCRange = readStruct(fb, "f", 244)
-        self.fDACRange = readStruct(fb, "f", 248)
-        self.lADCResolution = readStruct(fb, "i", 252)
-        self.lDACResolution = readStruct(fb, "i", 256)
+        self.fADCRange = self.readStruct("f", 244)
+        self.fDACRange = self.readStruct("f", 248)
+        self.lADCResolution = self.readStruct("i", 252)
+        self.lDACResolution = self.readStruct("i", 256)
 
         # GROUP 6 - Environmental Information (118 bytes)
-        self.nExperimentType = readStruct(fb, "h", 260)
+        self.nExperimentType = self.readStruct("h", 260)
         # missing entries
-        self.sCreatorInfo = readStruct(fb, "16s", 294)
-        self.sFileCommentOld = readStruct(fb, "56s", 310)
-        self.nFileStartMillisecs = readStruct(fb, "h", 366)
+        self.sCreatorInfo = self.readStruct("16s", 294)
+        self.sFileCommentOld = self.readStruct("56s", 310)
+        self.nFileStartMillisecs = self.readStruct("h", 366)
         # missing entries
 
         # GROUP 7 - Multi-channel information (1044 bytes)
-        self.nADCPtoLChannelMap = readStruct(fb, "16h", 378)
-        self.nADCSamplingSeq = readStruct(fb, "16h", 410)
-        self.sADCChannelName = readStruct(fb, "10s"*16, 442)
-        self.sADCUnits = readStruct(fb, "8s"*16, 602)
-        self.fADCProgrammableGain = readStruct(fb, "16f", 730)
+        self.nADCPtoLChannelMap = self.readStruct("16h", 378)
+        self.nADCSamplingSeq = self.readStruct("16h", 410)
+        self.sADCChannelName = self.readStruct("10s"*16, 442)
+        self.sADCUnits = self.readStruct("8s"*16, 602)
+        self.fADCProgrammableGain = self.readStruct("16f", 730)
         # missing entries
-        self.fInstrumentScaleFactor = readStruct(fb, "16f", 922)
-        self.fInstrumentOffset = readStruct(fb, "16f", 986)
-        self.fSignalGain = readStruct(fb, "16f", 1050)
-        self.fSignalOffset = readStruct(fb, "16f", 1114)
-        self.sDACChannelName = readStruct(fb, "10s"*4, 1306)
-        self.sDACChannelUnit = readStruct(fb, "8s"*4, 1346)
+        self.fInstrumentScaleFactor = self.readStruct("16f", 922)
+        self.fInstrumentOffset = self.readStruct("16f", 986)
+        self.fSignalGain = self.readStruct("16f", 1050)
+        self.fSignalOffset = self.readStruct("16f", 1114)
+        self.sDACChannelName = self.readStruct("10s"*4, 1306)
+        self.sDACChannelUnit = self.readStruct("8s"*4, 1346)
         # missing entries
 
         # GROUP 8 - Synchronous timer outputs (14 bytes)
         # missing entries
         # GROUP 9 - Epoch Waveform and Pulses (184 bytes)
-        self.nDigitalEnable = readStruct(fb, "h", 1436)
+        self.nDigitalEnable = self.readStruct("h", 1436)
         # missing entries
-        self.nActiveDACChannel = readStruct(fb, "h", 1440)
+        self.nActiveDACChannel = self.readStruct("h", 1440)
         # missing entries
-        self.nDigitalHolding = readStruct(fb, "h", 1584)
-        self.nDigitalInterEpisode = readStruct(fb, "h", 1586)
+        self.nDigitalHolding = self.readStruct("h", 1584)
+        self.nDigitalInterEpisode = self.readStruct("h", 1586)
         # missing entries
-        self.nDigitalValue = readStruct(fb, "10h", 1588)
+        self.nDigitalValue = self.readStruct("10h", 1588)
 
         # GROUP 10 - DAC Output File (98 bytes)
         # missing entries
@@ -108,41 +110,41 @@ class HeaderV1:
         # GROUP 16 - Miscellaneous variables (82 bytes)
         # missing entries
         # EXTENDED GROUP 2 - File Structure (16 bytes)
-        self.lDACFilePtr = readStruct(fb, "2i", 2048)
-        self.lDACFileNumEpisodes = readStruct(fb, "2i", 2056)
+        self.lDACFilePtr = self.readStruct("2i", 2048)
+        self.lDACFileNumEpisodes = self.readStruct("2i", 2056)
         # EXTENDED GROUP 3 - Trial Hierarchy
         # missing entries
         # EXTENDED GROUP 7 - Multi-channel information (62 bytes)
-        self.fDACCalibrationFactor = readStruct(fb, "4f", 2074)
-        self.fDACCalibrationOffset = readStruct(fb, "4f", 2090)
+        self.fDACCalibrationFactor = self.readStruct("4f", 2074)
+        self.fDACCalibrationOffset = self.readStruct("4f", 2090)
 
         # GROUP 17 - Trains parameters (160 bytes)
         # missing entries
         # EXTENDED GROUP 9 - Epoch Waveform and Pulses (412 bytes)
-        self.nWaveformEnable = readStruct(fb, "2h", 2296)
-        self.nWaveformSource = readStruct(fb, "2h", 2300)
-        self.nInterEpisodeLevel = readStruct(fb, "2h", 2304)
-        self.nEpochType = readStruct(fb, "20h", 2308)
-        self.fEpochInitLevel = readStruct(fb, "20f", 2348)
-        self.fEpochLevelInc = readStruct(fb, "20f", 2428)
-        self.lEpochInitDuration = readStruct(fb, "20i", 2508)
-        self.lEpochDurationInc = readStruct(fb, "20i", 2588)
+        self.nWaveformEnable = self.readStruct("2h", 2296)
+        self.nWaveformSource = self.readStruct("2h", 2300)
+        self.nInterEpisodeLevel = self.readStruct("2h", 2304)
+        self.nEpochType = self.readStruct("20h", 2308)
+        self.fEpochInitLevel = self.readStruct("20f", 2348)
+        self.fEpochLevelInc = self.readStruct("20f", 2428)
+        self.lEpochInitDuration = self.readStruct("20i", 2508)
+        self.lEpochDurationInc = self.readStruct("20i", 2588)
         # missing entries
 
         # EXTENDED GROUP 10 - DAC Output File (552 bytes)
-        self.fDACFileScale = readStruct(fb, "2f", 2708)
-        self.fDACFileOffset = readStruct(fb, "2f", 2716)
-        self.lDACFileEpisodeNum = readStruct(fb, "2i", 2724)
-        self.nDACFileADCNum = readStruct(fb, "2h", 2732)
-        self.sDACFilePath = readStruct(fb, "256s"*2, 2736)
+        self.fDACFileScale = self.readStruct("2f", 2708)
+        self.fDACFileOffset = self.readStruct("2f", 2716)
+        self.lDACFileEpisodeNum = self.readStruct("2i", 2724)
+        self.nDACFileADCNum = self.readStruct("2h", 2732)
+        self.sDACFilePath = self.readStruct("256s"*2, 2736)
         # EXTENDED GROUP 11 - Presweep (conditioning) pulse train (100 bytes)
         # missing entries
         # EXTENDED GROUP 12 - Variable parameter user list (1096 bytes)
         if self.fFileVersionNumber > 1.6:
-            self.nULEnable = readStruct(fb, "4i", 3360)
-            self.nULParamToVary = readStruct(fb, "4i", 3360)
-            self.sULParamValueList = readStruct(fb, "1024s", 3360)
-            self.nULRepeat = readStruct(fb, "1024s", 4400)
+            self.nULEnable = self.readStruct("4i", 3360)
+            self.nULParamToVary = self.readStruct("4i", 3360)
+            self.sULParamValueList = self.readStruct("1024s", 3360)
+            self.nULRepeat = self.readStruct("1024s", 4400)
         else:
             self.nULEnable = []
             self.nULParamToVary = []
@@ -151,28 +153,28 @@ class HeaderV1:
         # EXTENDED GROUP 15 - On-line subtraction (56 bytes)
         # missing entries
         # EXTENDED GROUP 6 Environmental Information  (898 bytes)
-        self.nTelegraphEnable = readStruct(fb, "16h", 4512)
-        self.nTelegraphInstrument = readStruct(fb, "16h", 4544)
-        self.fTelegraphAdditGain = readStruct(fb, "16f", 4576)
-        self.fTelegraphFilter = readStruct(fb, "16f", 4640)
-        self.fTelegraphMembraneCap = readStruct(fb, "16f", 4704)
-        self.nTelegraphMode = readStruct(fb, "16h", 4768)
-        self.nTelegraphDACScaleFactorEnable = readStruct(fb, "4h", 4800)
+        self.nTelegraphEnable = self.readStruct("16h", 4512)
+        self.nTelegraphInstrument = self.readStruct("16h", 4544)
+        self.fTelegraphAdditGain = self.readStruct("16f", 4576)
+        self.fTelegraphFilter = self.readStruct("16f", 4640)
+        self.fTelegraphMembraneCap = self.readStruct("16f", 4704)
+        self.nTelegraphMode = self.readStruct("16h", 4768)
+        self.nTelegraphDACScaleFactorEnable = self.readStruct("4h", 4800)
         # missing entries
-        self.sProtocolPath = readStruct(fb, "256s", 4898)
-        self.sFileCommentNew = readStruct(fb, "128s", 5154)
-        self.fInstrumentHoldingLevel = readStruct(fb, "4f", 5298)
-        self.ulFileCRC = readStruct(fb, "I", 5314)
+        self.sProtocolPath = self.readStruct("256s", 4898)
+        self.sFileCommentNew = self.readStruct("128s", 5154)
+        self.fInstrumentHoldingLevel = self.readStruct("4f", 5298)
+        self.ulFileCRC = self.readStruct("I", 5314)
         # missing entries
-        self.nCreatorMajorVersion = readStruct(fb, "h", 5798)
-        self.nCreatorMinorVersion = readStruct(fb, "h", 5800)
-        self.nCreatorBugfixVersion = readStruct(fb, "h", 5802)
-        self.nCreatorBuildVersion = readStruct(fb, "h", 5804)
+        self.nCreatorMajorVersion = self.readStruct("h", 5798)
+        self.nCreatorMinorVersion = self.readStruct("h", 5800)
+        self.nCreatorBugfixVersion = self.readStruct("h", 5802)
+        self.nCreatorBuildVersion = self.readStruct("h", 5804)
 
         # EXTENDED GROUP 13 - Statistics measurements (388 bytes)
         # missing entries
         # GROUP 18 - Application version data (16 bytes)
-        self.uFileGUID = readStruct(fb, "16B", 5282)
+        self.uFileGUID = self.readStruct("16B", 5282)
         # missing entries
         # GROUP 19 - LTP protocol (14 bytes)
         # missing entries
@@ -247,6 +249,6 @@ class HeaderV1:
         self.nTagType = [None]*self.lNumTagEntries
         for i in range(self.lNumTagEntries):
             fb.seek(self.lTagSectionPtr*512 + i * 64)
-            self.lTagTime[i] = readStruct(fb, "i")
-            self.sTagComment[i] = readStruct(fb, "56s")
-            self.nTagType[i] = readStruct(fb, "h")
+            self.lTagTime[i] = self.readStruct("i")
+            self.sTagComment[i] = self.readStruct("56s")
+            self.nTagType[i] = self.readStruct("h")

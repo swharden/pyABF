@@ -233,7 +233,6 @@ def abfInfoPage(abf):
         headerParts.append(["ABF1 Header", abf._headerV1])
     elif abf.abfVersion["major"] == 2:
         headerParts.append(["ABF2 Header", abf._headerV2])
-        headerParts.append(["SectionMap", abf._sectionMap])
         headerParts.append(["ProtocolSection", abf._protocolSection])
         headerParts.append(["ADCSection", abf._adcSection])
         headerParts.append(["DACSection", abf._dacSection])

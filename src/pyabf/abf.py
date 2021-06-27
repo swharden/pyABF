@@ -7,6 +7,7 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
+from pyabf.abf2.dataSection import DataSection
 import pyabf.abfWriter
 import pyabf.stimulus
 
@@ -19,7 +20,6 @@ from pyabf.abf2.adcSection import ADCSection
 from pyabf.abf2.protocolSection import ProtocolSection
 from pyabf.abf2.synchArraySection import SynchArraySection
 from pyabf.abf2.userListSection import UserListSection
-from pyabf.abf2.sectionMap import SectionMap
 from pyabf.abf2.headerV2 import HeaderV2
 from pyabf.abf1.headerV1 import HeaderV1
 
@@ -243,8 +243,8 @@ class ABF:
 
         # read the headers out of the file
         self._headerV2 = HeaderV2(fb)
-        self._sectionMap = SectionMap(fb)
         self._protocolSection = ProtocolSection(fb)
+        self._dataSection = DataSection(fb)
         self._adcSection = ADCSection(fb)
         self._dacSection = DACSection(fb)
         self._epochPerDacSection = EpochPerDACSection(fb)
@@ -295,10 +295,10 @@ class ABF:
 
         # data info
         self._nDataFormat = self._headerV2.nDataFormat
-        self.dataByteStart = self._sectionMap.DataSection[0]*512
-        self.dataPointCount = self._sectionMap.DataSection[2]
-        self.dataPointByteSize = self._sectionMap.DataSection[1]
-        self.channelCount = self._sectionMap.ADCSection[2]
+        self.dataByteStart = self._dataSection._byteStart
+        self.dataPointCount = self._dataSection._entryCount
+        self.dataPointByteSize = self._dataSection._entrySize
+        self.channelCount = self._adcSection._entryCount
         self.dataRate = self._protocolSection.fADCSequenceInterval
         self.dataRate = int(1e6 / self.dataRate)
         self.dataSecPerPoint = 1.0 / self.dataRate
