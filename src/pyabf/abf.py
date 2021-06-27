@@ -248,8 +248,7 @@ class ABF:
         self._protocolSection = ProtocolSection(fb, self._sectionMap)
         self._adcSection = ADCSection(fb)
         self._dacSection = DACSection(fb)
-        self._epochPerDacSection = EpochPerDACSection(
-            fb, self._sectionMap)
+        self._epochPerDacSection = EpochPerDACSection(fb)
         self._epochSection = EpochSection(fb)
         self._tagSection = TagSection(fb, self._sectionMap)
         self._stringsSection = StringsSection(fb, self._sectionMap)

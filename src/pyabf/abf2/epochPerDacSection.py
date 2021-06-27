@@ -1,35 +1,34 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 
 
-class EpochPerDACSection:
+class EpochPerDACSection(Section):
     """
     This section contains waveform protocol information. These are most of
     the values set when using the epoch the waveform editor. Note that digital
     output signals are not stored here, but are in EpochSection.
     """
 
-    def __init__(self, fb, sectionMap):
-        blockStart, entrySize, entryCount = sectionMap.EpochPerDACSection
-        byteStart = blockStart*512
+    def __init__(self, fb):
+        Section.__init__(self, fb, 156)
 
-        self.nEpochNum = [None]*entryCount
-        self.nDACNum = [None]*entryCount
-        self.nEpochType = [None]*entryCount
-        self.fEpochInitLevel = [None]*entryCount
-        self.fEpochLevelInc = [None]*entryCount
-        self.lEpochInitDuration = [None]*entryCount
-        self.lEpochDurationInc = [None]*entryCount
-        self.lEpochPulsePeriod = [None]*entryCount
-        self.lEpochPulseWidth = [None]*entryCount
+        self.nEpochNum = [None]*self._entryCount
+        self.nDACNum = [None]*self._entryCount
+        self.nEpochType = [None]*self._entryCount
+        self.fEpochInitLevel = [None]*self._entryCount
+        self.fEpochLevelInc = [None]*self._entryCount
+        self.lEpochInitDuration = [None]*self._entryCount
+        self.lEpochDurationInc = [None]*self._entryCount
+        self.lEpochPulsePeriod = [None]*self._entryCount
+        self.lEpochPulseWidth = [None]*self._entryCount
 
-        for i in range(entryCount):
-            fb.seek(byteStart + i*entrySize)
-            self.nEpochNum[i] = readStruct(fb, "h")  # 0
-            self.nDACNum[i] = readStruct(fb, "h")  # 2
-            self.nEpochType[i] = readStruct(fb, "h")  # 4
-            self.fEpochInitLevel[i] = readStruct(fb, "f")  # 6
-            self.fEpochLevelInc[i] = readStruct(fb, "f")  # 10
-            self.lEpochInitDuration[i] = readStruct(fb, "i")  # 14
-            self.lEpochDurationInc[i] = readStruct(fb, "i")  # 18
-            self.lEpochPulsePeriod[i] = readStruct(fb, "i")  # 22
-            self.lEpochPulseWidth[i] = readStruct(fb, "i")  # 26
+        for i in range(self._entryCount):
+            self.seek(self._byteStart + i*self._entrySize)
+            self.nEpochNum[i] = self.readInt16()  # 0
+            self.nDACNum[i] = self.readInt16()  # 2
+            self.nEpochType[i] = self.readInt16()  # 4
+            self.fEpochInitLevel[i] = self.readSingle()  # 6
+            self.fEpochLevelInc[i] = self.readSingle()  # 10
+            self.lEpochInitDuration[i] = self.readInt32()  # 14
+            self.lEpochDurationInc[i] = self.readInt32()  # 18
+            self.lEpochPulsePeriod[i] = self.readInt32()  # 22
+            self.lEpochPulseWidth[i] = self.readInt32()  # 26

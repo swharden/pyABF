@@ -1,5 +1,4 @@
 from pyabf.abf2.section import Section
-from pyabf.abfReader import readStruct
 
 
 class DACSection(Section):
