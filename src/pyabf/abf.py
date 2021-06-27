@@ -256,7 +256,7 @@ class ABF:
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
         self._synchArraySection = SynchArraySection(fb)
-        self._userListSection = UserListSection(fb, self._sectionMap)
+        self._userListSection = UserListSection(fb)
 
         # create useful variables at the class level
         self.abfVersion = self._headerV2.abfVersionDict

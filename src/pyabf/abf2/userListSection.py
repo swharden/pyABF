@@ -1,29 +1,28 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 
 
-class UserListSection:
+class UserListSection(Section):
     """
     Contains elements of the ABF2 user list.
     The user list allows custom values to be used as part of the epoch table.
     """
 
-    def __init__(self, fb, sectionMap):
-        blockStart, entrySize, entryCount = sectionMap.UserListSection
-        byteStart = blockStart*512
+    def __init__(self, fb):
+        Section.__init__(self, fb, 172)
 
-        self.nULEnable = [None]*entryCount
-        self.nULParamToVary = [None]*entryCount
-        self.nULParamToVaryName = [None]*entryCount
-        self.nULRepeat = [None]*entryCount
-        self.nStringIndex = [None]*entryCount
+        self.nULEnable = [None]*self._entryCount
+        self.nULParamToVary = [None]*self._entryCount
+        self.nULParamToVaryName = [None]*self._entryCount
+        self.nULRepeat = [None]*self._entryCount
+        self.nStringIndex = [None]*self._entryCount
 
-        for i in range(entryCount):
-            fb.seek(byteStart + i*entrySize)
-            _ = readStruct(fb, "h")
-            _ = readStruct(fb, "h")
-            param = readStruct(fb, "h")
-            repeat = readStruct(fb, "h")
-            stringIndex = readStruct(fb, "h")
+        for i in range(self._entryCount):
+            fb.seek(self._byteStart + i*self._entrySize)
+            _ = self.readInt16()
+            _ = self.readInt16()
+            param = self.readInt16()
+            repeat = self.readInt16()
+            stringIndex = self.readInt16()
 
             if (param > 0):
                 self.nULEnable[i] = 1
