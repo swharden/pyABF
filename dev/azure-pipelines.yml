@@ -1,45 +1,44 @@
 trigger:
-- master
+  - master
 
 strategy:
   matrix:
-  
     MacOS Python36:
-      imageName: 'macOS-latest'
-      pyVersion: '3.6.x'
+      imageName: "macOS-latest"
+      pyVersion: "3.6.x"
     MacOS Latest:
-      imageName: 'macOS-latest'
-      pyVersion: '3.x'
-      
+      imageName: "macOS-latest"
+      pyVersion: "3.x"
+
     Linux Python36:
-      imageName: 'ubuntu-latest'
-      pyVersion: '3.6.x'
+      imageName: "ubuntu-latest"
+      pyVersion: "3.6.x"
     Linux Latest:
-      imageName: 'ubuntu-latest'
-      pyVersion: '3.x'
-      
+      imageName: "ubuntu-latest"
+      pyVersion: "3.x"
+
     Windows Python36:
-      imageName: 'windows-latest'
-      pyVersion: '3.6.x'
+      imageName: "windows-latest"
+      pyVersion: "3.6.x"
     Windows Latest:
-      imageName: 'windows-latest'
-      pyVersion: '3.x'
+      imageName: "windows-latest"
+      pyVersion: "3.x"
 
 pool:
   vmImage: $(imageName)
-      
+
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(pyVersion)'
-  displayName: 'Use Python $(pyVersion)'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "$(pyVersion)"
+    displayName: "Use Python $(pyVersion)"
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r src/requirements.txt
-  displayName: 'Install dependencies'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r src/requirements.txt
+    displayName: "Install dependencies"
 
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+  - script: |
+      pip install pytest pytest-azurepipelines
+      pytest --runslow
+    displayName: "pytest"
