@@ -10,7 +10,6 @@ are to be written in another file and imported as necessary.
 import pyabf.abfWriter
 import pyabf.stimulus
 
-from pyabf.abf2.stringsIndexed import StringsIndexed
 from pyabf.abf2.stringsSection import StringsSection
 from pyabf.abf2.tagSection import TagSection
 from pyabf.abf2.epochSection import EpochSection
@@ -252,9 +251,6 @@ class ABF:
         self._epochSection = EpochSection(fb)
         self._tagSection = TagSection(fb)
         self._stringsSection = StringsSection(fb)
-        self._stringsIndexed = StringsIndexed(
-            self._headerV2, self._protocolSection, self._adcSection,
-            self._dacSection, self._stringsSection)
         self._synchArraySection = SynchArraySection(fb)
         self._userListSection = UserListSection(fb)
 
@@ -262,15 +258,17 @@ class ABF:
         self.abfVersion = self._headerV2.abfVersionDict
         self.abfVersionString = self._headerV2.abfVersionString
         self._fileGUID = self._headerV2.sFileGUID
-        self.creator = self._stringsIndexed.uCreatorName + \
-            " " + self._headerV2.creatorVersionString
+        self.creator = \
+            self._stringsSection._indexedStrings[self._headerV2.uCreatorNameIndex] + " " + \
+            self._headerV2.creatorVersionString
         self.creatorVersion = self._headerV2.creatorVersionDict
         self.creatorVersionString = self._headerV2.creatorVersionString
         self.abfDateTime = self._headerV2.abfDateTime
         self.abfDateTimeString = self._headerV2.abfDateTimeString
         self.holdingCommand = self._dacSection.fDACHoldingLevel
-        self.protocolPath = self._stringsIndexed.uProtocolPath
-        self.abfFileComment = self._stringsIndexed.lFileComment
+        self.protocolPath = self._stringsSection._indexedStrings[self._headerV2.uProtocolPathIndex]
+        self.abfFileComment = self._stringsSection._indexedStrings[
+            self._protocolSection.lFileCommentIndex]
         self.nOperationMode = self._protocolSection.nOperationMode
 
         # populate the user list
@@ -288,7 +286,8 @@ class ABF:
             #self.userList = [float(x) for x in self.userList.split(",")]
 
             # This is weird but it's been in the code for a while and seems to work.
-            firstBlockStrings = self._stringsSection._stringsRaw[0].split(b'\x00')
+            firstBlockStrings = self._stringsSection._stringsRaw[0].split(
+                b'\x00')
             self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
             self.userList = [float(x) for x in self.userList if x]
         except:
@@ -319,10 +318,14 @@ class ABF:
             self.tagTimesSec[i] = round(self.tagTimesSec[i], 5)
 
         # channel names
-        self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
-        self.adcNames = self._stringsIndexed.lADCChannelName[:self.channelCount]
-        self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.channelCount]
-        self.dacNames = self._stringsIndexed.lDACChannelName[:self.channelCount]
+        self.adcNames = [self._stringsSection._indexedStrings[x]
+                         for x in self._adcSection.lADCChannelNameIndex[:self.channelCount]]
+        self.adcUnits = [self._stringsSection._indexedStrings[x]
+                         for x in self._adcSection.lADCUnitsIndex[:self.channelCount]]
+        self.dacNames = [self._stringsSection._indexedStrings[x]
+                         for x in self._dacSection.lDACChannelNameIndex[:self.channelCount]]
+        self.dacUnits = [self._stringsSection._indexedStrings[x]
+                         for x in self._dacSection.lDACChannelUnitsIndex[:self.channelCount]]
 
         # data scaling
         self._dataGain = [1]*self.channelCount

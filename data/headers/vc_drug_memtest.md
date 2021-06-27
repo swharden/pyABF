@@ -346,19 +346,3 @@
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `['', 'Clampex', 'S:\\Protocols\\permanent\\0401 VC 2s MT-70.pro', 'SWHLab5[0401]', 'IN 0', 'pA', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
-* lADCChannelName = `['IN 0']`
-* lADCUnits = `['pA']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '']`
-* lFileComment = `SWHLab5[0401]`
-* nLeakSubtractADC = `['', '', '', '']`
-* uCreatorName = `Clampex`
-* uModifierName = ``
-* uProtocolPath = `S:\Protocols\permanent\0401 VC 2s MT-70.pro`

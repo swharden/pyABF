@@ -353,19 +353,3 @@
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `['', 'AXENGN 2.0.1.69', 'clampfit', 'C:\\Delbert\\Protocols\\HCN2\\WT_mHCN2\\new_staggered\\WT_act with ramp_reversed_env.pro', 'IN 0', 'pA', 'AO #0', 'mV', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'AO #2', 'mV', 'AO #3', 'mV', '4000, 6000, 6000, 10000, 20000, 30000, 30000, 30000, 30000', '']`
-* lADCChannelName = `['IN 0', 'AO #0']`
-* lADCUnits = `['pA', 'mV']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['', '', '', '']`
-* uCreatorName = `AXENGN 2.0.1.69`
-* uModifierName = `clampfit`
-* uProtocolPath = `C:\Delbert\Protocols\HCN2\WT_mHCN2\new_staggered\WT_act with ramp_reversed_env.pro`

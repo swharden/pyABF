@@ -243,7 +243,7 @@ def abfInfoPage(abf):
         headerParts.append(["TagSection", abf._tagSection])
         headerParts.append(["SynchArraySection", abf._synchArraySection])
         headerParts.append(["StringsSection", abf._stringsSection])
-        headerParts.append(["StringsIndexed", abf._stringsIndexed])
+        #headerParts.append(["StringsIndexed", abf._stringsIndexed])
     for headerItem in headerParts:
         thingTitle, thingItself = headerItem
         page.addSection(thingTitle)

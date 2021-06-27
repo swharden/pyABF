@@ -9,6 +9,8 @@ the data from that file so the file only needs to be read from disk once.
 """
 
 import numpy as np
+import copy
+import os
 from pathlib import Path, PureWindowsPath
 import warnings
 import pyabf
@@ -88,9 +90,11 @@ def findStimulusWaveformFile(abf, channel=0):
     """
 
     # first try looking at the path stored in the header
-    pathInHeader = Path(abf._stringsIndexed.lDACFilePath[channel])
-    if pathInHeader.is_file():
-        return str(pathInHeader)
+    if abf.abfVersion["major"] == 2:
+        pathIndex = abf._dacSection.lDACFilePathIndex[channel]
+        pathInHeader = Path(abf._stringsSection._indexedStrings[pathIndex])
+        if pathInHeader.is_file():
+            return str(pathInHeader)
 
     # try the current working directory of the Python interpreter
     stimBasename = PureWindowsPath(pathInHeader).name
@@ -99,25 +103,27 @@ def findStimulusWaveformFile(abf, channel=0):
         return str(pathCurrent)
 
     # try path defined by the stimulusFileFolder argument of the ABF constructor
-    pathUserDefined = Path(str(abf.stimulusFileFolder)).joinpath(stimBasename).resolve()
+    pathUserDefined = Path(str(abf.stimulusFileFolder)
+                           ).joinpath(stimBasename).resolve()
     if pathUserDefined.is_file():
         return str(pathUserDefined)
 
     # try the same folder that houses the ABF file
-    pathSameFolderAsABF = Path(abf.abfFilePath).parent.joinpath(stimBasename).resolve()
+    pathSameFolderAsABF = Path(
+        abf.abfFilePath).parent.joinpath(stimBasename).resolve()
     if pathSameFolderAsABF.is_file():
         return str(pathSameFolderAsABF)
 
     # warn if stimulus file was never found
     warnings.warn(
-            f"Could not locate stimulus file for channel {channel}.\n"
-            f"ABF file path: {abf.abfFilePath}.\n"
-            f"The following paths were searched:\n"
-            f"* Path in the ABF header: {pathInHeader}\n"
-            f"* Current working directory: {pathCurrent}\n"
-            f"* User-defined stimulus folder: {pathUserDefined}\n"
-            f"* Same folder as ABF: {(pathSameFolderAsABF)}\n"
-        )
+        f"Could not locate stimulus file for channel {channel}.\n"
+        f"ABF file path: {abf.abfFilePath}.\n"
+        f"The following paths were searched:\n"
+        f"* Path in the ABF header: {pathInHeader}\n"
+        f"* Current working directory: {pathCurrent}\n"
+        f"* User-defined stimulus folder: {pathUserDefined}\n"
+        f"* Same folder as ABF: {(pathSameFolderAsABF)}\n"
+    )
 
     return None
 
