@@ -23,7 +23,6 @@ from pyabf.abf2.userListSection import UserListSection
 from pyabf.abf2.headerV2 import HeaderV2
 from pyabf.abf1.headerV1 import HeaderV1
 
-from pyabf.abfReader import abfFileFormat
 from pyabf.tools.abfHeaderDisplay import abfInfoPage
 
 import os
@@ -69,17 +68,18 @@ class ABF:
 
         with open(self.abfFilePath, 'rb') as fb:
 
-            # get a preliminary ABF version from the ABF file itself
+            # The first 4 bytes of the ABF indicates what type of file it is
             self.abfVersion = {}
-            self.abfVersion["major"] = abfFileFormat(fb)
-            if not self.abfVersion["major"] in [1, 2]:
-                raise NotImplementedError("Invalid ABF file format")
-
-            # read the ABF header and bring its contents to the local namespace
-            if self.abfVersion["major"] == 1:
+            fb.seek(0)
+            fileSignature = fb.read(4).decode("ascii", errors='ignore')
+            if fileSignature == "ABF ":
+                self.abfVersion["major"] = 1
                 self._readHeadersV1(fb)
-            elif self.abfVersion["major"] == 2:
+            elif fileSignature == "ABF2":
+                self.abfVersion["major"] = 2
                 self._readHeadersV2(fb)
+            else:
+                raise NotImplementedError("Invalid ABF file format")
 
             # create more local variables based on the header data
             self._makeAdditionalVariables()
