@@ -1,6 +1,10 @@
 import os
 from setuptools import setup
 from setuptools import find_packages
+import sys
+
+if sys.version_info[:2] < (3, 6):
+    raise RuntimeError("Python version >= 3.6 required.")
 
 # load the description
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
@@ -14,6 +18,7 @@ setup(
     version='2.2.8',
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
+    python_requires='>=3.6',
     packages=find_packages(),
     include_package_data=True,
     url='http://swharden.com/pyabf',
