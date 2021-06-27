@@ -17,6 +17,6 @@ class EpochSection(Section):
         self.nEpochDigitalOutput = [None]*self._entryCount
 
         for i in range(self._entryCount):
-            fb.seek(self._byteStart + i*self._entrySize)
+            self.seek(self._byteStart + i*self._entrySize)
             self.nEpochNum[i] = self.readInt16()
             self.nEpochDigitalOutput[i] = self.readInt16()

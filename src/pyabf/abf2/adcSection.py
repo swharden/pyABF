@@ -41,7 +41,7 @@ class ADCSection(Section):
         self.lADCUnitsIndex = [None]*self._entryCount
 
         for i in range(self._entryCount):
-            fb.seek(self._byteStart + i*self._entrySize)
+            self.seek(self._byteStart + i*self._entrySize)
             self.nADCNum[i] = self.readInt16()  # 0
             self.nTelegraphEnable[i] = self.readInt16()  # 2
             self.nTelegraphInstrument[i] = self.readInt16()  # 4

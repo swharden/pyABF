@@ -41,13 +41,23 @@ class Section:
 
     def readByte(self):
         bytes = self._fb.read(1)
-        values = struct.unpack("b", bytes)
+        values = struct.unpack("B", bytes)
         return int(values[0])
 
     def readChar(self):
         bytes = self._fb.read(1)
         values = struct.unpack("c", bytes)
         return values[0].decode("ascii", errors='ignore')
+
+    def readString(self, length, clean=True):
+        bytes = self._fb.read(length)
+        values = struct.unpack(f"{length}s", bytes)[0]
+        string = values.decode("ascii", errors='ignore').strip()
+        return string
+
+    def readBytes(self, length):
+        values = [self.readByte() for x in range(length)]
+        return values
 
     def readStruct(self, structFormat, seek=False, cleanStrings=True):
         """

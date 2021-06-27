@@ -53,7 +53,7 @@ class DACSection(Section):
         self.nLeakSubtractADCIndex = [None]*self._entryCount
 
         for i in range(self._entryCount):
-            fb.seek(self._byteStart + i*self._entrySize)
+            self.seek(self._byteStart + i*self._entrySize)
             self.nDACNum[i] = self.readInt16()  # 0
             self.nTelegraphDACScaleFactorEnable[i] = self.readInt16()  # 2
             self.fInstrumentHoldingLevel[i] = self.readSingle()  # 4

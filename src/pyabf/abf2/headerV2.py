@@ -1,33 +1,34 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 import datetime
 
 
-class HeaderV2:
+class HeaderV2(Section):
     """
     The first several bytes of an ABF2 file contain variables
     located at specific byte positions from the start of the file.
     """
 
     def __init__(self, fb):
-        fb.seek(0)
-        self.sFileSignature = readStruct(fb, "4s")  # 0
-        self.fFileVersionNumber = readStruct(fb, "4b")  # 4
-        self.uFileInfoSize = readStruct(fb, "I")  # 8
-        self.lActualEpisodes = readStruct(fb, "I")  # 12
-        self.uFileStartDate = readStruct(fb, "I")  # 16
-        self.uFileStartTimeMS = readStruct(fb, "I")  # 20
-        self.uStopwatchTime = readStruct(fb, "I")  # 24
-        self.nFileType = readStruct(fb, "H")  # 28
-        self.nDataFormat = readStruct(fb, "H")  # 30
-        self.nSimultaneousScan = readStruct(fb, "H")  # 32
-        self.nCRCEnable = readStruct(fb, "H")  # 34
-        self.uFileCRC = readStruct(fb, "I")  # 36
-        self.uFileGUID = readStruct(fb, "16B")  # 40
-        self.uCreatorVersion = readStruct(fb, "4B")  # 56
-        self.uCreatorNameIndex = readStruct(fb, "I")  # 60
-        self.uModifierVersion = readStruct(fb, "I")  # 64
-        self.uModifierNameIndex = readStruct(fb, "I")  # 68
-        self.uProtocolPathIndex = readStruct(fb, "I")  # 72
+        Section.__init__(self, fb, 0)
+        self.seek(0)
+        self.sFileSignature = self.readString(4) # 0
+        self.fFileVersionNumber = self.readBytes(4) # 4
+        self.uFileInfoSize = self.readUInt32()  # 8
+        self.lActualEpisodes = self.readUInt32()  # 12
+        self.uFileStartDate = self.readUInt32()  # 16
+        self.uFileStartTimeMS = self.readUInt32()  # 20
+        self.uStopwatchTime = self.readUInt32()  # 24
+        self.nFileType = self.readUInt16()  # 28
+        self.nDataFormat = self.readUInt16()  # 30
+        self.nSimultaneousScan = self.readUInt16()  # 32
+        self.nCRCEnable = self.readUInt16()  # 34
+        self.uFileCRC = self.readUInt32()  # 36
+        self.uFileGUID = self.readBytes(16)  # 40
+        self.uCreatorVersion = self.readBytes(4)  # 56
+        self.uCreatorNameIndex = self.readUInt32()  # 60
+        self.uModifierVersion = self.readUInt32()  # 64
+        self.uModifierNameIndex = self.readUInt32()  # 68
+        self.uProtocolPathIndex = self.readUInt32()  # 72
 
         # format version number
         versionPartsInt = self.fFileVersionNumber[::-1]
