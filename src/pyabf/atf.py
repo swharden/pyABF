@@ -7,10 +7,16 @@ methods as the ABF class.
 ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
+import re
+import pprint
 import numpy as np
 import os
 import sys
 import glob
+
+import logging
+logging.basicConfig(level=logging.WARNING)
+log = logging.getLogger(__name__)
 
 
 class ATF():
@@ -27,7 +33,7 @@ class ATF():
 
         # ensure the file exists and open it
         if not os.path.isfile(file_path):
-            log.critical("file does not exist")
+            raise Exception("file does not exist")
         self.atfFilePath = file_path
         self.atfID = os.path.basename(self.atfFilePath).replace(".atf", "")
         fh = open(file_path, 'r')
@@ -36,15 +42,15 @@ class ATF():
         signature, file_version = fh.readline().rstrip().split()
         self.atfVersion = file_version
         if signature != 'ATF':
-            log.critical("Unexpected file signature "+signature)
+            raise Exception("Unexpected file signature "+signature)
 
         # line 2 - contains "# #" (number of header and data items)
         elems = fh.readline().rstrip().split()
         nHeaderItems, nDataCols = [int(x) for x in elems]
         if nHeaderItems == 0 or nDataCols == 0:
-            log.critical("improper header or data structure")
+            raise Exception("improper header or data structure")
         if nHeaderItems == 0 or nDataCols == 0:
-            log.critical("no sweeps found")
+            raise Exception("no sweeps found")
 
         # parse header items - one line per item
         self.header = {}
@@ -122,26 +128,3 @@ class ATF():
         self.sweepX = self.dataX
         self.sweepLabelX = self.columnLabelX
         self.sweepLabelY = self.columnLabelsY[columnNumber]
-
-
-if __name__ == "__main__":
-    log.warn("DO NOT RUN THIS FILE DIRECTLY!")
-    sys.path.append(os.path.dirname(__file__)+"/../")
-    PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-    PATH_DATA = os.path.abspath(PATH_HERE+"/../../data/abfs/")
-
-    import matplotlib.pyplot as plt
-    for fname in glob.glob(PATH_DATA+"/*.atf"):
-        atf = ATF(fname)
-        print()
-        print(atf)
-        for channel in atf.channelList:
-            plt.figure()
-            plt.title("%s channel %d" % (atf.atfID, channel))
-            plt.xlabel(atf.sweepLabelX)
-            plt.ylabel(atf.sweepLabelY)
-            for sweepNumber in atf.sweepList:
-                atf.setSweep(sweepNumber, channel)
-                plt.plot(atf.sweepX, atf.sweepY)
-
-    plt.show()
