@@ -69,6 +69,7 @@ def cachedStimulusSpeedBoost(useCaching):
     return speedBoost
 
 
+@pytest.mark.skip(reason="this is slow and does not need to be run frequently")
 def test_stimulus_caching():
 
     # first try without caching
