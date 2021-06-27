@@ -16,7 +16,7 @@ except:
     raise ImportError("couldn't import local pyABF")
 
 
-@pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
+@pytest.mark.slow
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_saveABF1_forEveryFile(abfPath):
     testOutput = pathlib.Path("testOutput")
