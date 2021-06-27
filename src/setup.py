@@ -1,7 +1,8 @@
 import os
 from setuptools import setup
+from setuptools import find_packages
 
-# load the descripntion
+# load the description
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
@@ -13,7 +14,7 @@ setup(
     version='2.2.8',
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
-    packages=['pyabf', 'pyabf.tools'],
+    packages=find_packages(),
     include_package_data=True,
     url='http://swharden.com/pyabf',
     license='MIT License',
