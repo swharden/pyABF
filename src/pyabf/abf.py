@@ -251,7 +251,7 @@ class ABF:
         self._epochPerDacSection = EpochPerDACSection(fb)
         self._epochSection = EpochSection(fb)
         self._tagSection = TagSection(fb, self._sectionMap)
-        self._stringsSection = StringsSection(fb, self._sectionMap)
+        self._stringsSection = StringsSection(fb)
         self._stringsIndexed = StringsIndexed(
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
@@ -288,7 +288,7 @@ class ABF:
             #self.userList = [float(x) for x in self.userList.split(",")]
 
             # This is weird but it's been in the code for a while and seems to work.
-            firstBlockStrings = self._stringsSection.strings[0].split(b'\x00')
+            firstBlockStrings = self._stringsSection._stringsRaw[0].split(b'\x00')
             self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
             self.userList = [float(x) for x in self.userList if x]
         except:

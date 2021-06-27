@@ -11,11 +11,9 @@ class StringsIndexed:
     def __init__(self, headerV2, protocolSection, adcSection, dacSection, stringsSection):
 
         indexedStrings = stringsSection.strings[0]
-        indexedStrings = indexedStrings[indexedStrings.rfind(b'\x00\x00'):]
-        indexedStrings = indexedStrings.replace(b'\xb5', b"\x75")  # make mu u
-        indexedStrings = indexedStrings.split(b'\x00')[1:]
-        indexedStrings = [x.decode("ascii", errors='replace').strip()
-                          for x in indexedStrings]
+        indexedStrings = indexedStrings[indexedStrings.rfind('\x00\x00'):]
+        indexedStrings = indexedStrings.replace('\xb5', "\x75")  # make mu u
+        indexedStrings = indexedStrings.split('\x00')[1:]
         self.indexedStrings = indexedStrings
 
         # headerv2

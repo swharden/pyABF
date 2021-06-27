@@ -1,7 +1,7 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 
 
-class StringsSection:
+class StringsSection(Section):
     """
     Part of the ABF file contains long strings. Some of these can be broken
     apart into indexed strings.
@@ -14,11 +14,20 @@ class StringsSection:
     Strings which contain indexed substrings are separated by \\x00 characters.
     """
 
-    def __init__(self, fb, sectionMap):
-        blockStart, entrySize, entryCount = sectionMap.StringsSection
-        byteStart = blockStart*512
-        self.strings = [None]*entryCount
-        for i in range(entryCount):
-            fb.seek(byteStart + i*entrySize)
-            structFormat = "%ss" % entrySize
-            self.strings[i] = readStruct(fb, structFormat, cleanStrings=False)
+    def __init__(self, fb):
+        Section.__init__(self, fb, 220)
+
+        self.strings = [None]*self._entryCount
+        self._stringsRaw = [None]*self._entryCount
+
+        for i in range(self._entryCount):
+            fb.seek(self._byteStart + i*self._entrySize)
+
+            # store raw strings for advanced access later
+            values = bytearray(self.readBytes(self._entrySize))
+            self._stringsRaw[i] = values
+
+            # store cleaned strings for typical use
+            values = values.replace(b'\xb5', b'\x75')  # make mu u
+            values = values.decode("ascii", errors='ignore').strip()
+            self.strings[i] = values
