@@ -7,6 +7,7 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
+import pathlib
 from pyabf.abf2.dataSection import DataSection
 import pyabf.abfWriter
 import pyabf.stimulus
@@ -47,6 +48,9 @@ class ABF:
 
     def __init__(self, abfFilePath, loadData=True,
                  cacheStimulusFiles=True, stimulusFileFolder=None):
+
+        if (isinstance(abfFilePath, pathlib.Path)):
+            abfFilePath = str(abfFilePath)
 
         if abfFilePath.lower().endswith(".atf"):
             raise Exception("use pyabf.ATF (not pyabf.ABF) for ATF files")

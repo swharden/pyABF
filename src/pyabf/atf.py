@@ -8,15 +8,9 @@ ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
 import re
-import pprint
 import numpy as np
 import os
-import sys
-import glob
-
-import logging
-logging.basicConfig(level=logging.WARNING)
-log = logging.getLogger(__name__)
+import pathlib
 
 
 class ATF():
@@ -26,7 +20,10 @@ class ATF():
     channel data and has a setSweep() function similar to the ABF class.
     """
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, loadData=True):
+
+        if (isinstance(file_path, pathlib.Path)):
+            file_path = str(file_path)
 
         if file_path.lower().endswith(".abf"):
             raise Exception("use pyabf.ABF (not pyabf.ATF) for ABF files")
@@ -90,11 +87,14 @@ class ATF():
         # now that we are done reading the header, close the file
         fh.close()
 
+        if (loadData == False):
+            return
+            
         # read data values as a numpy array
         self.data = np.genfromtxt(file_path, dtype=np.float32,
-                                  skip_header=3 + nHeaderItems,
-                                  invalid_raise=True,
-                                  usecols=range(0, nDataCols))
+                                    skip_header=3 + nHeaderItems,
+                                    invalid_raise=True,
+                                    usecols=range(0, nDataCols))
 
         # adjust it so it is sweepCount rows and sweepPointCount columns
         self.data = np.rot90(self.data, -1)
