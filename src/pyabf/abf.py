@@ -7,39 +7,29 @@ Analysis routines are not written in the ABF class itself. If useful, they
 are to be written in another file and imported as necessary.
 """
 
-from pyabf import abfHeader
+from pyabf.abf2.dataSection import DataSection
 import pyabf.abfWriter
 import pyabf.stimulus
-import pyabf.abfHeaderDisplay
 
-from pyabf.abfHeader import BLOCKSIZE
-from pyabf.abfHeader import StringsIndexed
-from pyabf.abfHeader import StringsSection
-from pyabf.abfHeader import TagSection
-from pyabf.abfHeader import EpochSection
-from pyabf.abfHeader import EpochPerDACSection
-from pyabf.abfHeader import DACSection
-from pyabf.abfHeader import ADCSection
-from pyabf.abfHeader import ProtocolSection
-from pyabf.abfHeader import SynchArraySection
-from pyabf.abfHeader import UserListSection
-from pyabf.abfHeader import SectionMap
-from pyabf.abfHeader import HeaderV2
-from pyabf.abfHeader import HeaderV1
+from pyabf.abf2.stringsSection import StringsSection
+from pyabf.abf2.tagSection import TagSection
+from pyabf.abf2.epochSection import EpochSection
+from pyabf.abf2.epochPerDacSection import EpochPerDACSection
+from pyabf.abf2.dacSection import DACSection
+from pyabf.abf2.adcSection import ADCSection
+from pyabf.abf2.protocolSection import ProtocolSection
+from pyabf.abf2.synchArraySection import SynchArraySection
+from pyabf.abf2.userListSection import UserListSection
+from pyabf.abf2.headerV2 import HeaderV2
+from pyabf.abf1.headerV1 import HeaderV1
 
-import pyabf.abfHeader
+from pyabf.tools.abfHeaderDisplay import abfInfoPage
+
 import os
-import sys
-import glob
 import time
-import datetime
 import numpy as np
 from pathlib import PureWindowsPath
 import hashlib
-
-import logging
-logging.basicConfig(level=logging.WARN)
-log = logging.getLogger(__name__)
 
 
 class ABF:
@@ -75,21 +65,21 @@ class ABF:
         if not os.path.exists(self.abfFilePath):
             raise ValueError("ABF file does not exist: %s" % self.abfFilePath)
         self.abfID = os.path.splitext(os.path.basename(self.abfFilePath))[0]
-        log.debug(self.__repr__())
 
         with open(self.abfFilePath, 'rb') as fb:
 
-            # get a preliminary ABF version from the ABF file itself
+            # The first 4 bytes of the ABF indicates what type of file it is
             self.abfVersion = {}
-            self.abfVersion["major"] = pyabf.abfHeader.abfFileFormat(fb)
-            if not self.abfVersion["major"] in [1, 2]:
-                raise NotImplementedError("Invalid ABF file format")
-
-            # read the ABF header and bring its contents to the local namespace
-            if self.abfVersion["major"] == 1:
+            fb.seek(0)
+            fileSignature = fb.read(4).decode("ascii", errors='ignore')
+            if fileSignature == "ABF ":
+                self.abfVersion["major"] = 1
                 self._readHeadersV1(fb)
-            elif self.abfVersion["major"] == 2:
+            elif fileSignature == "ABF2":
+                self.abfVersion["major"] = 2
                 self._readHeadersV2(fb)
+            else:
+                raise NotImplementedError("Invalid ABF file format")
 
             # create more local variables based on the header data
             self._makeAdditionalVariables()
@@ -177,6 +167,7 @@ class ABF:
             self.abfFileComment = self._headerV1.sFileCommentNew
         else:
             self.abfFileComment = self._headerV1.sFileCommentOld
+        self.nOperationMode = self._headerV1.nOperationMode
         try:
             self.userList = [float(x)
                              for x in self._headerV1.sULParamValueList if x]
@@ -184,7 +175,7 @@ class ABF:
             self.userList = self._headerV1.sULParamValueList
         self.userListEnable = self._headerV1.nULEnable
         self.userListParamToVary = self._headerV1.nULParamToVary
-        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+        self.userListParamToVaryName = [pyabf.names.getUserListParameterName(x)
                                         for x in self.userListParamToVary]
         self.userListRepeat = self._headerV1.nULRepeat
         _tagMult = self._headerV1.fADCSampleInterval / 1e6
@@ -195,7 +186,7 @@ class ABF:
 
         # data info
         self._nDataFormat = self._headerV1.nDataFormat
-        self.dataByteStart = self._headerV1.lDataSectionPtr*BLOCKSIZE
+        self.dataByteStart = self._headerV1.lDataSectionPtr*512
         self.dataByteStart += self._headerV1.nNumPointsIgnored
         self.dataPointCount = self._headerV1.lActualAcqLength
 
@@ -252,40 +243,39 @@ class ABF:
 
         # read the headers out of the file
         self._headerV2 = HeaderV2(fb)
-        self._sectionMap = SectionMap(fb)
-        self._protocolSection = ProtocolSection(fb, self._sectionMap)
-        self._adcSection = ADCSection(fb, self._sectionMap)
-        self._dacSection = DACSection(fb, self._sectionMap)
-        self._epochPerDacSection = EpochPerDACSection(
-            fb, self._sectionMap)
-        self._epochSection = EpochSection(fb, self._sectionMap)
-        self._tagSection = TagSection(fb, self._sectionMap)
-        self._stringsSection = StringsSection(fb, self._sectionMap)
-        self._stringsIndexed = StringsIndexed(
-            self._headerV2, self._protocolSection, self._adcSection,
-            self._dacSection, self._stringsSection)
-        self._synchArraySection = SynchArraySection(fb, self._sectionMap)
-        self._userListSection = UserListSection(fb, self._sectionMap)
+        self._protocolSection = ProtocolSection(fb)
+        self._dataSection = DataSection(fb)
+        self._adcSection = ADCSection(fb)
+        self._dacSection = DACSection(fb)
+        self._epochPerDacSection = EpochPerDACSection(fb)
+        self._epochSection = EpochSection(fb)
+        self._tagSection = TagSection(fb)
+        self._stringsSection = StringsSection(fb)
+        self._synchArraySection = SynchArraySection(fb)
+        self._userListSection = UserListSection(fb)
 
         # create useful variables at the class level
         self.abfVersion = self._headerV2.abfVersionDict
         self.abfVersionString = self._headerV2.abfVersionString
         self._fileGUID = self._headerV2.sFileGUID
-        self.creator = self._stringsIndexed.uCreatorName + \
-            " " + self._headerV2.creatorVersionString
+        self.creator = \
+            self._stringsSection._indexedStrings[self._headerV2.uCreatorNameIndex] + " " + \
+            self._headerV2.creatorVersionString
         self.creatorVersion = self._headerV2.creatorVersionDict
         self.creatorVersionString = self._headerV2.creatorVersionString
         self.abfDateTime = self._headerV2.abfDateTime
         self.abfDateTimeString = self._headerV2.abfDateTimeString
         self.holdingCommand = self._dacSection.fDACHoldingLevel
-        self.protocolPath = self._stringsIndexed.uProtocolPath
-        self.abfFileComment = self._stringsIndexed.lFileComment
+        self.protocolPath = self._stringsSection._indexedStrings[self._headerV2.uProtocolPathIndex]
+        self.abfFileComment = self._stringsSection._indexedStrings[
+            self._protocolSection.lFileCommentIndex]
+        self.nOperationMode = self._protocolSection.nOperationMode
 
         # populate the user list
         self.userList = None
         self.userListEnable = self._userListSection.nULEnable
         self.userListParamToVary = self._userListSection.nULParamToVary
-        self.userListParamToVaryName = [abfHeader.getUserListParameterName(x)
+        self.userListParamToVaryName = [pyabf.names.getUserListParameterName(x)
                                         for x in self.userListParamToVary]
         self.userListRepeat = self._userListSection.nULRepeat
 
@@ -296,7 +286,8 @@ class ABF:
             #self.userList = [float(x) for x in self.userList.split(",")]
 
             # This is weird but it's been in the code for a while and seems to work.
-            firstBlockStrings = self._stringsSection.strings[0].split(b'\x00')
+            firstBlockStrings = self._stringsSection._stringsRaw[0].split(
+                b'\x00')
             self.userList = firstBlockStrings[-2].decode("utf-8").split(",")
             self.userList = [float(x) for x in self.userList if x]
         except:
@@ -304,10 +295,10 @@ class ABF:
 
         # data info
         self._nDataFormat = self._headerV2.nDataFormat
-        self.dataByteStart = self._sectionMap.DataSection[0]*BLOCKSIZE
-        self.dataPointCount = self._sectionMap.DataSection[2]
-        self.dataPointByteSize = self._sectionMap.DataSection[1]
-        self.channelCount = self._sectionMap.ADCSection[2]
+        self.dataByteStart = self._dataSection._byteStart
+        self.dataPointCount = self._dataSection._entryCount
+        self.dataPointByteSize = self._dataSection._entrySize
+        self.channelCount = self._adcSection._entryCount
         self.dataRate = self._protocolSection.fADCSequenceInterval
         self.dataRate = int(1e6 / self.dataRate)
         self.dataSecPerPoint = 1.0 / self.dataRate
@@ -327,10 +318,14 @@ class ABF:
             self.tagTimesSec[i] = round(self.tagTimesSec[i], 5)
 
         # channel names
-        self.adcUnits = self._stringsIndexed.lADCUnits[:self.channelCount]
-        self.adcNames = self._stringsIndexed.lADCChannelName[:self.channelCount]
-        self.dacUnits = self._stringsIndexed.lDACChannelUnits[:self.channelCount]
-        self.dacNames = self._stringsIndexed.lDACChannelName[:self.channelCount]
+        self.adcNames = [self._stringsSection._indexedStrings[x]
+                         for x in self._adcSection.lADCChannelNameIndex[:self.channelCount]]
+        self.adcUnits = [self._stringsSection._indexedStrings[x]
+                         for x in self._adcSection.lADCUnitsIndex[:self.channelCount]]
+        self.dacNames = [self._stringsSection._indexedStrings[x]
+                         for x in self._dacSection.lDACChannelNameIndex[:self.channelCount]]
+        self.dacUnits = [self._stringsSection._indexedStrings[x]
+                         for x in self._dacSection.lDACChannelUnitsIndex[:self.channelCount]]
 
         # data scaling
         self._dataGain = [1]*self.channelCount
@@ -462,21 +457,21 @@ class ABF:
     @property
     def headerText(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).getText()
+        return abfInfoPage(self).getText()
 
     @property
     def headerMarkdown(self):
         """Return all header information as a markdown-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).generateMarkdown()
+        return abfInfoPage(self).generateMarkdown()
 
     @property
     def headerHTML(self):
         """Return all header information as a text-formatted string."""
-        return pyabf.abfHeaderDisplay.abfInfoPage(self).generateHTML()
+        return abfInfoPage(self).generateHTML()
 
     def headerLaunch(self):
         """Display ABF header information in the web browser."""
-        html = pyabf.abfHeaderDisplay.abfInfoPage(self).generateHTML()
+        html = abfInfoPage(self).generateHTML()
 
         # open a temp file, save HTML, launch it, then delete it
         import tempfile
@@ -486,30 +481,30 @@ class ABF:
 
         try:
             with open(tmpFilePath, 'w') as f:
-                log.info("creating a temporary webpage %s ..." % (tmpFilePath))
                 f.write(html)
-            log.info("launching file in a web browser ...")
             os.system(tmpFilePath)
         finally:
-            log.info("waiting a few seconds for the browser to launch...")
             time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
-            log.info("deleted %s" % (tmpFilePath))
 
-    def saveABF1(self, filename, sampleRateHz):
+    def saveABF1(self, filename, sampleRateHz=None):
         """
         Save this ABF file as an ABF1 file compatible with ClampFit and
         MiniAnalysis. To create an ABF1 file from scratch (not starting from
         an existing ABF file), see methods in the pyabf.abfWriter module.
         """
+        if (self.nOperationMode == 1):
+            raise Exception(
+                "saving ABFs with variable-length sweeps is not supported")
+
         filename = os.path.abspath(filename)
-        log.info("Saving ABF as ABF1 file: %s" % filename)
         sweepData = np.empty((self.sweepCount, self.sweepPointCount))
         for sweep in self.sweepList:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
+        if not sampleRateHz:
+            sampleRateHz = self.dataRate
         pyabf.abfWriter.writeABF1(sweepData, filename, sampleRateHz)
-        log.info("saved ABF1 file: %s" % filename)
 
     def launchInClampFit(self):
         """
@@ -544,7 +539,6 @@ class ABF:
             raise ValueError(msg)
 
         if not "data" in (dir(self)):
-            log.debug("ABF data not preloaded. Loading now...")
             with open(self.abfFilePath, 'rb') as fb:
                 self._loadAndScaleData(fb)
 
@@ -603,13 +597,11 @@ class ABF:
 
         # default case is disabled
         if not hasattr(self, '_sweepBaselinePoints'):
-            log.debug("setSweep doesn't see baselinePoints, making False")
             self._sweepBaselinePoints = False
 
         # if baseline subtraction is used, apply it
         assert isinstance(baseline, list) and len(baseline) == 2
         if not None in baseline:
-            log.debug("setSweep is applying baseline subtraction")
             pt1, pt2 = [int(x*self.dataRate) for x in baseline]
             blVal = np.average(self.sweepY[pt1:pt2])
             self.sweepY = self.sweepY-blVal
@@ -684,7 +676,6 @@ class ABF:
 
     @property
     def fileGUID(self):
-        log.warning("fileGUID isn't truly unique (fileUUID is)")
         return self._fileGUID
 
     @property

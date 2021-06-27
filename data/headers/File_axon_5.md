@@ -39,6 +39,7 @@
 * fileUUID = `6872D840-FC4B-3ECA-0CE2-3678C0BC806B`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * md5 = `6872D840FC4B3ECA0CE23678C0BC806B`
+* nOperationMode = `5`
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
@@ -122,29 +123,6 @@
 * uProtocolPathIndex = `2`
 * uStopwatchTime = `1550460`
 
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 1]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 4]`
-* DataSection = `[11, 2, 180000]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[5, 48, 3]`
-* EpochSection = `[6, 32, 3]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[9, 769, 1]`
-* StatsRegionSection = `[7, 128, 1]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[8, 130, 12]`
-* SynchArraySection = `[715, 8, 9]`
-* TagSection = `[0, 0, 0]`
-* UserListSection = `[0, 0, 0]`
-* VoiceTagSection = `[0, 0, 0]`
-
 ## ProtocolSection
 
 > This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
@@ -219,7 +197,6 @@
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `Digidata 1440`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -346,19 +323,3 @@
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `['', 'clampex', 'C:\\Axon\\Params\\step cclamp.pro', '_Ipatch', 'mV', 'Cmd 0', 'pA', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
-* lADCChannelName = `['_Ipatch']`
-* lADCUnits = `['mV']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
-* lDACChannelUnits = `['pA', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['', '', '', '']`
-* uCreatorName = `clampex`
-* uModifierName = ``
-* uProtocolPath = `C:\Axon\Params\step cclamp.pro`

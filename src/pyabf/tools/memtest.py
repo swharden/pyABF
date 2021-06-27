@@ -11,6 +11,9 @@ from step protocols and ones derived from ramp protocols.
 
 import pyabf
 import numpy as np
+import warnings
+
+warnings.warn("Memtest module module is experimental (its API may change)")
 
 
 class Memtest:

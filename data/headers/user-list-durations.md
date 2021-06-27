@@ -39,6 +39,7 @@
 * fileUUID = `9B6F89BD-92E4-AB44-2D1F-4921627117CA`
 * holdingCommand = `[-35.0, -35.0, 0.0, 0.0]`
 * md5 = `9B6F89BD92E4AB442D1F4921627117CA`
+* nOperationMode = `5`
 * protocol = `WT_act with ramp_reversed_env`
 * protocolPath = `C:\Delbert\Protocols\HCN2\WT_mHCN2\new_staggered\WT_act with ramp_reversed_env.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
@@ -129,29 +130,6 @@
 * uProtocolPathIndex = `3`
 * uStopwatchTime = `5299`
 
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 2]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 4]`
-* DataSection = `[10, 4, 309672]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[5, 48, 10]`
-* EpochSection = `[6, 32, 10]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[0, 0, 0]`
-* StatsRegionSection = `[7, 128, 1]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[9, 264, 16]`
-* SynchArraySection = `[2430, 8, 3]`
-* TagSection = `[0, 0, 0]`
-* UserListSection = `[8, 64, 1]`
-* VoiceTagSection = `[0, 0, 0]`
-
 ## ProtocolSection
 
 > This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
@@ -226,7 +204,6 @@
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `Demo`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -353,19 +330,3 @@
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `['', 'AXENGN 2.0.1.69', 'clampfit', 'C:\\Delbert\\Protocols\\HCN2\\WT_mHCN2\\new_staggered\\WT_act with ramp_reversed_env.pro', 'IN 0', 'pA', 'AO #0', 'mV', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'AO #2', 'mV', 'AO #3', 'mV', '4000, 6000, 6000, 10000, 20000, 30000, 30000, 30000, 30000', '']`
-* lADCChannelName = `['IN 0', 'AO #0']`
-* lADCUnits = `['pA', 'mV']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['', '', '', '']`
-* uCreatorName = `AXENGN 2.0.1.69`
-* uModifierName = `clampfit`
-* uProtocolPath = `C:\Delbert\Protocols\HCN2\WT_mHCN2\new_staggered\WT_act with ramp_reversed_env.pro`

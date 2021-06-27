@@ -39,6 +39,7 @@
 * fileUUID = `F3BE8F68-9022-E4BF-232E-2EAAEE0FCB6D`
 * holdingCommand = `[-10.0, -20.0, 0.0, -40.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `F3BE8F689022E4BF232E2EAAEE0FCB6D`
+* nOperationMode = `5`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
@@ -143,29 +144,6 @@
 * uProtocolPathIndex = `2`
 * uStopwatchTime = `291`
 
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 4]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 8]`
-* DataSection = `[38, 2, 160000]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[7, 48, 4]`
-* EpochSection = `[8, 32, 1]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[0, 0, 0]`
-* StatsRegionSection = `[9, 128, 1]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[35, 207, 34]`
-* SynchArraySection = `[663, 8, 10]`
-* TagSection = `[0, 0, 0]`
-* UserListSection = `[0, 0, 0]`
-* VoiceTagSection = `[0, 0, 0]`
-
 ## ProtocolSection
 
 > This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
@@ -240,7 +218,6 @@
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `Demo`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -367,19 +344,3 @@
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `[, Clampex, (untitled), ..., mV, IN 7, ]`
-* lADCChannelName = `['IN 0', 'IN 1', 'IN 2', 'IN 3']`
-* lADCUnits = `['pA', 'pA', 'pA', 'pA']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3', 'Cmd 4', 'Cmd 5', 'Cmd 6', 'Cmd 7']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '', '', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['', '', '', '', '', '', '', '']`
-* uCreatorName = `Clampex`
-* uModifierName = ``
-* uProtocolPath = `(untitled)`

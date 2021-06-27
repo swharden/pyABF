@@ -19,11 +19,11 @@ try:
     # this ensures pyABF is imported from this specific path
     sys.path.insert(0, "src")
     import pyabf
-    from pyabf.abfHeaderDisplay import abfInfoPage
+    from pyabf.tools.abfHeaderDisplay import abfInfoPage
 except:
     raise ImportError("couldn't import local pyABF")
 
-@pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
+@pytest.mark.slow
 def test_cookbook_createImageIndexPage():
 
     md = "# Sample ABFs\n\n"
@@ -47,6 +47,7 @@ def test_cookbook_createImageIndexPage():
     with open(PATH_PROJECT+"/data/readme.md", 'w') as f:
         f.write(md)
 
+@pytest.mark.slow
 @pytest.mark.skip(reason="this is slow, hard to run in cloud, and does not need to be run frequently")
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
 def test_cookbook_createHeaderImages(abfPath):

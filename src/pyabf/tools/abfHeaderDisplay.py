@@ -233,7 +233,6 @@ def abfInfoPage(abf):
         headerParts.append(["ABF1 Header", abf._headerV1])
     elif abf.abfVersion["major"] == 2:
         headerParts.append(["ABF2 Header", abf._headerV2])
-        headerParts.append(["SectionMap", abf._sectionMap])
         headerParts.append(["ProtocolSection", abf._protocolSection])
         headerParts.append(["ADCSection", abf._adcSection])
         headerParts.append(["DACSection", abf._dacSection])
@@ -243,7 +242,7 @@ def abfInfoPage(abf):
         headerParts.append(["TagSection", abf._tagSection])
         headerParts.append(["SynchArraySection", abf._synchArraySection])
         headerParts.append(["StringsSection", abf._stringsSection])
-        headerParts.append(["StringsIndexed", abf._stringsIndexed])
+        #headerParts.append(["StringsIndexed", abf._stringsIndexed])
     for headerItem in headerParts:
         thingTitle, thingItself = headerItem
         page.addSection(thingTitle)
@@ -251,7 +250,12 @@ def abfInfoPage(abf):
         for subItemName in sorted(dir(thingItself)):
             if subItemName.startswith("_"):
                 continue
-            page.addThing(subItemName, getattr(thingItself, subItemName))
+            thing = getattr(thingItself, subItemName)
+            if callable(thing):
+                continue
+            if hasattr(thing, "seek"):
+                continue
+            page.addThing(subItemName, thing)
 
     return page
 

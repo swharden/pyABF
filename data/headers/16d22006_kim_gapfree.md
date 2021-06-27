@@ -39,6 +39,7 @@
 * fileUUID = `B0825A01-8B4A-F327-920B-A5FE6D145043`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * md5 = `B0825A018B4AF327920BA5FE6D145043`
+* nOperationMode = `3`
 * protocol = `mapping`
 * protocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
@@ -120,29 +121,6 @@ DAC waveform is not enabled
 * uProtocolPathIndex = `2`
 * uStopwatchTime = `2088`
 
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 2]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 4]`
-* DataSection = `[9, 2, 966000]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[0, 0, 0]`
-* EpochSection = `[0, 0, 0]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[7, 769, 1]`
-* StatsRegionSection = `[5, 128, 1]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[6, 172, 14]`
-* SynchArraySection = `[0, 0, 0]`
-* TagSection = `[0, 0, 0]`
-* UserListSection = `[0, 0, 0]`
-* VoiceTagSection = `[0, 0, 0]`
-
 ## ProtocolSection
 
 > This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
@@ -217,7 +195,6 @@ DAC waveform is not enabled
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `DD132X`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -344,19 +321,3 @@ DAC waveform is not enabled
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `['', 'AxoScope', 'C:\\Users\\kim\\Documents\\Molecular Devices\\pCLAMP\\Params\\mapping.pro', 'IN 2', 'dB', 'IN 3', 'mV', 'Cmd 0', 'mV', 'Cmd 1', 'mV', 'Cmd 2', 'mV', 'Cmd 3', 'mV', '']`
-* lADCChannelName = `['IN 2', 'IN 3']`
-* lADCUnits = `['dB', 'mV']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'Cmd 2', 'Cmd 3']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['IN 2', '', '', '']`
-* uCreatorName = `AxoScope`
-* uModifierName = ``
-* uProtocolPath = `C:\Users\kim\Documents\Molecular Devices\pCLAMP\Params\mapping.pro`

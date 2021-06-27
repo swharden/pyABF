@@ -39,6 +39,7 @@
 * fileUUID = `DB6886F9-9174-61B1-4DBE-1E1BC140EEF9`
 * holdingCommand = `[-80.0, -80.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `DB6886F9917461B14DBE1E1BC140EEF9`
+* nOperationMode = `5`
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
@@ -112,29 +113,6 @@ DAC waveform is not enabled
 * uModifierVersion = `168165890`
 * uProtocolPathIndex = `3`
 * uStopwatchTime = `83`
-
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 1]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 8]`
-* DataSection = `[9, 4, 19380]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[0, 0, 0]`
-* EpochSection = `[0, 0, 0]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[0, 0, 0]`
-* StatsRegionSection = `[7, 128, 1]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[8, 319, 22]`
-* SynchArraySection = `[161, 8, 12]`
-* TagSection = `[0, 0, 0]`
-* UserListSection = `[0, 0, 0]`
-* VoiceTagSection = `[0, 0, 0]`
 
 ## ProtocolSection
 
@@ -210,7 +188,6 @@ DAC waveform is not enabled
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `Demo`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
@@ -337,19 +314,3 @@ DAC waveform is not enabled
 > Part of the ABF file contains long strings. Some of these can be broken     apart into indexed strings.      The first string is the only one which seems to contain useful information.     This contains information like channel names, channel units, and abf     protocol path and comments. The other strings are very large and I do not     know what they do.      Strings which contain indexed substrings are separated by \x00 characters. 
 
 * strings = `not shown due to non-ASCII characters`
-
-## StringsIndexed
-
-> This object provides easy access to strings which are scattered around     the header files. The StringsSection contains strings, but various headers     contain values which point to a certain string index. This class connects     the two, and provides direct access to those strings by their indexed name. 
-
-* indexedStrings = `[, AXENGN 2.0.2.2, Clampfit, ..., AO #7, mV, ]`
-* lADCChannelName = `['IN 1']`
-* lADCUnits = `['pA']`
-* lDACChannelName = `['Cmd 0', 'Cmd 1', 'AO #2', 'AO #3', 'AO #4', 'AO #5', 'AO #6', 'AO #7']`
-* lDACChannelUnits = `['mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV', 'mV']`
-* lDACFilePath = `['', 'C:\\Documents and Settings\\Equipo2\\Escritorio\\ruidos\\ruidoDrBraniff\\puroruido1.abf', '', '', '', '', '', '']`
-* lFileComment = ``
-* nLeakSubtractADC = `['', '', '', '', '', '', '', '']`
-* uCreatorName = `AXENGN 2.0.2.2`
-* uModifierName = `Clampfit`
-* uProtocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`

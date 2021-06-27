@@ -8,13 +8,9 @@ by an ABF reader their values may not make sense (especially when converted to
 floating-point numbers).
 """
 
-import os
-import time
 import struct
 import numpy as np
-import logging
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+
 
 def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     """
@@ -38,7 +34,6 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     bytesPerPoint = 2
     dataBlocks = int(dataPointCount * bytesPerPoint / BLOCKSIZE) + 1
     data = bytearray((dataBlocks + HEADER_BLOCKS) * BLOCKSIZE)
-    log.info("Creating an ABF1 file %.02f MB in size ..." % (len(data)/1e6))
 
     # populate only the useful header data values
     struct.pack_into('4s', data, 0, b'ABF ')  # fFileSignature
@@ -62,29 +57,20 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
 
     # determine the peak data deviation from zero
     maxVal = np.max(np.abs(sweepData))
-    log.debug("maximum data value: %f"%(maxVal))
 
-    # set the scaling factor to be the biggest allowable to accomodate the data
+    # set the scaling factor to be the biggest allowable to accommodate the data
     fInstrumentScaleFactor = 100
     for i in range(10):
         fInstrumentScaleFactor /= 10
         fADCRange = 10
         valueScale = lADCResolution / fADCRange * fInstrumentScaleFactor
         maxDeviationFromZero = 32767 / valueScale
-        if (maxDeviationFromZero<maxVal):
-            log.debug("scaling factor %f is too small (max %f)"%(valueScale, 
-                maxDeviationFromZero))
-        else:
-            log.debug("scaling factor %f will be used"%(valueScale))
+        if (maxDeviationFromZero >= maxVal):
             break
-        
-    log.debug("maximum allowed data value: %f"%(maxDeviationFromZero))
-    log.debug("first value (float): %f"%(sweepData[0][0]))
-    log.debug("first value (scaled int): %f"%(int(sweepData[0][0]*valueScale)))
 
     # prepare units as a space-padded 8-byte string
     unitString = units
-    while len(unitString)<8:
+    while len(unitString) < 8:
         unitString = unitString + " "
 
     # store the scale data in the header
@@ -108,31 +94,4 @@ def writeABF1(sweepData, filename, sampleRateHz, units='pA'):
     # save the byte array to disk
     with open(filename, 'wb') as f:
         f.write(data)
-        log.info("wrote %s"%(filename))
     return
-
-
-def _demo_sweep_data(sweeps=3, sweepLengthSec=5, sampleRate=20000):
-    """crete a 2D numpy array of data to test ABF creation."""
-    sweepData = np.empty((sweeps, sweepLengthSec*sampleRate))
-    for i in range(sweeps):
-        log.info("Generating sweep %d of %d ..."%(i+1, sweeps))
-        sweep = generate.SynthSweep()
-        sweep.addOffset(-123)
-        sweep.addWobble(2)
-        sweep.addNoise(3)
-        sweep.addGlutamate(frequencyHz=10, maxMagnitude=20)  # glutamate
-        sweep.addGABA(frequencyHz=20, maxMagnitude=5)  # GABA
-        sweepData[i] = sweep.sweepY
-    return sweepData
-
-
-if __name__ == "__main__":
-    print("DO NOT RUN THIS SCRIPT DIRECTLY")
-
-    # test this script by generating random data and saving it
-    sweepData = _demo_sweep_data()
-    filename = R"C:\Users\scott\Documents\temp\test_%f.abf"%(time.time())
-    writeABF1(sweepData, filename)
-    os.system(filename) # launch in clampfit
-    print("DONE")

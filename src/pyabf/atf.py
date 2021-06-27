@@ -7,16 +7,10 @@ methods as the ABF class.
 ATF file format description:
 https://mdc.custhelp.com/app/answers/detail/a_id/18883/~/genepix%C2%AE-file-formats
 """
-import re
-import pprint
 import numpy as np
 import os
 import sys
 import glob
-
-import logging
-logging.basicConfig(level=logging.WARNING)
-log = logging.getLogger(__name__)
 
 
 class ATF():
@@ -111,13 +105,13 @@ class ATF():
         self.setSweep()
 
     def __str__(self):
-        msg = "%s.atf (ATF %s)"%(self.atfID, self.atfVersion)
-        msg += " has %d channel"%(self.channelCount)
-        if self.channelCount>1:
-            msg+="s"
-        msg += " with %d sweeps"%(self.sweepCount)
-        msg += " (%.02f seconds each)"%(self.sweepLengthSec)
-        msg += " at a sample rate of %.02f kHz"%(self.dataRate/1000)
+        msg = "%s.atf (ATF %s)" % (self.atfID, self.atfVersion)
+        msg += " has %d channel" % (self.channelCount)
+        if self.channelCount > 1:
+            msg += "s"
+        msg += " with %d sweeps" % (self.sweepCount)
+        msg += " (%.02f seconds each)" % (self.sweepLengthSec)
+        msg += " at a sample rate of %.02f kHz" % (self.dataRate/1000)
         return msg
 
     def setSweep(self, sweepNumber=0, channel=0):
@@ -143,11 +137,11 @@ if __name__ == "__main__":
         print(atf)
         for channel in atf.channelList:
             plt.figure()
-            plt.title("%s channel %d"%(atf.atfID, channel))
+            plt.title("%s channel %d" % (atf.atfID, channel))
             plt.xlabel(atf.sweepLabelX)
             plt.ylabel(atf.sweepLabelY)
             for sweepNumber in atf.sweepList:
                 atf.setSweep(sweepNumber, channel)
                 plt.plot(atf.sweepX, atf.sweepY)
-            
+
     plt.show()

@@ -8,26 +8,10 @@ inspiration (for those who have not used matplotlib before).
 Code in this module is mostly for testing and it is not actively developed.
 """
 
-import os
-import sys
-import glob
-
-import logging
-logging.basicConfig(level=logging.WARNING)
-log = logging.getLogger(__name__)
-
-import matplotlib.pyplot as plt
 import numpy as np
-
-if __name__ == "__main__":
-    log.warn("DO NOT RUN THIS FILE DIRECTLY!")
-    sys.path.append(os.path.dirname(__file__)+"/../")
-    PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-    PATH_DATA = os.path.abspath(PATH_HERE+"/../../data/abfs/")
-
-import pyabf
-
-defaultFigsize = (8, 6)
+import matplotlib.pyplot as plt
+import warnings
+warnings.warn("abf.plot is obsolete and should not be used")
 
 
 def sweepDataRange(abf, fraction=1, sweepNumber=0, channel=0):
@@ -54,9 +38,10 @@ def colorsBinned(bins, colormap="viridis", reverse=False):
     return colors
 
 
-def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0, 
-            offsetYunits=0, channel=0, axis=None, color=None, alpha=.5, 
-            startAtSec=0, endAtSec=False, title=None, linewidth=1):
+def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0,
+           offsetYunits=0, channel=0, axis=None, color=None, alpha=.5,
+           startAtSec=0, endAtSec=False, title=None, linewidth=1,
+           defaultFigsize=(8, 6)):
     """
     This is a flexible sweep plotting function. Although it has many potential 
     uses, developers will most likely want to write their own plotting functions
@@ -68,14 +53,14 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0,
     assert len(sweepNumbers) > 0
 
     if not startAtSec:
-        startAtSec=0
+        startAtSec = 0
     i1 = int(abf.dataRate*startAtSec)
     if endAtSec:
         i2 = int(abf.dataRate*endAtSec)
     else:
         i2 = int(abf.dataRate*abf.sweepLengthSec)
 
-    if color is None and len(sweepNumbers)>1:
+    if color is None and len(sweepNumbers) > 1:
         colors = colorsBinned(len(sweepNumbers))
     else:
         colors = [color]*abf.sweepCount
@@ -99,7 +84,8 @@ def sweeps(abf, sweepNumbers=None, continuous=False, offsetXsec=0,
     if title is None:
         axis.set_title(f"{abf.abfID} (Ch{channel+1})")
     elif title is False:
-        pass # no title
+        pass  # no title
+
 
 def scalebar(abf=None, hideTicks=True, hideFrame=True, fontSize=8, scaleXsize=None, scaleYsize=None, scaleXunits="", scaleYunits="", lineWidth=2):
     """
@@ -183,33 +169,3 @@ def scalebar(abf=None, hideTicks=True, hideFrame=True, fontSize=8, scaleXsize=No
              ha='center', va='top', fontsize=fontSize)
     plt.text(scaleBarX+lblPadX, scaleBarYc, lblY,
              ha='left', va='center', fontsize=fontSize)
-
-
-def _demo_01_offests():
-    """
-    Demonstrate how to use sweepDataRange to estimate excellent offsets
-    for pretty graphing of ABFs with wildly different scales.
-    """
-    for fname in sorted(glob.glob(PATH_DATA+"/*.abf"))[5:8]:
-        abf = pyabf.ABF(fname)
-        sweeps(abf, offsetXsec=abf.sweepLengthSec/20,
-               offsetYunits=sweepDataRange(abf, .05))
-        scalebar(abf)
-    plt.show()
-
-def _demo_02_scalebar():
-    """
-    Demonstrate how to create an L-shaped scalebar.
-    """
-    abf = pyabf.ABF(PATH_DATA+"/17o05026_vc_stim.abf")
-    sweeps(abf, offsetXsec=.05, offsetYunits=15, startAtSec=3, endAtSec=3.5)
-    scalebar(abf)
-    plt.tight_layout()
-    plt.show()
-
-
-if __name__ == "__main__":
-    _demo_01_offests()
-    _demo_02_scalebar()
-
-    print("DONE")
