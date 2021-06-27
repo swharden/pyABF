@@ -11,8 +11,8 @@ class HeaderV2(Section):
     def __init__(self, fb):
         Section.__init__(self, fb, 0)
         self.seek(0)
-        self.sFileSignature = self.readString(4) # 0
-        self.fFileVersionNumber = self.readBytes(4) # 4
+        self.sFileSignature = self.readString(4)  # 0
+        self.fFileVersionNumber = self.readBytes(4)  # 4
         self.uFileInfoSize = self.readUInt32()  # 8
         self.lActualEpisodes = self.readUInt32()  # 12
         self.uFileStartDate = self.readUInt32()  # 16
@@ -61,16 +61,14 @@ class HeaderV2(Section):
         self.sFileGUID = "".join(guid)
 
         # format creation date from values found in the header
-        startDate = str(self.uFileStartDate)
-        startTime = self.uFileStartTimeMS / 1000
         try:
+            startDate = str(self.uFileStartDate)
             startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
-        except:
-            startDate = datetime.datetime.fromtimestamp(0)
-        timeStamp = startDate + datetime.timedelta(seconds=startTime)
-        self.abfDateTime = timeStamp
-        try:
-            self.abfDateTimeString = self.abfDateTime.strftime('%Y-%m-%dT%H:%M:%S.%f')
+            startTime = self.uFileStartTimeMS / 1000
+            timeStamp = startDate + datetime.timedelta(seconds=startTime)
+            self.abfDateTime = timeStamp
+            self.abfDateTimeString = timeStamp.strftime('%Y-%m-%dT%H:%M:%S.%f')
             self.abfDateTimeString = self.abfDateTimeString[:-3]
         except:
+            self.abfDateTime = datetime.datetime(1, 1, 1)
             self.abfDateTimeString = "ERROR"

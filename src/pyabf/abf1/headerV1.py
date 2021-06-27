@@ -224,24 +224,23 @@ class HeaderV1(AbfReader):
             # For files like this use the file creation date.
             self.abfDateTime = round(os.path.getctime(fb.name))
             timeStamp = datetime.datetime.fromtimestamp(self.abfDateTime)
+            self.abfDateTime = timeStamp
+            self.abfDateTimeString = timeStamp.strftime('%Y-%m-%dT%H:%M:%S.%f')
         else:
-            startTime = self.lFileStartTime
-            startDate = str(self.lFileStartDate)
             try:
+                startTime = self.lFileStartTime
+                startDate = str(self.lFileStartDate)
                 startDate = datetime.datetime.strptime(startDate, "%Y%m%d")
+                timeStamp = startDate + datetime.timedelta(seconds=startTime)
+                timeStamp += datetime.timedelta(
+                    milliseconds=self.nFileStartMillisecs)
+                self.abfDateTime = timeStamp
+                self.abfDateTimeString = timeStamp.strftime(
+                    '%Y-%m-%dT%H:%M:%S.%f')
+                self.abfDateTimeString = self.abfDateTimeString[:-3]
             except:
-                startDate = datetime.datetime.fromtimestamp(0)
-            timeStamp = startDate + datetime.timedelta(seconds=startTime)
-            timeStamp += datetime.timedelta(
-                milliseconds=self.nFileStartMillisecs)
-
-        self.abfDateTime = timeStamp
-        try:
-            self.abfDateTimeString = self.abfDateTime.strftime(
-                '%Y-%m-%dT%H:%M:%S.%f')
-            self.abfDateTimeString = self.abfDateTimeString[:-3]
-        except:
-            self.abfDateTimeString = "ERROR"
+                self.abfDateTime = datetime.datetime(1, 1, 1)
+                self.abfDateTimeString = "ERROR"
 
         # read tags into memory
         self.lTagTime = [None]*self.lNumTagEntries
