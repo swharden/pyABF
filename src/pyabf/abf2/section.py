@@ -34,7 +34,7 @@ class Section:
         values = struct.unpack("h", bytes)
         return values[0]
 
-    def readShort(self):
+    def readSingle(self):
         bytes = self._fb.read(4)
         values = struct.unpack("f", bytes)
         return values[0]
