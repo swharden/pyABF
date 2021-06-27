@@ -123,29 +123,6 @@
 * uProtocolPathIndex = `2`
 * uStopwatchTime = `9716`
 
-## SectionMap
-
-> Reading three numbers (int, int, long) at specific byte locations     yields the block position, byte size, and item count of specific     data stored in sections. Note that a block is 512 bytes. Some of     these sections are not read by this class because they are either     not useful for my applications, typically unused, or have an     unknown memory structure. 
-
-* ADCPerDACSection = `[0, 0, 0]`
-* ADCSection = `[2, 128, 1]`
-* AnnotationSection = `[0, 0, 0]`
-* DACSection = `[3, 256, 4]`
-* DataSection = `[11, 2, 19280000]`
-* DeltaSection = `[0, 0, 0]`
-* EpochPerDACSection = `[5, 48, 1]`
-* EpochSection = `[6, 32, 1]`
-* MathSection = `[0, 0, 0]`
-* ProtocolSection = `[1, 512, 1]`
-* ScopeSection = `[9, 769, 1]`
-* StatsRegionSection = `[7, 128, 2]`
-* StatsSection = `[0, 0, 0]`
-* StringsSection = `[8, 154, 13]`
-* SynchArraySection = `[75324, 8, 482]`
-* TagSection = `[75332, 64, 2]`
-* UserListSection = `[0, 0, 0]`
-* VoiceTagSection = `[0, 0, 0]`
-
 ## ProtocolSection
 
 > This section contains information about the recording settings.     This is useful for determining things like sample rate and     channel scaling factors. 
