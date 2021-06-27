@@ -173,6 +173,7 @@ class ABF:
             self.abfFileComment = self._headerV1.sFileCommentNew
         else:
             self.abfFileComment = self._headerV1.sFileCommentOld
+        self.nOperationMode = self._headerV1.nOperationMode
         try:
             self.userList = [float(x)
                              for x in self._headerV1.sULParamValueList if x]
@@ -276,6 +277,7 @@ class ABF:
         self.holdingCommand = self._dacSection.fDACHoldingLevel
         self.protocolPath = self._stringsIndexed.uProtocolPath
         self.abfFileComment = self._stringsIndexed.lFileComment
+        self.nOperationMode = self._protocolSection.nOperationMode
 
         # populate the user list
         self.userList = None
@@ -492,18 +494,24 @@ class ABF:
             os.remove(tmpFilePath)
             log.info("deleted %s" % (tmpFilePath))
 
-    def saveABF1(self, filename, sampleRateHz):
+    def saveABF1(self, filename, sampleRateHz=None):
         """
         Save this ABF file as an ABF1 file compatible with ClampFit and
         MiniAnalysis. To create an ABF1 file from scratch (not starting from
         an existing ABF file), see methods in the pyabf.abfWriter module.
         """
+        if (self.nOperationMode == 1):
+            raise Exception(
+                "saving ABFs with variable-length sweeps is not supported")
+
         filename = os.path.abspath(filename)
         log.info("Saving ABF as ABF1 file: %s" % filename)
         sweepData = np.empty((self.sweepCount, self.sweepPointCount))
         for sweep in self.sweepList:
             self.setSweep(sweep)
             sweepData[sweep] = self.sweepY
+        if not sampleRateHz:
+            sampleRateHz = self.dataRate
         pyabf.abfWriter.writeABF1(sweepData, filename, sampleRateHz)
         log.info("saved ABF1 file: %s" % filename)
 

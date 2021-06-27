@@ -39,6 +39,7 @@
 * fileUUID = `6872D840-FC4B-3ECA-0CE2-3678C0BC806B`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * md5 = `6872D840FC4B3ECA0CE23678C0BC806B`
+* nOperationMode = `5`
 * protocol = `step cclamp`
 * protocolPath = `C:\Axon\Params\step cclamp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

@@ -39,6 +39,7 @@
 * fileUUID = `FF17D4CA-749C-BA69-77E3-9DE6FC81E90D`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `FF17D4CA749CBA6977E39DE6FC81E90D`
+* nOperationMode = `5`
 * protocol = `0112 steps dual -50 to 150 step 10`
 * protocolPath = `S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

@@ -39,6 +39,7 @@
 * fileUUID = `3068828D-D1AB-058D-5027-DBC046B6FC6B`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `3068828DD1AB058D5027DBC046B6FC6B`
+* nOperationMode = `5`
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `\\Spike\locked\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

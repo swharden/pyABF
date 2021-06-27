@@ -39,6 +39,7 @@
 * fileUUID = `9272C6FF-7989-A04E-3F0C-FBC57A169D98`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * md5 = `9272C6FF7989A04E3F0CFBC57A169D98`
+* nOperationMode = `5`
 * protocol = `step cclamp 2nA for 2ms`
 * protocolPath = `C:\Axon\Params\step cclamp 2nA for 2ms.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

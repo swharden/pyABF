@@ -39,6 +39,7 @@
 * fileUUID = `33B6F2EA-2022-0CE9-849F-062DAA7B317F`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `33B6F2EA20220CE9849F062DAA7B317F`
+* nOperationMode = `5`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

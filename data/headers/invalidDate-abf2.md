@@ -39,6 +39,7 @@
 * fileUUID = `A9F9A479-A3C5-AFA2-FE61-2A7F0C18BACC`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `A9F9A479A3C5AFA2FE612A7F0C18BACC`
+* nOperationMode = `5`
 * protocol = `0204 Cm ramp`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0204 Cm ramp.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

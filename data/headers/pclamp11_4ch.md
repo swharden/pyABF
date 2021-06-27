@@ -39,6 +39,7 @@
 * fileUUID = `F3BE8F68-9022-E4BF-232E-2EAAEE0FCB6D`
 * holdingCommand = `[-10.0, -20.0, 0.0, -40.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `F3BE8F689022E4BF232E2EAAEE0FCB6D`
+* nOperationMode = `5`
 * protocol = `None`
 * protocolPath = `None`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`

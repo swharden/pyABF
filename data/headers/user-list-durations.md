@@ -39,6 +39,7 @@
 * fileUUID = `9B6F89BD-92E4-AB44-2D1F-4921627117CA`
 * holdingCommand = `[-35.0, -35.0, 0.0, 0.0]`
 * md5 = `9B6F89BD92E4AB442D1F4921627117CA`
+* nOperationMode = `5`
 * protocol = `WT_act with ramp_reversed_env`
 * protocolPath = `C:\Delbert\Protocols\HCN2\WT_mHCN2\new_staggered\WT_act with ramp_reversed_env.pro`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`

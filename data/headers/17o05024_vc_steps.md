@@ -39,6 +39,7 @@
 * fileUUID = `9C932CD7-66BD-B0B4-FCA5-25D78D9C9C7B`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `9C932CD766BDB0B4FCA525D78D9C9C7B`
+* nOperationMode = `5`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

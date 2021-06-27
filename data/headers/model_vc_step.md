@@ -39,6 +39,7 @@
 * fileUUID = `41DB0512-535D-AEAA-1622-68BB694F4DCA`
 * holdingCommand = `[-70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]`
 * md5 = `41DB0512535DAEAA162268BB694F4DCA`
+* nOperationMode = `5`
 * protocol = `0201 memtest`
 * protocolPath = `C:\Users\swharden\Desktop\permanent\0201 memtest.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`

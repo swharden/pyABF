@@ -39,6 +39,7 @@
 * fileUUID = `84BF6824-416E-EE14-F82E-8A24ACF0204B`
 * holdingCommand = `[0.0, 0.0, 0.0, 0.0]`
 * md5 = `84BF6824416EEE14F82E8A24ACF0204B`
+* nOperationMode = `3`
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
