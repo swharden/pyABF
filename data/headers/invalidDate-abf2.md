@@ -9,8 +9,8 @@
 
 ## ABF Class Variables
 
-* abfDateTime = `1970-02-19 12:02:47.295000`
-* abfDateTimeString = `1970-02-19T12:02:47.295`
+* abfDateTime = `0001-01-01 00:00:00`
+* abfDateTimeString = `ERROR`
 * abfFileComment = ``
 * abfFilePath = `C:/some/path/to/invalidDate-abf2.abf`
 * abfFolderPath = `C:/some/path`
@@ -95,8 +95,8 @@
 
 > The first several bytes of an ABF2 file contain variables     located at specific byte positions from the start of the file. 
 
-* abfDateTime = `1970-02-19 12:02:47.295000`
-* abfDateTimeString = `1970-02-19T12:02:47.295`
+* abfDateTime = `0001-01-01 00:00:00`
+* abfDateTimeString = `ERROR`
 * abfVersionDict = `{'major': 2, 'minor': 6, 'bugfix': 0, 'build': 0}`
 * abfVersionFloat = `2.6`
 * abfVersionString = `2.6.0.0`
