@@ -104,7 +104,7 @@ class ABF:
         """Return a string describing basic properties of the loaded ABF."""
 
         txt = """
-        ABF (version VERSN)
+        ABF (vVERSN)
         with CHNM channels (CHUNITS),
         sampled at RATEKHZ kHz,
         containing SWCNT sweeps,
@@ -116,7 +116,16 @@ class ABF:
             txt = txt.replace("  ", " ")
 
         # ABF version
-        txt = txt.replace("VERSN", self.abfVersionString)
+        # NOTE: self.versionString is improperly implemented but left to maintain back compatibility
+        realVersion = self.abfVersionString.replace(".", "")
+        realVersion = list(realVersion)
+        realVersion.insert(1, ".")
+        realVersion = "".join(realVersion)
+        if (realVersion[-1] == "0"):
+            realVersion = realVersion[:-1]
+        if (realVersion[-1] == "0"):
+            realVersion = realVersion[:-1]
+        txt = txt.replace("VERSN", realVersion)
 
         # channels
         txt = txt.replace("CHNM", str(self.channelCount))
