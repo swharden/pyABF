@@ -10,7 +10,6 @@ if sys.version_info[:2] < (3, 6):
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
     long_description = f.read()
-    print("loaded description: (%s lines)" % (long_description.count("\n")))
 
 # standard pypi stuff
 setup(
