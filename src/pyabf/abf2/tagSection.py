@@ -1,6 +1,7 @@
-from pyabf.abfReader import readStruct
+from pyabf.abf2.section import Section
 
-class TagSection:
+
+class TagSection(Section):
     """
     Tags are comments placed in ABF files during the recording. Physically
     they are located at the end of the file (after the data).
@@ -9,23 +10,21 @@ class TagSection:
     by multiplying the lTagTime by fSynchTimeUnit from the protocol section.
     """
 
-    def __init__(self, fb, sectionMap):
-        blockStart, entrySize, entryCount = sectionMap.TagSection
-        byteStart = blockStart*512
+    def __init__(self, fb):
+        Section.__init__(self, fb, 252)
 
-        self.lTagTime = [None]*entryCount
-        self.sComment = [None]*entryCount
-        self.nTagType = [None]*entryCount
-        self.nVoiceTagNumberorAnnotationIndex = [None]*entryCount
+        self.lTagTime = [None]*self._entryCount
+        self.sComment = [None]*self._entryCount
+        self.nTagType = [None]*self._entryCount
+        self.nVoiceTagNumberorAnnotationIndex = [None]*self._entryCount
 
-        self.timesSec = [None]*entryCount
-        self.timesMin = [None]*entryCount
-        self.sweeps = [None]*entryCount
+        self.timesSec = [None]*self._entryCount
+        self.timesMin = [None]*self._entryCount
+        self.sweeps = [None]*self._entryCount
 
-        for i in range(entryCount):
-            fb.seek(byteStart + i*entrySize)
-            self.lTagTime[i] = readStruct(fb, "i")
-            self.sComment[i] = readStruct(fb, "56s")
-            self.nTagType[i] = readStruct(fb, "h")
-            self.nVoiceTagNumberorAnnotationIndex[i] = readStruct(fb, "h")
-
+        for i in range(self._entryCount):
+            fb.seek(self._byteStart + i*self._entrySize)
+            self.lTagTime[i] = self.readInt32()
+            self.sComment[i] = self.readString(56)
+            self.nTagType[i] = self.readInt16()
+            self.nVoiceTagNumberorAnnotationIndex[i] = self.readInt16()
