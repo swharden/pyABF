@@ -245,7 +245,7 @@ class ABF:
         # read the headers out of the file
         self._headerV2 = HeaderV2(fb)
         self._sectionMap = SectionMap(fb)
-        self._protocolSection = ProtocolSection(fb, self._sectionMap)
+        self._protocolSection = ProtocolSection(fb)
         self._adcSection = ADCSection(fb)
         self._dacSection = DACSection(fb)
         self._epochPerDacSection = EpochPerDACSection(fb)

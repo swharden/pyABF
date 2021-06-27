@@ -218,7 +218,6 @@ DAC waveform is not enabled
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `DD132X`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection

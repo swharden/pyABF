@@ -211,7 +211,6 @@ DAC waveform is controlled by custom file
 * nUndoPromptStrategy = `0`
 * nUndoRunCount = `0`
 * sDigitizerType = `Digidata 1440`
-* sUnused = `['\x00', '\x00', '\x00']`
 * uFileCompressionRatio = `1`
 
 ## ADCSection
