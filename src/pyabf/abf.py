@@ -255,7 +255,7 @@ class ABF:
         self._stringsIndexed = StringsIndexed(
             self._headerV2, self._protocolSection, self._adcSection,
             self._dacSection, self._stringsSection)
-        self._synchArraySection = SynchArraySection(fb, self._sectionMap)
+        self._synchArraySection = SynchArraySection(fb)
         self._userListSection = UserListSection(fb, self._sectionMap)
 
         # create useful variables at the class level
