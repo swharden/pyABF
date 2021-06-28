@@ -40,7 +40,7 @@ if __name__ == "__main__":
     #txt += "# value = sweep point count, first value, last value, and stdev\n"
     #txt += "knownAbfSweepValues = {}\n"
     for abfPath in glob.glob(DATA_FOLDER + "/*.abf"):
-        if not "2020_07" in abfPath:
+        if not "190619B_0003" in abfPath:
             continue
         abf = pyabf.ABF(abfPath)
         print(f"generating sweep hashes for {abf.abfID}.abf...")

@@ -270,15 +270,16 @@ class ABF:
         self._dataOffset = [0]*self.channelCount
 
         for index, channel in enumerate(self.channelList):
-            self._dataGain[index] /= self._headerV1.fInstrumentScaleFactor[channel]
-            self._dataGain[index] /= self._headerV1.fSignalGain[channel]
-            self._dataGain[index] /= self._headerV1.fADCProgrammableGain[channel]
-            if self._headerV1.nTelegraphEnable[channel] == 1:
-                self._dataGain[index] /= self._headerV1.fTelegraphAdditGain[channel]
+            adcIndex = self._headerV1.nADCSamplingSeq[channel]
+            self._dataGain[index] /= self._headerV1.fInstrumentScaleFactor[adcIndex]
+            self._dataGain[index] /= self._headerV1.fSignalGain[adcIndex]
+            self._dataGain[index] /= self._headerV1.fADCProgrammableGain[adcIndex]
+            if self._headerV1.nTelegraphEnable[adcIndex] == 1:
+                self._dataGain[index] /= self._headerV1.fTelegraphAdditGain[adcIndex]
             self._dataGain[index] *= self._headerV1.fADCRange
             self._dataGain[index] /= self._headerV1.lADCResolution
-            self._dataOffset[index] += self._headerV1.fInstrumentOffset[channel]
-            self._dataOffset[index] -= self._headerV1.fSignalOffset[channel]
+            self._dataOffset[index] += self._headerV1.fInstrumentOffset[adcIndex]
+            self._dataOffset[index] -= self._headerV1.fSignalOffset[adcIndex]
 
     def _readHeadersV2(self, fb: BufferedReader):
         """Populate class variables from the ABF2 header."""
@@ -375,15 +376,18 @@ class ABF:
         self._dataGain = [1]*self.channelCount
         self._dataOffset = [0]*self.channelCount
         for i in range(self.channelCount):
-            self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[i]
-            self._dataGain[i] /= self._adcSection.fSignalGain[i]
-            self._dataGain[i] /= self._adcSection.fADCProgrammableGain[i]
-            if self._adcSection.nTelegraphEnable[i] == 1:
-                self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[i]
+            #adcIndex = self._adcSection.nADCSamplingSeq[i]
+            # NOTE: ADC sequence is handled inside the ADC section so it doesn't need to be handled here
+            adcIndex = i
+            self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[adcIndex]
+            self._dataGain[i] /= self._adcSection.fSignalGain[adcIndex]
+            self._dataGain[i] /= self._adcSection.fADCProgrammableGain[adcIndex]
+            if self._adcSection.nTelegraphEnable[adcIndex] == 1:
+                self._dataGain[i] /= self._adcSection.fTelegraphAdditGain[adcIndex]
             self._dataGain[i] *= self._protocolSection.fADCRange
             self._dataGain[i] /= self._protocolSection.lADCResolution
-            self._dataOffset[i] += self._adcSection.fInstrumentOffset[i]
-            self._dataOffset[i] -= self._adcSection.fSignalOffset[i]
+            self._dataOffset[i] += self._adcSection.fInstrumentOffset[adcIndex]
+            self._dataOffset[i] -= self._adcSection.fSignalOffset[adcIndex]
 
     def _makeAdditionalVariables(self):
         """create or touch-up version-nonspecific variables."""
