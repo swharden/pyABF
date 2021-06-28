@@ -1,4 +1,6 @@
 testOutput
+bin
+obj
 
 # Don't update matplotlib figures (version-specific sub-pixel differences)
 data/headers/05210017_vc_abf1.png
