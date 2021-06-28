@@ -1,7 +1,7 @@
 :: To use this script: pip install twine
 @echo off
 
-:: python versionIncrease.py
+python versionIncrease.py
 
 :: navigate to the source folder and delete old builds
 cd ../../src/
