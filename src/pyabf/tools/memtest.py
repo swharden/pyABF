@@ -10,6 +10,8 @@ from step protocols and ones derived from ramp protocols.
 """
 
 import pyabf
+import pyabf.tools.sweep
+import pyabf.tools.memtestMath
 import numpy as np
 import warnings
 
