@@ -14,7 +14,7 @@ with open(os.path.abspath(PATH_HERE+"/README.rst")) as f:
 # standard pypi stuff
 setup(
     name='pyabf',
-    version='2.3.1',
+    version='2.3.2',
     author='Scott W Harden',
     author_email='SWHarden@gmail.com',
     python_requires='>=3.6',
