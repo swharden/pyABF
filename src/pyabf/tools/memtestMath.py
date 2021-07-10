@@ -1,14 +1,16 @@
 """
-See this page for membrane test detection theory
-https://github.com/swharden/pyABF/blob/master/docs/advanced/v1%20cookbook/memtest-simulation.ipynb
+This file contains methods which calculate passive membrane properties from
+voltage-clamp sweeps. These methods are not optimized for speed or accuracy
+and are only provided for backwards compatibility. pyabf is intended to be
+used just for reading ABF files, and users are encouraged to write their own
+python code to perform analysis of ABF data.
+
+This URL has useful discussion and code for calculating membrane properties:
+https://swharden.com/blog/2020-10-11-model-neuron-ltspice
 """
+
 import pyabf
 import numpy as np
-
-#############################################################################
-#############################################################################
-# The code below is very messy. It was hacked on a lot.
-# Refactor it later
 
 
 def _cm_ramp_points_and_voltages(abf):
@@ -95,8 +97,7 @@ def _cm_ramp_calculate(rampData, sampleRate, deltaVoltage, centerFrac=.3):
     trace2 = rampData[int(len(rampData)/2):]
     traceAvg = np.average((trace1, trace2), axis=0)
     if not len(trace1) == len(trace2):
-        log.critical("rampData length must be an even multiple of 2")
-        return
+        raise Exception("rampData length must be an even multiple of 2")
 
     # figure out the middle of the data we wish to sample from
     centerPoint = int(len(trace1))/2
@@ -241,7 +242,7 @@ def _step_calculate(abf, trace, traceStepPoint, dV=-10, stepAvgLastFrac=.2,
     Ra = ((dV*(1e-3)) / (I0*(1e-12)))*(1e-6)
     Ra = abs(Ra)
 
-    # Calculate capactance using our curve-fitted tau
+    # Calculate capacitance using our curve-fitted tau
     Cm = (tau/(Ra*(1e6)))*(1e12)
 
     return [Ih, Rm, Ra, Cm]

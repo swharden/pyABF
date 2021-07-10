@@ -1,6 +1,5 @@
 """
-Code related to detection and analysis of action potentials (APs).
-Currently it only does a really bad job, and would benefit from a recode.
+Code related to detection and measurement of action potentials (APs)
 """
 
 import warnings
@@ -18,7 +17,9 @@ sys.path.insert(0, PATH_SRC)
 logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger(__name__)
 
-warnings.warn("AP module is experimental (its API may change)")
+warnings.warn("The pyabf package is designed for reading ABF files (not analyzing them). " +
+              "This module is experimental, provided only for backwards compatibility, and its API may change in future releases. " +
+              "Users are encouraged to write their own ABF analysis code.")
 
 
 def _where_cross(data, threshold):

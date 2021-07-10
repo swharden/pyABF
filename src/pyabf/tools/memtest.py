@@ -7,17 +7,32 @@ Code here relates to the detection and management of cell membrane properties:
 
 This modules provides two types of membrane capacitance values: ones derived
 from step protocols and ones derived from ramp protocols.
+
+This URL has useful discussion and code for calculating membrane properties:
+https://swharden.com/blog/2020-10-11-model-neuron-ltspice
 """
 
 import pyabf
+import pyabf.tools.sweep
+import pyabf.tools.memtestMath
 import numpy as np
 import warnings
 
-warnings.warn("Memtest module module is experimental (its API may change)")
+warnings.warn("The pyabf package is designed for reading ABF files (not analyzing them). " +
+              "This module is experimental, provided only for backwards compatibility, and its API may change in future releases. " +
+              "Users are encouraged to write their own ABF analysis code.")
 
 
 class Memtest:
-    def __init__(self, abf, channel=0):
+    def __init__(self, abf: pyabf.ABF, channel: int = 0):
+        """
+        This object contains passive cell membrane properties calculated from 
+        each sweep an episodic protocol containing a voltage-clamp step.
+
+        WARNING: These calculations are not optimized for speed or accuracy. 
+        This module is experimental and included only for backward compatibility
+        purposes. Users are highly encouraged to write their own analysis code.
+        """
         assert isinstance(abf, pyabf.ABF)
 
         self.sweepCount = abf.sweepCount
