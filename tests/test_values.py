@@ -101,6 +101,7 @@ FIRSTVALUES['sample trace_0054'] = [0.00931]
 FIRSTVALUES['sine sweep magnitude 20'] = [0.00000]
 FIRSTVALUES['user-list-durations'] = [-69.68749, -35.00000]
 FIRSTVALUES['vc_drug_memtest'] = [-7.20215]
+FIRSTVALUES["test_0001"] = [-0.24414062, -0.36621094, 0.18310547, -0.18310547, -0.15258789, -0.0061035156, -0.061035156, -0.002746582, -0.002746582, -0.0021362305, -0.0030517578, 0.0021362305, -0.0012207031, 0.0015258789, -0.21362305, 0.0]
 
 
 @pytest.mark.parametrize("abfPath", glob.glob("data/abfs/*.abf"))
