@@ -32,7 +32,7 @@ import time
 import numpy as np
 from pathlib import PureWindowsPath
 import hashlib
-from typing import Union, List
+from typing import Union, List, Tuple
 
 
 class ABF:
@@ -604,18 +604,19 @@ class ABF:
             with open(self.abfFilePath, 'rb') as fb:
                 self._loadAndScaleData(fb)
 
+        adcName, adcUnits = self._getAdcNameAndUnits(channel)
+        dacName, dacUnits = self._getDacNameAndUnits(channel)
+
         # sweep information
         self.sweepNumber = sweepNumber
         self.sweepChannel = channel
-        self.sweepUnitsY = self.adcUnits[channel]
-        self.sweepUnitsC = self.dacUnits[channel]
+        self.sweepUnitsY = adcUnits
+        self.sweepUnitsC = dacUnits
         self.sweepUnitsX = "sec"
 
         # standard labels
-        self.sweepLabelY = "{} ({})".format(
-            self.adcNames[channel], self.adcUnits[channel])
-        self.sweepLabelC = "{} ({})".format(
-            self.dacNames[channel], self.dacUnits[channel])
+        self.sweepLabelY = f"{adcName} ({adcUnits})"
+        self.sweepLabelC = f"{dacName} ({dacUnits})"
         self.sweepLabelX = "Time (seconds)"
         self.sweepLabelD = "Digital Output (V)"
 
@@ -675,6 +676,18 @@ class ABF:
         # prepare the stimulus waveform table for this sweep/channel
         epochTable = pyabf.waveform.EpochTable(self, channel)
         self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
+
+    def _getAdcNameAndUnits(self, adcIndex: int) -> Tuple[str, str]:
+        if (adcIndex < len(self.adcNames)):
+            return [self.adcNames[adcIndex], self.adcUnits[adcIndex]]
+        else:
+            return [None, None]
+
+    def _getDacNameAndUnits(self, dacIndex: int) -> Tuple[str, str]:
+        if (dacIndex < len(self.dacNames)):
+            return [self.dacNames[dacIndex], self.dacUnits[dacIndex]]
+        else:
+            return [None, None]
 
     @property
     def sweepC(self):
