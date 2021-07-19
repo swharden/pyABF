@@ -608,25 +608,14 @@ class ABF:
         self.sweepNumber = sweepNumber
         self.sweepChannel = channel
         self.sweepUnitsY = self.adcUnits[channel]
-        try:
-            self.sweepUnitsC = self.dacUnits[channel]
-        except IndexError:
-            # there is no dac channel
-            if "sweepUnisC" in dir(self):
-                del self.sweepUnitsC
+        self.sweepUnitsC = self.dacUnits[channel]
         self.sweepUnitsX = "sec"
 
         # standard labels
         self.sweepLabelY = "{} ({})".format(
             self.adcNames[channel], self.adcUnits[channel])
-        try:
-            self.sweepLabelC = "{} ({})".format(
-                self.dacNames[channel], self.dacUnits[channel]
-            )
-        except IndexError:
-            # there is no dac channel
-            if "sweepLabelC" in dir(self):
-                del self.sweepLabelC
+        self.sweepLabelC = "{} ({})".format(
+            self.dacNames[channel], self.dacUnits[channel])
         self.sweepLabelX = "Time (seconds)"
         self.sweepLabelD = "Digital Output (V)"
 
@@ -684,13 +673,8 @@ class ABF:
             assert (self.sweepPointCount == len(self.sweepY))
 
         # prepare the stimulus waveform table for this sweep/channel
-        try:
-            epochTable = pyabf.waveform.EpochTable(self, channel)
-            self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
-        except IndexError:
-            if "sweepEpochs" in dir(self):
-                del self.sweepEpochs
-        
+        epochTable = pyabf.waveform.EpochTable(self, channel)
+        self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
 
     @property
     def sweepC(self):

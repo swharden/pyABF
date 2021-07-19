@@ -117,13 +117,12 @@ def test_ABF_properties(abfPath):
             abf.setSweep(sweep, channel)
             assert isinstance(abf.sweepChannel, int)
             assert isinstance(abf.sweepNumber, int)
+            assert isinstance(abf.sweepLabelC, str)
             assert isinstance(abf.sweepLabelX, str)
             assert isinstance(abf.sweepLabelY, str)
+            assert isinstance(abf.sweepUnitsC, str)
             assert isinstance(abf.sweepUnitsX, str)
             assert isinstance(abf.sweepUnitsY, str)
-            if "sweepUnitsC" in dir(abf):
-                assert isinstance(abf.sweepUnitsC, str)
-                assert isinstance(abf.sweepLabelC, str)
 
             sweepD = abf.sweepD(0)  # digital output generation
             assert isinstance(sweepD, np.ndarray)
