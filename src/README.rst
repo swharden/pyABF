@@ -29,7 +29,7 @@ Access ABF sweep data:
 
   import pyabf
   abf = pyabf.ABF("demo.abf")
-  abf.setSweep(sweepNumber: 3, channel: 0)
+  abf.setSweep(sweepNumber=3, channel=0)
   print(abf.sweepY) # displays sweep data (ADC)
   print(abf.sweepX) # displays sweep times (seconds)
   print(abf.sweepC) # displays command waveform (DAC)

@@ -117,15 +117,25 @@ def test_ABF_properties(abfPath):
             abf.setSweep(sweep, channel)
             assert isinstance(abf.sweepChannel, int)
             assert isinstance(abf.sweepNumber, int)
-            assert isinstance(abf.sweepLabelC, str)
+
+            # time units are manually defined
+            assert isinstance(abf.sweepUnitsX, str)
+            assert abf.sweepUnitsX == "sec"
+
+            # labels are pyabf inventions and will always be present
             assert isinstance(abf.sweepLabelX, str)
             assert isinstance(abf.sweepLabelY, str)
-            assert isinstance(abf.sweepUnitsC, str)
-            assert isinstance(abf.sweepUnitsX, str)
-            assert isinstance(abf.sweepUnitsY, str)
+            assert isinstance(abf.sweepLabelC, str)
 
-            sweepD = abf.sweepD(0)  # digital output generation
-            assert isinstance(sweepD, np.ndarray)
+            # ADC labels are likely available for every channel
+            if (abf.sweepLabelY is not None):
+                assert isinstance(abf.sweepUnitsY, str)
+
+            # DAC labels are likely available for every channel
+            # but may not if there are more ADCs than DACs
+            if (abf.sweepUnitsC is not None):
+                assert isinstance(abf.sweepUnitsC, str)
+                assert isinstance(abf.sweepD(0), np.ndarray)
 
 
 def test_uuid_isExpectedValue():
