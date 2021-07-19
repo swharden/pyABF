@@ -674,8 +674,12 @@ class ABF:
             assert (self.sweepPointCount == len(self.sweepY))
 
         # prepare the stimulus waveform table for this sweep/channel
-        epochTable = pyabf.waveform.EpochTable(self, channel)
-        self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
+        if (channel < len(self.holdingCommand)):
+            epochTable = pyabf.waveform.EpochTable(self, channel)
+            self.sweepEpochs = epochTable.epochWaveformsBySweep[sweepNumber]
+        else:
+            epochTable = None
+            self.sweepEpochs = None
 
     def _getAdcNameAndUnits(self, adcIndex: int) -> Tuple[str, str]:
         if (adcIndex < len(self.adcNames)):
@@ -726,6 +730,8 @@ class ABF:
     def sweepD(self, digOutNumber=0):
         """Generate a waveform for the given digital output."""
         assert isinstance(self, pyabf.ABF)
+        if (self.sweepChannel >= len(self.holdingCommand)):
+            return None
         epochTable = pyabf.waveform.EpochTable(self, self.sweepChannel)
         sweepWaveform = epochTable.epochWaveformsBySweep[self.sweepNumber]
         sweepD = sweepWaveform.getDigitalWaveform(digOutNumber)
