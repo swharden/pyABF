@@ -5,7 +5,7 @@ pyABF - A Python interface to files in the Axon Binary Format (ABF)
 Documentation and code examples, and more can be found at:
     https://github.com/swharden/pyABF
 """
-__version__ = '2.3.2'
+__version__ = '2.3.3'
 
 import sys
 import os
