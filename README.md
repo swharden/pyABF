@@ -1,6 +1,5 @@
 # <img src="dev/icon/icon.ico" height="24" width="24"> pyabf
-[![](https://img.shields.io/azure-devops/build/swharden/swharden/6?label=Build&logo=azure%20pipelines)](https://dev.azure.com/swharden/swharden/_build/latest?definitionId=6&branchName=master)
-[![](https://img.shields.io/azure-devops/tests/swharden/swharden/6?label=Tests&logo=azure%20pipelines)](https://dev.azure.com/swharden/swharden/_build/latest?definitionId=6&branchName=master)
+[![CI](https://github.com/swharden/pyABF/actions/workflows/ci.yaml/badge.svg)](https://github.com/swharden/pyABF/actions/workflows/ci.yaml)
 [![](https://img.shields.io/pypi/dm/pyabf?label=Pip%20Installs&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
 [![](https://img.shields.io/pypi/v/pyabf?label=pyabf&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
 
