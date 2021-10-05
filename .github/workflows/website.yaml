@@ -18,20 +18,23 @@ jobs:
         with:
           dotnet-version: "5.0.x"
 
-      - name: 🛠️ Build Solution
+      - name: 🛠️ Compile Project
         run: dotnet build ./website/builder/
 
-      - name: 🌎 Build for Azure Static Site
+      - name: 🌎 Build Website
         run: dotnet run --project './website/builder/' 'https://swharden.com/pyabf/'
 
       - name: 🚀 Deploy using FTP
         uses: SamKirkland/FTP-Deploy-Action@65c6a8f943bbf04faf9b59520a103318b418952e # 4.1.0
         with:
           local-dir: ./website/content/
-          server-dir: /pyabf2/
+          server-dir: /pyabf/
           protocol: ftps
           server: swharden.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           log-level: minimal
           exclude: "[**/index.md]"
+
+      - name: 🧹 Purge Website Cache
+        run: curl --user deploy:${{ secrets.CACHE_PASSWORD }} https://swharden.com/admin/clear-cache.php
