@@ -7,6 +7,25 @@ on:
       - master
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v2
+
+      - name: 🐍 Get Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: 🚚 Get Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/requirements.txt
+
+      - name: 🧪 Run Tests
+        run: pytest
+
   build:
     runs-on: ubuntu-latest
     steps:
