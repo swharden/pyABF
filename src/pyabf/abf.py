@@ -775,3 +775,8 @@ class ABF:
         for index in [8, 13, 18, 23]:
             uuid.insert(index, "-")
         return "".join(uuid)
+
+    @property
+    def sampleRate(self):
+        """Sample rate (Hz) for each channel"""
+        return self.dataRate

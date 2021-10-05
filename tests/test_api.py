@@ -4,6 +4,7 @@ It also tests sweep setting and stimulus waveform generation on all ABFs.
 """
 
 import sys
+from numpy.core.numeric import array_equal
 import pytest
 import datetime
 import inspect
@@ -89,6 +90,8 @@ def test_ABF_properties(abfPath):
     assert (isinstance(abf.sweepLengthSec, float))
     assert (isinstance(abf.sweepList, list))
     assert (isinstance(abf.sweepPointCount,  int))
+    assert (isinstance(abf.sampleRate, int))
+    assert (array_equal(abf.dataRate, abf.sampleRate))
 
     # holding level
     assert (isinstance(abf.holdingCommand, list))
