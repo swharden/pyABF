@@ -259,7 +259,7 @@ abf = pyabf.ABF("171116sh_0018.abf")
 plt.figure(figsize=(8, 5))
 for sweepNumber in abf.sweepList:
     abf.setSweep(sweepNumber)
-    i1, i2 = 0, int(abf.dataRate * 1)  # plot part of the sweep
+    i1, i2 = 0, int(abf.sampleRate * 1)  # plot part of the sweep
     dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
     dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
     plt.plot(dataX, dataY, color='C0', alpha=.5)
@@ -291,7 +291,7 @@ colors = [cm(x/abf.sweepCount) for x in abf.sweepList]
 plt.figure(figsize=(8, 5))
 for sweepNumber in abf.sweepList:
     abf.setSweep(sweepNumber)
-    i1, i2 = 0, int(abf.dataRate * 1)
+    i1, i2 = 0, int(abf.sampleRate * 1)
     dataX = abf.sweepX[i1:i2] + .025 * sweepNumber
     dataY = abf.sweepY[i1:i2] + 15 * sweepNumber
     plt.plot(dataX, dataY, color=colors[sweepNumber], alpha=.5)
