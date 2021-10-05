@@ -780,3 +780,11 @@ class ABF:
     def sampleRate(self):
         """Sample rate (Hz) for each channel"""
         return self.dataRate
+
+    def getAllYs(self, channelIndex: int = 0) -> np.ndarray:
+        """Return data from all sweeps for the specified channel."""
+        return self.data[channelIndex]
+
+    def getAllXs(self, channelIndex: int = 0) -> np.ndarray:
+        """Return times from all sweeps for the specified channel."""
+        return np.arange(len(self.data[channelIndex]))/self.sampleRate

@@ -7,7 +7,6 @@ import sys
 from numpy.core.numeric import array_equal
 import pytest
 import datetime
-import inspect
 import numpy as np
 import glob
 
@@ -113,6 +112,15 @@ def test_ABF_properties(abfPath):
         assert isinstance(abf.tagSweeps[i], float)
         assert isinstance(abf.tagTimesMin[i], float)
         assert isinstance(abf.tagTimesSec[i], float)
+
+    # raw data
+    for channel in abf.channelList:
+        dataY = abf.getAllYs(channel)
+        dataX = abf.getAllXs(channel)
+        assert isinstance(dataY, np.ndarray)
+        assert isinstance(dataX, np.ndarray)
+        assert len(dataY) != 0
+        assert len(dataX) == len(dataY)
 
     # sweeps
     for channel in abf.channelList:
