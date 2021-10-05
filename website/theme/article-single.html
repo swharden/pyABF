@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{TITLE}}</title>
+  <meta name='description' content='{{DESCRIPTION}}' />
+  <link rel="shortcut icon" href="{{URL_SITE_ROOT}}/favicon.ico" />
+  <base href="{{URL_PAGE_BASE}}">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src='https://www.googletagmanager.com/gtag/js?id=UA-560719-1'></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-560719-1');
+  </script>
+
+  <!-- syntax highlighting -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.1/build/styles/xcode.min.css">
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.1/build/highlight.min.js"></script>
+  <script defer>hljs.highlightAll();</script>
+  <style>
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    article img {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      max-width: 100% !important;
+    }
+
+    article .img-border img {
+      border: 1px solid black;
+      box-shadow: 5px 5px 10px rgb(0 0 0 / 20%);
+      margin-top: 1em;
+      margin-bottom: 2em;
+    }
+
+    article .img-micro img {
+      max-width: 25% !important;
+      max-height: 12em !important;
+      margin: .5em !important;
+    }
+
+    article .img-small img {
+      max-width: 35% !important;
+      margin: 1em !important;
+    }
+
+    article .img-medium img {
+      max-width: 65% !important;
+      margin: 1em !important;
+    }
+
+    article code.hljs {
+      background: transparent;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      padding: .5em !important;
+      background: #f8f8f8;
+      border-radius: 5px;
+      border: 1px solid #ddd !important;
+      font-size: 14px;
+      line-height: 150%;
+      overflow-x: auto;
+    }
+
+    /* GitHub-style tables */
+
+    table {
+      margin: 2em 0em;
+    }
+
+    td {
+      border: 1px solid #dfe2e5;
+      padding: .4em;
+    }
+
+    th {
+      background-color: #f6f8fa;
+      border: 1px solid #dfe2e5;
+      font-weight: 600;
+      padding: .4em;
+    }
+  </style>
+
+</head>
+
+<body class="bg-light">
+
+  <!-- BACKGROUND SPLASH COLOR -->
+  <div class="h-50 w-100" style="position: absolute; background-color: #00523f"></div>
+
+  <!-- CENTER CONTAINER -->
+  <div class="container-md mx-auto" style="position: relative; max-width: 950px;">
+    <div class="row">
+      <div class="col mb-5">
+
+        <!-- CUSTOMIZE NAVIGATION -->
+        <nav class="text-end p-2">
+          <a class="btn btn-lg menuButton ms-2 text-light" href="{{URL_SITE_ROOT}}" role="button">Home</a>
+
+          <div class="dropdown d-inline-block">
+            <a class="btn btn-lg menuButton ms-2 text-light dropdown-toggle" role="button" id="dropdownMenuLink"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Tutorial
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="{{URL_SITE_ROOT}}/tutorial">Quickstart</a></li>
+              <li><a class="dropdown-item" href="{{URL_SITE_ROOT}}/advanced">Advanced Examples</a></li>
+            </ul>
+          </div>
+
+          <div class="dropdown d-inline-block">
+            <a class="btn btn-lg menuButton ms-2 text-light dropdown-toggle" role="button" id="dropdownMenuLink"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Developers
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="https://github.com/swharden/pyABF">pyABF on GitHub</a></li>
+              <li><a class="dropdown-item" href="{{URL_SITE_ROOT}}/abf2-file-format">ABF2 File Format</a></li>
+              <li><a class="dropdown-item" href="{{URL_SITE_ROOT}}/abf1-file-format">ABF1 File Format</a></li>
+            </ul>
+          </div>
+
+        </nav>
+
+        <header class="row mt-3 p-2 text-light">
+          <div class="display-3 fw-normal">
+            <a href="{{URL_SITE_ROOT}}" style="color: inherit;">
+              pyABF
+            </a>
+          </div>
+          <div class="fs-6" style="opacity: 50%;">
+            A simple Python interface for Axon Binary Format (ABF) files
+          </div>
+        </header>
+
+        <article class="row border-top border-2 mb-5">
+          <div class="bg-white text-dark border shadow">
+            <div class="p-3">
+              {{CONTENT}}
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="opacity-50 p-3 mt-5 text-center" style="opacity: 30%;">
+    <div>
+
+    </div>
+    <div>
+      <a href='https://github.com/swharden/statix' class="text-dark">Built with Statix</a>
+      |
+      Copyright &#169;
+      <script>document.write(new Date().getFullYear())</script> Scott W Harden
+      |
+      <a href='{{URL_PAGE_SOURCE}}' class="text-dark">View Source</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
