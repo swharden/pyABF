@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@65c6a8f943bbf04faf9b59520a103318b418952e # 4.1.0
         with:
           local-dir: ./website/content/
-          server-dir: /pyabf2
+          server-dir: /pyabf2/
           protocol: ftps
           server: swharden.com
           username: ${{ secrets.FTP_USERNAME }}
