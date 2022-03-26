@@ -44,7 +44,7 @@ def test_findStimulusFile_foundIfPathGiven():
 
     assert isinstance(waveform, np.ndarray)
     assert not np.isnan(waveform).any()
-    assert pytest.approx(waveform[100000], 76.261)
+    assert pytest.approx(waveform[100000]) == 76.261
 
 
 def cachedStimulusSpeedBoost(useCaching):
@@ -61,7 +61,7 @@ def cachedStimulusSpeedBoost(useCaching):
         )
         stimulus = abf.stimulusByChannel[0]
         waveform = stimulus.stimulusWaveform(stimulusSweep=0)
-        assert pytest.approx(waveform[100000], 76.261)
+        assert pytest.approx(waveform[100000]) == 76.261
         times[i] = time.perf_counter() - t1
 
     speedBoost = times[0]/times[1]
