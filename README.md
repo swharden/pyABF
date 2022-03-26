@@ -6,7 +6,7 @@
 **pyabf is a Python library for reading electrophysiology data from Axon Binary Format (ABF) files.** It was created with the goal of providing a Pythonic API to access the content of ABF files which is so intuitive to use (with a predictive IDE) that documentation is largely unnecessary. Flip through the **[pyabf Tutorial](https://swharden.com/pyabf/tutorial)** and you'll be analyzing data from your ABF files in minutes!
 
 <p align="center">
-<img src='docs/graphics/2017-11-06-aps.png'>
+<img src='dev/graphics/2017-11-06-aps.png'>
 </p>
 
 ### Installation
@@ -32,5 +32,5 @@ print(abf.sweepC) # displays command waveform (DAC)
 * [AbfSharp](https://github.com/swharden/ABFsharp) - a C#/.NET interface for ABF files
 
 <p align="center">
-<img src='docs/getting-started/source/advanced_08b_using_plot_module.jpg'>
+<img src='dev/graphics/stacked-traces.jpg'>
 </p>
