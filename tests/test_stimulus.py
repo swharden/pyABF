@@ -1,5 +1,5 @@
 """
-Tests related to locating and reading command waveforms from stimulus waveform 
+Tests related to locating and reading command waveforms from stimulus waveform
 files. If the stimulus waveforms aren't found you can provide a search path
 as an argument when instantiating pyabf.ABF()
 """
@@ -69,7 +69,7 @@ def cachedStimulusSpeedBoost(useCaching):
     return speedBoost
 
 
-@pytest.mark.slow
+@ pytest.mark.slow
 def test_stimulus_caching():
 
     # first try without caching
