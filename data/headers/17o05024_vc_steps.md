@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `0202 IV dual`
 * protocolPath = `S:\Protocols\permanent\0202 IV dual.pro`
+* sampleRate = `20000`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
 * stimulusFileFolder = `C:/some/path/to/17o05024_vc_steps.abf`
 * sweepC = `array (1d) with values like: -70.00000, -70.00000, -70.00000, ..., -70.00000, -70.00000, -70.00000`

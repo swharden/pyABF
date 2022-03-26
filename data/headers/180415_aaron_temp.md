@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `PacemakerTempTest`
 * protocolPath = `D:\Axon DATA\EXPT test\PacemakerTempTest.pro`
+* sampleRate = `100000`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
 * stimulusFileFolder = `C:/some/path/to/180415_aaron_temp.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`

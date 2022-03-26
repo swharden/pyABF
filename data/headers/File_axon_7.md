@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `Apl NMDA 2 s -80mV cada 2ms esp 10 2480us`
 * protocolPath = `C:\Axon\Params\neuromodulacion\Gustavo\Ach\Apl NMDA 2 s -80mV cada 2ms esp 10 2480us.pro`
+* sampleRate = `403`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
 * stimulusFileFolder = `C:/some/path/to/File_axon_7.abf`
 * sweepC = `array (1d) with values like: -80.00000, -80.00000, -80.00000, ..., -80.00000, -80.00000, -80.00000`

@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `3`
 * protocol = `VC_cour01G20`
 * protocolPath = `C:\MANIPS\PROTOCOLES AMPLI\rk400\0.1 G Brigitte\AS\VC_cour01G20.pro`
+* sampleRate = `10000`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
 * stimulusFileFolder = `C:/some/path/to/File_axon_4.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`

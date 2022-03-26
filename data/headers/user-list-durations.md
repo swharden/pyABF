@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `WT_act with ramp_reversed_env`
 * protocolPath = `C:\Delbert\Protocols\HCN2\WT_mHCN2\new_staggered\WT_act with ramp_reversed_env.pro`
+* sampleRate = `2000`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1)]`
 * stimulusFileFolder = `C:/some/path/to/user-list-durations.abf`
 * sweepC = `array (1d) with values like: -35.00000, -35.00000, -35.00000, ..., -35.00000, -35.00000, -35.00000`

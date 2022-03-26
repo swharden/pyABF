@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `None`
 * protocolPath = `None`
+* sampleRate = `20000`
 * stimulusByChannel = `[Stimulus(abf, 0), Stimulus(abf, 1), Stimulus(abf, 2), Stimulus(abf, 3)]`
 * stimulusFileFolder = `C:/some/path/to/pclamp11_4ch.abf`
 * sweepC = `array (1d) with values like: -10.00000, -10.00000, -10.00000, ..., -10.00000, -10.00000, -10.00000`

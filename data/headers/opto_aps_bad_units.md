@@ -2,6 +2,8 @@
 
 ## ABF Class Methods
 
+* abf.getAllXs()
+* abf.getAllYs()
 * abf.launchInClampFit()
 * abf.saveABF1()
 * abf.setSweep()
@@ -42,6 +44,7 @@
 * nOperationMode = `5`
 * protocol = `0504 opto [0] 10 Hz 2 ms (5s in 20s sweep)`
 * protocolPath = `L:\Protocols\permanent\0504 opto [0] 10 Hz 2 ms (5s in 20s sweep).pro`
+* sampleRate = `20000`
 * stimulusByChannel = `[Stimulus(abf, 0)]`
 * stimulusFileFolder = `C:/some/path/to/opto_aps_bad_units.abf`
 * sweepC = `array (1d) with values like: 0.00000, 0.00000, 0.00000, ..., 0.00000, 0.00000, 0.00000`
