@@ -34,5 +34,4 @@ jobs:
           echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - name: 🚀 Deploy
-        # trailing slash required on source and destination folders
-        run: rsync --archive --delete --stats -e 'ssh -p 18765' website/public/ /home/customer/www/swharden.com/public_html/pyabf/
+        run: rsync --archive --delete --stats -e 'ssh -p 18765' 'website/public/' ${{ secrets.REMOTE_DEST }}
