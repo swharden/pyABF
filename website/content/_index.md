@@ -43,7 +43,7 @@ plt.show()
 * [Unofficial Guide to the ABF File Format](abf2-file-format)
 * [Notes about the legacy ABF1 File Format](abf1-file-format)
 * [Create stimulus waveforms with Python](https://github.com/swharden/pyABF/tree/main/dev/docs-old/advanced/creating-waveforms)
-* [Electrophysiology traces plotted with all matplotlib colormaps](graphics/colormaps.pdf)
+* [Electrophysiology traces plotted with all matplotlib colormaps](tutorial/graphics/colormaps.pdf)
 * [Membrane Test Theory and Analaysis Techniques](https://swharden.com/blog/2020-10-11-model-neuron-ltspice/)
 * [Alternative capacitance calculation method: the "vee" protocol](https://swharden.com/blog/2020-10-11-model-neuron-ltspice/#use-a-voltage-clamp-ramp-to-measure-cm)
 * [ABFsharp](https://github.com/swharden/ABFsharp) - A C# interface for ABF files
