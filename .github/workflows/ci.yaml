@@ -3,6 +3,9 @@ name: CI
 on:
   workflow_dispatch:
   push:
+    paths:
+      - "src/**"
+      - "tests/**"
     branches:
       - main
 
