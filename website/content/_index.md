@@ -5,7 +5,7 @@ description: pyABF is a Python package for reading electrophysiology data from A
 
 **pyABF is a Python package for reading electrophysiology data from Axon Binary Format (ABF) files.** In contrast to the official interface (a 32-bit Windows-only DLL), pyABF is written in pure Python and runs on all operating systems (including 64-bit environments). PyABF's API aims to be intuitive enough that when used with a predictive IDE, documentation is largely unnecessary.
 
-<img src="graphics/action-potentials-small.png" class="d-block mx-auto my-4">
+<img src="tutorial/graphics/action-potentials-small.png" class="d-block mx-auto my-4">
 
 ## Installation
 
@@ -59,7 +59,7 @@ plt.show()
 * Automatically integrates with external ABF and ATF stimulus files
 * Digital output waveforms can be accessed
 
-<img src="graphics/pyabf-example-action-potentials.jpg" class="d-block mx-auto my-5">
+<img src="tutorial/graphics/pyabf-example-action-potentials.jpg" class="d-block mx-auto my-5">
 
 ## How to Cite pyABF
 
