@@ -1,4 +1,4 @@
-# <img src="dev/icon/icon.ico" height="24" width="24"> pyabf
+# <img src="dev/icon/icon.ico" height="24" width="24"> pyABF
 [![CI](https://github.com/swharden/pyABF/actions/workflows/ci.yaml/badge.svg)](https://github.com/swharden/pyABF/actions/workflows/ci.yaml)
 [![Website](https://github.com/swharden/pyABF/actions/workflows/website.yaml/badge.svg)](https://github.com/swharden/pyABF/actions/workflows/website.yaml)
 [![](https://img.shields.io/pypi/v/pyabf?label=pyabf&logo=python&logoColor=white)](https://pypi.org/project/pyabf/)
