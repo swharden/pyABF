@@ -1,0 +1,8 @@
+# dotnet build folders
+bin
+obj
+
+# hugo files
+.hugo_build.lock
+public
+output

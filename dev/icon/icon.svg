@@ -11,7 +11,7 @@
    inkscape:export-xdpi="96"
    inkscape:export-filename="C:\Users\scott\Documents\GitHub\pyABF\dev\icon\icon.png"
    sodipodi:docname="icon.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
    id="svg8"
    version="1.1"
    viewBox="0 0 12.7 12.7"
@@ -71,23 +71,49 @@
          ry="3.3369358"
          transform="matrix(0.98421698,0,0,0.98421698,0.10022223,0.10022209)" />
     </mask>
+    <mask
+       id="mask1091-6"
+       maskUnits="userSpaceOnUse">
+      <rect
+         transform="matrix(0.98421698,0,0,0.98421698,0.10022223,0.10022222)"
+         ry="3.3369358"
+         y="0"
+         x="0"
+         height="12.7"
+         width="12.7"
+         id="rect1093-3"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.926999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter952-7)" />
+    </mask>
+    <filter
+       height="1.0000384"
+       y="-1.9218181e-05"
+       width="1.0000384"
+       x="-1.9181854e-05"
+       id="filter952-7"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur954-4"
+         stdDeviation="9.9880217e-05"
+         inkscape:collect="always" />
+    </filter>
   </defs>
   <sodipodi:namedview
      inkscape:pagecheckerboard="true"
-     inkscape:window-maximized="1"
-     inkscape:window-y="-8"
-     inkscape:window-x="1912"
-     inkscape:window-height="1018"
-     inkscape:window-width="1920"
+     inkscape:window-maximized="0"
+     inkscape:window-y="13"
+     inkscape:window-x="1282"
+     inkscape:window-height="1260"
+     inkscape:window-width="1549"
      borderlayer="true"
      units="px"
      showgrid="false"
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="20.806936"
-     inkscape:cx="5.8842537"
-     inkscape:zoom="7.9195959"
+     inkscape:cy="32.522172"
+     inkscape:cx="31.643077"
+     inkscape:zoom="11.2"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -106,7 +132,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -114,6 +140,16 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
+    <path
+       mask="url(#mask1091-6)"
+       sodipodi:type="rect"
+       y="-0.28348213"
+       x="-0.63783485"
+       height="13.18192"
+       width="14.410342"
+       id="rect835-7"
+       style="fill:#347ab4;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"
+       d="M -0.63783485,-0.28348213 H 13.772507 V 12.898438 H -0.63783485 Z" />
     <path
        mask="url(#mask1091)"
        sodipodi:type="rect"

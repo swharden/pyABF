@@ -1,9 +1,8 @@
 ---
 title: pyABF Tutorial
-description: Learn how to use pyABF by reviewing these examples
+description: How to use pyABF to perform common electrophysiology analysis tasks
+date: 2020-01-01
 ---
-
-# pyABF Tutorial
 
 **This page demonstrates how to use pyABF to perform many common tasks.** The first few examples are simple, but they increase in complexity further down the page. Looking over this page is the best way to get started with pyABF. Most pyABF functionality is demonstrated in this document. All ABFs used in these examples are provided in the [data folder](https://github.com/swharden/pyABF/tree/master/data), so you can practice recreating these examples in your own programming environment.
 
@@ -26,7 +25,8 @@ print(abf.sweepC) # displays command waveform (DAC)
 ```
 
 ## Table of Contents
-![](TOC)
+
+{{< toc >}}
 
 ## Load an ABF File
 
@@ -85,11 +85,7 @@ plt.plot(abf.sweepX, abf.sweepY)
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/pyabf-example-sweep.jpg)
-
-</div>
+<img src="graphics/pyabf-example-sweep.jpg" class="d-block mx-auto my-5">
 
 ## Decorate Plots with ABF Information
 The ABF class provides easy access to lots of information about the ABF. This example shows how to use these class methods to create a prettier plot of several sweeps from the same file.
@@ -110,11 +106,7 @@ plt.legend()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-decorate.jpg)
-
-</div>
+<img src="graphics/tutorial-decorate.jpg" class="d-block mx-auto my-5">
 
 ## Plot Multi-Channel ABFs
 Channel selection is achieved by defining a channel when calling setSweep().
@@ -142,11 +134,7 @@ plt.legend()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-multichannel.jpg)
-
-</div>
+<img src="graphics/tutorial-multichannel.jpg" class="d-block mx-auto my-5">
 
 ## Plot the Command Waveform
 
@@ -177,11 +165,7 @@ plt.legend()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-command.jpg)
-
-</div>
+<img src="graphics/tutorial-command.jpg" class="d-block mx-auto my-5">
 
 ## Axis-Linked Subplots
 Matplotlib allows you to create subplots with linked axes. This is convenient when plotting a waveform and its command stimulus at the same time, because zooming-in on one will zoom-in on the other. This is most useful when using interactive graphs, but works in all cases.
@@ -212,11 +196,7 @@ ax1.axes.set_xlim(1.25, 2.5)  # <-- adjust axis like this
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-linked.jpg)
-
-</div>
+<img src="graphics/tutorial-linked.jpg" class="d-block mx-auto my-5">
 
 ## Plot Stacked Sweeps
 
@@ -241,11 +221,7 @@ plt.xlabel(abf.sweepLabelX)
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-stacked.jpg)
-
-</div>
+<img src="graphics/tutorial-stacked.jpg" class="d-block mx-auto my-5">
 
 ## Plot Sweeps in 3D
 The previous example how to plot stacked sweeps by adding a Y offset to each sweep. If you add an X and Y offset to each sweep, you can create a 3D effect.
@@ -268,11 +244,7 @@ plt.gca().axis('off')  # hide axes to enhance floating effect
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-3d.jpg)
-
-</div>
+<img src="graphics/tutorial-3d.jpg" class="d-block mx-auto my-5">
 
 ## Custom Colormaps
 Matplotlib's colormap tools can be used to add an extra dimension to graphs. All matplotlib colormaps are listed here. For an interesting discussion on choosing ideal colormaps for scientific data visit bids.github.io/colormap/. Good colors for e-phys are winter, rainbow, and viridis.
@@ -300,11 +272,7 @@ plt.gca().axis('off')
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-colormap.jpg)
-
-</div>
+<img src="graphics/tutorial-colormap.jpg" class="d-block mx-auto my-5">
 
 ## Plotting Gap-Free ABFs
 
@@ -324,11 +292,7 @@ plt.title("Example Gap Free File")
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-gapfree.jpg)
-
-</div>
+<img src="graphics/tutorial-gapfree.jpg" class="d-block mx-auto my-5">
 
 ## Accessing Comments (Tags) in ABF Files
 
@@ -361,11 +325,7 @@ plt.title("ABF File with Comments (Tags)")
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-tags.jpg)
-
-</div>
+<img src="graphics/tutorial-tags.jpg" class="d-block mx-auto my-5">
 
 ## Baseline Subtraction
 
@@ -396,11 +356,7 @@ plt.axis([2, 2.5, -50, 20])
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-baseline.jpg)
-
-</div>
+<img src="graphics/tutorial-baseline.jpg" class="d-block mx-auto my-5">
 
 ## Gaussian Filter (Lowpass Filter / Data Smoothing)
 
@@ -435,11 +391,7 @@ plt.legend()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-lowpass.jpg)
-
-</div>
+<img src="graphics/tutorial-lowpass.jpg" class="d-block mx-auto my-5">
 
 ## Accessing the Command Epoch Table
 
@@ -495,11 +447,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-epoch.jpg)
-
-</div>
+<img src="graphics/tutorial-epoch.jpg" class="d-block mx-auto my-5">
 
 ## Shading Epochs
 In this ABF digital output 4 is high during epoch C. Let's highlight this by plotting sweeps and shading that epoch. print(abf.epochPoints) yields [0, 3125, 7125, 23125, 23145, 200000] and I know the epoch I'm interested in is bound by index 3 and 4.
@@ -527,11 +475,7 @@ plt.grid(alpha=.2)
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-shade.jpg)
-
-</div>
+<img src="graphics/tutorial-shade.jpg" class="d-block mx-auto my-5">
 
 ## Accessing Digital Outputs
 Epochs don't just control DAC clamp settings, they also control digital outputs. Digital outputs are stored as an 8-bit byte with 0 representing off and 1 representing on. Calling abf.sweepD(digOutNum) will return a waveform (scaled 0 to 1) to show the high/low state of the digital output number given (usually 0-7). Here a digital output controls an optogenetic stimulator, and a light-evoked EPSC is seen several milliseconds after the stimulus
@@ -574,11 +518,7 @@ ax2.axes.set_ylim(-150, 50)
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-digitalOutput.jpg)
-
-</div>
+<img src="graphics/tutorial-digitalOutput.jpg" class="d-block mx-auto my-5">
 
 ## Advanced Plotting with the pyabf.plot Module
 pyabf has a plot module which has been designed to simplify the act of creating matplotlib plots of electrophysiological data loaded with the ABF class. This module isn't fully developed or tested, but it's a strong start and has some interesting functionality that might be worth inspecting. If you care a lot about how your graphs look, plot them yourself with matplotlib commands. If you want to save keystrokes, don't care how the graphs look, or don't know how to use matplotlib (and don't feel like learning), maybe some of the functions in the pyabf.plot module may be useful to you. You don't have to import it, just call its functions and pass-in the abf object you're currently working with.
@@ -598,11 +538,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/pyabf-example-action-potentials.jpg)
-
-</div>
+<img src="graphics/pyabf-example-action-potentials.jpg" class="d-block mx-auto my-5">
 
 ## Create an I/V Curve
 
@@ -635,11 +571,7 @@ plt.title(f"I/V Relationship of {abf.abfID}")
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-iv.jpg)
-
-</div>
+<img src="graphics/tutorial-iv.jpg" class="d-block mx-auto my-5">
 
 ## Analyze Data from ATF Files
 Although most of the effort in this project has gone into the ABF class, there also exists an ATF class with much of the similar functionality. This class can read Axon Text Format (ATF) files and has a setSweep() with nearly identical sentax to the ABF class.
@@ -671,11 +603,7 @@ ax2.grid(alpha=.2)
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-atf.jpg)
-
-</div>
+<img src="graphics/tutorial-atf.jpg" class="d-block mx-auto my-5">
 
 ## Membrane Test
 The pyabf.tools.memtest module has methods which can determine passive membrane properties (holding current, membrane resistance, access resistance, whole-cell capacitance) from voltage-clamp traces containing a hyperpolarizing step. Theory and implimentation details are in the comments of the module. This example demonstrates how to graph passive membrane properties sweep-by-sweep, and indicate where comment tags were added.
@@ -729,11 +657,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-memtest.jpg)
-
-</div>
+<img src="graphics/tutorial-memtest.jpg" class="d-block mx-auto my-5">
 
 ## Stimulus File Folders and Caching
 The stimulus waveform (abf.sweepC) is usually generated from the epoch table, but if a file was used for the stimlus waveform (abf or atf), pyABF will read that file to generate the proper abf.sweepC. The path to the stimulus file is stored in the header of the ABF, however this path can change between recording and analyis. This is especially true when a recording happens on windows and analysis occurs on Linux. You can tell pyABF which folders to look in to find the stimulus waveform as an argument when loading the ABF. Since reading of stimulus files (especially ATF files) can be slow, stimulus files are cached at the module level. This means they're only actually read once. To disable this functionality, load the ABF with pyabf.ABF(abfFilePath, cacheStimulusFiles = False)
@@ -761,11 +685,4 @@ plt.tight_layout()
 plt.show()
 ```
 
-<div class="text-center">
-
-![](graphics/tutorial-stim.jpg)
-
-</div>
-
-## Advanced Topics
-Additional examples and advanced discussions can be found on the advanced topics page.
+<img src="graphics/tutorial-stim.jpg" class="d-block mx-auto my-5">

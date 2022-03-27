@@ -1,9 +1,10 @@
 ---
-title: The ABF File Format
-description: Unofficial Guide to the ABF2 File Format
+title: Unofficial Guide to the ABF File Format
+description: An exploration into the arrangement of binary data stored in ABF1 and ABF2 files
+date: 2020-01-01
 ---
 
-# Unofficial Guide to the ABF File Format
+## The ABF File Format
 
 ### What are ABF files?
 
@@ -32,7 +33,7 @@ Characterization of previously-undocumented features (e.g., extracting digital o
 
 # Table of Contents
 
-![](TOC)
+{{< toc >}}
 
 ## Reading the ABF Header
 
@@ -544,7 +545,7 @@ plt.show()
 
 A few lines of [matplotlib](https://matplotlib.org) is all it takes to graph this ABF data by channel:
 
-![](pyabfv2.png)
+<img src="pyabfv2.png" class="d-block mx-auto my-5">
 
 Horizontal units can be converted to seconds by dividing by the sample rate. How to determine the sample rate is discussed later in this document.
 
@@ -890,7 +891,7 @@ The synch array stores information about where in the ABF file sweep data starts
 
 To read variable-length sweep data from the data array it is helpful to have a list of sweep start positions and sweep lengths ready to go. I found this is easiest to accomplish by cycling through the synch array, adding the length of each sweep as I go to get a running total of previous sweep lengths to serve as an indication of the data offset for each successive sweep. The time offset is only useful when generating time values to accompany sweep ADC values.
 
-## Additional Resources
+## Resources
 
 ### Official Documents and Software
 * Official [Axon Binary Format (ABF) User Guide](http://mdc.custhelp.com/euf/assets/software/FSP_ABFHelp_2.03.pdf) (3rd party cache)
@@ -900,7 +901,7 @@ To read variable-length sweep data from the data array it is helpful to have a l
 _The official download link stopped working some time between June and December 2018, but its content is [mirrored on GitHub](https://github.com/swharden/pyABF/tree/master/docs/advanced/AxonSDK)_
 
 ### Other ABF-reading Projects
-* [vsABF](https://github.com/swharden/vsABF) is a modern .NET interface to the ABF format (which _does_ use abffio.dll) I wrote to make it easier to read ABF header values and sweep data using C#.
+* [AbfSharp](https://github.com/swharden/AbfSharp) is a modern C#/.NET interface to the ABF file format
 * [phpABF](https://github.com/swharden/phpABF) is a PHP implementation of the concepts described on this page. I find this project useful for developing web-interfaces to organize electrophysiology projects, as it allows access to common header values (ABF protocol, tag comments, sweep length, etc.) in a PHP environment.
 * [BioSig](https://github.com/dongzhenye/biosignal-tools/tree/master/biosig4c%2B%2B/t210) has some C/CPP code which appears to be modified Axon Library Files
   * [abfheader.h](https://github.com/dongzhenye/biosignal-tools/blob/master/biosig4c%2B%2B/t210/abfheadr.h) - 

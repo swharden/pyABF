@@ -1,0 +1,25 @@
+baseURL = 'https://swharden.com/pyabf'
+enableInlineShortcodes = true
+disableKinds = ["taxonomy", "taxonomyTerm", "RSS", "section"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'emacs' #https://xyproto.github.io/splash/docs/all.html
+    tabWidth = 4

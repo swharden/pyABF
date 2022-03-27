@@ -1,22 +1,21 @@
 ---
 title: The ABF1 File Format
 description: Unofficial Guide to the ABF1 File Format
+date: 2020-01-01
 ---
 
-# The ABF1 File Format
-
-ABF1 files (unlike ABF2 files) use a fixed-length header and values are always
-at the same byte positions in the file. This document was created to simplify
+**ABF1 files (unlike ABF2 files) use a fixed-length header and values are always
+at the same byte positions in the file.** This document was created to simplify
 the task of finding ABF1 byte offsets. It was created from data found in the
 CHM file distributed as part of the ABF1 SDK and from
 [abfheadr.h](https://github.com/dongzhenye/biosignal-tools/blob/0d0a4e7ca21774138fb1d0c2384a1f610260334d/biosig4c%2B%2B/t210/abfheadr.h).
 While the byte offsets are not useful for ABF2 files, the definitions are.
 
-> 👉 Review the [Unofficial Guide to the ABF File Format](../abf2-file-format/) for a more extensive description of the ABF1 and ABF2 file format, with code examples for how to read structured data from binary files using Python.
+> 👉 Review the [**Unofficial Guide to the ABF File Format**](../abf2-file-format/) for a more extensive description of the ABF1 and ABF2 file format, with code examples for how to read structured data from binary files using Python.
 
 ## Table of Contents
 
-![](TOC)
+{{< toc >}}
 
 ### File ID and Size Information (Group 1, 40 bytes)
 

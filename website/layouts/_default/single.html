@@ -1,0 +1,76 @@
+{{ define "main" }}
+
+{{ if not .Title }}
+{{ warnf "Missing Title: %q" .File.Path }}
+{{ end }}
+
+{{ if not .Description }}
+{{ warnf "Missing Description: %q" .File.Path }}
+{{ end }}
+
+{{ if not .Date }}
+{{ warnf "Missing Date: %q" .File.Path }}
+{{ end }}
+
+<article class="bg-light shadow rounded">
+
+    <header class="px-3 py-2">
+
+        <div class="fs-1 fw-light lh-1 mt-2">
+            <a href="{{ .Permalink }}" class="text-dark">
+                {{ .Title | markdownify }}
+            </a>
+        </div>
+
+        <div class="fs-5 fw-lighter lh-1 mt-2">
+            {{ .Description | markdownify }}
+        </div>
+
+        <nav class="mt-2 mb-1" style="opacity: .4;">
+
+            <!-- section -->
+            <a href="{{ .CurrentSection.Permalink }}" class="text-dark">{{ .CurrentSection.Title }}</a>
+
+            <!-- original date -->
+            <span style='opacity: .3;'>|</span>
+            {{ if not .Date.IsZero }}
+            <a href="{{ .Permalink }}" class="text-dark">
+                {{ .Date.Format "January 2, 2006" }}
+            </a>
+            {{ end }}
+
+            <!-- modified date -->
+            {{ if isset .Params "lastmod" }}
+            {{ if ne .Date .Lastmod }}
+            <span style='opacity: .3;'>|</span>
+            <a href="{{ .Permalink }}" class="text-dark">updated on {{ .Params.lastmod | dateFormat "Jan 2, 2006" }}</a>
+            {{ end }}
+            {{ end }}
+
+            <!-- permalink -->
+            <span style='opacity: .3;'>|</span>
+            <a href="{{ .Permalink }}" class="text-dark">permalink</a>
+
+            <!-- source link -->
+            <span style='opacity: .3;'>|</span>
+            <a href="https://github.com/swharden/Csharp-Data-Visualization/blob/main/website/content/{{ path.Clean .File.Path }}"
+                class="text-dark">view source</a>
+        </nav>
+
+    </header>
+
+    <div class="p-3 rounded bg-white border-top">
+        {{ .Content | replaceRE "(<h[1-9] id=\"([^\"]+)\".+)(</h[1-9]+>)"
+            `<a href="#${2}">${1}</a> ${3}` | safeHTML }}
+    </div>
+
+</article>
+
+<div class="p-2" style="opacity: .3;">
+    <a href="https://github.com/swharden/Csharp-Data-Visualization/blob/main/website/content/{{ path.Clean .File.Path }}"
+        class="text-dark">
+        view source
+    </a>
+</div>
+
+{{ end }}

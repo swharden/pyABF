@@ -1,0 +1,41 @@
+/* Justification: Only underline links when the mouse hovers over them */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Justification: Shrink images to fit the content area */
+article img {
+    max-width: 100%;
+}
+
+/* Justification: override Bootstrap's default inline code styling */
+article code {
+    padding: 0px 3px;
+    background-color: #0000000C;
+    color: #545454;
+}
+
+article a code {
+    color: #0d6efd !important;
+}
+
+/* Justification 1: prevent code in fences from getting background */
+/* Justification 2: prevent extra line from appearing in fenced code */
+article pre code {
+    background-color: transparent;
+    padding: 0px;
+}
+
+/* Justification: Refine Hugo's Chroma styling */
+pre {
+    background-color: #f8f8f8 !important;
+    border: 1px solid #dddddd;
+    padding: .5em;
+    border-radius: 5px;
+    line-height: 150%;
+    overflow-x: auto;
+}
