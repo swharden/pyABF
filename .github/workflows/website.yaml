@@ -34,4 +34,4 @@ jobs:
           echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - name: 🚀 Deploy
-        run: rsync --archive --delete --stats -e 'ssh -p 18765' website/public/ u186-exgapiqqc7gg@swharden.com:~/www/swharden.com/public_html/pyabf/
+        run: rsync --archive --delete --stats -e 'ssh -p 18765' website/public/ ${{ secrets.REMOTE_DEST }}
