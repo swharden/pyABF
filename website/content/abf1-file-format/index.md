@@ -1,7 +1,8 @@
 ---
 title: The ABF1 File Format
 description: Unofficial Guide to the ABF1 File Format
-date: 2020-01-01
+date: 2019-11-12
+lastmod: 2020-04-06
 ---
 
 **ABF1 files (unlike ABF2 files) use a fixed-length header and values are always

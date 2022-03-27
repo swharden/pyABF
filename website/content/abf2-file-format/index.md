@@ -1,7 +1,8 @@
 ---
 title: Unofficial Guide to the ABF File Format
 description: A journey into binary data structure of Axon Binary Format (ABF) files
-date: 2020-01-01
+date: 2018-06-23
+lastmod: 2022-08-28
 ---
 
 ## The ABF File Format

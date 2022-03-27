@@ -1,7 +1,8 @@
 ---
 title: pyABF Tutorial
 description: How to use pyABF to perform common electrophysiology analysis tasks
-date: 2020-01-01
+date: 2018-06-20
+lastmod: 2019-07-30
 ---
 
 **This page demonstrates how to use pyABF to perform many common tasks.** The first few examples are simple, but they increase in complexity further down the page. Looking over this page is the best way to get started with pyABF. Most pyABF functionality is demonstrated in this document. All ABFs used in these examples are provided in the [data folder](https://github.com/swharden/pyABF/tree/master/data), so you can practice recreating these examples in your own programming environment.
