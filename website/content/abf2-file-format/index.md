@@ -1,6 +1,6 @@
 ---
 title: Unofficial Guide to the ABF File Format
-description: An exploration into the arrangement of binary data stored in ABF1 and ABF2 files
+description: A journey into binary data structure of Axon Binary Format (ABF) files
 date: 2020-01-01
 ---
 
