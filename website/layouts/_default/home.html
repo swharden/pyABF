@@ -2,7 +2,8 @@
 
 <article class="bg-white shadow border rounded px-3">
   <div class="py-3">
-    {{ .Content }}
+    {{ .Content | replaceRE "(<h[1-9] id=\"([^\"]+)\".+)(</h[1-9]+>)"
+        `<a href="#${2}">${1}</a> ${3}` | safeHTML }}
   </div>
 </article>
 
