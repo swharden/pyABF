@@ -29,7 +29,7 @@ print(abf.sweepC) # displays command waveform (DAC)
 ### Resources
 * [pyabf Website](http://swharden.com/pyabf/)
 * [pyabf Tutorial](https://swharden.com/pyabf/tutorial)
-* [Advanced Examples](https://swharden.com/pyabf/advanced)
+* [Advanced Topics](https://swharden.com/pyabf/#resources)
 * [ABF File Format](https://swharden.com/pyabf/abf2-file-format)
 * [AbfSharp](https://github.com/swharden/ABFsharp) - a C#/.NET interface for ABF files
 
