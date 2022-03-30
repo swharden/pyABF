@@ -1,1 +1,3 @@
 RedirectMatch 301 /pyabf/advanced/ /pyabf/#resources
+RedirectMatch 301 /pyabf/advanced /pyabf/#resources
+RedirectMatch 301 /pyabf/advanced2 /pyabf/#resources
