@@ -147,22 +147,22 @@ The command waveform for episodic ABF files can be accessed using abf.sweepC if 
 import pyabf
 import matplotlib.pyplot as plt
 
-abf = pyabf.ABF("14o08011_ic_pair.abf")
+abf = pyabf.ABF("171116sh_0018.abf")
 fig = plt.figure(figsize=(8, 5))
 
-# plot the first channel
-abf.setSweep(sweepNumber=0, channel=0)
-plt.plot(abf.sweepX, abf.sweepY, label="Channel 1")
-
-# plot the second channel
-abf.setSweep(sweepNumber=0, channel=1)
-plt.plot(abf.sweepX, abf.sweepY, label="Channel 2")
-
-# decorate the plot
-plt.ylabel(abf.sweepLabelY)
+# plot recorded (ADC) waveform
+plt.subplot(211)
+plt.plot(abf.sweepX, abf.sweepY)
 plt.xlabel(abf.sweepLabelX)
-plt.axis([25, 45, -70, 50])
-plt.legend()
+plt.ylabel(abf.sweepLabelY)
+
+# plot command (DAC) waveform
+plt.subplot(212)
+plt.plot(abf.sweepX, abf.sweepC, 'r')
+plt.xlabel(abf.sweepLabelX)
+plt.ylabel(abf.sweepLabelC)
+
+plt.tight_layout()
 plt.show()
 ```
 
