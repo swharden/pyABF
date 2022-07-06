@@ -502,21 +502,21 @@ class ABF:
         self.sweepEpochs = pyabf.waveform.EpochSweepWaveform()
 
     @property
-    def headerText(self):
+    def headerText(self) -> str:
         """Return all header information as a text-formatted string."""
         return abfInfoPage(self).getText()
 
     @property
-    def headerMarkdown(self):
+    def headerMarkdown(self) -> str:
         """Return all header information as a markdown-formatted string."""
         return abfInfoPage(self).generateMarkdown()
 
     @property
-    def headerHTML(self):
+    def headerHTML(self) -> str:
         """Return all header information as a text-formatted string."""
         return abfInfoPage(self).generateHTML()
 
-    def headerLaunch(self):
+    def headerLaunch(self) -> None:
         """Display ABF header information in the web browser."""
         html = abfInfoPage(self).generateHTML()
 
@@ -534,7 +534,7 @@ class ABF:
             time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
 
-    def saveABF1(self, filePath: Union[str, pathlib.Path]):
+    def saveABF1(self, filePath: Union[str, pathlib.Path]) -> None:
         """
         Save this ABF file as an ABF1 file compatible with ClampFit and MiniAnalysis.
         Not all header values are saved, but the minimum necessary are to read sweep data.
@@ -556,7 +556,7 @@ class ABF:
             sweepData[sweep] = self.sweepY
         pyabf.abfWriter.writeABF1(sweepData, filePath, self.dataRate)
 
-    def launchInClampFit(self):
+    def launchInClampFit(self) -> None:
         """
         Launch the ABF in the default ABF viewing program (usually ClampFit) as
         if it were double-clicked in the windows explorer. 
@@ -564,7 +564,7 @@ class ABF:
         This assumes ClampFit is installed on your system and the default application
         for opening ABF files.
 
-        This will fail is ClampFit is already open.
+        This will fail if ClampFit is already open.
         """
         cmd = 'explorer.exe "%s"' % (self.abfFilePath)
         print("Launching %s.abf in ClampFit..." % (self.abfID))
@@ -575,7 +575,7 @@ class ABF:
                  sweepNumber: int,
                  channel: int = 0,
                  absoluteTime: bool = False,
-                 baseline: List[float] = [None, None]):
+                 baseline: List[float] = [None, None]) -> None:
         """
         Args:
 
@@ -694,7 +694,7 @@ class ABF:
             return [None, None]
 
     @property
-    def sweepC(self):
+    def sweepC(self) -> np.ndarray:
         """Generate the sweep command waveform."""
         if hasattr(self, "_sweepC") and isinstance(self._sweepC, np.ndarray):
             # someone set a custom waveform, so always return it
@@ -727,7 +727,7 @@ class ABF:
             raise ValueError("sweepC.shape must match sweepY.shape")
         self._sweepC = sweepData
 
-    def sweepD(self, digOutNumber=0):
+    def sweepD(self, digOutNumber=0) -> np.ndarray:
         """Generate a waveform for the given digital output."""
         assert isinstance(self, pyabf.ABF)
         if (self.sweepChannel >= len(self.holdingCommand)):
@@ -738,17 +738,17 @@ class ABF:
         return sweepD
 
     @property
-    def sweepTimesSec(self):
+    def sweepTimesSec(self) -> np.ndarray:
         """Numpy array of sweep start times (in seconds)"""
         return np.arange(self.sweepCount)*self.sweepIntervalSec
 
     @property
-    def sweepTimesMin(self):
+    def sweepTimesMin(self) -> np.ndarray:
         """Numpy array of sweep start times (in minutes)"""
         return self.sweepTimesSec/60
 
     @property
-    def sweepDerivative(self):
+    def sweepDerivative(self) -> np.ndarray:
         """First derivative of sweepY (delta units / second)"""
         ddt = np.diff(self.sweepY)
         ddt = np.append(ddt, [ddt[-1]])
@@ -756,11 +756,11 @@ class ABF:
         return ddt
 
     @property
-    def fileGUID(self):
+    def fileGUID(self) -> str:
         return self._fileGUID
 
     @property
-    def md5(self):
+    def md5(self) -> str:
         """MD5 hash string of the whole ABF file."""
         if not hasattr(self, "_md5"):
             with open(self.abfFilePath, 'rb') as f:
@@ -769,7 +769,7 @@ class ABF:
         return self._md5
 
     @property
-    def fileUUID(self):
+    def fileUUID(self) -> str:
         """Create a unique ABF file ID using the MD5 of the whole file."""
         uuid = list(self.md5)
         for index in [8, 13, 18, 23]:
@@ -777,7 +777,7 @@ class ABF:
         return "".join(uuid)
 
     @property
-    def sampleRate(self):
+    def sampleRate(self) -> int:
         """Sample rate (Hz) for each channel"""
         return self.dataRate
 
