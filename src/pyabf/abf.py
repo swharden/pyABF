@@ -516,7 +516,7 @@ class ABF:
         """Return all header information as a text-formatted string."""
         return abfInfoPage(self).generateHTML()
 
-    def headerLaunch(self):
+    def headerLaunch(self) -> None:
         """Display ABF header information in the web browser."""
         html = abfInfoPage(self).generateHTML()
 
@@ -534,7 +534,7 @@ class ABF:
             time.sleep(3)  # give it time to display before deleting the file
             os.remove(tmpFilePath)
 
-    def saveABF1(self, filePath: Union[str, pathlib.Path]):
+    def saveABF1(self, filePath: Union[str, pathlib.Path]) -> None:
         """
         Save this ABF file as an ABF1 file compatible with ClampFit and MiniAnalysis.
         Not all header values are saved, but the minimum necessary are to read sweep data.
@@ -556,7 +556,7 @@ class ABF:
             sweepData[sweep] = self.sweepY
         pyabf.abfWriter.writeABF1(sweepData, filePath, self.dataRate)
 
-    def launchInClampFit(self):
+    def launchInClampFit(self) -> None:
         """
         Launch the ABF in the default ABF viewing program (usually ClampFit) as
         if it were double-clicked in the windows explorer. 
@@ -575,7 +575,7 @@ class ABF:
                  sweepNumber: int,
                  channel: int = 0,
                  absoluteTime: bool = False,
-                 baseline: List[float] = [None, None]):
+                 baseline: List[float] = [None, None]) -> None:
         """
         Args:
 
@@ -727,7 +727,7 @@ class ABF:
             raise ValueError("sweepC.shape must match sweepY.shape")
         self._sweepC = sweepData
 
-    def sweepD(self, digOutNumber=0):
+    def sweepD(self, digOutNumber=0) -> np.ndarray:
         """Generate a waveform for the given digital output."""
         assert isinstance(self, pyabf.ABF)
         if (self.sweepChannel >= len(self.holdingCommand)):
