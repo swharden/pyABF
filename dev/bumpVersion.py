@@ -32,6 +32,6 @@ def increaseVersion(fname):
 
 if __name__ == "__main__":
     PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-    setupVersion = increaseVersion(PATH_HERE+"/../../src/setup.py")
-    pyAbfVersion = increaseVersion(PATH_HERE+"/../../src/pyabf/__init__.py")
+    setupVersion = increaseVersion(PATH_HERE+"/../src/setup.py")
+    pyAbfVersion = increaseVersion(PATH_HERE+"/../src/pyabf/__init__.py")
     assert setupVersion == pyAbfVersion
