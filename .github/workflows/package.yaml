@@ -1,0 +1,26 @@
+name: Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package:
+    name: Package and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v2
+
+      - name: 🐍 Get Python
+        uses: actions/setup-python@v1
+
+      - name: 🛠️ Setup Build
+        run: python -m pip install build --user
+
+      - name: 🛠️ Build Package
+        run: python -m build --sdist --wheel --outdir dist/ src/
+
+      - name: 📦 Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
