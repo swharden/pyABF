@@ -15,10 +15,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: 🛒 Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 🐍 Get Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
 
       - name: 🚚 Get Dependencies
         run: |
