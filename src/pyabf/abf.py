@@ -472,8 +472,7 @@ class ABF:
         nRows = self.channelCount
         nCols = int(self.dataPointCount/self.channelCount)
         raw = np.reshape(raw, (nCols, nRows))
-        raw = np.rot90(raw)
-        raw = raw[::-1]
+        raw = np.transpose(raw)
 
         # if data is int, scale it to float32 so we can scale it
         self.data = raw.astype(np.float32)
