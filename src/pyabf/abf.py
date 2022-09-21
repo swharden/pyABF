@@ -641,9 +641,9 @@ class ABF:
             pointCount = self.sweepPointCount
         else:
             pointStart = 0
-            for i in range(1, sweepNumber):
-                pointStart += self._synchArraySection.lLength[i-1]
-            pointCount = self._synchArraySection.lLength[sweepNumber]
+            for i in range(sweepNumber):
+                pointStart += self._synchArraySection.lLength[i]//self.channelCount
+            pointCount = self._synchArraySection.lLength[sweepNumber]//self.channelCount
         pointEnd = pointStart + pointCount
 
         # load the actual sweep data
