@@ -472,8 +472,7 @@ class ABF:
         nRows = self.channelCount
         nCols = int(self.dataPointCount/self.channelCount)
         raw = np.reshape(raw, (nCols, nRows))
-        raw = np.rot90(raw)
-        raw = raw[::-1]
+        raw = np.transpose(raw)
 
         # if data is int, scale it to float32 so we can scale it
         self.data = raw.astype(np.float32)
@@ -642,9 +641,9 @@ class ABF:
             pointCount = self.sweepPointCount
         else:
             pointStart = 0
-            for i in range(1, sweepNumber):
-                pointStart += self._synchArraySection.lLength[i-1]
-            pointCount = self._synchArraySection.lLength[sweepNumber]
+            for i in range(sweepNumber):
+                pointStart += self._synchArraySection.lLength[i]//self.channelCount
+            pointCount = self._synchArraySection.lLength[sweepNumber]//self.channelCount
         pointEnd = pointStart + pointCount
 
         # load the actual sweep data
