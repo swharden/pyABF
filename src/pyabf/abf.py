@@ -58,7 +58,7 @@ class ABF:
 
         ### Parameters
 
-        1. abfFilePath -- path to the ABF file
+        1. abfFilePath -- path to the ABF file.
 
         2. loadData -- whether or not to load sweep data values from the file immediately on instantiation.
         Set this to False if you intent to iterate many ABF files rapidly and only inspect their headers.
