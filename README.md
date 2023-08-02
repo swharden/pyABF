@@ -26,6 +26,13 @@ print(abf.sweepX) # displays sweep times (seconds)
 print(abf.sweepC) # displays command waveform (DAC)
 ```
 
+### Supported Python Versions
+
+The latest version of pyABF runs on all [currently supported Python versions](https://devguide.python.org/versions/).
+
+Users who wish to run pyABF on older versions of python may do so
+by installing older pyABF packages available on the [Release History Page on PyPi](https://pypi.org/project/pyabf/#history). Additional information is available on the [pyABF Release History Page on GitHub](https://github.com/swharden/pyABF/releases). Note that pyabf 2.1.10 was the last version to support both Python 2.7 and Python 3.5.
+
 ### Resources
 * [pyabf Website](http://swharden.com/pyabf/)
 * [pyabf Tutorial](https://swharden.com/pyabf/tutorial)
