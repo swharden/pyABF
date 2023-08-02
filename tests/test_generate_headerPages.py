@@ -8,6 +8,8 @@ import glob
 import os
 import sys
 import warnings
+import pathlib
+
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_PROJECT = os.path.abspath(PATH_HERE+"/../")
 PATH_DATA = os.path.abspath(PATH_PROJECT+"/data/abfs/")
@@ -37,8 +39,7 @@ def test_cookbook_createHeaderPages(abfPath):
     page.replaceThing("abfFolderPath", abfFolderPath)
     page.replaceThing("strings", "not shown due to non-ASCII characters")
 
-    with open(f"{PATH_HEADERS}/{abf.abfID}.md", 'w') as f:
-        f.write(page.generateMarkdown())
-
-    # with open(f"{PATH_HEADERS}/{abf.abfID}.html", 'w') as f:
-        # f.write(page.generateHTML())
+    markdown = page.generateMarkdown()
+    header_file_path = pathlib.Path(f"{PATH_HEADERS}/{abf.abfID}.md")
+    if not header_file_path.exists():
+        header_file_path.write_text(markdown)
