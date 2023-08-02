@@ -167,8 +167,9 @@ def test_userList_isExpectedValue():
     assert pyabf.ABF("data/abfs/2020_03_02_0000.abf").userList == [
         -200.0, -150.0, -100.0, -50.0, 0.0, 25.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 500.0, 600.0]
 
-def test_headerText():
-    abf = pyabf.ABF("data/abfs/2019_07_24_0055_fsi.abf")
+@pytest.mark.parametrize("abfPath", allABFs)
+def test_headerText(abfPath):
+    abf = pyabf.ABF(abfPath)
     text = abf.headerText
-    assert isinstance(text, "str")
+    assert isinstance(text, str)
     assert len(text)
