@@ -9,7 +9,7 @@ lastmod: 2019-07-30
 
 ## Installation
 
-pyABF supports Python 3.6+ and is available on [PyPi](https://pypi.org/project/pyabf/):
+pyABF is available on [PyPi](https://pypi.org/project/pyabf/):
 
 ```
 pip install --upgrade pyabf
