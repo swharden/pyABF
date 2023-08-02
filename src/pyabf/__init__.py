@@ -10,11 +10,6 @@ __version__ = '2.3.7'
 import sys
 import os
 
-if sys.version_info < (3, 6):
-    sys.stdout.write("ERROR: pyabf "+__version__+" requires Python 3.6 or newer.\n")
-    sys.stdout.write("pyabf 2.1.10 was the last version to support Python 2.7 and Python 3.5\n")
-    sys.exit(1)
-
 from pyabf.abf import ABF
 from pyabf.atf import ATF
 
