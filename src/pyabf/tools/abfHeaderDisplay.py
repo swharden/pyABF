@@ -78,10 +78,13 @@ class InfoPage:
     def getText(self):
         """Return information about all objects as markdown-formatted text."""
         text = ""
-        for item in self.things:
-            name, value = item
-            if value == "~SECTION~":
-                text += "\n### %s ###\n" % name
+        for name, value in self.things:
+            if value is None:
+                text += "%s" % (name)+"\n"
+            elif not isinstance(value, str):
+                text += "%s = %s\n" % (name, value)
+            elif value == "~SECTION~":
+                text += "\n %s \n" % name
             elif value == "~DOCS~":
                 text += "\n~~~ %s ~~~\n" % name
             elif str(name) == "~CODE~":
