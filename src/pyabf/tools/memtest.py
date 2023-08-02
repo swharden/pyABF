@@ -16,11 +16,6 @@ import pyabf
 import pyabf.tools.sweep
 import pyabf.tools.memtestMath
 import numpy as np
-import warnings
-
-warnings.warn("The pyabf package is designed for reading ABF files (not analyzing them). " +
-              "This module is experimental, provided only for backwards compatibility, and its API may change in future releases. " +
-              "Users are encouraged to write their own ABF analysis code.")
 
 
 class Memtest:
