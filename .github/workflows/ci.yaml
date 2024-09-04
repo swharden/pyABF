@@ -2,8 +2,13 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
   pull_request:
+  push:
+    paths:
+      - "src/**"
+      - "tests/**"
+    branches:
+      - main
 
 jobs:
   test:
