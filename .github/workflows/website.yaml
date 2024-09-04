@@ -33,7 +33,6 @@ jobs:
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.PRIVATE_SSH_KEY }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - name: 🚀 Deploy
-        run: rsync --archive --delete --stats -e 'ssh -p 18765' website/public/ ${{ secrets.REMOTE_DEST }}
+        run: rsync --archive --delete --stats -o StrictHostKeyChecking=no -e 'ssh -p 18765' website/public/ ${{ secrets.REMOTE_DEST }}
