@@ -357,7 +357,6 @@ class ABF:
         if hasattr(self, "_synchArraySection"):
             variableDataPointCount = sum(self._synchArraySection.lLength)
             if (variableDataPointCount > 0 and variableDataPointCount != self.dataPointCount):
-                print(f"Changing {self.dataPointCount:,} to {variableDataPointCount:,}")
                 self.dataPointCount = variableDataPointCount
 
         # tags
