@@ -327,8 +327,8 @@ class ABF:
         try:
             # This is the correct way, but it doesn't seem to work for every ABF.
             # I think this is because there is a bug in the string indexer.
-            #self.userList = self._stringsIndexed.indexedStrings[self._userListSection.nStringIndex[0]]
-            #self.userList = [float(x) for x in self.userList.split(",")]
+            # self.userList = self._stringsIndexed.indexedStrings[self._userListSection.nStringIndex[0]]
+            # self.userList = [float(x) for x in self.userList.split(",")]
 
             # This is weird but it's been in the code for a while and seems to work.
             firstBlockStrings = self._stringsSection._stringsRaw[0].split(
@@ -384,7 +384,7 @@ class ABF:
         self._dataGain = [1]*self.channelCount
         self._dataOffset = [0]*self.channelCount
         for i in range(self.channelCount):
-            #adcIndex = self._adcSection.nADCSamplingSeq[i]
+            # adcIndex = self._adcSection.nADCSamplingSeq[i]
             # NOTE: ADC sequence is handled inside the ADC section so it doesn't need to be handled here
             adcIndex = i
             self._dataGain[i] /= self._adcSection.fInstrumentScaleFactor[adcIndex]
