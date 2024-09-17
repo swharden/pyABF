@@ -351,6 +351,15 @@ class ABF:
         self.sweepCount = self._headerV2.lActualEpisodes
         self.channelList = list(range(self.channelCount))
 
+        # correct dataPointCount for ABFs with variable length sweeps
+        # https://github.com/swharden/pyABF/issues/140
+        # https://github.com/swharden/pyABF/issues/108
+        if hasattr(self, "_synchArraySection"):
+            variableDataPointCount = sum(self._synchArraySection.lLength)
+            if (variableDataPointCount > 0 and variableDataPointCount != self.dataPointCount):
+                print(f"Changing {self.dataPointCount:,} to {variableDataPointCount:,}")
+                self.dataPointCount = variableDataPointCount
+
         # tags
         self.tagComments = self._tagSection.sComment
         self.tagTimesSec = self._tagSection.lTagTime
