@@ -688,6 +688,48 @@ class ABF:
             epochTable = None
             self.sweepEpochs = None
 
+    def getOnlySweep(self, sweepIndex: int, channelIndex: int = 0, startTime: float = None, endTime: float = None):
+        """
+        Get values for a sweep by reading directly from the ABF file instead of loading all sweeps into memory.
+        This method is useful for ABF files which are too large to be loaded into memory.
+
+        ### Parameters
+        * `sweepIndex` - The sweep number (starting at zero). Note that all channels for this sweep will be returned.
+        * `startTime` - Data returned will begin at this time within the sweep (in seconds)
+        * `endTime` - Data returned will end at this time within the sweep (in seconds)
+        """
+
+        startTime = startTime if startTime else 0
+        startTime = max(0, startTime)
+
+        endTime = endTime if endTime else self.sweepLengthSec
+        endTime = min(endTime, self.sweepLengthSec)
+
+        bytesPerSample = int(self.dataPointByteSize)
+        bytesPerSecond = int(self.dataPointByteSize * self.sampleRate)
+        samplesPerSweep = int(self.dataPointCount / self.sweepCount)
+        bytesPerSweep = samplesPerSweep * bytesPerSample
+        sweepFirstByte = self.dataByteStart + bytesPerSweep * sweepIndex
+        startTime = startTime if startTime else 0
+        sweepFirstByte += int(startTime * bytesPerSecond)
+        endTime = endTime if endTime else self.sweepLengthSec
+        samplesPerSweep = int((endTime - startTime) * self.sampleRate)
+        samplesTotal = self.channelCount*samplesPerSweep
+
+        with open(self.abfFilePath, 'rb') as fb:
+            fb.seek(sweepFirstByte)
+            raw = np.fromfile(fb, dtype=self._dtype, count=samplesTotal)
+            nRows = self.channelCount
+            nCols = samplesPerSweep
+            raw = np.reshape(raw, (nCols, nRows))
+            raw = np.transpose(raw)
+            data = raw[channelIndex]
+            data = data.astype(np.float32)
+            if self._dtype == np.int16:
+                data *= self._dataGain[channelIndex]
+                data += self._dataOffset[channelIndex]
+            return data
+
     def _getAdcNameAndUnits(self, adcIndex: int) -> Tuple[str, str]:
         if (adcIndex < len(self.adcNames)):
             return [self.adcNames[adcIndex], self.adcUnits[adcIndex]]

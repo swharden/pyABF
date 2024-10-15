@@ -184,3 +184,12 @@ def test_headerText(abfPath):
     html = abf.headerHTML
     assert isinstance(html, str)
     assert len(html)
+
+
+def test_readOneSweep():
+    abfPath = "data/abfs/14o08011_ic_pair.abf"
+    abf = pyabf.ABF(abfPath, loadData=False)
+    channelA = abf.getOnlySweep(sweepIndex=0, channelIndex=0)
+    channelB = abf.getOnlySweep(sweepIndex=0, channelIndex=1)
+    assert np.mean(channelA) == -58.870506
+    assert np.mean(channelB) == -52.948666
