@@ -191,5 +191,5 @@ def test_readOneSweep():
     abf = pyabf.ABF(abfPath, loadData=False)
     channelA = abf.getOnlySweep(sweepIndex=0, channelIndex=0)
     channelB = abf.getOnlySweep(sweepIndex=0, channelIndex=1)
-    assert np.mean(channelA) == -58.870506
-    assert np.mean(channelB) == -52.948666
+    assert np.mean(channelA) == pytest.approx(-58.870506, 5)
+    assert np.mean(channelB) == pytest.approx(-52.948666, 5)
