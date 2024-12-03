@@ -81,6 +81,8 @@ class HeaderV1(AbfReader):
         self.fInstrumentOffset = self.readStruct("16f", 986)
         self.fSignalGain = self.readStruct("16f", 1050)
         self.fSignalOffset = self.readStruct("16f", 1114)
+        self.fSignalLowpassFilter = self.readStruct("16f", 1178)
+        self.fSignalHighpassFilter = self.readStruct("16f", 1242)
         self.sDACChannelName = self.readStruct("10s"*4, 1306)
         self.sDACChannelUnit = self.readStruct("8s"*4, 1346)
         # missing entries
